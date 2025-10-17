@@ -18,6 +18,11 @@ import RelationshipResult from "@/pages/RelationshipResult";
 import Subscription from "@/pages/Subscription";
 import Escrow from "@/pages/Escrow";
 import Discover from "@/pages/Discover";
+import Learn from "@/pages/Learn";
+import Messages from "@/pages/Messages";
+import Profile from "@/pages/Profile";
+import Settings from "@/pages/Settings";
+import MatchResult from "@/pages/MatchResult";
 
 function App() {
   return (
@@ -39,6 +44,11 @@ function App() {
             <Route path="/subscription" component={Subscription} />
             <Route path="/escrow" component={Escrow} />
             <Route path="/discover" component={Discover} />
+            <Route path="/learn" component={Learn} />
+            <Route path="/messages" component={Messages} />
+            <Route path="/profile" component={Profile} />
+            <Route path="/settings" component={Settings} />
+            <Route path="/match-result" component={MatchResult} />
             <Route>
               <Landing />
             </Route>

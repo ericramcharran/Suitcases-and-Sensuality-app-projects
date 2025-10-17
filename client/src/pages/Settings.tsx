@@ -1,0 +1,131 @@
+import { ChevronLeft, Bell, Shield, Eye, CreditCard, HelpCircle, LogOut } from "lucide-react";
+import { Card } from "@/components/ui/card";
+import { Switch } from "@/components/ui/switch";
+import { useLocation } from "wouter";
+import { useCallback } from "react";
+
+const settingsOptions = [
+  {
+    icon: Bell,
+    title: "Notifications",
+    description: "Push notifications and email alerts",
+    hasSwitch: true,
+    defaultValue: true
+  },
+  {
+    icon: Shield,
+    title: "Privacy",
+    description: "Control who can see your profile",
+    hasSwitch: false
+  },
+  {
+    icon: Eye,
+    title: "Visibility",
+    description: "Show or hide your profile",
+    hasSwitch: true,
+    defaultValue: true
+  },
+  {
+    icon: CreditCard,
+    title: "Subscription",
+    description: "Manage your plan and billing",
+    hasSwitch: false
+  },
+  {
+    icon: HelpCircle,
+    title: "Help & Support",
+    description: "Get help and contact support",
+    hasSwitch: false
+  },
+];
+
+export default function Settings() {
+  const [, setLocation] = useLocation();
+
+  const handleBack = useCallback(() => {
+    if (window.history.length > 1) {
+      window.history.back();
+    } else {
+      setLocation("/discover");
+    }
+  }, [setLocation]);
+
+  return (
+    <div className="min-h-screen bg-muted p-6">
+      <button
+        data-testid="button-back"
+        onClick={handleBack}
+        className="mb-6 text-muted-foreground flex items-center gap-1 hover-elevate active-elevate-2 px-2 py-1 rounded-md"
+      >
+        <ChevronLeft className="w-5 h-5" />
+        Back
+      </button>
+
+      <div className="max-w-md mx-auto">
+        <h2 className="text-3xl font-light mb-6 text-foreground">Settings</h2>
+
+        <div className="space-y-3 mb-6">
+          {settingsOptions.map((option, i) => (
+            <Card
+              key={i}
+              data-testid={`setting-${i}`}
+              className="p-4 hover-elevate active-elevate-2 cursor-pointer"
+            >
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center flex-shrink-0">
+                  <option.icon className="w-5 h-5 text-primary" />
+                </div>
+                <div className="flex-1 min-w-0">
+                  <h3 className="font-medium text-foreground">{option.title}</h3>
+                  <p className="text-sm text-muted-foreground">{option.description}</p>
+                </div>
+                {option.hasSwitch && (
+                  <Switch
+                    data-testid={`switch-${i}`}
+                    defaultChecked={option.defaultValue}
+                  />
+                )}
+              </div>
+            </Card>
+          ))}
+        </div>
+
+        <Card className="p-4 mb-4 bg-yellow-500/10 border-yellow-500/20">
+          <h4 className="font-medium text-yellow-600 dark:text-yellow-400 mb-2">
+            Account Status
+          </h4>
+          <p className="text-sm text-yellow-600 dark:text-yellow-400">
+            Free Trial - 28 days remaining
+          </p>
+        </Card>
+
+        <button
+          data-testid="button-logout"
+          className="w-full"
+          onClick={() => {
+            sessionStorage.clear();
+            setLocation("/");
+          }}
+        >
+          <Card className="p-4 hover-elevate active-elevate-2 cursor-pointer bg-destructive/10 border-destructive/20">
+            <div className="flex items-center gap-3">
+              <LogOut className="w-5 h-5 text-destructive" />
+              <h3 className="font-medium text-destructive">Log Out</h3>
+            </div>
+          </Card>
+        </button>
+
+        <div className="mt-6 text-center text-sm text-muted-foreground">
+          <p>Version 1.0.0</p>
+          <p className="mt-1">
+            <a href="#" className="text-primary hover:underline">Terms</a>
+            {" · "}
+            <a href="#" className="text-primary hover:underline">Privacy</a>
+            {" · "}
+            <a href="#" className="text-primary hover:underline">Guidelines</a>
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+}
