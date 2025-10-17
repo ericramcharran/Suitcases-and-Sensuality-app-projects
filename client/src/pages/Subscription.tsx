@@ -105,10 +105,10 @@ export default function Subscription() {
               </div>
               <div>
                 <h3 className="font-medium text-foreground mb-1">
-                  Verification Required
+                  Masters/Doms Must Be Verified
                 </h3>
                 <p className="text-sm text-muted-foreground">
-                  Escrow account setup required after subscription to match with submissives and ensure trust & safety.
+                  All Masters and Dominants must complete escrow account verification after subscription. This verification is required to match with submissives and ensure trust & safety within our community.
                 </p>
               </div>
             </div>
