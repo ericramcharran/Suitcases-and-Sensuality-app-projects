@@ -147,19 +147,30 @@ export default function Discover() {
     return (
       <div className="min-h-screen bg-background flex items-center justify-center p-6">
         <Card className="p-8 text-center max-w-md">
-          <Heart className="w-16 h-16 text-muted-foreground/30 mx-auto mb-4" />
-          <h3 className="text-xl font-light text-foreground mb-2">
-            No More Profiles
+          <Heart className="w-16 h-16 text-red-500/30 mx-auto mb-4" />
+          <h3 className="text-2xl font-light text-foreground mb-2">
+            You're All Caught Up
           </h3>
-          <p className="text-muted-foreground mb-4">
-            Check back later for new matches
+          <p className="text-muted-foreground mb-6">
+            You've reviewed all available matches. New profiles are added daily, so check back soon for more connections.
           </p>
-          <Button
-            onClick={() => setCurrentIndex(0)}
-            className="rounded-full"
-          >
-            Start Over
-          </Button>
+          <div className="flex flex-col gap-3">
+            <Button
+              data-testid="button-view-profile"
+              onClick={() => setLocation("/profile")}
+              className="rounded-full bg-red-500 hover:bg-black text-white transition-colors"
+            >
+              View My Profile
+            </Button>
+            <Button
+              data-testid="button-start-over"
+              onClick={() => setCurrentIndex(0)}
+              variant="outline"
+              className="rounded-full"
+            >
+              Review Profiles Again
+            </Button>
+          </div>
         </Card>
       </div>
     );
