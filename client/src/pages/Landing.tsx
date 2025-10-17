@@ -30,6 +30,15 @@ export default function Landing() {
           Get Started
         </Button>
         <Button
+          data-testid="button-view-subscriptions"
+          onClick={() => setLocation("/subscription")}
+          variant="outline"
+          className="w-full rounded-full border-2"
+          size="lg"
+        >
+          View Subscriptions
+        </Button>
+        <Button
           data-testid="button-sign-in"
           onClick={() => setLocation("/discover")}
           variant="outline"
