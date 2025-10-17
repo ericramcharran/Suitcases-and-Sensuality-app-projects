@@ -184,6 +184,139 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Like a user
+  app.post("/api/matches/like", async (req, res) => {
+    try {
+      const { userId, targetUserId } = req.body;
+      
+      if (!userId || !targetUserId) {
+        res.status(400).json({ error: "Invalid request body" });
+        return;
+      }
+
+      // Create the match
+      const match = await storage.createMatch({
+        userId,
+        targetUserId,
+        action: 'like'
+      });
+
+      res.json(match);
+    } catch (error) {
+      res.status(500).json({ error: "Failed to create like" });
+    }
+  });
+
+  // Pass on a user
+  app.post("/api/matches/pass", async (req, res) => {
+    try {
+      const { userId, targetUserId } = req.body;
+      
+      if (!userId || !targetUserId) {
+        res.status(400).json({ error: "Invalid request body" });
+        return;
+      }
+
+      // Create the pass
+      const match = await storage.createMatch({
+        userId,
+        targetUserId,
+        action: 'pass'
+      });
+
+      res.json(match);
+    } catch (error) {
+      res.status(500).json({ error: "Failed to create pass" });
+    }
+  });
+
+  // Get potential matches for a user
+  app.get("/api/matches/potential/:userId", async (req, res) => {
+    try {
+      const { userId } = req.params;
+      
+      // Get current user's data
+      const currentUser = await storage.getUser(userId);
+      if (!currentUser) {
+        res.status(404).json({ error: "User not found" });
+        return;
+      }
+
+      // Get all users
+      const allUsers = await storage.getAllUsers();
+      
+      // Get user's existing matches (likes and passes)
+      const existingMatches = await storage.getMatches(userId);
+      const matchedUserIds = existingMatches.map(m => m.targetUserId);
+      
+      // Filter out self and already matched users
+      const potentialMatches = allUsers.filter(
+        u => u.id !== userId && !matchedUserIds.includes(u.id)
+      );
+
+      // Get personality and relationship data for current user
+      const userPersonality = await storage.getPersonalityAnswers(userId);
+      const userRelationship = await storage.getRelationshipAnswers(userId);
+
+      // Calculate compatibility scores for each potential match
+      const matchesWithScores = await Promise.all(
+        potentialMatches.map(async (user) => {
+          const targetPersonality = await storage.getPersonalityAnswers(user.id);
+          const targetRelationship = await storage.getRelationshipAnswers(user.id);
+
+          // Calculate compatibility score
+          let compatibility = 50; // Base score
+
+          if (userPersonality && targetPersonality) {
+            const userScores = userPersonality.scores as any;
+            const targetScores = targetPersonality.scores as any;
+            
+            // Compare personality scores (higher similarity = higher compatibility)
+            const scoreDiff = Math.abs(userScores.emotionalIntelligence - targetScores.emotionalIntelligence) +
+                             Math.abs(userScores.ethics - targetScores.ethics) +
+                             Math.abs(userScores.sensuality - targetScores.sensuality) +
+                             Math.abs(userScores.stability - targetScores.stability) +
+                             Math.abs(userScores.dsCompatibility - targetScores.dsCompatibility);
+            
+            // Convert to compatibility (max diff is 20, so normalize to 0-30 points)
+            compatibility += Math.max(0, 30 - (scoreDiff * 1.5));
+          }
+
+          // Role compatibility bonus
+          if (currentUser.role === 'Dominant' && user.role === 'Submissive') {
+            compatibility += 15;
+          } else if (currentUser.role === 'Submissive' && user.role === 'Dominant') {
+            compatibility += 15;
+          } else if (currentUser.role === 'Switch' || user.role === 'Switch') {
+            compatibility += 10;
+          }
+
+          // Relationship style compatibility
+          if (userRelationship && targetRelationship) {
+            if (userRelationship.relationshipStyle === targetRelationship.relationshipStyle) {
+              compatibility += 10;
+            }
+          }
+
+          // Cap at 99%
+          compatibility = Math.min(99, Math.round(compatibility));
+
+          return {
+            ...user,
+            matchPercentage: compatibility
+          };
+        })
+      );
+
+      // Sort by compatibility
+      matchesWithScores.sort((a, b) => b.matchPercentage - a.matchPercentage);
+
+      res.json(matchesWithScores);
+    } catch (error) {
+      res.status(500).json({ error: "Failed to get potential matches" });
+    }
+  });
+
   const httpServer = createServer(app);
   return httpServer;
 }

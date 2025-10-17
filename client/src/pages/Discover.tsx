@@ -1,76 +1,147 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Heart, MessageCircle, Settings, User, BookOpen, X, MapPin, Shield } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { useLocation } from "wouter";
-
-// Sample profiles (will be replaced with real data from backend)
-const sampleProfiles = [
-  {
-    name: "Alex",
-    age: 28,
-    role: "Submissive",
-    distance: 2,
-    matchPercentage: 95,
-    verified: true,
-    escrowProtected: true,
-    bio: "Exploring the lifestyle with respect and care. Looking for genuine connections and meaningful experiences.",
-    initials: "A"
-  },
-  {
-    name: "Jordan",
-    age: 32,
-    role: "Switch",
-    distance: 5,
-    matchPercentage: 88,
-    verified: false,
-    escrowProtected: false,
-    bio: "Experienced practitioner seeking meaningful connections. Values open communication and mutual respect.",
-    initials: "J"
-  },
-  {
-    name: "Sam",
-    age: 26,
-    role: "Submissive",
-    distance: 8,
-    matchPercentage: 91,
-    verified: true,
-    escrowProtected: true,
-    bio: "New to the lifestyle but eager to learn with the right partner. Safety and consent are my priorities.",
-    initials: "S"
-  },
-];
+import { useQuery, useMutation } from "@tanstack/react-query";
+import { apiRequest } from "@/lib/queryClient";
+import { useToast } from "@/hooks/use-toast";
+import { queryClient } from "@/lib/queryClient";
 
 export default function Discover() {
   const [, setLocation] = useLocation();
   const [currentIndex, setCurrentIndex] = useState(0);
+  const { toast } = useToast();
+  
+  const userId = sessionStorage.getItem('userId');
 
-  const currentProfile = sampleProfiles[currentIndex];
-  const hasMore = currentIndex < sampleProfiles.length - 1;
+  // Redirect to signup if no userId
+  useEffect(() => {
+    if (!userId) {
+      setLocation('/signup');
+    }
+  }, [userId, setLocation]);
+
+  // Prevent rendering if no userId (redirect in progress)
+  if (!userId) {
+    return null;
+  }
+
+  // Fetch potential matches only if userId exists
+  const { data: potentialMatches, isLoading, isError } = useQuery<any[]>({
+    queryKey: ['/api/matches/potential', userId],
+    queryFn: async () => {
+      const res = await fetch(`/api/matches/potential/${userId}`);
+      if (!res.ok) throw new Error('Failed to fetch matches');
+      return await res.json();
+    },
+    enabled: Boolean(userId)
+  });
+
+  // Like mutation
+  const likeMutation = useMutation({
+    mutationFn: async (targetUserId: string) => {
+      const res = await apiRequest('POST', '/api/matches/like', {
+        userId,
+        targetUserId
+      });
+      return await res.json();
+    },
+    onSuccess: (data) => {
+      // Check if it's a mutual match
+      if (data.mutualMatch) {
+        setLocation("/match-result");
+      } else {
+        // Move to next profile
+        if (hasMore) {
+          setCurrentIndex(currentIndex + 1);
+        } else {
+          queryClient.invalidateQueries({ queryKey: ['/api/matches/potential', userId] });
+          setCurrentIndex(0);
+        }
+      }
+    },
+    onError: () => {
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: "Failed to like user. Please try again."
+      });
+    }
+  });
+
+  // Pass mutation
+  const passMutation = useMutation({
+    mutationFn: async (targetUserId: string) => {
+      const res = await apiRequest('POST', '/api/matches/pass', {
+        userId,
+        targetUserId
+      });
+      return await res.json();
+    },
+    onSuccess: () => {
+      if (hasMore) {
+        setCurrentIndex(currentIndex + 1);
+      } else {
+        queryClient.invalidateQueries({ queryKey: ['/api/matches/potential', userId] });
+        setCurrentIndex(0);
+      }
+    },
+    onError: () => {
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: "Failed to pass user. Please try again."
+      });
+    }
+  });
+
+  const profiles = potentialMatches || [];
+  const currentProfile = profiles[currentIndex];
+  const hasMore = currentIndex < profiles.length - 1;
 
   const handleLike = () => {
-    // Simulate a match (in real app, would check if mutual like)
-    const isMatch = Math.random() > 0.7; // 30% chance of immediate match
-    
-    if (isMatch) {
-      setLocation("/match-result");
-    } else if (hasMore) {
-      setCurrentIndex(currentIndex + 1);
-    } else {
-      // No more profiles
-      setCurrentIndex(0);
+    if (currentProfile) {
+      likeMutation.mutate(currentProfile.id);
     }
   };
 
   const handlePass = () => {
-    if (hasMore) {
-      setCurrentIndex(currentIndex + 1);
-    } else {
-      // No more profiles, restart
-      setCurrentIndex(0);
+    if (currentProfile) {
+      passMutation.mutate(currentProfile.id);
     }
   };
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <p className="text-muted-foreground">Loading matches...</p>
+      </div>
+    );
+  }
+
+  if (isError) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center p-6">
+        <Card className="p-8 text-center max-w-md">
+          <Heart className="w-16 h-16 text-muted-foreground/30 mx-auto mb-4" />
+          <h3 className="text-xl font-light text-foreground mb-2">
+            Unable to Load Matches
+          </h3>
+          <p className="text-muted-foreground mb-4">
+            Please complete your profile setup to see potential matches
+          </p>
+          <Button
+            onClick={() => setLocation("/signup")}
+            className="rounded-full"
+          >
+            Complete Profile
+          </Button>
+        </Card>
+      </div>
+    );
+  }
 
   if (!currentProfile) {
     return (
@@ -116,7 +187,7 @@ export default function Discover() {
             <div className="bg-gradient-to-br from-primary/60 to-pink-500/60 h-64 flex items-center justify-center relative rounded-t-xl">
               <Avatar className="w-32 h-32">
                 <AvatarFallback className="text-5xl bg-primary/20">
-                  {currentProfile.initials}
+                  {currentProfile.name.charAt(0).toUpperCase()}
                 </AvatarFallback>
               </Avatar>
               <div className="absolute top-4 right-4 bg-green-500 text-white text-xs px-3 py-1 rounded-full font-medium" data-testid="text-match-percentage">
@@ -125,7 +196,7 @@ export default function Discover() {
               {currentProfile.verified && (
                 <div className="absolute top-4 left-4 bg-blue-500 text-white text-xs px-3 py-1 rounded-full flex items-center gap-1" data-testid="badge-verified">
                   <Shield className="w-3 h-3" />
-                  Verified Dom
+                  Verified {currentProfile.role}
                 </div>
               )}
             </div>
@@ -133,16 +204,16 @@ export default function Discover() {
             {/* Profile Info */}
             <div className="flex-1 p-6 overflow-y-auto">
               <h3 className="text-2xl font-light mb-1 text-foreground" data-testid="text-match-name">
-                {currentProfile.name}, {currentProfile.age}
+                {currentProfile.name}
               </h3>
               <p className="text-primary mb-2 font-medium" data-testid="text-match-role">
                 {currentProfile.role}
               </p>
               <p className="text-muted-foreground text-sm mb-3 flex items-center gap-1" data-testid="text-match-distance">
                 <MapPin className="w-4 h-4" />
-                {currentProfile.distance} miles away
+                Location hidden for privacy
               </p>
-              {currentProfile.escrowProtected && (
+              {currentProfile.escrowBalance > 0 && currentProfile.role === 'Dominant' && (
                 <Card className="p-3 mb-3 bg-blue-500/10 border-blue-500/20" data-testid="card-escrow-info">
                   <p className="text-xs text-blue-600 dark:text-blue-400 font-medium mb-1 flex items-center gap-1">
                     <Shield className="w-3 h-3" />
@@ -154,7 +225,7 @@ export default function Discover() {
                 </Card>
               )}
               <p className="text-foreground/80 leading-relaxed" data-testid="text-match-bio">
-                {currentProfile.bio}
+                {currentProfile.personalityType || 'Profile not yet complete'} • {currentProfile.relationshipStyle || 'Exploring'}
               </p>
             </div>
 
@@ -163,6 +234,7 @@ export default function Discover() {
               <Button
                 data-testid="button-pass"
                 onClick={handlePass}
+                disabled={passMutation.isPending || likeMutation.isPending}
                 size="icon"
                 variant="secondary"
                 className="rounded-full h-14 w-14"
@@ -172,6 +244,7 @@ export default function Discover() {
               <Button
                 data-testid="button-like"
                 onClick={handleLike}
+                disabled={passMutation.isPending || likeMutation.isPending}
                 size="icon"
                 className="rounded-full h-14 w-14"
               >
