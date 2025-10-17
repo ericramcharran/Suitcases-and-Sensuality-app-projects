@@ -4,25 +4,52 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { personalityQuestions } from "@/data/testQuestions";
 import { useLocation } from "wouter";
+import { useMutation } from "@tanstack/react-query";
+import { apiRequest } from "@/lib/queryClient";
+import { useToast } from "@/hooks/use-toast";
 
 export default function PersonalityTest() {
   const [, setLocation] = useLocation();
   const [currentQuestion, setCurrentQuestion] = useState(0);
-  const [answers, setAnswers] = useState<string[]>([]);
+  const [answers, setAnswers] = useState<number[]>([]);
+  const { toast } = useToast();
 
   const question = personalityQuestions[currentQuestion];
   const progress = ((currentQuestion + 1) / personalityQuestions.length) * 100;
 
-  const handleAnswer = (answer: string) => {
-    const newAnswers = [...answers, answer];
+  const submitTest = useMutation({
+    mutationFn: async (answerIndices: number[]) => {
+      // For now, using a hardcoded userId - will be replaced with real auth
+      const userId = sessionStorage.getItem('userId') || 'temp-user';
+      const res = await apiRequest('POST', '/api/personality-test', {
+        userId,
+        answers: answerIndices
+      });
+      return await res.json();
+    },
+    onSuccess: (data) => {
+      // Store result data for the result page
+      sessionStorage.setItem('personalityResult', JSON.stringify(data));
+      setLocation("/personality-result");
+    },
+    onError: () => {
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: "Failed to submit personality test. Please try again."
+      });
+    }
+  });
+
+  const handleAnswer = (answerIndex: number) => {
+    const newAnswers = [...answers, answerIndex];
     setAnswers(newAnswers);
     
     if (currentQuestion < personalityQuestions.length - 1) {
       setCurrentQuestion(currentQuestion + 1);
     } else {
-      // Store answers and navigate to results
-      sessionStorage.setItem('personalityAnswers', JSON.stringify(newAnswers));
-      setLocation("/personality-result");
+      // Submit test to backend
+      submitTest.mutate(newAnswers);
     }
   };
 
@@ -60,8 +87,9 @@ export default function PersonalityTest() {
               <Button
                 key={i}
                 data-testid={`button-answer-${i}`}
-                onClick={() => handleAnswer(option)}
+                onClick={() => handleAnswer(i)}
                 variant="outline"
+                disabled={submitTest.isPending}
                 className="w-full text-left p-4 rounded-xl h-auto whitespace-normal justify-start hover-elevate active-elevate-2"
               >
                 {option}

@@ -3,30 +3,72 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { useLocation } from "wouter";
 
-const categoryScores = [
-  { name: "Emotional Intelligence", score: 92 },
-  { name: "Ethical Alignment", score: 88 },
-  { name: "Sensuality", score: 85 },
-  { name: "Emotional Stability", score: 90 },
-  { name: "D/s Compatibility", score: 94 },
-];
-
-const strengths = [
-  "Highly attuned to partner emotions and needs",
-  "Strong ethical framework and integrity",
-  "Balanced approach to sensuality and intimacy",
-  "Emotionally stable and self-regulated",
-];
-
-const matches = [
-  { name: "Devoted Companion", compatibility: 95 },
-  { name: "Mindful Servant", compatibility: 92 },
-  { name: "Curious Explorer", compatibility: 88 },
-];
-
 export default function PersonalityResult() {
   const [, setLocation] = useLocation();
-  const personalityType = "Caring Guide"; // Will be calculated from answers in full implementation
+  
+  // Get real data from backend
+  const resultData = JSON.parse(sessionStorage.getItem('personalityResult') || '{}');
+  const personalityType = resultData.personalityType || "Balanced";
+  const scores = resultData.scores || {
+    emotionalIntelligence: 0,
+    ethics: 0,
+    sensuality: 0,
+    stability: 0,
+    dsCompatibility: 0
+  };
+
+  // Convert scores to percentages
+  const categoryScores = [
+    { name: "Emotional Intelligence", score: Math.round((scores.emotionalIntelligence / 4) * 100) },
+    { name: "Ethical Alignment", score: Math.round((scores.ethics / 4) * 100) },
+    { name: "Sensuality", score: Math.round((scores.sensuality / 4) * 100) },
+    { name: "Emotional Stability", score: Math.round((scores.stability / 4) * 100) },
+    { name: "D/s Compatibility", score: Math.round((scores.dsCompatibility / 4) * 100) },
+  ];
+
+  const getStrengthsForType = (type: string) => {
+    const strengthMap: Record<string, string[]> = {
+      "Empathetic Leader": [
+        "Highly attuned to partner emotions and needs",
+        "Strong ethical framework and integrity",
+        "Natural leadership with compassion",
+        "Excellent communication skills"
+      ],
+      "Sensual Dominant": [
+        "Strong sensual awareness and presence",
+        "Deep understanding of D/s dynamics",
+        "Physically expressive and connected",
+        "Values both pleasure and power"
+      ],
+      "Grounded Nurturer": [
+        "Emotionally stable and reliable",
+        "High emotional intelligence",
+        "Provides strong support and care",
+        "Balanced approach to relationships"
+      ],
+      "Protocol Enthusiast": [
+        "Deep commitment to D/s protocols",
+        "Values structure and consistency",
+        "Strong sense of duty and service",
+        "Thrives in clear power dynamics"
+      ],
+      "Balanced": [
+        "Well-rounded personality traits",
+        "Adaptable to different dynamics",
+        "Open to growth and exploration",
+        "Values communication and consent"
+      ]
+    };
+    return strengthMap[type] || strengthMap["Balanced"];
+  };
+
+  const strengths = getStrengthsForType(personalityType);
+
+  const matches = [
+    { name: "Devoted Companion", compatibility: 95 },
+    { name: "Mindful Servant", compatibility: 92 },
+    { name: "Curious Explorer", compatibility: 88 },
+  ];
 
   return (
     <div className="min-h-screen bg-muted p-6">

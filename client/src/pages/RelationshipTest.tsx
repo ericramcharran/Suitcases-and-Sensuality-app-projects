@@ -4,25 +4,49 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { relationshipQuestions } from "@/data/testQuestions";
 import { useLocation } from "wouter";
+import { useMutation } from "@tanstack/react-query";
+import { apiRequest } from "@/lib/queryClient";
+import { useToast } from "@/hooks/use-toast";
 
 export default function RelationshipTest() {
   const [, setLocation] = useLocation();
   const [currentQuestion, setCurrentQuestion] = useState(0);
-  const [answers, setAnswers] = useState<string[]>([]);
+  const [answers, setAnswers] = useState<number[]>([]);
+  const { toast } = useToast();
 
   const question = relationshipQuestions[currentQuestion];
   const progress = ((currentQuestion + 1) / relationshipQuestions.length) * 100;
 
-  const handleAnswer = (answer: string) => {
-    const newAnswers = [...answers, answer];
+  const submitTest = useMutation({
+    mutationFn: async (answerIndices: number[]) => {
+      const userId = sessionStorage.getItem('userId') || 'temp-user';
+      const res = await apiRequest('POST', '/api/relationship-test', {
+        userId,
+        answers: answerIndices
+      });
+      return await res.json();
+    },
+    onSuccess: (data) => {
+      sessionStorage.setItem('relationshipResult', JSON.stringify(data));
+      setLocation("/relationship-result");
+    },
+    onError: () => {
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: "Failed to submit relationship test. Please try again."
+      });
+    }
+  });
+
+  const handleAnswer = (answerIndex: number) => {
+    const newAnswers = [...answers, answerIndex];
     setAnswers(newAnswers);
     
     if (currentQuestion < relationshipQuestions.length - 1) {
       setCurrentQuestion(currentQuestion + 1);
     } else {
-      // Store answers and navigate to results
-      sessionStorage.setItem('relationshipAnswers', JSON.stringify(newAnswers));
-      setLocation("/relationship-result");
+      submitTest.mutate(newAnswers);
     }
   };
 
@@ -60,8 +84,9 @@ export default function RelationshipTest() {
               <Button
                 key={i}
                 data-testid={`button-answer-${i}`}
-                onClick={() => handleAnswer(option)}
+                onClick={() => handleAnswer(i)}
                 variant="outline"
+                disabled={submitTest.isPending}
                 className="w-full text-left p-4 rounded-xl h-auto whitespace-normal justify-start hover-elevate active-elevate-2"
               >
                 {option}

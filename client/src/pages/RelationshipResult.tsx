@@ -3,20 +3,71 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { useLocation } from "wouter";
 
-const lookingFor = [
-  "Partners seeking long-term commitment",
-  "Deep emotional connection",
-  "Lifestyle integration and growth",
-  "Mutual support and partnership",
-];
-
 export default function RelationshipResult() {
   const [, setLocation] = useLocation();
   
-  // Get data from sessionStorage (will be replaced with backend integration)
-  const personalityType = "Caring Guide";
-  const relationshipStyle = "Committed Partnership Builder";
+  // Get real data from backend
+  const personalityData = JSON.parse(sessionStorage.getItem('personalityResult') || '{}');
+  const relationshipData = JSON.parse(sessionStorage.getItem('relationshipResult') || '{}');
+  const personalityType = personalityData.personalityType || "Balanced";
+  const relationshipStyle = relationshipData.relationshipStyle || "Flexible Explorer";
   const role = sessionStorage.getItem('userRole') || "Dominant";
+
+  const getLookingForByStyle = (style: string) => {
+    const lookingForMap: Record<string, string[]> = {
+      "24/7 TPE Devotee": [
+        "Total power exchange partnership",
+        "24/7 lifestyle integration",
+        "Deep commitment and dedication",
+        "Structured protocols and rituals"
+      ],
+      "Monogamous Lifestyle Partner": [
+        "Long-term committed partnership",
+        "Monogamous relationship",
+        "Deep emotional connection",
+        "Lifestyle integration and growth"
+      ],
+      "Scene-Based Player": [
+        "Exciting scene experiences",
+        "Skill development and exploration",
+        "Flexible play arrangements",
+        "Community connections"
+      ],
+      "Polyamorous Explorer": [
+        "Multiple meaningful connections",
+        "Open and honest communication",
+        "Diverse relationship experiences",
+        "Mutual respect and boundaries"
+      ],
+      "Full Lifestyle Practitioner": [
+        "Complete lifestyle integration",
+        "Daily practice and protocols",
+        "Dedicated partnership",
+        "Community involvement"
+      ],
+      "Deep Connection Seeker": [
+        "Profound emotional intimacy",
+        "Authentic vulnerability",
+        "Long-term partnership potential",
+        "Mutual growth and understanding"
+      ],
+      "Growth-Oriented Learner": [
+        "Skill development and training",
+        "Personal growth together",
+        "Open communication",
+        "Exploration and discovery"
+      ],
+      "Flexible Explorer": [
+        "Adaptable relationship structure",
+        "Open to different experiences",
+        "Communication and consent",
+        "Discovering preferences together"
+      ]
+    };
+    return lookingForMap[style] || lookingForMap["Flexible Explorer"];
+  };
+
+  const lookingFor = getLookingForByStyle(relationshipStyle);
 
   return (
     <div className="min-h-screen bg-muted p-6">

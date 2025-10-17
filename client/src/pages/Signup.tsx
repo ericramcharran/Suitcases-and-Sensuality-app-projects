@@ -23,9 +23,10 @@ export default function Signup() {
 
   const createUserMutation = useMutation({
     mutationFn: async (userData: { name: string; role: string }) => {
-      return await apiRequest("POST", "/api/users", userData);
+      const res = await apiRequest("POST", "/api/users", userData);
+      return await res.json();
     },
-    onSuccess: (data) => {
+    onSuccess: (data: any) => {
       // Store user ID for later use
       sessionStorage.setItem('userId', data.id);
       sessionStorage.setItem('userName', name);
