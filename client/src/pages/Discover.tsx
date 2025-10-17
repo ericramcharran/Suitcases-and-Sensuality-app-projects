@@ -115,8 +115,98 @@ export default function Discover() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-background flex items-center justify-center">
-        <p className="text-muted-foreground">Loading matches...</p>
+      <div className="min-h-screen bg-background flex flex-col">
+        <div className="max-w-md mx-auto w-full flex flex-col pb-20">
+          {/* Header */}
+          <div className="p-4 border-b border-border bg-background flex justify-between items-center">
+            <h2 className="text-2xl font-light text-foreground">Discover</h2>
+            <Settings className="w-6 h-6 text-foreground/70" />
+          </div>
+
+          {/* Loading Content */}
+          <div className="flex-1 flex items-center justify-center p-6">
+            <div className="w-full max-w-sm space-y-4">
+              {/* Animated Hearts */}
+              <div className="flex justify-center mb-8 relative">
+                <Heart className="w-12 h-12 text-red-500 animate-pulse absolute" style={{ animationDelay: '0ms' }} />
+                <Heart className="w-8 h-8 text-red-500/60 animate-pulse absolute -left-8 top-2" style={{ animationDelay: '300ms' }} />
+                <Heart className="w-6 h-6 text-red-500/40 animate-pulse absolute -right-8 top-3" style={{ animationDelay: '600ms' }} />
+              </div>
+
+              {/* Skeleton Profile Card */}
+              <Card className="overflow-hidden">
+                <div className="relative">
+                  {/* Shimmer effect */}
+                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent animate-shimmer" 
+                       style={{ 
+                         backgroundSize: '200% 100%',
+                         animation: 'shimmer 2s infinite'
+                       }} 
+                  />
+                  
+                  {/* Card content skeleton */}
+                  <div className="aspect-[3/4] bg-gradient-to-br from-muted/50 to-muted animate-pulse" />
+                  
+                  <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-6">
+                    <div className="space-y-3">
+                      <div className="h-8 bg-white/20 rounded-lg w-3/4 animate-pulse" />
+                      <div className="h-4 bg-white/20 rounded-lg w-1/2 animate-pulse" style={{ animationDelay: '150ms' }} />
+                      <div className="flex gap-2">
+                        <div className="h-6 bg-white/20 rounded-full w-24 animate-pulse" style={{ animationDelay: '300ms' }} />
+                        <div className="h-6 bg-white/20 rounded-full w-20 animate-pulse" style={{ animationDelay: '450ms' }} />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </Card>
+
+              {/* Loading text with animated dots */}
+              <div className="text-center">
+                <p className="text-lg text-foreground font-light">
+                  Finding your perfect match
+                  <span className="inline-flex w-12">
+                    <span className="animate-pulse" style={{ animationDelay: '0ms' }}>.</span>
+                    <span className="animate-pulse" style={{ animationDelay: '200ms' }}>.</span>
+                    <span className="animate-pulse" style={{ animationDelay: '400ms' }}>.</span>
+                  </span>
+                </p>
+                <p className="text-sm text-muted-foreground mt-2">
+                  Analyzing compatibility scores
+                </p>
+              </div>
+
+              {/* Action buttons skeleton */}
+              <div className="flex justify-center gap-4 pt-4">
+                <div className="w-16 h-16 rounded-full bg-muted animate-pulse" />
+                <div className="w-20 h-20 rounded-full bg-red-500/20 animate-pulse" style={{ animationDelay: '200ms' }} />
+                <div className="w-16 h-16 rounded-full bg-muted animate-pulse" style={{ animationDelay: '400ms' }} />
+              </div>
+            </div>
+          </div>
+
+          {/* Bottom Navigation */}
+          <nav className="bg-background p-4 flex justify-around border-t border-border fixed bottom-0 left-0 right-0 max-w-md mx-auto">
+            <div className="text-primary p-2">
+              <Heart className="w-6 h-6" />
+            </div>
+            <div className="text-muted-foreground/30 p-2">
+              <BookOpen className="w-6 h-6" />
+            </div>
+            <div className="text-muted-foreground/30 p-2">
+              <MessageCircle className="w-6 h-6" />
+            </div>
+            <div className="text-muted-foreground/30 p-2">
+              <User className="w-6 h-6" />
+            </div>
+          </nav>
+        </div>
+
+        <style>{`
+          @keyframes shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+          }
+        `}</style>
       </div>
     );
   }
