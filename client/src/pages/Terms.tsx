@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { ChevronLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -45,14 +46,24 @@ export default function Terms() {
 
   return (
     <div className="min-h-screen bg-muted p-6">
+      <button
+        data-testid="button-back"
+        onClick={() => setLocation("/age-verification")}
+        className="mb-6 text-muted-foreground flex items-center gap-1 hover-elevate active-elevate-2 px-2 py-1 rounded-md"
+      >
+        <ChevronLeft className="w-5 h-5" />
+        Back
+      </button>
       <div className="max-w-2xl mx-auto">
-        <h2 className="text-3xl font-light mb-6 text-foreground">Terms of Service</h2>
+        <h2 className="text-3xl font-light mb-2 text-center text-foreground">Terms of Service</h2>
+        <p className="text-muted-foreground mb-6 text-center">Please read and accept our terms</p>
+        
         <Card className="p-6 mb-6 max-h-96 overflow-y-auto">
-          <div className="space-y-4 text-sm text-muted-foreground">
+          <div className="space-y-4">
             {termsContent.map((item, i) => (
-              <div key={i}>
+              <div key={i} className="border-b border-border last:border-0 pb-3 last:pb-0">
                 <h3 className="font-medium text-foreground mb-2">{item.title}</h3>
-                <p>{item.content}</p>
+                <p className="text-sm text-muted-foreground">{item.content}</p>
               </div>
             ))}
           </div>
@@ -74,14 +85,17 @@ export default function Terms() {
             </label>
           </div>
         </Card>
-        <Button
-          data-testid="button-continue"
-          onClick={() => setLocation("/consent")}
-          disabled={!agreed}
-          className="w-full rounded-full"
-        >
-          Continue
-        </Button>
+        <div className="flex justify-center">
+          <Button
+            data-testid="button-continue"
+            onClick={() => setLocation("/consent")}
+            disabled={!agreed}
+            className="rounded-full bg-red-500 hover:bg-black text-white transition-colors px-12"
+            size="lg"
+          >
+            Continue
+          </Button>
+        </div>
       </div>
     </div>
   );

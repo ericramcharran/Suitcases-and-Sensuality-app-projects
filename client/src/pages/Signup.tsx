@@ -59,7 +59,9 @@ export default function Signup() {
         Back
       </button>
       <div className="max-w-md mx-auto">
-        <h2 className="text-3xl font-light mb-6 text-foreground">Create Profile</h2>
+        <h2 className="text-3xl font-light mb-2 text-center text-foreground">Create Your Profile</h2>
+        <p className="text-muted-foreground mb-8 text-center">Tell us about yourself</p>
+        
         <div className="space-y-6">
           <div>
             <Label htmlFor="name" className="text-foreground mb-2 block">
@@ -95,14 +97,17 @@ export default function Signup() {
               </SelectContent>
             </Select>
           </div>
-          <Button
-            data-testid="button-continue"
-            onClick={handleContinue}
-            disabled={!canContinue || createUserMutation.isPending}
-            className="w-full rounded-full"
-          >
-            {createUserMutation.isPending ? "Creating Profile..." : "Continue"}
-          </Button>
+          <div className="flex justify-center">
+            <Button
+              data-testid="button-continue"
+              onClick={handleContinue}
+              disabled={!canContinue || createUserMutation.isPending}
+              className="rounded-full bg-red-500 hover:bg-black text-white transition-colors px-12"
+              size="lg"
+            >
+              {createUserMutation.isPending ? "Creating..." : "Continue"}
+            </Button>
+          </div>
         </div>
       </div>
     </div>

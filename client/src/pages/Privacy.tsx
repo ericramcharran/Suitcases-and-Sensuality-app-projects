@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ChevronLeft } from "lucide-react";
+import { ChevronLeft, Lock } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -59,23 +59,36 @@ export default function Privacy() {
         Back
       </button>
       <div className="max-w-2xl mx-auto">
-        <h2 className="text-3xl font-light mb-6 text-foreground">
-          Privacy Policy and Data Security
+        <h2 className="text-3xl font-light mb-2 text-center text-foreground">
+          Privacy Policy
         </h2>
+        <p className="text-muted-foreground mb-6 text-center">Your privacy and data security matter to us</p>
+        
         <Card className="p-6 mb-6 max-h-96 overflow-y-auto">
-          <div className="space-y-4 text-sm text-muted-foreground">
-            <div>
-              <h3 className="font-medium text-foreground mb-2">Your Privacy Matters</h3>
-              <p>We protect your privacy and maintain security of your personal information.</p>
-            </div>
+          <div className="space-y-4">
             {privacyContent.map((item, i) => (
-              <div key={i}>
+              <div key={i} className="border-b border-border last:border-0 pb-3 last:pb-0">
                 <h3 className="font-medium text-foreground mb-2">{item.title}</h3>
-                <p>{item.content}</p>
+                <p className="text-sm text-muted-foreground">{item.content}</p>
               </div>
             ))}
           </div>
         </Card>
+
+        <Card className="p-6 mb-6 bg-gradient-to-r from-red-500/5 to-black/5 border-red-500/20">
+          <div className="flex items-start gap-4">
+            <div className="flex-shrink-0 w-10 h-10 rounded-full bg-red-500/10 flex items-center justify-center">
+              <Lock className="w-5 h-5 text-red-500" />
+            </div>
+            <div>
+              <h3 className="font-medium text-foreground mb-1">Data Protection</h3>
+              <p className="text-sm text-muted-foreground">
+                We use end-to-end encryption and never sell your data. Your information is protected and used only to provide our services.
+              </p>
+            </div>
+          </div>
+        </Card>
+
         <Card className="p-4 mb-6">
           <div className="flex items-start gap-3">
             <Checkbox
@@ -93,14 +106,17 @@ export default function Privacy() {
             </label>
           </div>
         </Card>
-        <Button
-          data-testid="button-continue"
-          onClick={() => setLocation("/guidelines")}
-          disabled={!agreed}
-          className="w-full rounded-full"
-        >
-          Continue
-        </Button>
+        <div className="flex justify-center">
+          <Button
+            data-testid="button-continue"
+            onClick={() => setLocation("/guidelines")}
+            disabled={!agreed}
+            className="rounded-full bg-red-500 hover:bg-black text-white transition-colors px-12"
+            size="lg"
+          >
+            Continue
+          </Button>
+        </div>
       </div>
     </div>
   );

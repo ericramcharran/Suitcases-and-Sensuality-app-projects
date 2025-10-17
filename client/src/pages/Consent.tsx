@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ChevronLeft } from "lucide-react";
+import { ChevronLeft, Shield } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -51,29 +51,36 @@ export default function Consent() {
         Back
       </button>
       <div className="max-w-2xl mx-auto">
-        <h2 className="text-3xl font-light mb-6 text-foreground">
+        <h2 className="text-3xl font-light mb-2 text-center text-foreground">
           Consent and Safety Agreement
         </h2>
+        <p className="text-muted-foreground mb-6 text-center">Consent is the cornerstone of all BDSM activities</p>
+        
         <Card className="p-6 mb-6 max-h-96 overflow-y-auto">
-          <div className="space-y-4 text-sm text-muted-foreground">
-            <div>
-              <h3 className="font-medium text-foreground mb-2">Understanding Consent</h3>
-              <p>Consent is the cornerstone of all BDSM activities.</p>
-            </div>
+          <div className="space-y-4">
             {consentContent.map((item, i) => (
-              <div key={i}>
+              <div key={i} className="border-b border-border last:border-0 pb-3 last:pb-0">
                 <h3 className="font-medium text-foreground mb-2">{item.title}</h3>
-                <p>{item.content}</p>
+                <p className="text-sm text-muted-foreground">{item.content}</p>
               </div>
             ))}
-            <Card className="p-4 bg-muted border-border">
-              <p className="font-medium text-foreground mb-2">Your Commitment:</p>
-              <p className="text-sm">
-                I understand consent is mandatory, ongoing, and revocable. I commit to practicing safe, consensual interactions.
-              </p>
-            </Card>
           </div>
         </Card>
+
+        <Card className="p-6 mb-6 bg-gradient-to-r from-red-500/5 to-black/5 border-red-500/20">
+          <div className="flex items-start gap-4">
+            <div className="flex-shrink-0 w-10 h-10 rounded-full bg-red-500/10 flex items-center justify-center">
+              <Shield className="w-5 h-5 text-red-500" />
+            </div>
+            <div>
+              <h3 className="font-medium text-foreground mb-1">Your Commitment</h3>
+              <p className="text-sm text-muted-foreground">
+                I understand consent is mandatory, ongoing, and revocable. I commit to practicing safe, consensual interactions.
+              </p>
+            </div>
+          </div>
+        </Card>
+
         <Card className="p-4 mb-6">
           <div className="flex items-start gap-3">
             <Checkbox
@@ -91,14 +98,17 @@ export default function Consent() {
             </label>
           </div>
         </Card>
-        <Button
-          data-testid="button-continue"
-          onClick={() => setLocation("/privacy")}
-          disabled={!agreed}
-          className="w-full rounded-full"
-        >
-          Continue
-        </Button>
+        <div className="flex justify-center">
+          <Button
+            data-testid="button-continue"
+            onClick={() => setLocation("/privacy")}
+            disabled={!agreed}
+            className="rounded-full bg-red-500 hover:bg-black text-white transition-colors px-12"
+            size="lg"
+          >
+            Continue
+          </Button>
+        </div>
       </div>
     </div>
   );

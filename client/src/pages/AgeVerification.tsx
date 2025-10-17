@@ -17,24 +17,25 @@ export default function AgeVerification() {
         Back
       </button>
       <div className="max-w-md mx-auto">
-        <div className="w-16 h-16 mx-auto mb-6 bg-primary rounded-full flex items-center justify-center">
-          <Shield className="w-8 h-8 text-primary-foreground" />
+        <div className="w-16 h-16 mx-auto mb-6 bg-gradient-to-br from-red-500 to-black rounded-full flex items-center justify-center">
+          <Shield className="w-8 h-8 text-white" />
         </div>
-        <h2 className="text-3xl font-light mb-4 text-center text-foreground">
+        <h2 className="text-3xl font-light mb-2 text-center text-foreground">
           Age Verification
         </h2>
-        <p className="text-foreground/70 mb-8 text-center">
+        <p className="text-muted-foreground mb-8 text-center">
           You must be 21+ to continue
         </p>
         <Card className="p-8 mb-6">
-          <div className="border-2 border-dashed border-border rounded-xl p-8 text-center mb-6 hover:border-primary cursor-pointer transition-colors" data-testid="upload-area">
+          <div className="border-2 border-dashed border-border rounded-xl p-8 text-center mb-6 hover:border-red-500 cursor-pointer transition-colors" data-testid="upload-area">
             <Camera className="w-12 h-12 mx-auto mb-2 text-muted-foreground" />
             <p className="text-sm text-foreground">Upload ID</p>
           </div>
           <Button
             data-testid="button-verify"
             onClick={() => setLocation("/terms")}
-            className="w-full rounded-full"
+            className="w-full rounded-full bg-red-500 hover:bg-black text-white transition-colors"
+            size="lg"
           >
             Verify Identity
           </Button>
