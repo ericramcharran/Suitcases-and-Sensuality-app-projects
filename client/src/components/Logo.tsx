@@ -1,6 +1,6 @@
 export function Logo() {
   return (
-    <div className="w-20 h-20 relative">
+    <div className="w-20 h-20 relative hover:invert transition-all duration-300 cursor-pointer">
       <div className="absolute inset-0 bg-gradient-to-br from-foreground to-muted-foreground rounded-full dark:from-gray-700 dark:to-gray-900"></div>
       <div className="absolute inset-0 rounded-full border-4 border-primary"></div>
       <div className="absolute inset-0 flex items-center justify-center">
