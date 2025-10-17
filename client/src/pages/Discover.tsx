@@ -199,6 +199,29 @@ export default function Discover() {
                   Verified {currentProfile.role}
                 </div>
               )}
+              
+              {/* Floating Action Buttons */}
+              <div className="absolute bottom-4 left-0 right-0 flex justify-center gap-6">
+                <Button
+                  data-testid="button-pass"
+                  onClick={handlePass}
+                  disabled={passMutation.isPending || likeMutation.isPending}
+                  size="icon"
+                  variant="secondary"
+                  className="rounded-full h-14 w-14 bg-background/90 backdrop-blur-sm border-2 border-border/50 shadow-lg hover:scale-110 transition-transform"
+                >
+                  <X className="w-6 h-6" />
+                </Button>
+                <Button
+                  data-testid="button-like"
+                  onClick={handleLike}
+                  disabled={passMutation.isPending || likeMutation.isPending}
+                  size="icon"
+                  className="rounded-full h-14 w-14 bg-primary shadow-lg hover:scale-110 transition-transform"
+                >
+                  <Heart className="w-6 h-6" />
+                </Button>
+              </div>
             </div>
 
             {/* Profile Info */}
@@ -227,29 +250,6 @@ export default function Discover() {
               <p className="text-foreground/80 leading-relaxed" data-testid="text-match-bio">
                 {currentProfile.personalityType || 'Profile not yet complete'} • {currentProfile.relationshipStyle || 'Exploring'}
               </p>
-            </div>
-
-            {/* Action Buttons */}
-            <div className="p-6 flex justify-center gap-6 border-t border-border">
-              <Button
-                data-testid="button-pass"
-                onClick={handlePass}
-                disabled={passMutation.isPending || likeMutation.isPending}
-                size="icon"
-                variant="secondary"
-                className="rounded-full h-14 w-14"
-              >
-                <X className="w-6 h-6" />
-              </Button>
-              <Button
-                data-testid="button-like"
-                onClick={handleLike}
-                disabled={passMutation.isPending || likeMutation.isPending}
-                size="icon"
-                className="rounded-full h-14 w-14"
-              >
-                <Heart className="w-6 h-6" />
-              </Button>
             </div>
           </Card>
         </div>
