@@ -1,4 +1,4 @@
-import { Heart, MessageCircle, User, BookOpen, Settings, Shield, Award, Upload, X, UserCircle, FileText } from "lucide-react";
+import { Heart, MessageCircle, User, BookOpen, Settings, Shield, Award, Upload, X, UserCircle, FileText, Pencil } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
@@ -363,6 +363,7 @@ export default function Profile() {
                   variant="ghost"
                   size="sm"
                 >
+                  <Pencil className="w-4 h-4 mr-1" />
                   Edit
                 </Button>
               )}
@@ -475,6 +476,7 @@ export default function Profile() {
                   variant="ghost"
                   size="sm"
                 >
+                  <Pencil className="w-4 h-4 mr-1" />
                   Edit
                 </Button>
               )}
@@ -641,6 +643,7 @@ export default function Profile() {
               variant="outline"
               className="w-full rounded-xl"
             >
+              <Pencil className="w-4 h-4 mr-2" />
               Edit Profile
             </Button>
             <Button
