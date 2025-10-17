@@ -26,6 +26,8 @@ export const users = pgTable("users", {
   nationality: text("nationality"),
   weight: text("weight"),
   bodyShape: text("body_shape"),
+  // Profile bio
+  bio: text("bio"),
   createdAt: timestamp("created_at").defaultNow(),
 });
 

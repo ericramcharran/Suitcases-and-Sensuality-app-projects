@@ -1,9 +1,10 @@
-import { Heart, MessageCircle, User, BookOpen, Settings, Shield, Award, Upload, X, UserCircle } from "lucide-react";
+import { Heart, MessageCircle, User, BookOpen, Settings, Shield, Award, Upload, X, UserCircle, FileText } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
 import { useLocation } from "wouter";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { queryClient, apiRequest } from "@/lib/queryClient";
@@ -15,6 +16,7 @@ export default function Profile() {
   const { toast } = useToast();
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [isEditingAttributes, setIsEditingAttributes] = useState(false);
+  const [isEditingBio, setIsEditingBio] = useState(false);
   
   // Get data from sessionStorage (will be replaced with real user data)
   const userName = sessionStorage.getItem('userName') || "User";
@@ -30,6 +32,9 @@ export default function Profile() {
   const [nationality, setNationality] = useState("");
   const [weight, setWeight] = useState("");
   const [bodyShape, setBodyShape] = useState("");
+  
+  // Bio state
+  const [bio, setBio] = useState("");
 
   // Fetch user data including images
   const { data: userData } = useQuery({
@@ -46,6 +51,7 @@ export default function Profile() {
       setNationality(data.nationality || "");
       setWeight(data.weight || "");
       setBodyShape(data.bodyShape || "");
+      setBio(data.bio || "");
       return data;
     },
     enabled: Boolean(userId)
@@ -92,6 +98,50 @@ export default function Profile() {
       weight,
       bodyShape
     });
+  };
+
+  // Bio mutation
+  const updateBioMutation = useMutation({
+    mutationFn: async (bioText: string) => {
+      const res = await apiRequest('PATCH', `/api/users/${userId}`, { bio: bioText });
+      return await res.json();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['/api/users', userId] });
+      setIsEditingBio(false);
+      toast({
+        title: "Success",
+        description: "Bio updated successfully"
+      });
+    },
+    onError: () => {
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: "Failed to update bio"
+      });
+    }
+  });
+
+  const handleSaveBio = () => {
+    // Count words
+    const wordCount = bio.trim().split(/\s+/).filter(word => word.length > 0).length;
+    
+    if (wordCount > 500) {
+      toast({
+        variant: "destructive",
+        title: "Word limit exceeded",
+        description: `Your bio has ${wordCount} words. Please keep it under 500 words.`
+      });
+      return;
+    }
+    
+    updateBioMutation.mutate(bio);
+  };
+
+  // Helper to count words
+  const getWordCount = (text: string) => {
+    return text.trim().split(/\s+/).filter(word => word.length > 0).length;
   };
 
   // Upload mutation
@@ -296,6 +346,83 @@ export default function Profile() {
               <p className="text-xs text-muted-foreground mt-2">
                 At least 1 face photo is required. Max 6 photos.
               </p>
+            )}
+          </Card>
+
+          {/* Bio Section */}
+          <Card className="p-4 mb-4">
+            <div className="flex items-center justify-between mb-3">
+              <div className="flex items-center gap-2">
+                <FileText className="w-5 h-5 text-primary" />
+                <h4 className="font-medium text-foreground">About Me</h4>
+              </div>
+              {!isEditingBio && (
+                <Button
+                  data-testid="button-edit-bio"
+                  onClick={() => setIsEditingBio(true)}
+                  variant="ghost"
+                  size="sm"
+                >
+                  Edit
+                </Button>
+              )}
+            </div>
+            
+            {isEditingBio ? (
+              <div className="space-y-3">
+                <div>
+                  <Textarea
+                    data-testid="input-bio"
+                    value={bio}
+                    onChange={(e) => setBio(e.target.value)}
+                    placeholder="Tell potential matches about yourself... (500 word limit)"
+                    className="min-h-[150px] rounded-xl resize-none"
+                  />
+                  <div className="flex justify-between items-center mt-2">
+                    <p className="text-xs text-muted-foreground">
+                      {getWordCount(bio)} / 500 words
+                    </p>
+                    {getWordCount(bio) > 500 && (
+                      <p className="text-xs text-destructive">
+                        Exceeds word limit
+                      </p>
+                    )}
+                  </div>
+                </div>
+                <div className="flex gap-2 pt-2">
+                  <Button
+                    data-testid="button-save-bio"
+                    onClick={handleSaveBio}
+                    disabled={updateBioMutation.isPending}
+                    className="flex-1 rounded-full bg-red-500 hover:bg-black text-white transition-colors"
+                  >
+                    {updateBioMutation.isPending ? 'Saving...' : 'Save'}
+                  </Button>
+                  <Button
+                    data-testid="button-cancel-bio"
+                    onClick={() => {
+                      setIsEditingBio(false);
+                      setBio(userData?.bio || "");
+                    }}
+                    variant="outline"
+                    className="flex-1 rounded-full"
+                  >
+                    Cancel
+                  </Button>
+                </div>
+              </div>
+            ) : (
+              <div>
+                {bio ? (
+                  <p className="text-sm text-foreground whitespace-pre-wrap" data-testid="text-bio">
+                    {bio}
+                  </p>
+                ) : (
+                  <p className="text-sm text-muted-foreground italic" data-testid="text-bio-empty">
+                    No bio added yet. Tell others about yourself.
+                  </p>
+                )}
+              </div>
             )}
           </Card>
 
