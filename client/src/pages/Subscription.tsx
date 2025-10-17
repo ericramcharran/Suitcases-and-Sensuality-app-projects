@@ -153,14 +153,17 @@ export default function Subscription() {
           ))}
         </div>
 
-        <Button
-          data-testid="button-continue"
-          onClick={handleContinue}
-          disabled={!selectedPlan}
-          className="w-full rounded-full"
-        >
-          {selectedPlan === 'trial' ? 'Start Free Trial' : 'Continue to Payment'}
-        </Button>
+        <div className="flex justify-center">
+          <Button
+            data-testid="button-continue"
+            onClick={handleContinue}
+            disabled={!selectedPlan}
+            className="rounded-full bg-red-500 hover:bg-black text-white transition-colors px-12"
+            size="lg"
+          >
+            {selectedPlan === 'trial' ? 'Start Free Trial' : 'Continue'}
+          </Button>
+        </div>
 
         <p className="text-xs text-muted-foreground text-center mt-4">
           Cancel anytime. No commitments. Your trial starts today.
