@@ -154,21 +154,23 @@ export default function Discover() {
           <p className="text-muted-foreground mb-6">
             You've reviewed all available matches. New profiles are added daily, so check back soon for more connections.
           </p>
-          <div className="flex flex-col gap-3">
+          <div className="flex flex-col gap-3 items-center">
             <Button
               data-testid="button-view-profile"
               onClick={() => setLocation("/profile")}
-              className="rounded-full bg-red-500 hover:bg-black text-white transition-colors"
+              className="rounded-full bg-red-500 hover:bg-black text-white transition-colors px-12"
+              size="lg"
             >
-              View My Profile
+              My Profile
             </Button>
             <Button
               data-testid="button-start-over"
               onClick={() => setCurrentIndex(0)}
               variant="outline"
-              className="rounded-full"
+              className="rounded-full px-12"
+              size="lg"
             >
-              Review Profiles Again
+              Review Again
             </Button>
           </div>
         </Card>
