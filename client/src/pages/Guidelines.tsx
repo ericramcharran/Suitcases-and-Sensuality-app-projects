@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ChevronLeft } from "lucide-react";
+import { ChevronLeft, Shield, Phone } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -33,34 +33,53 @@ export default function Guidelines() {
         Back
       </button>
       <div className="max-w-2xl mx-auto">
-        <h2 className="text-3xl font-light mb-6 text-foreground">Community Guidelines</h2>
+        <h2 className="text-3xl font-light mb-2 text-center text-foreground">Community Guidelines</h2>
+        <p className="text-muted-foreground mb-6 text-center">Built on respect, consent, and safety</p>
+        
         <Card className="p-6 mb-6 max-h-96 overflow-y-auto">
-          <div className="space-y-4 text-sm text-muted-foreground">
-            <div>
-              <h3 className="font-medium text-foreground mb-2">Our Community Values</h3>
-              <p>Built on respect, consent, and safety.</p>
-            </div>
+          <div className="space-y-4">
             {guidelinesContent.map((item, i) => (
-              <div key={i}>
-                <h3 className="font-medium text-foreground mb-1">{item.title}</h3>
-                <p className="text-green-600 text-xs">DO: {item.dos}</p>
-                <p className="text-destructive text-xs">DON'T: {item.donts}</p>
+              <div key={i} className="border-b border-border last:border-0 pb-3 last:pb-0">
+                <h3 className="font-medium text-foreground mb-2">{item.title}</h3>
+                <div className="space-y-1">
+                  <p className="text-sm text-foreground/80">✓ {item.dos}</p>
+                  <p className="text-sm text-muted-foreground">✗ {item.donts}</p>
+                </div>
               </div>
             ))}
-            <Card className="p-4 bg-destructive/10 border-destructive/20">
-              <h4 className="font-medium text-destructive mb-2">Zero Tolerance</h4>
-              <p className="text-destructive text-xs">
-                Non-consent, harassment, hate speech, illegal activity, minors, threats, doxxing.
-              </p>
-            </Card>
-            <Card className="p-4 bg-blue-500/10 border-blue-500/20">
-              <h4 className="font-medium text-blue-600 dark:text-blue-400 mb-2">Emergency Resources</h4>
-              <p className="text-blue-600 dark:text-blue-400 text-xs">
-                Sexual Assault: 1-800-656-4673 | Domestic Violence: 1-800-799-7233 | Crisis: Text HOME to 741741
-              </p>
-            </Card>
           </div>
         </Card>
+
+        <Card className="p-6 mb-6 bg-gradient-to-r from-red-500/5 to-black/5 border-red-500/20">
+          <div className="flex items-start gap-4">
+            <div className="flex-shrink-0 w-10 h-10 rounded-full bg-red-500/10 flex items-center justify-center">
+              <Shield className="w-5 h-5 text-red-500" />
+            </div>
+            <div>
+              <h3 className="font-medium text-foreground mb-1">Zero Tolerance Policy</h3>
+              <p className="text-sm text-muted-foreground">
+                Non-consent, harassment, hate speech, illegal activity, minors, threats, and doxxing result in immediate account termination.
+              </p>
+            </div>
+          </div>
+        </Card>
+
+        <Card className="p-6 mb-6 bg-gradient-to-r from-black/5 to-red-500/5 border-red-500/20">
+          <div className="flex items-start gap-4">
+            <div className="flex-shrink-0 w-10 h-10 rounded-full bg-red-500/10 flex items-center justify-center">
+              <Phone className="w-5 h-5 text-red-500" />
+            </div>
+            <div>
+              <h3 className="font-medium text-foreground mb-1">Emergency Resources</h3>
+              <div className="text-sm text-muted-foreground space-y-1">
+                <p>Sexual Assault: 1-800-656-4673</p>
+                <p>Domestic Violence: 1-800-799-7233</p>
+                <p>Crisis Text Line: Text HOME to 741741</p>
+              </div>
+            </div>
+          </div>
+        </Card>
+
         <Card className="p-4 mb-6">
           <div className="flex items-start gap-3">
             <Checkbox
@@ -78,14 +97,18 @@ export default function Guidelines() {
             </label>
           </div>
         </Card>
-        <Button
-          data-testid="button-continue"
-          onClick={() => setLocation("/signup")}
-          disabled={!agreed}
-          className="w-full rounded-full"
-        >
-          Continue
-        </Button>
+
+        <div className="flex justify-center">
+          <Button
+            data-testid="button-continue"
+            onClick={() => setLocation("/signup")}
+            disabled={!agreed}
+            className="rounded-full bg-red-500 hover:bg-black text-white transition-colors px-12"
+            size="lg"
+          >
+            Continue
+          </Button>
+        </div>
       </div>
     </div>
   );
