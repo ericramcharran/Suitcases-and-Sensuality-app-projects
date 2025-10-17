@@ -21,7 +21,7 @@ const plans = [
   {
     id: 'monthly',
     name: 'Monthly',
-    price: '$29.99',
+    price: '$149',
     duration: 'per month',
     description: 'Flexible monthly plan',
     features: [
@@ -29,42 +29,47 @@ const plans = [
       'Advanced matching algorithm',
       'Unlimited messages',
       'Profile verification',
-      'Priority support'
+      'Priority support',
+      'Concierge matching service'
     ],
     popular: false
   },
   {
     id: '6-month',
     name: '6 Months',
-    price: '$24.99',
+    price: '$99',
     duration: 'per month',
-    totalPrice: '$149.94',
-    description: 'Save 17% with 6 months',
+    totalPrice: '$594',
+    description: 'Save 34% with 6 months',
     features: [
       'Full platform access',
       'Advanced matching algorithm',
       'Unlimited messages',
       'Profile verification',
       'Priority support',
-      'Save $30 vs monthly'
+      'Concierge matching service',
+      'Save $300 vs monthly',
+      'Exclusive community events'
     ],
     popular: true
   },
   {
     id: 'yearly',
     name: '1 Year',
-    price: '$19.99',
+    price: '$79',
     duration: 'per month',
-    totalPrice: '$239.88',
-    description: 'Best value - Save 33%',
+    totalPrice: '$948',
+    description: 'Best value - Save 47%',
     features: [
       'Full platform access',
       'Advanced matching algorithm',
       'Unlimited messages',
       'Profile verification',
       'Priority support',
-      'Save $120 vs monthly',
-      'Exclusive events access'
+      'Concierge matching service',
+      'Save $840 vs monthly',
+      'Exclusive community events',
+      'VIP matching priority'
     ],
     popular: false
   }
