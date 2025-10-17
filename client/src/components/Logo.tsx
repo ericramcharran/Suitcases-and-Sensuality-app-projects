@@ -1,11 +1,14 @@
 export function Logo() {
   return (
-    <div className="w-20 h-20 relative hover:invert transition-all duration-300 cursor-pointer">
-      <div className="absolute inset-0 bg-gradient-to-br from-foreground to-muted-foreground rounded-full dark:from-gray-700 dark:to-gray-900"></div>
-      <div className="absolute inset-0 rounded-full border-4 border-primary"></div>
+    <div className="w-20 h-20 relative group cursor-pointer">
+      {/* Background: Black -> Red on hover */}
+      <div className="absolute inset-0 bg-black group-hover:bg-red-500 rounded-full transition-colors duration-300"></div>
+      {/* Border: Red -> White on hover */}
+      <div className="absolute inset-0 rounded-full border-4 border-red-500 group-hover:border-white transition-colors duration-300"></div>
+      {/* Icon: White -> Black on hover */}
       <div className="absolute inset-0 flex items-center justify-center">
         <svg 
-          className="w-10 h-10 text-primary-foreground" 
+          className="w-10 h-10 text-white group-hover:text-black transition-colors duration-300" 
           viewBox="0 0 24 24" 
           fill="none" 
           stroke="currentColor" 
