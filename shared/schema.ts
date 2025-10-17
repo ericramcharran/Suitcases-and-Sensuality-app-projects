@@ -18,6 +18,7 @@ export const users = pgTable("users", {
   agreedGuidelines: boolean("agreed_guidelines").default(false),
   personalityAnswers: jsonb("personality_answers"),
   relationshipAnswers: jsonb("relationship_answers"),
+  profileImages: jsonb("profile_images").$type<string[]>().default(sql`'[]'::jsonb`), // Array of image URLs (max 6)
   createdAt: timestamp("created_at").defaultNow(),
 });
 

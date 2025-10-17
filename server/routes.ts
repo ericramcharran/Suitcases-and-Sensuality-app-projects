@@ -3,6 +3,41 @@ import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { insertUserSchema, insertPersonalityAnswersSchema, insertRelationshipAnswersSchema } from "@shared/schema";
 import { z } from "zod";
+import multer from "multer";
+import path from "path";
+import fs from "fs";
+
+// Configure multer for image uploads
+const uploadDir = path.join(process.cwd(), 'public', 'uploads');
+if (!fs.existsSync(uploadDir)) {
+  fs.mkdirSync(uploadDir, { recursive: true });
+}
+
+const imageStorage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, uploadDir);
+  },
+  filename: (req, file, cb) => {
+    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+    cb(null, uniqueSuffix + path.extname(file.originalname));
+  }
+});
+
+const upload = multer({
+  storage: imageStorage,
+  limits: { fileSize: 5 * 1024 * 1024 }, // 5MB limit
+  fileFilter: (req, file, cb) => {
+    const allowedTypes = /jpeg|jpg|png|gif|webp/;
+    const extname = allowedTypes.test(path.extname(file.originalname).toLowerCase());
+    const mimetype = allowedTypes.test(file.mimetype);
+    
+    if (extname && mimetype) {
+      return cb(null, true);
+    } else {
+      cb(new Error('Only image files are allowed!'));
+    }
+  }
+});
 
 export async function registerRoutes(app: Express): Promise<Server> {
   // Create a new user profile
@@ -60,6 +95,97 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.json(users);
     } catch (error) {
       res.status(500).json({ error: "Failed to fetch users" });
+    }
+  });
+
+  // Upload profile images (up to 6)
+  app.post("/api/users/:id/images", upload.single('image'), async (req, res) => {
+    try {
+      const userId = req.params.id;
+      
+      if (!req.file) {
+        res.status(400).json({ error: "No image file provided" });
+        return;
+      }
+
+      // Get current user to check existing images
+      const user = await storage.getUser(userId);
+      if (!user) {
+        res.status(404).json({ error: "User not found" });
+        return;
+      }
+
+      const currentImages = (user.profileImages || []) as string[];
+      
+      // Check if already have 6 images
+      if (currentImages.length >= 6) {
+        // Delete the uploaded file since we can't use it
+        fs.unlinkSync(req.file.path);
+        res.status(400).json({ error: "Maximum 6 images allowed" });
+        return;
+      }
+
+      // Create image URL
+      const imageUrl = `/uploads/${req.file.filename}`;
+      const updatedImages = [...currentImages, imageUrl];
+
+      // Update user with new image URL
+      const updatedUser = await storage.updateUser(userId, {
+        profileImages: updatedImages as any
+      });
+
+      res.json({ 
+        imageUrl,
+        profileImages: updatedImages,
+        user: updatedUser 
+      });
+    } catch (error) {
+      console.error('Image upload error:', error);
+      res.status(500).json({ error: "Failed to upload image" });
+    }
+  });
+
+  // Delete a profile image
+  app.delete("/api/users/:id/images", async (req, res) => {
+    try {
+      const userId = req.params.id;
+      const { imageUrl } = req.body;
+
+      if (!imageUrl) {
+        res.status(400).json({ error: "Image URL required" });
+        return;
+      }
+
+      const user = await storage.getUser(userId);
+      if (!user) {
+        res.status(404).json({ error: "User not found" });
+        return;
+      }
+
+      const currentImages = (user.profileImages || []) as string[];
+      const updatedImages = currentImages.filter(img => img !== imageUrl);
+
+      // Delete the file from disk
+      const filename = imageUrl.split('/').pop();
+      if (filename) {
+        const filePath = path.join(uploadDir, filename);
+        if (fs.existsSync(filePath)) {
+          fs.unlinkSync(filePath);
+        }
+      }
+
+      // Update user
+      const updatedUser = await storage.updateUser(userId, {
+        profileImages: updatedImages as any
+      });
+
+      res.json({ 
+        profileImages: updatedImages,
+        user: updatedUser 
+      });
+    } catch (error) {
+      console.error('Image delete error:', error);
+      res.status(500).json({ error: "Failed to delete image" });
     }
   });
 
