@@ -15,7 +15,7 @@ export default function Profile() {
 
   return (
     <div className="min-h-screen bg-background flex flex-col">
-      <div className="max-w-md mx-auto h-screen w-full flex flex-col">
+      <div className="max-w-md mx-auto w-full flex flex-col pb-20">
         {/* Header */}
         <div className="p-4 border-b border-border bg-background flex justify-between items-center">
           <h2 className="text-2xl font-light text-foreground">Profile</h2>
@@ -29,7 +29,7 @@ export default function Profile() {
         </div>
 
         {/* Content */}
-        <div className="flex-1 overflow-y-auto p-4">
+        <div className="p-4">
           {/* Profile Header */}
           <div className="text-center mb-6">
             <Avatar className="w-24 h-24 mx-auto mb-3">
@@ -114,7 +114,7 @@ export default function Profile() {
         </div>
 
         {/* Bottom Navigation */}
-        <nav className="bg-background p-4 flex justify-around border-t border-border">
+        <nav className="bg-background p-4 flex justify-around border-t border-border fixed bottom-0 left-0 right-0 max-w-md mx-auto">
           <button
             data-testid="nav-discover"
             onClick={() => setLocation("/discover")}
