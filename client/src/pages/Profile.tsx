@@ -1,17 +1,20 @@
-import { Heart, MessageCircle, User, BookOpen, Settings, Shield, Award, Upload, X } from "lucide-react";
+import { Heart, MessageCircle, User, BookOpen, Settings, Shield, Award, Upload, X, UserCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { useLocation } from "wouter";
 import { useQuery, useMutation } from "@tanstack/react-query";
-import { queryClient } from "@/lib/queryClient";
+import { queryClient, apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 
 export default function Profile() {
   const [, setLocation] = useLocation();
   const { toast } = useToast();
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const [isEditingAttributes, setIsEditingAttributes] = useState(false);
   
   // Get data from sessionStorage (will be replaced with real user data)
   const userName = sessionStorage.getItem('userName') || "User";
@@ -20,6 +23,14 @@ export default function Profile() {
   const personalityType = "Caring Guide";
   const relationshipStyle = "Committed Partnership Builder";
 
+  // Physical attributes state
+  const [height, setHeight] = useState("");
+  const [eyeColor, setEyeColor] = useState("");
+  const [hairColor, setHairColor] = useState("");
+  const [nationality, setNationality] = useState("");
+  const [weight, setWeight] = useState("");
+  const [bodyShape, setBodyShape] = useState("");
+
   // Fetch user data including images
   const { data: userData } = useQuery({
     queryKey: ['/api/users', userId],
@@ -27,12 +38,61 @@ export default function Profile() {
       if (!userId) return null;
       const res = await fetch(`/api/users/${userId}`);
       if (!res.ok) throw new Error('Failed to fetch user');
-      return await res.json();
+      const data = await res.json();
+      // Initialize physical attributes from user data
+      setHeight(data.height || "");
+      setEyeColor(data.eyeColor || "");
+      setHairColor(data.hairColor || "");
+      setNationality(data.nationality || "");
+      setWeight(data.weight || "");
+      setBodyShape(data.bodyShape || "");
+      return data;
     },
     enabled: Boolean(userId)
   });
 
   const profileImages = (userData?.profileImages || []) as string[];
+
+  // Update attributes mutation
+  const updateAttributesMutation = useMutation({
+    mutationFn: async (attributes: {
+      height?: string;
+      eyeColor?: string;
+      hairColor?: string;
+      nationality?: string;
+      weight?: string;
+      bodyShape?: string;
+    }) => {
+      const res = await apiRequest('PATCH', `/api/users/${userId}`, attributes);
+      return await res.json();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['/api/users', userId] });
+      setIsEditingAttributes(false);
+      toast({
+        title: "Success",
+        description: "Physical attributes updated successfully"
+      });
+    },
+    onError: () => {
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: "Failed to update attributes"
+      });
+    }
+  });
+
+  const handleSaveAttributes = () => {
+    updateAttributesMutation.mutate({
+      height,
+      eyeColor,
+      hairColor,
+      nationality,
+      weight,
+      bodyShape
+    });
+  };
 
   // Upload mutation
   const uploadMutation = useMutation({
@@ -272,6 +332,163 @@ export default function Profile() {
                 </span>
               </div>
             </div>
+          </Card>
+
+          {/* Physical Attributes */}
+          <Card className="p-4 mb-4">
+            <div className="flex items-center justify-between mb-3">
+              <div className="flex items-center gap-2">
+                <UserCircle className="w-5 h-5 text-primary" />
+                <h4 className="font-medium text-foreground">Physical Attributes</h4>
+              </div>
+              {!isEditingAttributes && (
+                <Button
+                  data-testid="button-edit-attributes"
+                  onClick={() => setIsEditingAttributes(true)}
+                  variant="ghost"
+                  size="sm"
+                >
+                  Edit
+                </Button>
+              )}
+            </div>
+            
+            {isEditingAttributes ? (
+              <div className="space-y-3">
+                <div>
+                  <Label htmlFor="height" className="text-sm text-muted-foreground">Height</Label>
+                  <Input
+                    id="height"
+                    data-testid="input-height"
+                    value={height}
+                    onChange={(e) => setHeight(e.target.value)}
+                    placeholder="e.g., 5'10&quot; or 178cm"
+                    className="rounded-xl"
+                  />
+                </div>
+                <div>
+                  <Label htmlFor="weight" className="text-sm text-muted-foreground">Weight</Label>
+                  <Input
+                    id="weight"
+                    data-testid="input-weight"
+                    value={weight}
+                    onChange={(e) => setWeight(e.target.value)}
+                    placeholder="e.g., 170 lbs or 77 kg"
+                    className="rounded-xl"
+                  />
+                </div>
+                <div>
+                  <Label htmlFor="bodyShape" className="text-sm text-muted-foreground">Body Shape</Label>
+                  <Input
+                    id="bodyShape"
+                    data-testid="input-body-shape"
+                    value={bodyShape}
+                    onChange={(e) => setBodyShape(e.target.value)}
+                    placeholder="e.g., Athletic, Curvy, Slim"
+                    className="rounded-xl"
+                  />
+                </div>
+                <div>
+                  <Label htmlFor="eyeColor" className="text-sm text-muted-foreground">Eye Color</Label>
+                  <Input
+                    id="eyeColor"
+                    data-testid="input-eye-color"
+                    value={eyeColor}
+                    onChange={(e) => setEyeColor(e.target.value)}
+                    placeholder="e.g., Brown, Blue, Green"
+                    className="rounded-xl"
+                  />
+                </div>
+                <div>
+                  <Label htmlFor="hairColor" className="text-sm text-muted-foreground">Hair Color</Label>
+                  <Input
+                    id="hairColor"
+                    data-testid="input-hair-color"
+                    value={hairColor}
+                    onChange={(e) => setHairColor(e.target.value)}
+                    placeholder="e.g., Blonde, Black, Brown"
+                    className="rounded-xl"
+                  />
+                </div>
+                <div>
+                  <Label htmlFor="nationality" className="text-sm text-muted-foreground">Nationality</Label>
+                  <Input
+                    id="nationality"
+                    data-testid="input-nationality"
+                    value={nationality}
+                    onChange={(e) => setNationality(e.target.value)}
+                    placeholder="e.g., American, British"
+                    className="rounded-xl"
+                  />
+                </div>
+                <div className="flex gap-2 pt-2">
+                  <Button
+                    data-testid="button-save-attributes"
+                    onClick={handleSaveAttributes}
+                    disabled={updateAttributesMutation.isPending}
+                    className="flex-1 rounded-full bg-red-500 hover:bg-black text-white transition-colors"
+                  >
+                    {updateAttributesMutation.isPending ? 'Saving...' : 'Save'}
+                  </Button>
+                  <Button
+                    data-testid="button-cancel-attributes"
+                    onClick={() => {
+                      setIsEditingAttributes(false);
+                      // Reset to original values
+                      setHeight(userData?.height || "");
+                      setEyeColor(userData?.eyeColor || "");
+                      setHairColor(userData?.hairColor || "");
+                      setNationality(userData?.nationality || "");
+                      setWeight(userData?.weight || "");
+                      setBodyShape(userData?.bodyShape || "");
+                    }}
+                    variant="outline"
+                    className="flex-1 rounded-full"
+                  >
+                    Cancel
+                  </Button>
+                </div>
+              </div>
+            ) : (
+              <div className="space-y-2 text-sm">
+                <div className="flex justify-between">
+                  <span className="text-muted-foreground">Height</span>
+                  <span className="font-medium text-foreground" data-testid="text-height">
+                    {height || 'Not set'}
+                  </span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-muted-foreground">Weight</span>
+                  <span className="font-medium text-foreground" data-testid="text-weight">
+                    {weight || 'Not set'}
+                  </span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-muted-foreground">Body Shape</span>
+                  <span className="font-medium text-foreground" data-testid="text-body-shape">
+                    {bodyShape || 'Not set'}
+                  </span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-muted-foreground">Eye Color</span>
+                  <span className="font-medium text-foreground" data-testid="text-eye-color">
+                    {eyeColor || 'Not set'}
+                  </span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-muted-foreground">Hair Color</span>
+                  <span className="font-medium text-foreground" data-testid="text-hair-color">
+                    {hairColor || 'Not set'}
+                  </span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-muted-foreground">Nationality</span>
+                  <span className="font-medium text-foreground" data-testid="text-nationality">
+                    {nationality || 'Not set'}
+                  </span>
+                </div>
+              </div>
+            )}
           </Card>
 
           {/* Stats */}

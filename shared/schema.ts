@@ -19,6 +19,13 @@ export const users = pgTable("users", {
   personalityAnswers: jsonb("personality_answers"),
   relationshipAnswers: jsonb("relationship_answers"),
   profileImages: jsonb("profile_images").$type<string[]>().default(sql`'[]'::jsonb`), // Array of image URLs (max 6)
+  // Physical attributes
+  height: text("height"),
+  eyeColor: text("eye_color"),
+  hairColor: text("hair_color"),
+  nationality: text("nationality"),
+  weight: text("weight"),
+  bodyShape: text("body_shape"),
   createdAt: timestamp("created_at").defaultNow(),
 });
 
