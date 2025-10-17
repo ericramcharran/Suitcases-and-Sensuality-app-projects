@@ -1,0 +1,611 @@
+import React, { useState } from 'react';
+import { Heart, MessageCircle, Settings, User, Camera, MapPin, Shield, CreditCard, Lock, X, Check, ChevronLeft, BookOpen, Award, Play } from 'lucide-react';
+
+const App = () => {
+  const [screen, setScreen] = useState('landing');
+  const [profile, setProfile] = useState({ name: '', role: '', verified: false, escrowBalance: 0, personalityType: '', relationshipStyle: '' });
+  const [agreed, setAgreed] = useState({ terms: false, consent: false, privacy: false, guidelines: false });
+  const [plan, setPlan] = useState('');
+  const [currentQuestion, setCurrentQuestion] = useState(0);
+  const [testAnswers, setTestAnswers] = useState({});
+
+  const Logo = () => (
+    <div className="w-20 h-20 relative">
+      <div className="absolute inset-0 bg-gradient-to-br from-gray-900 to-gray-700 rounded-full"></div>
+      <div className="absolute inset-0 rounded-full border-4 border-rose-500"></div>
+      <div className="absolute inset-0 flex items-center justify-center">
+        <svg className="w-10 h-10 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+          <circle cx="12" cy="12" r="10" />
+          <path d="M12 6v12M6 12h12" strokeLinecap="round" />
+        </svg>
+      </div>
+    </div>
+  );
+
+  const Landing = () => (
+    <div className="min-h-screen bg-white p-6 flex flex-col justify-center items-center">
+      <div className="mb-6"><Logo /></div>
+      <h1 className="text-5xl font-light mb-3 text-gray-900">The Executive Society</h1>
+      <p className="text-gray-500 text-lg mb-12">Where Power Meets Passion</p>
+      <p className="text-gray-600 mb-8 max-w-md text-center">A safe space for authentic BDSM connections. Match, learn, and grow together.</p>
+      <div className="space-y-4 w-full max-w-sm">
+        <button onClick={() => setScreen('age')} className="w-full bg-gray-900 hover:bg-gray-800 text-white py-4 px-8 rounded-full transition">Get Started</button>
+        <button onClick={() => setScreen('discover')} className="w-full bg-white hover:bg-gray-50 text-gray-900 py-4 px-8 rounded-full border-2 border-gray-900 transition">Sign In</button>
+      </div>
+      <div className="text-center text-sm text-gray-400 mt-12 flex items-center gap-2">
+        <Shield className="w-4 h-4" />21+ Only · Safe · Consensual · Private
+      </div>
+    </div>
+  );
+
+  const Age = () => (
+    <div className="min-h-screen bg-gray-50 p-6">
+      <button onClick={() => setScreen('landing')} className="mb-6 text-gray-500 flex items-center"><ChevronLeft className="w-5 h-5" /> Back</button>
+      <div className="max-w-md mx-auto">
+        <div className="w-16 h-16 mx-auto mb-6 bg-rose-500 rounded-full flex items-center justify-center"><Shield className="w-8 h-8 text-white" /></div>
+        <h2 className="text-3xl font-light mb-4 text-center">Age Verification</h2>
+        <p className="text-gray-600 mb-8 text-center">You must be 21+ to continue</p>
+        <div className="bg-white rounded-2xl p-8 mb-6 shadow-sm">
+          <div className="border-2 border-dashed border-gray-200 rounded-xl p-8 text-center mb-6 hover:border-rose-400 cursor-pointer">
+            <Camera className="w-12 h-12 mx-auto mb-2 text-gray-400" />
+            <p className="text-sm">Upload ID</p>
+          </div>
+          <button onClick={() => { setProfile({...profile, verified: true}); setScreen('terms'); }} className="w-full bg-gray-900 text-white py-3 rounded-full">Verify Identity</button>
+        </div>
+      </div>
+    </div>
+  );
+
+  const Terms = () => (
+    <div className="min-h-screen bg-gray-50 p-6">
+      <div className="max-w-2xl mx-auto">
+        <h2 className="text-3xl font-light mb-6">Terms of Service</h2>
+        <div className="bg-white rounded-2xl p-6 mb-6 max-h-96 overflow-y-auto shadow-sm">
+          <div className="space-y-4 text-sm text-gray-600">
+            {[
+              { t: '1. Acceptance of Terms', c: 'By accessing and using The Executive Society, you accept and agree to be bound by these Terms of Service.' },
+              { t: '2. Eligibility', c: 'You must be at least 21 years of age. All information provided must be accurate.' },
+              { t: '3. User Conduct', c: 'Use responsibly and respectfully. Harassment, abuse, non-consensual behavior, hate speech, or illegal activities are prohibited.' },
+              { t: '4. Content Standards', c: 'All content must comply with applicable laws. No illegal, defamatory, or threatening content.' },
+              { t: '5. Account Security', c: 'You are responsible for maintaining account credentials confidentiality.' },
+              { t: '6. Limitation of Liability', c: 'The Executive Society is a platform for connection. Users engage at their own risk.' },
+              { t: '7. Termination', c: 'We reserve the right to suspend or terminate accounts that violate these terms.' },
+              { t: '8. Changes to Terms', c: 'We may update these terms. Continued use constitutes acceptance.' }
+            ].map((item, i) => (
+              <div key={i}><h3 className="font-medium text-gray-900 mb-2">{item.t}</h3><p>{item.c}</p></div>
+            ))}
+          </div>
+        </div>
+        <div className="flex items-start mb-6 bg-white rounded-xl p-4 shadow-sm">
+          <input type="checkbox" checked={agreed.terms} onChange={(e) => setAgreed({...agreed, terms: e.target.checked})} className="mt-1 mr-3 w-5 h-5" />
+          <label className="text-sm text-gray-600">I have read and agree to the Terms of Service</label>
+        </div>
+        <button onClick={() => setScreen('consent')} disabled={!agreed.terms} className="w-full bg-gray-900 hover:bg-gray-800 disabled:bg-gray-300 text-white py-3 rounded-full">Continue</button>
+      </div>
+    </div>
+  );
+
+  const Consent = () => (
+    <div className="min-h-screen bg-gray-50 p-6">
+      <button onClick={() => setScreen('terms')} className="mb-6 text-gray-500 flex items-center"><ChevronLeft className="w-5 h-5" /> Back</button>
+      <div className="max-w-2xl mx-auto">
+        <h2 className="text-3xl font-light mb-6">Consent and Safety Agreement</h2>
+        <div className="bg-white rounded-2xl p-6 mb-6 max-h-96 overflow-y-auto shadow-sm">
+          <div className="space-y-4 text-sm text-gray-600">
+            <div><h3 className="font-medium text-gray-900 mb-2">Understanding Consent</h3><p>Consent is the cornerstone of all BDSM activities.</p></div>
+            {[
+              { t: '1. Informed Consent', c: 'All activities require clear, informed, and enthusiastic consent from all parties.' },
+              { t: '2. Ongoing Communication', c: 'Consent is not one-time. It requires ongoing communication and can be withdrawn anytime.' },
+              { t: '3. Negotiation and Boundaries', c: 'Negotiate boundaries, limits, and safe words before any activities.' },
+              { t: '4. Personal Responsibility', c: 'You are solely responsible for your own safety and decisions.' },
+              { t: '5. Risk Awareness', c: 'BDSM carries inherent risks. Educate yourself and take appropriate precautions.' },
+              { t: '6. Meeting Safety', c: 'Meet in public first, inform trusted person, maintain own transportation, trust instincts.' },
+              { t: '7. Reporting Violations', c: 'Report any non-consensual behavior or violations immediately.' }
+            ].map((item, i) => (
+              <div key={i}><h3 className="font-medium text-gray-900 mb-2">{item.t}</h3><p>{item.c}</p></div>
+            ))}
+            <div className="bg-gray-50 rounded-xl p-4 border border-gray-200">
+              <p className="font-medium text-gray-900 mb-2">Your Commitment:</p>
+              <p>I understand consent is mandatory, ongoing, and revocable. I commit to practicing safe, consensual interactions.</p>
+            </div>
+          </div>
+        </div>
+        <div className="flex items-start mb-6 bg-white rounded-xl p-4 shadow-sm">
+          <input type="checkbox" checked={agreed.consent} onChange={(e) => setAgreed({...agreed, consent: e.target.checked})} className="mt-1 mr-3 w-5 h-5" />
+          <label className="text-sm text-gray-600">I agree to follow these consent principles and safety guidelines</label>
+        </div>
+        <button onClick={() => setScreen('privacy')} disabled={!agreed.consent} className="w-full bg-gray-900 hover:bg-gray-800 disabled:bg-gray-300 text-white py-3 rounded-full">Continue</button>
+      </div>
+    </div>
+  );
+
+  const Privacy = () => (
+    <div className="min-h-screen bg-gray-50 p-6">
+      <button onClick={() => setScreen('consent')} className="mb-6 text-gray-500 flex items-center"><ChevronLeft className="w-5 h-5" /> Back</button>
+      <div className="max-w-2xl mx-auto">
+        <h2 className="text-3xl font-light mb-6">Privacy Policy and Data Security</h2>
+        <div className="bg-white rounded-2xl p-6 mb-6 max-h-96 overflow-y-auto shadow-sm">
+          <div className="space-y-4 text-sm text-gray-600">
+            <div><h3 className="font-medium text-gray-900 mb-2">Your Privacy Matters</h3><p>We protect your privacy and maintain security of your personal information.</p></div>
+            {[
+              { t: '1. Information We Collect', c: 'Account info, profile data, location (approximate), usage data, payment info (via secure third parties).' },
+              { t: '2. How We Use Information', c: 'Provide matching services, improve features, ensure safety, process payments, communicate updates.' },
+              { t: '3. Data Security', c: 'End-to-end encryption, SSL connections, encrypted storage, regular audits, 2FA options.' },
+              { t: '4. Information Sharing', c: 'We do NOT sell data. Shared only with: users (what you choose), processors (under contract), law enforcement (when required).' },
+              { t: '5. Your Privacy Rights', c: 'Access data, request corrections, delete account, opt-out, download information.' },
+              { t: '6. Location Privacy', c: 'Approximate distance only. Never exact location. Encrypted and can be disabled.' },
+              { t: '7. Data Retention', c: 'Active data retained while account exists. Deleted within 30 days of account deletion.' },
+              { t: '8. GDPR and CCPA Compliance', c: 'We comply with GDPR and CCPA regulations. Enhanced rights under these laws.' },
+              { t: '9. Cookies', c: 'Essential cookies for functionality, analytics cookies with consent.' }
+            ].map((item, i) => (
+              <div key={i}><h3 className="font-medium text-gray-900 mb-2">{item.t}</h3><p>{item.c}</p></div>
+            ))}
+          </div>
+        </div>
+        <div className="flex items-start mb-6 bg-white rounded-xl p-4 shadow-sm">
+          <input type="checkbox" checked={agreed.privacy} onChange={(e) => setAgreed({...agreed, privacy: e.target.checked})} className="mt-1 mr-3 w-5 h-5" />
+          <label className="text-sm text-gray-600">I understand the Privacy Policy and how my data will be used</label>
+        </div>
+        <button onClick={() => setScreen('guidelines')} disabled={!agreed.privacy} className="w-full bg-gray-900 hover:bg-gray-800 disabled:bg-gray-300 text-white py-3 rounded-full">Continue</button>
+      </div>
+    </div>
+  );
+
+  const Guidelines = () => (
+    <div className="min-h-screen bg-gray-50 p-6">
+      <button onClick={() => setScreen('privacy')} className="mb-6 text-gray-500 flex items-center"><ChevronLeft className="w-5 h-5" /> Back</button>
+      <div className="max-w-2xl mx-auto">
+        <h2 className="text-3xl font-light mb-6">Community Guidelines</h2>
+        <div className="bg-white rounded-2xl p-6 mb-6 max-h-96 overflow-y-auto shadow-sm">
+          <div className="space-y-4 text-sm text-gray-600">
+            <div><h3 className="font-medium text-gray-900 mb-2">Our Community Values</h3><p>Built on respect, consent, and safety.</p></div>
+            {[
+              { t: '1. Respect', d: 'Treat all with dignity', x: 'No insults outside scenes' },
+              { t: '2. Consent', d: 'Obtain clear consent always', x: 'No pressure or coercion' },
+              { t: '3. Honesty', d: 'Be truthful about experience', x: 'No catfishing or lying' },
+              { t: '4. Privacy', d: 'Keep conversations confidential', x: 'No screenshots or outing' },
+              { t: '5. Safety', d: 'Prioritize wellbeing', x: 'No unsafe practices' },
+              { t: '6. No Harassment', d: 'Accept rejection gracefully', x: 'No stalking or spam' },
+              { t: '7. Inclusive', d: 'Welcome all identities', x: 'No discrimination or hate' },
+              { t: '8. Appropriate Content', d: 'Keep it legal', x: 'No illegal or extreme content' },
+              { t: '9. No Solicitation', d: 'Build genuine connections', x: 'No commercial promotion' },
+              { t: '10. Report Issues', d: 'Help maintain safety', x: 'Do not ignore red flags' }
+            ].map((item, i) => (
+              <div key={i}><h3 className="font-medium text-gray-900 mb-1">{item.t}</h3><p className="text-green-600 text-xs">DO: {item.d}</p><p className="text-red-600 text-xs">DON'T: {item.x}</p></div>
+            ))}
+            <div className="bg-red-50 rounded-xl p-4 border border-red-200">
+              <h4 className="font-medium text-red-900 mb-2">Zero Tolerance</h4>
+              <p className="text-red-700 text-xs">Non-consent, harassment, hate speech, illegal activity, minors, threats, doxxing.</p>
+            </div>
+            <div className="bg-blue-50 rounded-xl p-4 border border-blue-200">
+              <h4 className="font-medium text-blue-900 mb-2">Emergency Resources</h4>
+              <p className="text-blue-700 text-xs">Sexual Assault: 1-800-656-4673 | Domestic Violence: 1-800-799-7233 | Crisis: Text HOME to 741741</p>
+            </div>
+          </div>
+        </div>
+        <div className="flex items-start mb-6 bg-white rounded-xl p-4 shadow-sm">
+          <input type="checkbox" checked={agreed.guidelines} onChange={(e) => setAgreed({...agreed, guidelines: e.target.checked})} className="mt-1 mr-3 w-5 h-5" />
+          <label className="text-sm text-gray-600">I agree to follow Community Guidelines</label>
+        </div>
+        <button onClick={() => setScreen('signup')} disabled={!agreed.guidelines} className="w-full bg-gray-900 hover:bg-gray-800 disabled:bg-gray-300 text-white py-3 rounded-full">Continue</button>
+      </div>
+    </div>
+  );
+
+  const Signup = () => (
+    <div className="min-h-screen bg-gray-50 p-6">
+      <button onClick={() => setScreen('guidelines')} className="mb-6 text-gray-500 flex items-center"><ChevronLeft className="w-5 h-5" /> Back</button>
+      <div className="max-w-md mx-auto">
+        <h2 className="text-3xl font-light mb-6">Create Profile</h2>
+        <div className="space-y-4">
+          <div><label className="block text-sm mb-2 text-gray-700">Name</label><input type="text" placeholder="Your name" className="w-full bg-white border border-gray-200 rounded-xl p-3" value={profile.name} onChange={(e) => setProfile({...profile, name: e.target.value})} /></div>
+          <div><label className="block text-sm mb-2 text-gray-700">Role</label><select className="w-full bg-white border border-gray-200 rounded-xl p-3" value={profile.role} onChange={(e) => setProfile({...profile, role: e.target.value})}><option value="">Select role</option><option value="Dominant">Dominant/Master</option><option value="Submissive">Submissive</option><option value="Switch">Switch</option></select></div>
+          <button onClick={() => setScreen('personalityTest')} className="w-full bg-gray-900 text-white py-3 rounded-full">Continue</button>
+        </div>
+      </div>
+    </div>
+  );
+
+  const personalityQuestions = [
+    // Emotional Intelligence Test (5 questions)
+    { category: "Emotional Intelligence", q: "When someone close to you is upset, how do you typically respond?", opts: ["I instinctively sense their emotions and respond appropriately", "I ask them directly what they're feeling", "I try to solve the problem causing the upset", "I give them space until they're ready to talk"] },
+    { category: "Emotional Intelligence", q: "How well can you identify your own emotions in the moment?", opts: ["I'm very aware of my emotions as they arise", "I recognize them with some reflection", "I often realize my emotions after the fact", "I struggle to identify what I'm feeling"] },
+    { category: "Emotional Intelligence", q: "When you make a mistake that affects others, you:", opts: ["Acknowledge it immediately and take responsibility", "Apologize but explain the circumstances", "Feel defensive and need time to process", "Focus on fixing it rather than discussing feelings"] },
+    { category: "Emotional Intelligence", q: "How do you handle your emotions during conflict?", opts: ["I stay calm and can regulate my responses", "I feel strong emotions but can mostly manage them", "My emotions sometimes overwhelm my logic", "I tend to shut down emotionally"] },
+    { category: "Emotional Intelligence", q: "You can usually tell how someone is feeling by:", opts: ["Their body language and subtle cues", "Their tone of voice and facial expressions", "What they explicitly tell you", "You often miss emotional signals"] },
+    
+    // Ethics Test (4 questions)
+    { category: "Ethics", q: "You discover a friend has lied to their partner about something important. You:", opts: ["Encourage them to tell the truth, it's always right", "Consider the situation context before judging", "Stay out of it, it's not my place", "Support my friend regardless of the choice"] },
+    { category: "Ethics", q: "In a D/s dynamic, ethical behavior means:", opts: ["Absolute honesty even when it's difficult", "Honesty balanced with compassion", "Protecting your partner's feelings first", "Following agreed-upon protocols"] },
+    { category: "Ethics", q: "If you witnessed consent being violated at an event, you would:", opts: ["Intervene immediately regardless of consequences", "Report it to event organizers", "Check with the person if they need help", "I'm not sure what I would do"] },
+    { category: "Ethics", q: "Your approach to keeping promises is:", opts: ["I never make promises I can't keep", "I do my absolute best to honor commitments", "Sometimes circumstances change my ability", "I'm more flexible with commitments"] },
+    
+    // Sensuality Test (4 questions)
+    { category: "Sensuality", q: "Physical touch in relationships is:", opts: ["Essential to how I connect and communicate", "Very important but not everything", "Nice to have but not necessary", "Less important than other forms of connection"] },
+    { category: "Sensuality", q: "You experience sensual pleasure through:", opts: ["All five senses equally and intensely", "Primarily touch and physical sensation", "Visual and auditory stimulation", "Emotional and mental connection"] },
+    { category: "Sensuality", q: "In intimate moments, you are most focused on:", opts: ["The physical sensations and present moment", "The emotional connection with your partner", "The psychological power dynamic", "A balance of physical and emotional"] },
+    { category: "Sensuality", q: "Sensual experiences outside the bedroom (massage, food, music) are:", opts: ["Just as important as sexual intimacy", "A nice addition to our dynamic", "Occasionally enjoyable", "Not really my focus"] },
+    
+    // Emotional Stability Test (4 questions)
+    { category: "Emotional Stability", q: "When facing unexpected stress, you:", opts: ["Stay calm and adapt quickly", "Feel stressed but recover relatively fast", "Need time to process and adjust", "Feel overwhelmed and need significant support"] },
+    { category: "Emotional Stability", q: "Your mood throughout a typical day is:", opts: ["Very consistent and stable", "Generally stable with minor fluctuations", "Varies based on circumstances", "Changes frequently"] },
+    { category: "Emotional Stability", q: "After a challenging scene or intense experience, you:", opts: ["Return to baseline quickly with proper aftercare", "Need some time but recover well", "May feel emotionally impacted for a while", "Can struggle with emotional processing"] },
+    { category: "Emotional Stability", q: "How do you handle criticism or feedback?", opts: ["I receive it calmly and consider it objectively", "I feel defensive initially but can process it", "Criticism affects me significantly", "I have difficulty with critical feedback"] },
+    
+    // D/s Compatibility Test (3 questions)
+    { category: "D/s Dynamics", q: "In a power exchange relationship, you value most:", opts: ["Deep trust and mutual respect", "Clear structure and protocols", "Emotional intimacy and vulnerability", "Growth and exploration together"] },
+    { category: "D/s Dynamics", q: "Your ideal dynamic involves:", opts: ["Constant conscious negotiation and communication", "Established protocols with regular check-ins", "Intuitive reading of each other's needs", "Structured rules with flexibility"] },
+    { category: "D/s Dynamics", q: "The most important quality in a partner is:", opts: ["Trustworthiness and integrity", "Emotional intelligence and empathy", "Consistency and reliability", "Openness and willingness to grow"] }
+  ];
+
+  const PersonalityTest = () => {
+    const q = personalityQuestions[currentQuestion];
+    const prog = ((currentQuestion + 1) / personalityQuestions.length) * 100;
+    
+    const handleAnswer = (answer) => {
+      setTestAnswers({...testAnswers, [currentQuestion]: answer});
+      if (currentQuestion < personalityQuestions.length - 1) {
+        setCurrentQuestion(currentQuestion + 1);
+      } else {
+        setProfile({...profile, personalityType: 'Caring Guide'});
+        setCurrentQuestion(0);
+        setTestAnswers({});
+        setScreen('personalityResult');
+      }
+    };
+
+    return (
+      <div className="min-h-screen bg-gray-50 p-6">
+        <div className="max-w-md mx-auto">
+          <div className="mb-6">
+            <div className="flex justify-between items-center mb-2">
+              <h2 className="text-xl font-light text-gray-900">Personality Assessment</h2>
+              <span className="text-sm text-gray-500">{currentQuestion + 1} of {personalityQuestions.length}</span>
+            </div>
+            <div className="w-full bg-gray-200 rounded-full h-2">
+              <div className="bg-rose-500 h-2 rounded-full transition-all" style={{width: `${prog}%`}}></div>
+            </div>
+          </div>
+          <div className="bg-white rounded-2xl p-6 mb-6 shadow-sm">
+            <h3 className="text-2xl font-light mb-6 text-gray-900">{q.q}</h3>
+            <div className="space-y-3">
+              {q.opts.map((opt, i) => (
+                <button key={i} onClick={() => handleAnswer(opt)} className="w-full bg-gray-50 hover:bg-gray-100 text-left p-4 rounded-xl transition text-gray-900 border border-gray-200">
+                  {opt}
+                </button>
+              ))}
+            </div>
+          </div>
+          {currentQuestion > 0 && (
+            <button onClick={() => setCurrentQuestion(currentQuestion - 1)} className="text-gray-500 flex items-center hover:text-gray-900">
+              <ChevronLeft className="w-5 h-5" /> Previous
+            </button>
+          )}
+        </div>
+      </div>
+    );
+  };
+
+  const PersonalityResult = () => (
+    <div className="min-h-screen bg-gray-50 p-6">
+      <div className="max-w-md mx-auto">
+        <div className="w-20 h-20 mx-auto mb-6 bg-rose-500 rounded-full flex items-center justify-center">
+          <Award className="w-10 h-10 text-white" />
+        </div>
+        <h2 className="text-3xl font-light mb-2 text-center text-gray-900">Your Comprehensive Profile</h2>
+        <h3 className="text-2xl text-rose-500 mb-6 text-center">{profile.personalityType}</h3>
+        
+        <div className="bg-white rounded-2xl p-6 mb-4 shadow-sm">
+          <h4 className="font-medium mb-3 text-gray-900">Overall Assessment</h4>
+          <p className="text-gray-600 mb-4">As a Caring Guide, you demonstrate high emotional intelligence, strong ethical values, balanced sensuality, and stable emotional regulation. You're well-suited for deep, meaningful power exchange relationships.</p>
+        </div>
+
+        <div className="bg-white rounded-2xl p-6 mb-4 shadow-sm">
+          <h4 className="font-medium mb-3 text-gray-900">Your Scores by Category</h4>
+          <div className="space-y-3">
+            <div>
+              <div className="flex justify-between mb-1">
+                <span className="text-sm text-gray-600">Emotional Intelligence</span>
+                <span className="text-sm font-medium text-gray-900">92%</span>
+              </div>
+              <div className="w-full bg-gray-200 rounded-full h-2">
+                <div className="bg-rose-500 h-2 rounded-full" style={{width: '92%'}}></div>
+              </div>
+            </div>
+            <div>
+              <div className="flex justify-between mb-1">
+                <span className="text-sm text-gray-600">Ethical Alignment</span>
+                <span className="text-sm font-medium text-gray-900">88%</span>
+              </div>
+              <div className="w-full bg-gray-200 rounded-full h-2">
+                <div className="bg-rose-500 h-2 rounded-full" style={{width: '88%'}}></div>
+              </div>
+            </div>
+            <div>
+              <div className="flex justify-between mb-1">
+                <span className="text-sm text-gray-600">Sensuality</span>
+                <span className="text-sm font-medium text-gray-900">85%</span>
+              </div>
+              <div className="w-full bg-gray-200 rounded-full h-2">
+                <div className="bg-rose-500 h-2 rounded-full" style={{width: '85%'}}></div>
+              </div>
+            </div>
+            <div>
+              <div className="flex justify-between mb-1">
+                <span className="text-sm text-gray-600">Emotional Stability</span>
+                <span className="text-sm font-medium text-gray-900">90%</span>
+              </div>
+              <div className="w-full bg-gray-200 rounded-full h-2">
+                <div className="bg-rose-500 h-2 rounded-full" style={{width: '90%'}}></div>
+              </div>
+            </div>
+            <div>
+              <div className="flex justify-between mb-1">
+                <span className="text-sm text-gray-600">D/s Compatibility</span>
+                <span className="text-sm font-medium text-gray-900">94%</span>
+              </div>
+              <div className="w-full bg-gray-200 rounded-full h-2">
+                <div className="bg-rose-500 h-2 rounded-full" style={{width: '94%'}}></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="bg-white rounded-2xl p-6 mb-4 shadow-sm">
+          <h4 className="font-medium mb-3 text-gray-900">Key Strengths</h4>
+          <ul className="space-y-2 text-sm text-gray-600">
+            <li className="flex items-start"><Check className="w-4 h-4 mr-2 text-green-500 flex-shrink-0 mt-1" /><span>Highly attuned to partner emotions and needs</span></li>
+            <li className="flex items-start"><Check className="w-4 h-4 mr-2 text-green-500 flex-shrink-0 mt-1" /><span>Strong ethical framework and integrity</span></li>
+            <li className="flex items-start"><Check className="w-4 h-4 mr-2 text-green-500 flex-shrink-0 mt-1" /><span>Balanced approach to sensuality and intimacy</span></li>
+            <li className="flex items-start"><Check className="w-4 h-4 mr-2 text-green-500 flex-shrink-0 mt-1" /><span>Emotionally stable and self-regulated</span></li>
+          </ul>
+        </div>
+
+        <div className="bg-white rounded-2xl p-6 mb-6 shadow-sm">
+          <h4 className="font-medium mb-3 text-gray-900">Best Matches</h4>
+          <ul className="space-y-2 text-sm text-gray-600">
+            <li className="flex items-start"><Heart className="w-4 h-4 mr-2 text-rose-500 flex-shrink-0 mt-1" /><span>Devoted Companion - 95% compatible</span></li>
+            <li className="flex items-start"><Heart className="w-4 h-4 mr-2 text-rose-500 flex-shrink-0 mt-1" /><span>Mindful Servant - 92% compatible</span></li>
+            <li className="flex items-start"><Heart className="w-4 h-4 mr-2 text-rose-500 flex-shrink-0 mt-1" /><span>Curious Explorer - 88% compatible</span></li>
+          </ul>
+        </div>
+
+        <div className="bg-blue-50 border border-blue-200 rounded-2xl p-4 mb-6">
+          <p className="text-sm text-blue-700">These comprehensive results will help us match you with highly compatible partners who share your values and approach.</p>
+        </div>
+        
+        <button onClick={() => setScreen('relationshipTest')} className="w-full bg-gray-900 hover:bg-gray-800 text-white py-3 rounded-full">Continue to Relationship Assessment</button>
+      </div>
+    </div>
+  );
+
+  const relationshipQuestions = [
+    { q: "What type of relationship are you seeking?", opts: ["Long-term committed partnership", "Casual exploration and dating", "Play partners and scenes", "Mentorship and training"] },
+    { q: "How do you prefer to structure your relationships?", opts: ["24/7 Total Power Exchange", "Part-time D/s dynamic", "Scene-based only", "Flexible and evolving"] },
+    { q: "What is your approach to exclusivity?", opts: ["Strictly monogamous", "Open to polyamory", "Multiple play partners", "Depends on the connection"] },
+    { q: "How important is lifestyle integration?", opts: ["Central to my daily life", "Important but balanced", "Separate from vanilla life", "Still exploring preferences"] },
+    { q: "What are your primary relationship goals?", opts: ["Deep emotional bond and partnership", "Skill development and growth", "Sexual exploration and pleasure", "Community and belonging"] },
+    { q: "How do you handle relationship challenges?", opts: ["Open discussion and negotiation", "Structured protocols and rules", "Taking breaks when needed", "Seeking community support"] }
+  ];
+
+  const RelationshipTest = () => {
+    const q = relationshipQuestions[currentQuestion];
+    const prog = ((currentQuestion + 1) / relationshipQuestions.length) * 100;
+    
+    const handleAnswer = (answer) => {
+      setTestAnswers({...testAnswers, [currentQuestion]: answer});
+      if (currentQuestion < relationshipQuestions.length - 1) {
+        setCurrentQuestion(currentQuestion + 1);
+      } else {
+        setProfile({...profile, relationshipStyle: 'Committed Partnership Builder'});
+        setCurrentQuestion(0);
+        setTestAnswers({});
+        setScreen('relationshipResult');
+      }
+    };
+
+    return (
+      <div className="min-h-screen bg-gray-50 p-6">
+        <div className="max-w-md mx-auto">
+          <div className="mb-6">
+            <div className="flex justify-between items-center mb-2">
+              <h2 className="text-xl font-light text-gray-900">Relationship Assessment</h2>
+              <span className="text-sm text-gray-500">{currentQuestion + 1} of {relationshipQuestions.length}</span>
+            </div>
+            <div className="w-full bg-gray-200 rounded-full h-2">
+              <div className="bg-rose-500 h-2 rounded-full transition-all" style={{width: `${prog}%`}}></div>
+            </div>
+          </div>
+          <div className="bg-white rounded-2xl p-6 mb-6 shadow-sm">
+            <h3 className="text-2xl font-light mb-6 text-gray-900">{q.q}</h3>
+            <div className="space-y-3">
+              {q.opts.map((opt, i) => (
+                <button key={i} onClick={() => handleAnswer(opt)} className="w-full bg-gray-50 hover:bg-gray-100 text-left p-4 rounded-xl transition text-gray-900 border border-gray-200">
+                  {opt}
+                </button>
+              ))}
+            </div>
+          </div>
+          {currentQuestion > 0 && (
+            <button onClick={() => setCurrentQuestion(currentQuestion - 1)} className="text-gray-500 flex items-center hover:text-gray-900">
+              <ChevronLeft className="w-5 h-5" /> Previous
+            </button>
+          )}
+        </div>
+      </div>
+    );
+  };
+
+  const RelationshipResult = () => (
+    <div className="min-h-screen bg-gray-50 p-6">
+      <div className="max-w-md mx-auto">
+        <div className="w-20 h-20 mx-auto mb-6 bg-rose-500 rounded-full flex items-center justify-center">
+          <Heart className="w-10 h-10 text-white" />
+        </div>
+        <h2 className="text-3xl font-light mb-2 text-center text-gray-900">Your Relationship Style</h2>
+        <h3 className="text-2xl text-rose-500 mb-6 text-center">{profile.relationshipStyle}</h3>
+        
+        <div className="bg-white rounded-2xl p-6 mb-6 shadow-sm">
+          <h4 className="font-medium mb-3 text-gray-900">Your Relationship Profile</h4>
+          <p className="text-gray-600 mb-4">As a Committed Partnership Builder, you seek deep, meaningful connections that integrate into your life. You value long-term compatibility, emotional intimacy, and building a life together with your partner within the power exchange dynamic.</p>
+          
+          <h4 className="font-medium mb-3 text-gray-900">What You're Looking For</h4>
+          <ul className="space-y-2 text-sm text-gray-600">
+            <li className="flex items-start"><Check className="w-4 h-4 mr-2 text-green-500 flex-shrink-0 mt-1" /><span>Partners seeking long-term commitment</span></li>
+            <li className="flex items-start"><Check className="w-4 h-4 mr-2 text-green-500 flex-shrink-0 mt-1" /><span>Deep emotional connection</span></li>
+            <li className="flex items-start"><Check className="w-4 h-4 mr-2 text-green-500 flex-shrink-0 mt-1" /><span>Lifestyle integration and growth</span></li>
+            <li className="flex items-start"><Check className="w-4 h-4 mr-2 text-green-500 flex-shrink-0 mt-1" /><span>Mutual support and partnership</span></li>
+          </ul>
+        </div>
+
+        <div className="bg-white rounded-2xl p-6 mb-6 shadow-sm">
+          <h4 className="font-medium mb-3 text-gray-900">Your Match Profile</h4>
+          <div className="space-y-3 text-sm">
+            <div className="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
+              <span className="text-gray-600">Personality Type</span>
+              <span className="font-medium text-gray-900">{profile.personalityType}</span>
+            </div>
+            <div className="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
+              <span className="text-gray-600">Relationship Style</span>
+              <span className="font-medium text-gray-900">{profile.relationshipStyle}</span>
+            </div>
+            <div className="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
+              <span className="text-gray-600">Role</span>
+              <span className="font-medium text-gray-900">{profile.role}</span>
+            </div>
+          </div>
+        </div>
+
+        <div className="bg-green-50 border border-green-200 rounded-2xl p-4 mb-6">
+          <p className="text-sm text-green-700 flex items-start">
+            <Check className="w-4 h-4 mr-2 flex-shrink-0 mt-0.5" />
+            <span>Your matching profile is complete! We'll use these results to find your most compatible matches.</span>
+          </p>
+        </div>
+        
+        <button onClick={() => setScreen('subscription')} className="w-full bg-gray-900 hover:bg-gray-800 text-white py-3 rounded-full">Continue to Subscription</button>
+      </div>
+    </div>
+  );
+
+  const Subscription = () => (
+    <div className="min-h-screen bg-gray-50 p-6">
+      <div className="max-w-md mx-auto">
+        <h2 className="text-3xl font-light mb-2">Choose Plan</h2>
+        <p className="text-gray-500 mb-6">30-day free trial</p>
+        {profile.role === 'Dominant' && (
+          <div className="bg-blue-50 border border-blue-200 rounded-2xl p-4 mb-6">
+            <h3 className="font-medium text-blue-900 mb-1">Dom Verification Required</h3>
+            <p className="text-sm text-blue-700">Escrow account setup required to match with submissives.</p>
+          </div>
+        )}
+        <div className="space-y-4 mb-6">
+          <div onClick={() => setPlan('trial')} className={`bg-white border-2 ${plan === 'trial' ? 'border-rose-500' : 'border-gray-200'} rounded-2xl p-6 cursor-pointer`}>
+            <h3 className="text-xl font-medium">Free Trial</h3>
+            <p className="text-3xl font-light text-rose-500 mt-2">Free</p>
+            <p className="text-sm text-gray-500">30 days</p>
+          </div>
+        </div>
+        <button onClick={() => profile.role === 'Dominant' ? setScreen('escrow') : setScreen('discover')} disabled={!plan} className="w-full bg-gray-900 hover:bg-gray-800 disabled:bg-gray-300 text-white py-3 rounded-full">Continue</button>
+      </div>
+    </div>
+  );
+
+  const Escrow = () => (
+    <div className="min-h-screen bg-gray-50 p-6">
+      <button onClick={() => setScreen('subscription')} className="mb-6 text-gray-500 flex items-center"><ChevronLeft className="w-5 h-5" /> Back</button>
+      <div className="max-w-md mx-auto">
+        <div className="w-16 h-16 mx-auto mb-6 bg-green-500 rounded-full flex items-center justify-center"><CreditCard className="w-8 h-8 text-white" /></div>
+        <h2 className="text-3xl font-light mb-4 text-center">Partner Escrow Account</h2>
+        <p className="text-gray-600 mb-8 text-center">Set up escrow to match with submissives</p>
+        
+        <div className="bg-white rounded-2xl p-6 mb-6 shadow-sm">
+          <h3 className="font-medium mb-4">How It Works</h3>
+          <div className="space-y-3 text-sm text-gray-600">
+            <div className="flex gap-3"><div className="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center flex-shrink-0 text-green-700 font-semibold">1</div><div><p className="font-medium text-gray-900">Initial Deposit</p><p>Deposit 1000 dollars minimum</p></div></div>
+            <div className="flex gap-3"><div className="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center flex-shrink-0 text-green-700 font-semibold">2</div><div><p className="font-medium text-gray-900">First Meeting</p><p>2000 dollars held in escrow</p></div></div>
+            <div className="flex gap-3"><div className="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center flex-shrink-0 text-green-700 font-semibold">3</div><div><p className="font-medium text-gray-900">Final Match</p><p>50000 dollars held in escrow transfers to submissive</p></div></div>
+          </div>
+        </div>
+
+        <div className="bg-rose-50 border border-rose-200 rounded-2xl p-4 mb-6">
+          <h3 className="font-medium text-rose-900 mb-2">Financial Structure</h3>
+          <div className="text-sm text-rose-700 space-y-2">
+            <div className="flex justify-between"><span>Initial deposit</span><span className="font-semibold">$1,000</span></div>
+            <div className="flex justify-between"><span>First meeting</span><span className="font-semibold">$2,000</span></div>
+            <div><p className="font-semibold">Final Match - $50,000 held in escrow to be transferred to submissive</p></div>
+          </div>
+        </div>
+
+        <div className="bg-blue-50 border border-blue-200 rounded-2xl p-4 mb-6">
+          <h3 className="font-medium text-blue-900 mb-2">Account Transfer</h3>
+          <p className="text-sm text-blue-700">Upon final match, entire escrow account transfers to submissive for their financial security.</p>
+        </div>
+
+        <button onClick={() => { setProfile({...profile, escrowBalance: 1000}); setScreen('discover'); }} className="w-full bg-gray-900 text-white py-3 rounded-full">Set Up Escrow</button>
+      </div>
+    </div>
+  );
+
+  const Discover = () => (
+    <div className="min-h-screen bg-white">
+      <div className="max-w-md mx-auto h-screen flex flex-col">
+        <div className="p-4 border-b flex justify-between items-center">
+          <h2 className="text-2xl font-light">Discover</h2>
+          <button onClick={() => setScreen('landing')} className="text-gray-600"><Settings className="w-6 h-6" /></button>
+        </div>
+        <div className="flex-1 p-4">
+          <div className="bg-white rounded-3xl h-full flex flex-col shadow-lg border">
+            <div className="bg-gradient-to-br from-rose-400 to-pink-500 h-64 flex items-center justify-center text-6xl relative">
+              👤
+              <div className="absolute top-4 right-4 bg-green-500 text-white text-xs px-3 py-1 rounded-full">95%</div>
+              {profile.role === 'Submissive' && (<div className="absolute top-4 left-4 bg-blue-500 text-white text-xs px-3 py-1 rounded-full flex items-center gap-1"><Shield className="w-3 h-3" />Verified Dom</div>)}
+            </div>
+            <div className="flex-1 p-6">
+              <h3 className="text-2xl font-light mb-1">Alex, 28</h3>
+              <p className="text-rose-500 mb-2">Submissive</p>
+              <p className="text-gray-500 text-sm mb-3 flex items-center"><MapPin className="w-4 h-4 mr-1" />2 miles away</p>
+              {profile.role === 'Submissive' && (
+                <div className="bg-blue-50 border border-blue-200 rounded-xl p-3 mb-3">
+                  <p className="text-xs text-blue-900 font-medium mb-1 flex items-center gap-1"><Shield className="w-3 h-3" />Escrow Protected</p>
+                  <p className="text-xs text-blue-700">This Dom has active escrow for your safety</p>
+                </div>
+              )}
+              <p className="text-gray-600">Exploring the lifestyle with respect and care</p>
+            </div>
+            <div className="p-6 flex justify-center gap-6">
+              <button className="bg-gray-100 rounded-full p-4"><X className="w-8 h-8 text-gray-600" /></button>
+              <button className="bg-rose-500 rounded-full p-4"><Heart className="w-8 h-8 text-white" /></button>
+            </div>
+          </div>
+        </div>
+        <nav className="bg-white p-4 flex justify-around border-t">
+          <button className="text-rose-500"><Heart className="w-6 h-6" /></button>
+          <button className="text-gray-400"><BookOpen className="w-6 h-6" /></button>
+          <button className="text-gray-400"><MessageCircle className="w-6 h-6" /></button>
+          <button className="text-gray-400"><User className="w-6 h-6" /></button>
+        </nav>
+      </div>
+    </div>
+  );
+
+  const screens = { 
+    landing: <Landing />, 
+    age: <Age />, 
+    terms: <Terms />, 
+    consent: <Consent />, 
+    privacy: <Privacy />, 
+    guidelines: <Guidelines />, 
+    signup: <Signup />, 
+    personalityTest: <PersonalityTest />,
+    personalityResult: <PersonalityResult />,
+    relationshipTest: <RelationshipTest />,
+    relationshipResult: <RelationshipResult />,
+    subscription: <Subscription />, 
+    escrow: <Escrow />, 
+    discover: <Discover /> 
+  };
+  return screens[screen] || <Landing />;
+};
+
+export default App;
