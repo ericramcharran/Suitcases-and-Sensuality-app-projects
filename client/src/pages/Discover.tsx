@@ -397,7 +397,7 @@ export default function Discover() {
               <svg width="0" height="0" style={{ position: 'absolute' }}>
                 <defs>
                   <clipPath id="wave-clip" clipPathUnits="objectBoundingBox">
-                    <path d="M 0,0 L 0,0.85 Q 0.25,0.95 0.5,0.85 T 1,0.85 L 1,0 Z" />
+                    <path d="M 0,0 L 0,0.95 Q 0.25,1.05 0.5,0.95 T 1,0.95 L 1,0 Z" />
                   </clipPath>
                 </defs>
               </svg>
@@ -508,7 +508,7 @@ export default function Discover() {
               </div>
 
             {/* Action Buttons */}
-            <div className="p-4 pt-8 grid grid-cols-3 relative z-0">
+            <div className="p-4 pt-12 grid grid-cols-3 relative z-0">
               <div className="flex justify-center items-center">
                 <Button
                   data-testid="button-pass"
