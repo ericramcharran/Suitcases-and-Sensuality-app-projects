@@ -68,7 +68,7 @@ export default function Consent() {
     if (agreed) {
       // Small delay for better UX
       const timer = setTimeout(() => {
-        setLocation("/privacy");
+        setLocation("/consent-processing");
       }, 500);
       return () => clearTimeout(timer);
     }

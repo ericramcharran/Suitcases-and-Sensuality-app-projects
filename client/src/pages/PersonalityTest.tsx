@@ -30,7 +30,7 @@ export default function PersonalityTest() {
     onSuccess: (data) => {
       // Store result data for the result page
       localStorage.setItem('personalityResult', JSON.stringify(data));
-      setLocation("/personality-result");
+      setLocation("/personality-test-processing");
     },
     onError: () => {
       toast({

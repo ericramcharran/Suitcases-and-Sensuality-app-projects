@@ -50,7 +50,7 @@ export default function Guidelines() {
     if (agreed) {
       // Small delay for better UX
       const timer = setTimeout(() => {
-        setLocation("/background-check");
+        setLocation("/guidelines-processing");
       }, 500);
       return () => clearTimeout(timer);
     }

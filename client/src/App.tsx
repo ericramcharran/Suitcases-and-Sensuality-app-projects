@@ -54,6 +54,14 @@ import HelpBilling from "@/pages/HelpBilling";
 import PermissionsSettings from "@/pages/PermissionsSettings";
 import SubscriptionManagement from "@/pages/SubscriptionManagement";
 import UserData from "@/pages/UserData";
+import TermsProcessing from "@/pages/TermsProcessing";
+import ConsentProcessing from "@/pages/ConsentProcessing";
+import PrivacyProcessing from "@/pages/PrivacyProcessing";
+import GuidelinesProcessing from "@/pages/GuidelinesProcessing";
+import ProfileDetailsProcessing from "@/pages/ProfileDetailsProcessing";
+import PersonalityTestProcessing from "@/pages/PersonalityTestProcessing";
+import RelationshipTestProcessing from "@/pages/RelationshipTestProcessing";
+import ImportantTraitsProcessing from "@/pages/ImportantTraitsProcessing";
 
 function App() {
   const [location] = useLocation();
@@ -79,11 +87,20 @@ function App() {
               <Route path="/terms">
                 <PageTransition><Terms /></PageTransition>
               </Route>
+              <Route path="/terms-processing">
+                <PageTransition><TermsProcessing /></PageTransition>
+              </Route>
               <Route path="/consent">
                 <PageTransition><Consent /></PageTransition>
               </Route>
+              <Route path="/consent-processing">
+                <PageTransition><ConsentProcessing /></PageTransition>
+              </Route>
               <Route path="/privacy">
                 <PageTransition><Privacy /></PageTransition>
+              </Route>
+              <Route path="/privacy-processing">
+                <PageTransition><PrivacyProcessing /></PageTransition>
               </Route>
               <Route path="/privacy-policy">
                 <PageTransition><PrivacyPolicy /></PageTransition>
@@ -100,14 +117,23 @@ function App() {
               <Route path="/guidelines">
                 <PageTransition><Guidelines /></PageTransition>
               </Route>
+              <Route path="/guidelines-processing">
+                <PageTransition><GuidelinesProcessing /></PageTransition>
+              </Route>
               <Route path="/signup">
                 <PageTransition><Signup /></PageTransition>
               </Route>
               <Route path="/profile-details">
                 <PageTransition><ProfileDetails /></PageTransition>
               </Route>
+              <Route path="/profile-details-processing">
+                <PageTransition><ProfileDetailsProcessing /></PageTransition>
+              </Route>
               <Route path="/personality-test">
                 <PageTransition><PersonalityTest /></PageTransition>
+              </Route>
+              <Route path="/personality-test-processing">
+                <PageTransition><PersonalityTestProcessing /></PageTransition>
               </Route>
               <Route path="/personality-result">
                 <PageTransition><PersonalityResult /></PageTransition>
@@ -115,8 +141,17 @@ function App() {
               <Route path="/relationship-test">
                 <PageTransition><RelationshipTest /></PageTransition>
               </Route>
+              <Route path="/relationship-test-processing">
+                <PageTransition><RelationshipTestProcessing /></PageTransition>
+              </Route>
               <Route path="/relationship-result">
                 <PageTransition><RelationshipResult /></PageTransition>
+              </Route>
+              <Route path="/important-traits">
+                <PageTransition><ImportantTraits /></PageTransition>
+              </Route>
+              <Route path="/important-traits-processing">
+                <PageTransition><ImportantTraitsProcessing /></PageTransition>
               </Route>
               <Route path="/subscription">
                 <PageTransition><SubscriptionRoleSelect /></PageTransition>

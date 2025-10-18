@@ -80,7 +80,7 @@ export default function ProfileDetails() {
       return await res.json();
     },
     onSuccess: () => {
-      setLocation("/personality-test");
+      setLocation("/profile-details-processing");
     },
     onError: () => {
       toast({

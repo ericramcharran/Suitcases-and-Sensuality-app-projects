@@ -76,7 +76,7 @@ export default function Privacy() {
     if (agreed) {
       // Small delay for better UX
       const timer = setTimeout(() => {
-        setLocation("/guidelines");
+        setLocation("/privacy-processing");
       }, 500);
       return () => clearTimeout(timer);
     }

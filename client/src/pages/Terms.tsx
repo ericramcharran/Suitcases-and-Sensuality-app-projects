@@ -72,7 +72,7 @@ export default function Terms() {
     if (agreed) {
       // Small delay for better UX
       const timer = setTimeout(() => {
-        setLocation("/consent");
+        setLocation("/terms-processing");
       }, 500);
       return () => clearTimeout(timer);
     }

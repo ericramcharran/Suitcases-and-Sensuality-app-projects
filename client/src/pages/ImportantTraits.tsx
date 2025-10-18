@@ -86,16 +86,8 @@ export default function ImportantTraits() {
         description: "Your important traits have been updated"
       });
       
-      // After important traits, continue to subscription selection
-      const role = localStorage.getItem('userRole') || '';
-      
-      // Master, Domme, and Switch go to dom subscription
-      // submissive goes to sub subscription
-      if (role === 'submissive') {
-        setLocation("/subscription-sub");
-      } else {
-        setLocation("/subscription-dom");
-      }
+      // After important traits, continue to subscription selection via processing page
+      setLocation("/important-traits-processing");
     },
     onError: () => {
       toast({

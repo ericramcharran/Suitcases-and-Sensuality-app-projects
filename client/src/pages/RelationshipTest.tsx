@@ -28,7 +28,7 @@ export default function RelationshipTest() {
     },
     onSuccess: (data) => {
       localStorage.setItem('relationshipResult', JSON.stringify(data));
-      setLocation("/relationship-result");
+      setLocation("/relationship-test-processing");
     },
     onError: () => {
       toast({
