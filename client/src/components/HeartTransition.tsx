@@ -26,7 +26,7 @@ export default function HeartTransition({ duration = 10000, onComplete }: HeartT
             {[1, 2, 3, 4].map((i) => (
               <Heart 
                 key={i}
-                className="absolute w-24 h-24 text-red-500 animate-ripple"
+                className="absolute w-24 h-24 text-primary animate-ripple"
                 fill="none"
                 strokeWidth={2}
                 stroke="currentColor"
@@ -35,7 +35,7 @@ export default function HeartTransition({ duration = 10000, onComplete }: HeartT
             ))}
             {/* Main beating heart */}
             <Heart 
-              className="w-24 h-24 text-red-500 animate-heartbeat relative z-10" 
+              className="w-24 h-24 text-primary animate-heartbeat relative z-10" 
               fill="currentColor"
             />
           </div>
