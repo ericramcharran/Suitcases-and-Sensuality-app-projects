@@ -372,8 +372,8 @@ export default function Discover() {
               className="h-full"
             >
             <Card className="h-full flex flex-col" data-testid="match-card">
-              {/* Profile Image Carousel - 50% larger than before */}
-              <div className="relative bg-muted rounded-t-xl flex-[1.5] overflow-hidden">
+              {/* Profile Image Carousel - 30% larger than before */}
+              <div className="relative bg-muted rounded-t-xl flex-[1.3] overflow-hidden">
                 {currentProfile.profileImages && currentProfile.profileImages.length > 0 ? (
                   <>
                     {/* Carousel */}
@@ -558,7 +558,7 @@ export default function Discover() {
               </div>
 
             {/* Profile Info */}
-            <div className="flex-[0.75] p-4 sm:p-6 overflow-hidden border-t border-border">
+            <div className="flex-[0.85] p-4 sm:p-6 overflow-hidden border-t border-border">
               <h3 className="text-xl sm:text-2xl font-light mb-1 text-foreground" data-testid="text-match-name">
                 {currentProfile.name}
               </h3>
