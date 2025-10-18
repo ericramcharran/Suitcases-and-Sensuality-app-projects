@@ -27,28 +27,21 @@ export default function Landing() {
 
   return (
     <div className="min-h-screen bg-background flex flex-col justify-center items-center px-4 sm:px-6 py-8 sm:py-12 relative overflow-hidden">
-      {/* Keyhole Vignette Effect */}
-      {isAnimating && (
-        <motion.div
-          initial={{ clipPath: "circle(100% at 50% 50%)" }}
-          animate={{ clipPath: "circle(0% at 50% 50%)" }}
-          transition={{ duration: 2.5, ease: "easeInOut" }}
-          className="absolute inset-0 bg-black z-50 pointer-events-none"
-        />
-      )}
-
       <div className="w-full max-w-md mx-auto flex flex-col items-center relative z-10">
-        {/* Logo - grows on animation */}
+        {/* Logo - grows massively to zoom into keyhole */}
         <motion.div
-          className="mb-0"
+          className="mb-0 absolute top-1/2 left-1/2"
+          style={{ x: "-50%", y: "-50%" }}
           animate={isAnimating ? {
-            scale: 3,
+            scale: 20,
             opacity: 1
           } : {
             scale: 1,
-            opacity: 1
+            opacity: 1,
+            x: "-50%",
+            y: "-50%"
           }}
-          transition={{ duration: 2, ease: "easeInOut" }}
+          transition={{ duration: 2.5, ease: "easeIn" }}
         >
           <div className="flex items-center justify-center">
             <img 
@@ -65,9 +58,9 @@ export default function Landing() {
 
         {/* Text and Buttons - fade out on animation */}
         <motion.div
-          className="w-full"
+          className="w-full relative z-20"
           animate={isAnimating ? { opacity: 0 } : { opacity: 1 }}
-          transition={{ duration: 0.5, ease: "easeOut" }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
         >
           <p className="text-muted-foreground text-lg sm:text-xl mb-2 text-center font-light">
             Where Power Meets Passion
