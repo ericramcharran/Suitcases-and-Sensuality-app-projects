@@ -34,8 +34,9 @@ export default function Discover() {
   });
   
   const [likeButtonPosition, setLikeButtonPosition] = useState(() => {
-    const saved = localStorage.getItem('likeButtonPosition');
-    return saved ? JSON.parse(saved) : { x: 0, y: 0 };
+    // Clear any old positioning and start fresh at center-bottom
+    localStorage.removeItem('likeButtonPosition');
+    return { x: 0, y: 0 };
   });
 
   const [isDraggingButtons, setIsDraggingButtons] = useState(false);
@@ -517,7 +518,7 @@ export default function Discover() {
                   </Button>
                 </motion.div>
 
-                {/* Like Button - VISIBLE AND DRAGGABLE */}
+                {/* Like Button - BRIGHT PINK HEART - VISIBLE AND DRAGGABLE */}
                 <motion.div
                   drag
                   dragMomentum={false}
@@ -531,14 +532,18 @@ export default function Discover() {
                     };
                     setLikeButtonPosition(newPosition);
                     localStorage.setItem('likeButtonPosition', JSON.stringify(newPosition));
+                    toast({
+                      title: "Heart Button Moved",
+                      description: `Positioned at (${Math.round(newPosition.x)}, ${Math.round(newPosition.y)})`,
+                    });
                   }}
                   style={{
                     position: 'absolute',
-                    left: `calc(50% + ${likeButtonPosition.x}px)`,
-                    bottom: `${20 + likeButtonPosition.y}px`,
-                    transform: 'translateX(-50%)',
+                    left: '50%',
+                    bottom: '30px',
+                    transform: `translate(calc(-50% + ${likeButtonPosition.x}px), ${-likeButtonPosition.y}px)`,
                     cursor: 'grab',
-                    zIndex: 50
+                    zIndex: 999
                   }}
                   whileTap={{ cursor: 'grabbing' }}
                 >
