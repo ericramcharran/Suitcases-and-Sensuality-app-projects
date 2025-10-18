@@ -215,10 +215,14 @@ export default function Profile() {
       // Reorder the images array to put selected image first
       const reorderedImages = [imageUrl, ...profileImages.filter(url => url !== imageUrl)];
       
-      return await apiRequest(`/api/users/${userId}`, {
+      const res = await fetch(`/api/users/${userId}`, {
         method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ profileImages: reorderedImages })
       });
+      
+      if (!res.ok) throw new Error('Failed to set primary photo');
+      return await res.json();
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['/api/users', userId] });
@@ -894,14 +898,6 @@ export default function Profile() {
 
           {/* Actions */}
           <div className="space-y-3">
-            <Button
-              data-testid="button-edit-profile"
-              variant="outline"
-              className="w-full rounded-xl"
-            >
-              <Pencil className="w-4 h-4 mr-2" />
-              Edit Profile
-            </Button>
             <Button
               data-testid="button-retake-tests"
               variant="outline"
