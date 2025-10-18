@@ -195,8 +195,8 @@ export default function Discover() {
   if (isLoading || !minLoadingTimePassed) {
     return (
       <>
-        <div className="min-h-screen bg-background flex items-center justify-center p-4">
-          <div className="w-full h-full flex items-center justify-center border border-black rounded-lg">
+        <div className="min-h-screen bg-background flex items-center justify-center p-10">
+          <div className="w-full max-w-md aspect-[9/16] flex items-center justify-center border border-black rounded-lg">
             <Heart 
               className="w-24 h-24 text-red-500 animate-heartbeat" 
               fill="currentColor"
