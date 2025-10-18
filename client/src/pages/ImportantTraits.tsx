@@ -138,9 +138,14 @@ export default function ImportantTraits() {
         <div className="flex-1 p-4 overflow-y-auto pb-24">
           <Card className="p-6">
             <div className="mb-4 flex items-center justify-between">
-              <h3 className="font-medium text-foreground">
-                Select Your Values
-              </h3>
+              <div>
+                <h3 className="font-medium text-foreground">
+                  Select Your Values
+                </h3>
+                <p className="text-sm text-muted-foreground mt-1">
+                  Select as many as you wish
+                </p>
+              </div>
               <span className="text-sm text-muted-foreground">
                 {selectedTraits.length} selected
               </span>
