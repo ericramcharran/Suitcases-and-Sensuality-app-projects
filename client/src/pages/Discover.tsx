@@ -570,8 +570,8 @@ export default function Discover() {
                 </motion.div>
               </div>
 
-            {/* Profile Info */}
-            <div className="flex-[0.85] p-4 sm:p-6 overflow-hidden border-t border-border">
+            {/* Profile Info - Scrollable with invisible scrollbar */}
+            <div className="flex-[0.85] p-4 sm:p-6 overflow-y-auto border-t border-border scrollbar-hide" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
               <h3 className="text-xl sm:text-2xl font-light mb-1 text-foreground" data-testid="text-match-name">
                 {currentProfile.name}
               </h3>
