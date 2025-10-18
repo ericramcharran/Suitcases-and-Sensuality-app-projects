@@ -5,7 +5,8 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
-import { Eye, EyeOff, Heart } from "lucide-react";
+import { Eye, EyeOff } from "lucide-react";
+import { Logo } from "@/components/Logo";
 
 export default function Login() {
   const [, setLocation] = useLocation();
@@ -52,11 +53,8 @@ export default function Login() {
       <div className="max-w-md mx-auto w-full flex flex-col min-h-screen">
         {/* Header */}
         <div className="p-4 sm:p-6 text-center">
-          <div className="flex items-center justify-center gap-2 mb-2">
-            <Heart className="w-8 h-8 text-primary" />
-            <h1 className="text-2xl sm:text-3xl font-light text-foreground">
-              The Executive Society
-            </h1>
+          <div className="mb-2">
+            <Logo />
           </div>
           <p className="text-sm text-muted-foreground">
             Welcome back
