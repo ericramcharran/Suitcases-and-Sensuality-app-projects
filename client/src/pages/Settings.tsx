@@ -113,13 +113,20 @@ export default function Settings() {
           ))}
         </div>
 
-        <Card className="p-4 mb-4 bg-yellow-500/10 border-yellow-500/20">
-          <h4 className="font-medium text-yellow-600 dark:text-yellow-400 mb-2">
-            Account Status
-          </h4>
-          <p className="text-sm text-yellow-600 dark:text-yellow-400">
-            Free Trial - 28 days remaining
-          </p>
+        <Card className="p-4 mb-4 bg-primary/10 border-primary/20">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 bg-primary/20 rounded-full flex items-center justify-center flex-shrink-0">
+              <Info className="w-5 h-5 text-primary" />
+            </div>
+            <div className="flex-1">
+              <h4 className="font-medium text-primary mb-1">
+                Account Status
+              </h4>
+              <p className="text-sm text-primary/80">
+                Free Trial - 28 days remaining
+              </p>
+            </div>
+          </div>
         </Card>
 
         <button
