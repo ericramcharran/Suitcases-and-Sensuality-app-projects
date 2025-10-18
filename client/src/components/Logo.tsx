@@ -6,9 +6,9 @@ export function Logo() {
       <img 
         src={logoImage} 
         alt="The Executive Society Logo" 
-        className="w-32 sm:w-40 h-auto object-contain"
+        className="w-96 sm:w-[480px] h-auto object-contain"
         style={{
-          maxHeight: '80px',
+          maxHeight: '240px',
           objectPosition: 'center'
         }}
       />
