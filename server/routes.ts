@@ -428,62 +428,44 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return;
       }
 
-      // Create or get Stripe product
-      const productName = 'The Executive Society Membership';
-      let product = await stripe.products.search({
-        query: `name:'${productName}'`,
-        limit: 1
-      });
+      // Determine success URL based on role
+      const isDominant = user.role === 'Dominant' || user.role === 'Domme' || user.role === 'Master';
+      const successUrl = isDominant 
+        ? `${req.headers.origin}/escrow?session_id={CHECKOUT_SESSION_ID}`
+        : `${req.headers.origin}/subscription-success?session_id={CHECKOUT_SESSION_ID}`;
 
-      let productId: string;
-      if (product.data.length > 0) {
-        productId = product.data[0].id;
-      } else {
-        const newProduct = await stripe.products.create({
-          name: productName,
-          description: 'Premium BDSM dating platform membership'
-        });
-        productId = newProduct.id;
-      }
-
-      // Create subscription with price
-      const subscription = await stripe.subscriptions.create({
+      // Create Stripe Checkout Session
+      const session = await stripe.checkout.sessions.create({
         customer: customerId,
-        items: [{
+        mode: 'subscription',
+        line_items: [{
           price_data: {
             currency: 'usd',
-            product: productId,
+            product_data: {
+              name: 'The Executive Society Membership',
+              description: `${config.displayName} - ${user.role} Plan`
+            },
             unit_amount: amount,
             recurring: {
               interval: config.interval,
               interval_count: config.intervalCount
             }
-          }
+          },
+          quantity: 1
         }],
-        payment_behavior: 'default_incomplete',
-        payment_settings: {
-          save_default_payment_method: 'on_subscription'
-        },
-        expand: ['latest_invoice.payment_intent'],
+        success_url: successUrl,
+        cancel_url: `${req.headers.origin}/subscription`,
         metadata: {
+          userId: user.id,
           role: user.role,
           billingPeriod: billingPeriod,
           planName: config.displayName
         }
       });
 
-      // Update user with subscription ID
-      await storage.updateUser(userId, { 
-        stripeSubscriptionId: subscription.id,
-        plan: `${user.role}-${billingPeriod}`
-      });
-
-      const invoice = subscription.latest_invoice as any;
-      const paymentIntent = invoice.payment_intent as Stripe.PaymentIntent;
-
       res.json({
-        subscriptionId: subscription.id,
-        clientSecret: paymentIntent.client_secret
+        sessionId: session.id,
+        url: session.url
       });
     } catch (error: any) {
       console.error("Stripe subscription error:", error);
