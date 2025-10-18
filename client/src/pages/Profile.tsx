@@ -5,6 +5,7 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useLocation } from "wouter";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { queryClient, apiRequest } from "@/lib/queryClient";
@@ -616,36 +617,57 @@ export default function Profile() {
                 </div>
                 <div>
                   <Label htmlFor="bodyShape" className="text-sm text-muted-foreground">Body Shape</Label>
-                  <Input
-                    id="bodyShape"
-                    data-testid="input-body-shape"
-                    value={bodyShape}
-                    onChange={(e) => setBodyShape(e.target.value)}
-                    placeholder="e.g., Athletic, Curvy, Slim"
-                    className="rounded-xl"
-                  />
+                  <Select value={bodyShape} onValueChange={setBodyShape}>
+                    <SelectTrigger className="rounded-xl" data-testid="select-body-shape">
+                      <SelectValue placeholder="Select body shape" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="Athletic">Athletic</SelectItem>
+                      <SelectItem value="Slim">Slim</SelectItem>
+                      <SelectItem value="Average">Average</SelectItem>
+                      <SelectItem value="Curvy">Curvy</SelectItem>
+                      <SelectItem value="Muscular">Muscular</SelectItem>
+                      <SelectItem value="Heavyset">Heavyset</SelectItem>
+                      <SelectItem value="Petite">Petite</SelectItem>
+                      <SelectItem value="Plus Size">Plus Size</SelectItem>
+                    </SelectContent>
+                  </Select>
                 </div>
                 <div>
                   <Label htmlFor="eyeColor" className="text-sm text-muted-foreground">Eye Color</Label>
-                  <Input
-                    id="eyeColor"
-                    data-testid="input-eye-color"
-                    value={eyeColor}
-                    onChange={(e) => setEyeColor(e.target.value)}
-                    placeholder="e.g., Brown, Blue, Green"
-                    className="rounded-xl"
-                  />
+                  <Select value={eyeColor} onValueChange={setEyeColor}>
+                    <SelectTrigger className="rounded-xl" data-testid="select-eye-color">
+                      <SelectValue placeholder="Select eye color" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="Brown">Brown</SelectItem>
+                      <SelectItem value="Blue">Blue</SelectItem>
+                      <SelectItem value="Green">Green</SelectItem>
+                      <SelectItem value="Hazel">Hazel</SelectItem>
+                      <SelectItem value="Gray">Gray</SelectItem>
+                      <SelectItem value="Amber">Amber</SelectItem>
+                      <SelectItem value="Black">Black</SelectItem>
+                    </SelectContent>
+                  </Select>
                 </div>
                 <div>
                   <Label htmlFor="hairColor" className="text-sm text-muted-foreground">Hair Color</Label>
-                  <Input
-                    id="hairColor"
-                    data-testid="input-hair-color"
-                    value={hairColor}
-                    onChange={(e) => setHairColor(e.target.value)}
-                    placeholder="e.g., Blonde, Black, Brown"
-                    className="rounded-xl"
-                  />
+                  <Select value={hairColor} onValueChange={setHairColor}>
+                    <SelectTrigger className="rounded-xl" data-testid="select-hair-color">
+                      <SelectValue placeholder="Select hair color" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="Black">Black</SelectItem>
+                      <SelectItem value="Brown">Brown</SelectItem>
+                      <SelectItem value="Blonde">Blonde</SelectItem>
+                      <SelectItem value="Red">Red</SelectItem>
+                      <SelectItem value="Auburn">Auburn</SelectItem>
+                      <SelectItem value="Gray">Gray</SelectItem>
+                      <SelectItem value="White">White</SelectItem>
+                      <SelectItem value="Salt and Pepper">Salt and Pepper</SelectItem>
+                      <SelectItem value="Dyed/Other">Dyed/Other</SelectItem>
+                    </SelectContent>
+                  </Select>
                 </div>
                 <div>
                   <Label htmlFor="nationality" className="text-sm text-muted-foreground">Nationality</Label>
