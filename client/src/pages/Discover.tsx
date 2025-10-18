@@ -43,6 +43,14 @@ export default function Discover() {
   // Profile image height - adjustable by developer
   const profileImageHeight = 590;
 
+  // Profile card position - developer control
+  const [profileCardPosition, setProfileCardPosition] = useState(() => {
+    const saved = localStorage.getItem('profileCardPosition');
+    return saved ? JSON.parse(saved) : { x: 0, y: 0 };
+  });
+
+  const [isDraggingProfileCard, setIsDraggingProfileCard] = useState(false);
+
   // Ensure beating heart shows for at least 10 seconds
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -304,15 +312,18 @@ export default function Discover() {
               onClick={() => {
                 const defaultPass = { x: 50, y: 10 };
                 const defaultLike = { x: 250, y: 10 };
+                const defaultCardPosition = { x: 0, y: 0 };
                 setPassButtonPosition(defaultPass);
                 setLikeButtonPosition(defaultLike);
+                setProfileCardPosition(defaultCardPosition);
                 localStorage.setItem('passButtonPosition', JSON.stringify(defaultPass));
                 localStorage.setItem('likeButtonPosition', JSON.stringify(defaultLike));
+                localStorage.setItem('profileCardPosition', JSON.stringify(defaultCardPosition));
                 localStorage.removeItem('wavePosition');
                 localStorage.removeItem('profileImageHeight');
                 toast({
                   title: "Layout Reset",
-                  description: "Button positions have been restored to default",
+                  description: "All positions have been restored to default",
                 });
               }}
               className="text-foreground/70 hover-elevate active-elevate-2 p-2 rounded-md text-xs font-medium"
@@ -330,14 +341,39 @@ export default function Discover() {
         </div>
 
         {/* Match Card */}
-        <div className="flex-1 p-3 sm:p-4 overflow-hidden">
+        <div className="flex-1 p-3 sm:p-4 overflow-hidden relative">
+          {/* Developer positioning wrapper */}
           <motion.div
-            style={{ x, rotate, opacity }}
-            drag="x"
-            dragConstraints={{ left: 0, right: 0 }}
-            onDragEnd={handleDragEnd}
+            drag
+            dragMomentum={false}
+            dragElastic={0}
+            onDragStart={() => setIsDraggingProfileCard(true)}
+            onDrag={(e, info) => {
+              setProfileCardPosition({ x: info.offset.x, y: info.offset.y });
+            }}
+            onDragEnd={() => {
+              setIsDraggingProfileCard(false);
+              localStorage.setItem('profileCardPosition', JSON.stringify(profileCardPosition));
+              toast({
+                title: "Profile Position Saved",
+                description: `Card positioned at (${Math.round(profileCardPosition.x)}, ${Math.round(profileCardPosition.y)})`,
+              });
+            }}
+            style={{
+              x: profileCardPosition.x,
+              y: profileCardPosition.y,
+              cursor: isDraggingProfileCard ? 'grabbing' : 'grab'
+            }}
             className="h-full"
           >
+            {/* Swipe-to-dismiss wrapper */}
+            <motion.div
+              style={{ x, rotate, opacity }}
+              drag="x"
+              dragConstraints={{ left: 0, right: 0 }}
+              onDragEnd={handleDragEnd}
+              className="h-full"
+            >
             <Card className="h-full flex flex-col" data-testid="match-card">
               {/* Profile Image Carousel */}
               <div className="relative bg-muted rounded-t-xl z-10" style={{ height: `${profileImageHeight}px` }}>
@@ -561,6 +597,7 @@ export default function Discover() {
               </div>
             </div>
           </Card>
+          </motion.div>
           </motion.div>
         </div>
 
