@@ -12,6 +12,8 @@ export const users = pgTable("users", {
   personalityType: text("personality_type"),
   relationshipStyle: text("relationship_style"),
   plan: text("plan"),
+  stripeCustomerId: text("stripe_customer_id"),
+  stripeSubscriptionId: text("stripe_subscription_id"),
   agreedTerms: boolean("agreed_terms").default(false),
   agreedConsent: boolean("agreed_consent").default(false),
   agreedPrivacy: boolean("agreed_privacy").default(false),
