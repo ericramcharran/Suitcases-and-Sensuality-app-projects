@@ -45,7 +45,7 @@ export default function Landing() {
         <motion.div
           className="mb-0 w-full"
           animate={isAnimating ? {
-            y: "calc(50vh - 50%)",
+            y: "calc(50vh - 70%)",
             scale: 10,
           } : {
             y: 0,
