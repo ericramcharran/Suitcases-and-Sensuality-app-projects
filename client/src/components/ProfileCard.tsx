@@ -3,7 +3,6 @@ import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { MapPin, Verified, ChevronUp } from "lucide-react";
 import useEmblaCarousel from 'embla-carousel-react';
-// Navigation: Pull up from bottom to see more images
 
 interface ProfileCardProps {
   profile: {
@@ -40,12 +39,12 @@ export function ProfileCard({
   showActions = false,
   className = ""
 }: ProfileCardProps) {
-  const [emblaRef, emblaApi] = useEmblaCarousel({ loop: false });
+  const [emblaRef, emblaApi] = useEmblaCarousel({ 
+    loop: false,
+    axis: 'y'  // Vertical scrolling
+  });
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
-  const [isHovering, setIsHovering] = useState(false);
-  const pointerStartY = useRef<number>(0);
-  const pointerStartX = useRef<number>(0);
-  const gestureTriggered = useRef<boolean>(false);
+  const [showArrow, setShowArrow] = useState(false);
 
   const scrollNext = useCallback(() => {
     if (emblaApi) emblaApi.scrollNext();
@@ -66,69 +65,34 @@ export function ProfileCard({
     };
   }, [emblaApi]);
 
-  // Vertical pull up gesture detector
-  useEffect(() => {
-    if (!emblaApi) return;
+  // Show arrow on hover/touch
+  const handleInteractionStart = () => {
+    if (profile.profileImages && profile.profileImages.length > 1 && currentImageIndex < profile.profileImages.length - 1) {
+      setShowArrow(true);
+    }
+  };
 
-    const containerNode = emblaApi.containerNode();
-    if (!containerNode) return;
-
-    const handlePointerDown = (e: PointerEvent) => {
-      pointerStartY.current = e.clientY;
-      pointerStartX.current = e.clientX;
-      gestureTriggered.current = false;
-    };
-
-    const handlePointerMove = (e: PointerEvent) => {
-      if (gestureTriggered.current) return;
-
-      const deltaY = e.clientY - pointerStartY.current;
-      const deltaX = e.clientX - pointerStartX.current;
-
-      // Check if pull up: upward movement > 60px, more vertical than horizontal
-      if (deltaY < -60 && Math.abs(deltaY) > Math.abs(deltaX) * 1.5) {
-        gestureTriggered.current = true;
-        
-        // Trigger next image
-        if (emblaApi.canScrollNext()) {
-          emblaApi.scrollNext();
-        }
-      }
-    };
-
-    const handlePointerUp = () => {
-      gestureTriggered.current = false;
-    };
-
-    // Attach pointer event listeners
-    containerNode.addEventListener('pointerdown', handlePointerDown);
-    containerNode.addEventListener('pointermove', handlePointerMove);
-    containerNode.addEventListener('pointerup', handlePointerUp);
-    containerNode.addEventListener('pointercancel', handlePointerUp);
-
-    return () => {
-      containerNode.removeEventListener('pointerdown', handlePointerDown);
-      containerNode.removeEventListener('pointermove', handlePointerMove);
-      containerNode.removeEventListener('pointerup', handlePointerUp);
-      containerNode.removeEventListener('pointercancel', handlePointerUp);
-    };
-  }, [emblaApi]);
+  const handleInteractionEnd = () => {
+    setShowArrow(false);
+  };
 
   return (
     <Card className={`h-full flex flex-col ${className}`} data-testid="profile-card">
       {/* Profile Image Carousel - 30% larger than before */}
       <div 
         className="relative bg-muted rounded-t-xl flex-[1.3] overflow-hidden"
-        onMouseEnter={() => setIsHovering(true)}
-        onMouseLeave={() => setIsHovering(false)}
+        onMouseEnter={handleInteractionStart}
+        onMouseLeave={handleInteractionEnd}
+        onTouchStart={handleInteractionStart}
+        onTouchEnd={handleInteractionEnd}
       >
         {profile.profileImages && profile.profileImages.length > 0 ? (
           <>
-            {/* Carousel */}
+            {/* Vertical Carousel */}
             <div className="overflow-hidden h-full" ref={emblaRef}>
-              <div className="flex h-full">
+              <div className="flex flex-col h-full touch-pan-y">
                 {profile.profileImages.map((imageUrl: string, idx: number) => (
-                  <div key={idx} className="flex-[0_0_100%] min-w-0 relative h-full">
+                  <div key={idx} className="flex-[0_0_100%] min-h-0 relative">
                     <img
                       src={imageUrl}
                       alt={`${profile.name} ${idx + 1}`}
@@ -143,26 +107,40 @@ export function ProfileCard({
               </div>
             </div>
 
-            {/* Pull Up Arrow - Bottom Center (shows on hover) */}
+            {/* Pull Up Arrow - Bottom Center */}
             {profile.profileImages.length > 1 && currentImageIndex < profile.profileImages.length - 1 && (
               <div
-                className={`absolute bottom-16 left-1/2 -translate-x-1/2 transition-opacity duration-300 z-10 ${
-                  isHovering ? 'opacity-100' : 'opacity-0'
+                className={`absolute bottom-16 left-1/2 -translate-x-1/2 transition-all duration-300 z-20 ${
+                  showArrow ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
                 }`}
               >
                 <button
                   onClick={scrollNext}
-                  className="bg-black/50 backdrop-blur-sm text-white p-3 rounded-full hover:bg-black/70 transition-colors"
+                  className="bg-black/60 backdrop-blur-md text-white p-4 rounded-full hover:bg-black/80 active:bg-black/90 transition-all shadow-lg border border-white/20"
                   data-testid="button-pull-up"
+                  aria-label="Next image"
                 >
                   <ChevronUp className="w-6 h-6 animate-bounce" />
                 </button>
               </div>
             )}
 
+            {/* Pull-up instruction text */}
+            {profile.profileImages.length > 1 && currentImageIndex < profile.profileImages.length - 1 && (
+              <div
+                className={`absolute bottom-32 left-1/2 -translate-x-1/2 transition-all duration-300 z-10 ${
+                  showArrow ? 'opacity-100' : 'opacity-0'
+                }`}
+              >
+                <p className="text-white text-sm font-medium bg-black/40 backdrop-blur-sm px-3 py-1.5 rounded-full">
+                  Swipe up for more photos
+                </p>
+              </div>
+            )}
+
             {/* Pagination Dots */}
             {profile.profileImages.length > 1 && (
-              <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-1.5 z-10">
+              <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex flex-col gap-1.5 z-10">
                 {profile.profileImages.map((_, idx) => (
                   <div
                     key={idx}
