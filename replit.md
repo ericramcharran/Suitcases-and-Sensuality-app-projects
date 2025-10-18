@@ -79,12 +79,12 @@ Preferred communication style: Simple, everyday language.
 **Dominant/Domme/Master Flow**
 9. Subscription plan selection (premium tiers with Stripe payment)
 10. Payment processing (demo or real Stripe checkout)
-11. Escrow/financial verification setup (Escrow.com or FinFitLife.com)
-12. Basic signup (name, role selection)
-13. Profile details (13 fields: physical attributes, location, lifestyle preferences)
-14. Personality assessment (20 questions)
-15. Relationship assessment (20 questions)
-16. Important traits selection
+11. Basic signup (name, role selection)
+12. Profile details (13 fields: physical attributes, location, lifestyle preferences)
+13. Personality assessment (20 questions)
+14. Relationship assessment (20 questions)
+15. Important traits selection
+16. Escrow/financial verification setup (Escrow.com or FinFitLife.com)
 17. Discover/matching interface
 
 **Submissive/Switch Flow**

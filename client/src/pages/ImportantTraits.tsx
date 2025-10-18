@@ -85,8 +85,19 @@ export default function ImportantTraits() {
         title: "Saved!",
         description: "Your important traits have been updated"
       });
-      // Navigate back to profile after successful save
-      setLocation("/profile");
+      
+      // Check if user is Dominant and needs escrow
+      const userRole = sessionStorage.getItem('userRole') || '';
+      const isDominant = userRole === 'Dominant' || userRole === 'Domme' || userRole === 'Master';
+      const escrowCompleted = sessionStorage.getItem('escrowAcknowledged') === 'true';
+      
+      // If Dominant and hasn't completed escrow, go there
+      if (isDominant && !escrowCompleted) {
+        setLocation("/escrow");
+      } else {
+        // Otherwise go to discover to start matching
+        setLocation("/discover");
+      }
     },
     onError: () => {
       toast({

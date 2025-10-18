@@ -107,8 +107,9 @@ export default function PaymentDemo() {
       // Redirect based on role
       const isDominant = planType === 'Dominant' || planType === 'Domme' || planType === 'Master';
       
+      // All users go to signup to complete profile first
       if (isDominant) {
-        setLocation('/escrow');
+        setLocation('/signup');
       } else {
         setLocation('/subscription-success');
       }

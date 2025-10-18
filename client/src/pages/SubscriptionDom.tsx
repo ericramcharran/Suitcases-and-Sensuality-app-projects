@@ -147,14 +147,14 @@ export default function SubscriptionDom() {
   };
 
   const handleSkipPayment = () => {
-    // Skip payment and go directly to escrow for testing
+    // Skip payment and go to signup to complete profile first
     const plan = plans.find(p => p.id === selectedPlan);
     if (!plan) return;
 
     sessionStorage.setItem('selectedPlan', selectedPlan);
     sessionStorage.setItem('subscriptionActive', 'true');
     sessionStorage.setItem('subscriptionPlan', `Dominant-${plan.billingPeriod || 'trial'}`);
-    setLocation("/escrow");
+    setLocation("/signup");
   };
 
   return (

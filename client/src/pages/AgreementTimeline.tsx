@@ -85,9 +85,10 @@ export default function AgreementTimeline() {
         title: "Agreement Signed",
         description: "Your vesting agreement has been recorded",
       });
-
-      // Continue to profile setup flow
-      setLocation("/signup");
+      
+      // Mark escrow as acknowledged and continue to discover
+      sessionStorage.setItem('escrowAcknowledged', 'true');
+      setLocation("/discover");
     } catch (error) {
       toast({
         title: "Error",

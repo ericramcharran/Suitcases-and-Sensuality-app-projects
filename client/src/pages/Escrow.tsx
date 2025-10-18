@@ -272,17 +272,17 @@ export default function Escrow() {
             onClick={() => {
               // Mark escrow as acknowledged
               sessionStorage.setItem('escrowAcknowledged', 'true');
-              // Continue to profile setup
-              setLocation("/signup");
+              // Continue to discover page
+              setLocation("/discover");
             }}
             variant="outline"
             className="rounded-full mt-4"
             size="lg"
           >
-            Continue to Profile Setup
+            Continue to Matching
           </Button>
           <p className="text-xs text-muted-foreground text-center">
-            Next: Complete your profile and matching assessments
+            Start discovering compatible matches
           </p>
         </div>
       </div>
