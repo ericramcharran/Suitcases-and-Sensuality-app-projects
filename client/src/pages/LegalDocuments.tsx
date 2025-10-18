@@ -16,7 +16,7 @@ export default function LegalDocuments() {
   const [, setLocation] = useLocation();
   const [selectedDoc, setSelectedDoc] = useState<SignedDocument | null>(null);
   
-  const userId = sessionStorage.getItem('userId');
+  const userId = localStorage.getItem('userId');
 
   const { data: user } = useQuery<User>({
     queryKey: [`/api/users/${userId}`],

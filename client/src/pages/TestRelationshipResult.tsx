@@ -6,12 +6,12 @@ export default function TestRelationshipResult() {
 
   useEffect(() => {
     // Set up test data in session storage
-    sessionStorage.setItem('userRole', 'Master');
-    sessionStorage.setItem('personalityResult', JSON.stringify({
+    localStorage.setItem('userRole', 'Master');
+    localStorage.setItem('personalityResult', JSON.stringify({
       personalityType: 'Empathetic Leader',
       scores: { emotional: 85, ethics: 90, sensuality: 75, stability: 80, ds: 85 }
     }));
-    sessionStorage.setItem('relationshipResult', JSON.stringify({
+    localStorage.setItem('relationshipResult', JSON.stringify({
       relationshipStyle: 'Deep Connection Seeker',
       scores: { sexPersonality: 80, boundaries: 85, listening: 90, openness: 75, communication: 85 }
     }));

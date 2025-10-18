@@ -135,7 +135,9 @@ export default function Settings() {
           data-testid="button-logout"
           className="w-full"
           onClick={() => {
-            sessionStorage.clear();
+            localStorage.removeItem('userId');
+            localStorage.removeItem('userName');
+            localStorage.removeItem('userRole');
             setLocation("/");
           }}
         >

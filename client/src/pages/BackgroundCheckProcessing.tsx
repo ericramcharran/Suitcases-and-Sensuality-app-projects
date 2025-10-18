@@ -6,7 +6,7 @@ export default function BackgroundCheckProcessing() {
   const [, setLocation] = useLocation();
 
   // Get data from sessionStorage
-  const hasSubmitted = sessionStorage.getItem('backgroundCheckSubmitted') === 'true';
+  const hasSubmitted = localStorage.getItem('backgroundCheckSubmitted') === 'true';
 
   useEffect(() => {
     // If no submission data, redirect back (only check once on mount)
@@ -21,15 +21,15 @@ export default function BackgroundCheckProcessing() {
 
   const handleComplete = () => {
     // Mark as verified first
-    sessionStorage.setItem('backgroundCheckComplete', 'true');
-    sessionStorage.setItem('backgroundCheckStatus', 'clear');
+    localStorage.setItem('backgroundCheckComplete', 'true');
+    localStorage.setItem('backgroundCheckStatus', 'clear');
     
     // Clear background check data
     sessionStorage.removeItem('backgroundCheckSubmitted');
     sessionStorage.removeItem('backgroundCheckName');
     
     // Get user role to determine which subscription page
-    const userRole = sessionStorage.getItem('userRole') || '';
+    const userRole = localStorage.getItem('userRole') || '';
     const isDominant = userRole === 'Dominant' || userRole === 'Domme' || userRole === 'Master';
     
     // Redirect to appropriate subscription page based on role

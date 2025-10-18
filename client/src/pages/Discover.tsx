@@ -33,7 +33,7 @@ export default function Discover() {
   
   const [emblaRef, emblaApi] = useEmblaCarousel({ loop: false });
   
-  const userId = sessionStorage.getItem('userId');
+  const userId = localStorage.getItem('userId');
 
   // Both buttons locked in fixed positions
   const [isDraggingButtons] = useState(false);

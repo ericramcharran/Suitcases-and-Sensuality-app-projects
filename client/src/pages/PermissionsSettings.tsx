@@ -57,7 +57,7 @@ export default function PermissionsSettings() {
   const requestNotifications = async () => {
     setLoading('notifications');
     setError(null);
-    const userId = sessionStorage.getItem('userId');
+    const userId = localStorage.getItem('userId');
     
     if (!userId) {
       setLoading(null);

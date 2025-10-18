@@ -225,10 +225,10 @@ export default function AgeVerification() {
               if (!canContinue) return;
               
               // Store verification data in sessionStorage
-              sessionStorage.setItem('verificationMonth', month);
-              sessionStorage.setItem('verificationDay', day);
-              sessionStorage.setItem('verificationYear', year);
-              sessionStorage.setItem('hasUploadedId', 'true');
+              localStorage.setItem('verificationMonth', month);
+              localStorage.setItem('verificationDay', day);
+              localStorage.setItem('verificationYear', year);
+              localStorage.setItem('hasUploadedId', 'true');
               
               // Navigate to verification processing page
               setLocation("/verification-processing");

@@ -246,7 +246,7 @@ export default function Escrow() {
               // Open escrow signup in new tab
               window.open('https://www.escrow.com/integrations/signup', '_blank');
               // Mark as initiated
-              sessionStorage.setItem('escrowInitiated', 'true');
+              localStorage.setItem('escrowInitiated', 'true');
             }}
             className="rounded-full bg-primary hover:bg-primary/20 text-white transition-colors px-12 flex items-center gap-2"
             size="lg"
@@ -271,7 +271,7 @@ export default function Escrow() {
             data-testid="button-skip-for-now"
             onClick={() => {
               // Mark escrow as acknowledged
-              sessionStorage.setItem('escrowAcknowledged', 'true');
+              localStorage.setItem('escrowAcknowledged', 'true');
               // Continue to discover page
               setLocation("/discover");
             }}

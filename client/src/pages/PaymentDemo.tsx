@@ -12,9 +12,9 @@ export default function PaymentDemo() {
   const [planDetails, setPlanDetails] = useState<{ role: string; price: string; period: string } | null>(null);
 
   useEffect(() => {
-    const userId = sessionStorage.getItem('userId');
-    const planType = sessionStorage.getItem('selectedPlanType');
-    const billingPeriod = sessionStorage.getItem('selectedBillingPeriod');
+    const userId = localStorage.getItem('userId');
+    const planType = localStorage.getItem('selectedPlanType');
+    const billingPeriod = localStorage.getItem('selectedBillingPeriod');
 
     if (!userId || !planType || !billingPeriod) {
       toast({
@@ -91,13 +91,13 @@ export default function PaymentDemo() {
 
     // Simulate payment processing
     setTimeout(() => {
-      const planType = sessionStorage.getItem('selectedPlanType');
-      const billingPeriod = sessionStorage.getItem('selectedBillingPeriod');
-      const userId = sessionStorage.getItem('userId');
+      const planType = localStorage.getItem('selectedPlanType');
+      const billingPeriod = localStorage.getItem('selectedBillingPeriod');
+      const userId = localStorage.getItem('userId');
 
       // Mark subscription as active (simulate successful payment)
-      sessionStorage.setItem('subscriptionActive', 'true');
-      sessionStorage.setItem('subscriptionPlan', `${planType}-${billingPeriod}`);
+      localStorage.setItem('subscriptionActive', 'true');
+      localStorage.setItem('subscriptionPlan', `${planType}-${billingPeriod}`);
 
       toast({
         title: "Payment Successful (Demo)",
@@ -117,7 +117,7 @@ export default function PaymentDemo() {
   };
 
   const handleCancel = () => {
-    const planType = sessionStorage.getItem('selectedPlanType');
+    const planType = localStorage.getItem('selectedPlanType');
     const isDominant = planType === 'Dominant' || planType === 'Domme' || planType === 'Master';
     
     if (isDominant) {

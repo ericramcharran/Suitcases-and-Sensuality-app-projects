@@ -22,7 +22,7 @@ interface Conversation {
 
 export default function Messages() {
   const [, setLocation] = useLocation();
-  const currentUserId = sessionStorage.getItem("userId");
+  const currentUserId = localStorage.getItem("userId");
 
   const { data: conversations = [], isLoading } = useQuery<Conversation[]>({
     queryKey: ['/api/messages/conversations', currentUserId],

@@ -19,7 +19,7 @@ export default function RelationshipTest() {
 
   const submitTest = useMutation({
     mutationFn: async (answerIndices: number[]) => {
-      const userId = sessionStorage.getItem('userId') || 'temp-user';
+      const userId = localStorage.getItem('userId') || 'temp-user';
       const res = await apiRequest('POST', '/api/relationship-test', {
         userId,
         answers: answerIndices
@@ -27,7 +27,7 @@ export default function RelationshipTest() {
       return await res.json();
     },
     onSuccess: (data) => {
-      sessionStorage.setItem('relationshipResult', JSON.stringify(data));
+      localStorage.setItem('relationshipResult', JSON.stringify(data));
       setLocation("/relationship-result");
     },
     onError: () => {

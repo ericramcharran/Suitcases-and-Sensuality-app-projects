@@ -25,7 +25,7 @@ export default function BackgroundCheck() {
   const [agreeAuthorization, setAgreeAuthorization] = useState(false);
   const [agreeAccuracy, setAgreeAccuracy] = useState(false);
 
-  const userRole = sessionStorage.getItem('userRole') || "Dominant";
+  const userRole = localStorage.getItem('userRole') || "Dominant";
   const isDominant = userRole === "Dominant";
 
   // Format SSN with dashes
@@ -54,10 +54,10 @@ export default function BackgroundCheck() {
 
   const handleSubmit = () => {
     // Store background check data
-    sessionStorage.setItem('backgroundCheckSubmitted', 'true');
-    sessionStorage.setItem('backgroundCheckName', `${firstName} ${lastName}`);
-    sessionStorage.setItem('backgroundCheckCity', city);
-    sessionStorage.setItem('backgroundCheckState', state);
+    localStorage.setItem('backgroundCheckSubmitted', 'true');
+    localStorage.setItem('backgroundCheckName', `${firstName} ${lastName}`);
+    localStorage.setItem('backgroundCheckCity', city);
+    localStorage.setItem('backgroundCheckState', state);
     
     // Navigate to processing page
     setLocation('/background-check-processing');

@@ -22,13 +22,13 @@ export default function ProfileDetails() {
   const [showErrors, setShowErrors] = useState(false);
 
   // Get user ID from session
-  const userId = sessionStorage.getItem('userId');
+  const userId = localStorage.getItem('userId');
 
   // Calculate age from verification data
   const calculateAge = () => {
-    const month = sessionStorage.getItem('verificationMonth');
-    const day = sessionStorage.getItem('verificationDay');
-    const year = sessionStorage.getItem('verificationYear');
+    const month = localStorage.getItem('verificationMonth');
+    const day = localStorage.getItem('verificationDay');
+    const year = localStorage.getItem('verificationYear');
     
     if (!month || !day || !year) return "";
     
@@ -45,8 +45,8 @@ export default function ProfileDetails() {
   };
 
   // Get prefilled data from verification/background check
-  const prefilledCity = sessionStorage.getItem('backgroundCheckCity') || "";
-  const prefilledState = sessionStorage.getItem('backgroundCheckState') || "";
+  const prefilledCity = localStorage.getItem('backgroundCheckCity') || "";
+  const prefilledState = localStorage.getItem('backgroundCheckState') || "";
   const prefilledAge = calculateAge();
 
   // Physical attributes

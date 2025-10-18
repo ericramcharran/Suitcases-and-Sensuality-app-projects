@@ -51,7 +51,7 @@ export default function AgreementTimeline() {
   };
 
   const handleContinue = async () => {
-    const userId = sessionStorage.getItem('userId');
+    const userId = localStorage.getItem('userId');
     if (!userId) {
       setLocation('/signup');
       return;
@@ -87,7 +87,7 @@ export default function AgreementTimeline() {
       });
       
       // Mark escrow as acknowledged and continue to discover
-      sessionStorage.setItem('escrowAcknowledged', 'true');
+      localStorage.setItem('escrowAcknowledged', 'true');
       setLocation("/discover");
     } catch (error) {
       toast({

@@ -54,8 +54,8 @@ export default function TravelMode() {
     }
 
     // Save to sessionStorage (in production, this would save to the backend)
-    sessionStorage.setItem('travelLocation', locationToSave);
-    sessionStorage.setItem('isTraveling', 'true');
+    localStorage.setItem('travelLocation', locationToSave);
+    localStorage.setItem('isTraveling', 'true');
 
     toast({
       title: "Travel mode activated",
@@ -77,8 +77,8 @@ export default function TravelMode() {
     setLocation("/profile");
   };
 
-  const currentTravelLocation = sessionStorage.getItem('travelLocation');
-  const isTraveling = sessionStorage.getItem('isTraveling') === 'true';
+  const currentTravelLocation = localStorage.getItem('travelLocation');
+  const isTraveling = localStorage.getItem('isTraveling') === 'true';
 
   return (
     <div className="min-h-screen bg-muted p-4 sm:p-6">

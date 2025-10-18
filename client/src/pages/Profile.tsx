@@ -22,9 +22,9 @@ export default function Profile() {
   const [editingImageIndex, setEditingImageIndex] = useState<number | null>(null);
   
   // Get data from sessionStorage (will be replaced with real user data)
-  const userName = sessionStorage.getItem('userName') || "User";
-  const userRole = sessionStorage.getItem('userRole') || "Dominant";
-  const userId = sessionStorage.getItem('userId');
+  const userName = localStorage.getItem('userName') || "User";
+  const userRole = localStorage.getItem('userRole') || "Dominant";
+  const userId = localStorage.getItem('userId');
   const personalityType = "Caring Guide";
   const relationshipStyle = "Committed Partnership Builder";
 
@@ -614,10 +614,10 @@ export default function Profile() {
                 </div>
                 <div>
                   <h4 className="font-medium text-foreground">Travel Mode</h4>
-                  {sessionStorage.getItem('isTraveling') === 'true' ? (
+                  {localStorage.getItem('isTraveling') === 'true' ? (
                     <p className="text-sm text-primary flex items-center gap-1">
                       <MapPin className="w-3 h-3" />
-                      {sessionStorage.getItem('travelLocation')}
+                      {localStorage.getItem('travelLocation')}
                     </p>
                   ) : (
                     <p className="text-sm text-muted-foreground">
@@ -627,7 +627,7 @@ export default function Profile() {
                 </div>
               </div>
               <div>
-                {sessionStorage.getItem('isTraveling') === 'true' ? (
+                {localStorage.getItem('isTraveling') === 'true' ? (
                   <span className="text-xs px-2 py-1 rounded-full bg-primary/10 text-primary font-medium">
                     Active
                   </span>

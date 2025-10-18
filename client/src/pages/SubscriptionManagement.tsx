@@ -18,7 +18,7 @@ import type { User } from "@shared/schema";
 
 export default function SubscriptionManagement() {
   const [, setLocation] = useLocation();
-  const userId = sessionStorage.getItem('userId');
+  const userId = localStorage.getItem('userId');
 
   const { data: user, isLoading } = useQuery<User>({
     queryKey: [`/api/users/${userId}`],

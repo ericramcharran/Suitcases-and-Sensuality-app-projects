@@ -6,10 +6,10 @@ export default function VerificationProcessing() {
   const [, setLocation] = useLocation();
 
   // Get verification data from sessionStorage
-  const month = sessionStorage.getItem('verificationMonth');
-  const day = sessionStorage.getItem('verificationDay');
-  const year = sessionStorage.getItem('verificationYear');
-  const hasUploadedId = sessionStorage.getItem('hasUploadedId') === 'true';
+  const month = localStorage.getItem('verificationMonth');
+  const day = localStorage.getItem('verificationDay');
+  const year = localStorage.getItem('verificationYear');
+  const hasUploadedId = localStorage.getItem('hasUploadedId') === 'true';
 
   useEffect(() => {
     // If no verification data, redirect back (only check once on mount)
@@ -24,8 +24,8 @@ export default function VerificationProcessing() {
 
   const handleComplete = () => {
     // Mark as verified first
-    sessionStorage.setItem('ageVerified', 'true');
-    sessionStorage.setItem('dateOfBirth', `${month}/${day}/${year}`);
+    localStorage.setItem('ageVerified', 'true');
+    localStorage.setItem('dateOfBirth', `${month}/${day}/${year}`);
     
     // Clear verification data
     sessionStorage.removeItem('verificationMonth');

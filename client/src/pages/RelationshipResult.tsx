@@ -7,11 +7,11 @@ export default function RelationshipResult() {
   const [, setLocation] = useLocation();
   
   // Get real data from backend
-  const personalityData = JSON.parse(sessionStorage.getItem('personalityResult') || '{}');
-  const relationshipData = JSON.parse(sessionStorage.getItem('relationshipResult') || '{}');
+  const personalityData = JSON.parse(localStorage.getItem('personalityResult') || '{}');
+  const relationshipData = JSON.parse(localStorage.getItem('relationshipResult') || '{}');
   const personalityType = personalityData.personalityType || "Balanced";
   const relationshipStyle = relationshipData.relationshipStyle || "Flexible Explorer";
-  const role = sessionStorage.getItem('userRole') || "Dominant";
+  const role = localStorage.getItem('userRole') || "Dominant";
 
   const getLookingForByStyle = (style: string) => {
     const lookingForMap: Record<string, string[]> = {

@@ -28,7 +28,7 @@ export default function Chat() {
   const [, params] = useRoute("/chat/:matchId");
   const [, setLocation] = useLocation();
   const matchId = params?.matchId;
-  const currentUserId = sessionStorage.getItem("userId");
+  const currentUserId = localStorage.getItem("userId");
   const [messageText, setMessageText] = useState("");
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);

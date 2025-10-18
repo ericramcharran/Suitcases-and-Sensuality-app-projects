@@ -20,7 +20,7 @@ export default function PersonalityTest() {
   const submitTest = useMutation({
     mutationFn: async (answerIndices: number[]) => {
       // For now, using a hardcoded userId - will be replaced with real auth
-      const userId = sessionStorage.getItem('userId') || 'temp-user';
+      const userId = localStorage.getItem('userId') || 'temp-user';
       const res = await apiRequest('POST', '/api/personality-test', {
         userId,
         answers: answerIndices
@@ -29,7 +29,7 @@ export default function PersonalityTest() {
     },
     onSuccess: (data) => {
       // Store result data for the result page
-      sessionStorage.setItem('personalityResult', JSON.stringify(data));
+      localStorage.setItem('personalityResult', JSON.stringify(data));
       setLocation("/personality-result");
     },
     onError: () => {

@@ -17,7 +17,7 @@ interface UserData {
 export default function ProfileName() {
   const [, setLocation] = useLocation();
   const { toast } = useToast();
-  const currentUserId = sessionStorage.getItem("userId");
+  const currentUserId = localStorage.getItem("userId");
   const [profileName, setProfileName] = useState("");
 
   const { data: user, isLoading } = useQuery<UserData>({

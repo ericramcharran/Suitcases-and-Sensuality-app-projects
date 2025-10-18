@@ -12,9 +12,9 @@ export default function Subscribe() {
 
   useEffect(() => {
     // Get userId, planType, and billingPeriod from sessionStorage
-    const userId = sessionStorage.getItem('userId');
-    const planType = sessionStorage.getItem('selectedPlanType');
-    const billingPeriod = sessionStorage.getItem('selectedBillingPeriod');
+    const userId = localStorage.getItem('userId');
+    const planType = localStorage.getItem('selectedPlanType');
+    const billingPeriod = localStorage.getItem('selectedBillingPeriod');
 
     if (!userId || !planType || !billingPeriod) {
       toast({

@@ -7,7 +7,7 @@ export default function PersonalityResult() {
   const [, setLocation] = useLocation();
   
   // Get real data from backend
-  const resultData = JSON.parse(sessionStorage.getItem('personalityResult') || '{}');
+  const resultData = JSON.parse(localStorage.getItem('personalityResult') || '{}');
   const personalityType = resultData.personalityType || "Balanced";
   const scores = resultData.scores || {
     emotionalIntelligence: 0,

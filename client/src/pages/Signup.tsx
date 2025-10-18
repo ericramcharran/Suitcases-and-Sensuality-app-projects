@@ -28,9 +28,9 @@ export default function Signup() {
     },
     onSuccess: (data: any) => {
       // Store user ID for later use
-      sessionStorage.setItem('userId', data.id);
-      sessionStorage.setItem('userName', name);
-      sessionStorage.setItem('userRole', role);
+      localStorage.setItem('userId', data.id);
+      localStorage.setItem('userName', name);
+      localStorage.setItem('userRole', role);
       setLocation("/profile-details");
     },
     onError: () => {

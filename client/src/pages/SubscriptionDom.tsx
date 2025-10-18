@@ -121,7 +121,7 @@ export default function SubscriptionDom() {
   const [selectedPlan, setSelectedPlan] = useState("");
 
   const handleContinue = async () => {
-    const userId = sessionStorage.getItem('userId');
+    const userId = localStorage.getItem('userId');
     if (!userId) {
       setLocation('/signup');
       return;
@@ -132,17 +132,17 @@ export default function SubscriptionDom() {
 
     // For trial, skip payment and go to escrow
     if (plan.id === 'trial') {
-      sessionStorage.setItem('selectedPlan', selectedPlan);
+      localStorage.setItem('selectedPlan', selectedPlan);
       setLocation("/escrow");
       return;
     }
 
     // Get user role from storage to ensure correct pricing
-    const userRole = sessionStorage.getItem('userRole') || 'Domme';
+    const userRole = localStorage.getItem('userRole') || 'Domme';
     
     // For paid plans, store details and go to demo payment page
-    sessionStorage.setItem('selectedPlanType', userRole);
-    sessionStorage.setItem('selectedBillingPeriod', plan.billingPeriod || 'monthly');
+    localStorage.setItem('selectedPlanType', userRole);
+    localStorage.setItem('selectedBillingPeriod', plan.billingPeriod || 'monthly');
     setLocation("/payment-demo");
   };
 
@@ -151,9 +151,9 @@ export default function SubscriptionDom() {
     const plan = plans.find(p => p.id === selectedPlan);
     if (!plan) return;
 
-    sessionStorage.setItem('selectedPlan', selectedPlan);
-    sessionStorage.setItem('subscriptionActive', 'true');
-    sessionStorage.setItem('subscriptionPlan', `Dominant-${plan.billingPeriod || 'trial'}`);
+    localStorage.setItem('selectedPlan', selectedPlan);
+    localStorage.setItem('subscriptionActive', 'true');
+    localStorage.setItem('subscriptionPlan', `Dominant-${plan.billingPeriod || 'trial'}`);
     setLocation("/signup");
   };
 

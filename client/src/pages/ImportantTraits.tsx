@@ -43,7 +43,7 @@ export default function ImportantTraits() {
   const { toast } = useToast();
   const [selectedTraits, setSelectedTraits] = useState<string[]>([]);
   
-  const userId = sessionStorage.getItem('userId');
+  const userId = localStorage.getItem('userId');
 
   // Redirect if no userId
   useEffect(() => {
@@ -87,7 +87,7 @@ export default function ImportantTraits() {
       });
       
       // After important traits, continue to subscription selection
-      const role = sessionStorage.getItem('userRole') || '';
+      const role = localStorage.getItem('userRole') || '';
       
       // Master, Domme, and Switch go to dom subscription
       // submissive goes to sub subscription

@@ -78,11 +78,11 @@ const plans = [
 export default function Subscription() {
   const [, setLocation] = useLocation();
   const [selectedPlan, setSelectedPlan] = useState("");
-  const role = sessionStorage.getItem('userRole') || "";
+  const role = localStorage.getItem('userRole') || "";
 
   const handleContinue = () => {
     // Store selected plan
-    sessionStorage.setItem('selectedPlan', selectedPlan);
+    localStorage.setItem('selectedPlan', selectedPlan);
     
     if (role === 'Dominant') {
       setLocation("/escrow");
