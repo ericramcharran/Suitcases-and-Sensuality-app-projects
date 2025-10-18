@@ -8,7 +8,7 @@ export default function Landing() {
 
   return (
     <div className="min-h-screen bg-background flex flex-col justify-center items-center px-6 py-12">
-      <div className="mb-6">
+      <div className="mb-3">
         <Logo />
       </div>
       <p className="text-muted-foreground text-xl mb-4 text-center font-light">
