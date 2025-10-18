@@ -497,7 +497,7 @@ export default function Discover() {
                     left: `${passButtonPosition.x}px`,
                     bottom: `${passButtonPosition.y}px`,
                     cursor: 'grab',
-                    zIndex: 40
+                    zIndex: 50
                   }}
                   whileTap={{ cursor: 'grabbing' }}
                 >
@@ -511,13 +511,13 @@ export default function Discover() {
                     disabled={passMutation.isPending || likeMutation.isPending}
                     size="icon"
                     variant="secondary"
-                    className="rounded-full h-16 w-16 bg-white border-2 border-border shadow-2xl hover:scale-110 transition-transform"
+                    className="rounded-full h-20 w-20 bg-white border-4 border-white shadow-2xl hover:scale-110 transition-transform"
                   >
-                    <X className="w-7 h-7 text-red-500" />
+                    <X className="w-10 h-10 text-red-500 stroke-[3]" />
                   </Button>
                 </motion.div>
 
-                {/* Like Button */}
+                {/* Like Button - PROMINENT */}
                 <motion.div
                   drag
                   dragMomentum={false}
@@ -537,7 +537,7 @@ export default function Discover() {
                     right: `${likeButtonPosition.x}px`,
                     bottom: `${likeButtonPosition.y}px`,
                     cursor: 'grab',
-                    zIndex: 40
+                    zIndex: 50
                   }}
                   whileTap={{ cursor: 'grabbing' }}
                 >
@@ -550,9 +550,9 @@ export default function Discover() {
                     }}
                     disabled={passMutation.isPending || likeMutation.isPending}
                     size="icon"
-                    className="rounded-full h-16 w-16 bg-primary shadow-2xl hover:scale-110 transition-transform"
+                    className="rounded-full h-20 w-20 bg-gradient-to-br from-pink-500 to-rose-600 shadow-2xl hover:scale-110 transition-transform border-4 border-white"
                   >
-                    <Heart className="w-7 h-7" />
+                    <Heart className="w-10 h-10 fill-white text-white" />
                   </Button>
                 </motion.div>
               </div>
