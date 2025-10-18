@@ -24,7 +24,7 @@ export default function Discover() {
   const [filters, setFilters] = useState<FilterOptions>({
     minAge: 18,
     maxAge: 99,
-    maxDistance: 100,
+    maxDistance: 1000,
     minCompatibility: 0,
   });
   const x = useMotionValue(0);
@@ -200,7 +200,7 @@ export default function Discover() {
     let count = 0;
     if (filters.minAge && filters.minAge > 18) count++;
     if (filters.maxAge && filters.maxAge < 99) count++;
-    if (filters.maxDistance && filters.maxDistance < 100) count++;
+    if (filters.maxDistance && filters.maxDistance < 1000) count++;
     if (filters.minCompatibility && filters.minCompatibility > 0) count++;
     if (filters.role) count++;
     if (filters.experienceLevel) count++;

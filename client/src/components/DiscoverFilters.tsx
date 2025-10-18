@@ -40,7 +40,7 @@ export function DiscoverFilters({ filters, onFiltersChange, activeFilterCount }:
     const emptyFilters: FilterOptions = {
       minAge: 18,
       maxAge: 99,
-      maxDistance: 100,
+      maxDistance: 1000,
       minCompatibility: 0,
     };
     setLocalFilters(emptyFilters);
@@ -105,16 +105,18 @@ export function DiscoverFilters({ filters, onFiltersChange, activeFilterCount }:
           <div className="space-y-1.5">
             <Label className="text-xs font-medium">Max Distance</Label>
             <Slider
-              min={5}
-              max={100}
-              step={5}
-              value={[localFilters.maxDistance || 100]}
+              min={0}
+              max={1000}
+              step={10}
+              value={[localFilters.maxDistance || 1000]}
               onValueChange={([value]) => updateFilter('maxDistance', value)}
               className="w-full"
               data-testid="slider-distance"
             />
             <div className="text-xs text-muted-foreground">
-              {localFilters.maxDistance || 100} miles
+              {localFilters.maxDistance === 1000 || localFilters.maxDistance === 0 
+                ? 'Any distance' 
+                : `${localFilters.maxDistance} miles`}
             </div>
           </div>
 
@@ -143,7 +145,7 @@ export function DiscoverFilters({ filters, onFiltersChange, activeFilterCount }:
               onValueChange={(value) => updateFilter('role', value === "all" ? undefined : value)}
             >
               <SelectTrigger data-testid="select-role" className="h-8 text-xs">
-                <SelectValue placeholder="Any" />
+                <SelectValue />
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="all">Any</SelectItem>
@@ -162,7 +164,7 @@ export function DiscoverFilters({ filters, onFiltersChange, activeFilterCount }:
               onValueChange={(value) => updateFilter('experienceLevel', value === "all" ? undefined : value)}
             >
               <SelectTrigger data-testid="select-experience" className="h-8 text-xs">
-                <SelectValue placeholder="Any" />
+                <SelectValue />
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="all">Any</SelectItem>
@@ -182,7 +184,7 @@ export function DiscoverFilters({ filters, onFiltersChange, activeFilterCount }:
               onValueChange={(value) => updateFilter('lookingFor', value === "all" ? undefined : value)}
             >
               <SelectTrigger data-testid="select-looking-for" className="h-8 text-xs">
-                <SelectValue placeholder="Any" />
+                <SelectValue />
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="all">Any</SelectItem>
@@ -202,7 +204,7 @@ export function DiscoverFilters({ filters, onFiltersChange, activeFilterCount }:
               onValueChange={(value) => updateFilter('bodyType', value === "all" ? undefined : value)}
             >
               <SelectTrigger data-testid="select-body-type" className="h-8 text-xs">
-                <SelectValue placeholder="Any" />
+                <SelectValue />
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="all">Any</SelectItem>
@@ -224,7 +226,7 @@ export function DiscoverFilters({ filters, onFiltersChange, activeFilterCount }:
               onValueChange={(value) => updateFilter('drinking', value === "all" ? undefined : value)}
             >
               <SelectTrigger data-testid="select-drinking" className="h-8 text-xs">
-                <SelectValue placeholder="Any" />
+                <SelectValue />
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="all">Any</SelectItem>
@@ -243,7 +245,7 @@ export function DiscoverFilters({ filters, onFiltersChange, activeFilterCount }:
               onValueChange={(value) => updateFilter('smoking', value === "all" ? undefined : value)}
             >
               <SelectTrigger data-testid="select-smoking" className="h-8 text-xs">
-                <SelectValue placeholder="Any" />
+                <SelectValue />
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="all">Any</SelectItem>
@@ -262,7 +264,7 @@ export function DiscoverFilters({ filters, onFiltersChange, activeFilterCount }:
               onValueChange={(value) => updateFilter('fitnessLevel', value === "all" ? undefined : value)}
             >
               <SelectTrigger data-testid="select-fitness" className="h-8 text-xs">
-                <SelectValue placeholder="Any" />
+                <SelectValue />
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="all">Any</SelectItem>
