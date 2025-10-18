@@ -428,25 +428,48 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return;
       }
 
-      // Create subscription
+      // Create or get Stripe product
+      const productName = 'The Executive Society Membership';
+      let product = await stripe.products.search({
+        query: `name:'${productName}'`,
+        limit: 1
+      });
+
+      let productId: string;
+      if (product.data.length > 0) {
+        productId = product.data[0].id;
+      } else {
+        const newProduct = await stripe.products.create({
+          name: productName,
+          description: 'Premium BDSM dating platform membership'
+        });
+        productId = newProduct.id;
+      }
+
+      // Create subscription with price
       const subscription = await stripe.subscriptions.create({
         customer: customerId,
         items: [{
           price_data: {
             currency: 'usd',
-            product: `${user.role} Membership - ${config.displayName}`,
+            product: productId,
             unit_amount: amount,
             recurring: {
               interval: config.interval,
               interval_count: config.intervalCount
             }
-          } as any
+          }
         }],
         payment_behavior: 'default_incomplete',
         payment_settings: {
           save_default_payment_method: 'on_subscription'
         },
-        expand: ['latest_invoice.payment_intent']
+        expand: ['latest_invoice.payment_intent'],
+        metadata: {
+          role: user.role,
+          billingPeriod: billingPeriod,
+          planName: config.displayName
+        }
       });
 
       // Update user with subscription ID
