@@ -36,10 +36,11 @@ export default function Discover() {
     return saved ? JSON.parse(saved) : { x: 30, y: 30 };
   })();
   
-  // Heart button - locked position from localStorage
+  // Heart button - locked position (RESET TO DEFAULT)
   const savedLikePosition = (() => {
-    const saved = localStorage.getItem('likeButtonPosition');
-    return saved ? JSON.parse(saved) : { x: 0, y: 0 };
+    // Clear any off-screen positioning and reset to center
+    localStorage.removeItem('likeButtonPosition');
+    return { x: 0, y: 0 };
   })();
 
   // Profile card position - developer control
