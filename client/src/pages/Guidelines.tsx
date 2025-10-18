@@ -45,6 +45,17 @@ export default function Guidelines() {
     return () => container.removeEventListener('scroll', handleScroll);
   }, [hasScrolledToBottom]);
 
+  // Auto-navigate when checkbox is checked
+  useEffect(() => {
+    if (agreed) {
+      // Small delay for better UX
+      const timer = setTimeout(() => {
+        setLocation("/background-check");
+      }, 500);
+      return () => clearTimeout(timer);
+    }
+  }, [agreed, setLocation]);
+
   return (
     <div className="min-h-screen bg-muted p-6">
       <button
@@ -143,18 +154,6 @@ export default function Guidelines() {
             </div>
           </Card>
         )}
-
-        <div className="flex justify-center">
-          <Button
-            data-testid="button-continue"
-            onClick={() => setLocation("/signup")}
-            disabled={!agreed}
-            className="rounded-full bg-red-500 hover:bg-black text-white transition-colors px-12"
-            size="lg"
-          >
-            Continue
-          </Button>
-        </div>
       </div>
     </div>
   );
