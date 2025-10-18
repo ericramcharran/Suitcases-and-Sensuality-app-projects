@@ -61,7 +61,7 @@ const plans = [
     price: '$149',
     duration: 'per month',
     totalPrice: '$1,788',
-    description: 'Best value - Save 40%',
+    description: 'Save 40%',
     features: [
       'All 6-Month features',
       'Save $1,200 vs monthly',
@@ -71,6 +71,27 @@ const plans = [
       'Annual Dom summit invitation',
       'Dedicated account manager',
       'Lifestyle concierge services'
+    ],
+    popular: false
+  },
+  {
+    id: '5-year',
+    name: 'Executive 5-Year',
+    price: '$119',
+    duration: 'per month',
+    totalPrice: '$7,140',
+    description: 'Ultimate value - Save 52%',
+    features: [
+      'All Annual features',
+      'Save $7,800 vs monthly',
+      'Lifetime price lock guarantee',
+      'Elite Dom concierge services',
+      'Priority matching forever',
+      'Exclusive 5-year member benefits',
+      'Free premium upgrades',
+      'VIP summit attendance',
+      'Personal relationship advisor',
+      'Annual luxury gifts'
     ],
     popular: false
   }
@@ -123,7 +144,7 @@ export default function SubscriptionDom() {
         </Card>
 
         {/* Plans */}
-        <div className="grid md:grid-cols-2 gap-4 mb-6">
+        <div className="grid md:grid-cols-3 gap-4 mb-6">
           {plans.map((plan) => (
             <Card
               key={plan.id}
