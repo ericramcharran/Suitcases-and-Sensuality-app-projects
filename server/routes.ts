@@ -10,6 +10,7 @@ import Stripe from "stripe";
 import { sendMatchNotification } from "./email";
 import webpush from "web-push";
 import { WebSocketServer, WebSocket } from "ws";
+import { uploadUserDataToDrive } from "./googleDrive";
 
 // Initialize Stripe (from blueprint:javascript_stripe)
 // Guard initialization to allow development without keys
@@ -160,6 +161,34 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.json(users);
     } catch (error) {
       res.status(500).json({ error: "Failed to fetch users" });
+    }
+  });
+
+  // Export user data to Google Drive (admin only)
+  app.post("/api/users/export-to-drive", async (req, res) => {
+    try {
+      // Check if user is admin
+      const adminEmail = process.env.ADMIN_EMAIL;
+      const requestEmail = req.body.email;
+      
+      if (!adminEmail || requestEmail !== adminEmail) {
+        res.status(403).json({ error: "Unauthorized - Admin access only" });
+        return;
+      }
+
+      const users = await storage.getAllUsers();
+      const result = await uploadUserDataToDrive(users);
+      
+      res.json({ 
+        success: true, 
+        message: "User data exported to Google Drive",
+        fileId: result.id,
+        fileName: result.name,
+        webViewLink: result.webViewLink
+      });
+    } catch (error: any) {
+      console.error('Export to Drive error:', error);
+      res.status(500).json({ error: error.message || "Failed to export to Google Drive" });
     }
   });
 

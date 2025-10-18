@@ -1,7 +1,10 @@
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useMutation } from "@tanstack/react-query";
 import { Card } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 import { useLocation } from "wouter";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, Upload } from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
+import { apiRequest } from "@/lib/queryClient";
 
 interface User {
   id: string;
@@ -16,9 +19,31 @@ interface User {
 
 export default function UserData() {
   const [, setLocation] = useLocation();
+  const { toast } = useToast();
+  const userEmail = localStorage.getItem('userEmail');
 
   const { data: users = [], isLoading } = useQuery<User[]>({
     queryKey: ['/api/users'],
+  });
+
+  const exportToDriveMutation = useMutation({
+    mutationFn: async () => {
+      const res = await apiRequest('POST', '/api/users/export-to-drive', { email: userEmail });
+      return await res.json();
+    },
+    onSuccess: (data) => {
+      toast({
+        title: "Success",
+        description: `User data exported to Google Drive: ${data.fileName}`,
+      });
+    },
+    onError: (error: any) => {
+      toast({
+        variant: "destructive",
+        title: "Export failed",
+        description: error.message || "Failed to export to Google Drive. Make sure you have admin access.",
+      });
+    },
   });
 
   return (
@@ -32,8 +57,20 @@ export default function UserData() {
       </button>
 
       <div className="max-w-4xl mx-auto">
-        <h1 className="text-3xl font-light mb-2 text-foreground">User Data</h1>
-        <p className="text-muted-foreground mb-6">Internal data view - Actual names linked to profile names</p>
+        <div className="flex justify-between items-start mb-6">
+          <div>
+            <h1 className="text-3xl font-light mb-2 text-foreground">User Data</h1>
+            <p className="text-muted-foreground">Internal data view - Actual names linked to profile names</p>
+          </div>
+          <Button
+            onClick={() => exportToDriveMutation.mutate()}
+            disabled={exportToDriveMutation.isPending}
+            data-testid="button-export-drive"
+          >
+            <Upload className="w-4 h-4 mr-2" />
+            {exportToDriveMutation.isPending ? 'Exporting...' : 'Export to Drive'}
+          </Button>
+        </div>
 
         {isLoading ? (
           <div className="text-center py-12">
