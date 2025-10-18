@@ -27,8 +27,19 @@ export default function Discover() {
   
   const userId = sessionStorage.getItem('userId');
 
-  // Buttons locked in fixed positions
+  // Buttons locked in fixed positions (using saved positions if available)
   const [isDraggingButtons] = useState(false);
+  
+  // Load saved positions from localStorage (but don't allow dragging)
+  const savedPassPosition = (() => {
+    const saved = localStorage.getItem('passButtonPosition');
+    return saved ? JSON.parse(saved) : { x: 30, y: 30 };
+  })();
+  
+  const savedLikePosition = (() => {
+    const saved = localStorage.getItem('likeButtonPosition');
+    return saved ? JSON.parse(saved) : { x: 0, y: 0 };
+  })();
 
   // Profile card position - developer control
   const [profileCardPosition, setProfileCardPosition] = useState(() => {
@@ -444,12 +455,12 @@ export default function Discover() {
                 </div>
 
                 {/* Floating Action Buttons - LOCKED IN POSITION */}
-                {/* Pass Button - WHITE X - BOTTOM LEFT */}
+                {/* Pass Button - WHITE X - Uses saved position */}
                 <div
                   style={{
                     position: 'absolute',
-                    left: '30px',
-                    bottom: '30px',
+                    left: `${savedPassPosition.x}px`,
+                    bottom: `${savedPassPosition.y}px`,
                     zIndex: 999,
                     filter: 'drop-shadow(0 10px 25px rgba(0, 0, 0, 0.4)) drop-shadow(0 6px 12px rgba(0, 0, 0, 0.3))'
                   }}
@@ -466,13 +477,13 @@ export default function Discover() {
                   </Button>
                 </div>
 
-                {/* Like Button - PINK HEART - CENTER BOTTOM */}
+                {/* Like Button - PINK HEART - Uses saved position */}
                 <div
                   style={{
                     position: 'absolute',
                     left: '50%',
                     bottom: '30px',
-                    transform: 'translateX(-50%)',
+                    transform: `translate(calc(-50% + ${savedLikePosition.x}px), ${-savedLikePosition.y}px)`,
                     zIndex: 999,
                     filter: 'drop-shadow(0 10px 25px rgba(0, 0, 0, 0.4)) drop-shadow(0 6px 12px rgba(0, 0, 0, 0.3))'
                   }}
