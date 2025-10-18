@@ -23,6 +23,7 @@ import Messages from "@/pages/Messages";
 import Profile from "@/pages/Profile";
 import Settings from "@/pages/Settings";
 import MatchResult from "@/pages/MatchResult";
+import AboutApp from "@/pages/AboutApp";
 
 function App() {
   return (
@@ -49,6 +50,7 @@ function App() {
             <Route path="/profile" component={Profile} />
             <Route path="/settings" component={Settings} />
             <Route path="/match-result" component={MatchResult} />
+            <Route path="/about" component={AboutApp} />
             <Route>
               <Landing />
             </Route>

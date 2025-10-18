@@ -1,4 +1,4 @@
-import { ChevronLeft, Bell, Shield, Eye, CreditCard, HelpCircle, LogOut } from "lucide-react";
+import { ChevronLeft, Bell, Shield, Eye, CreditCard, HelpCircle, LogOut, Info } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Switch } from "@/components/ui/switch";
 import { useLocation } from "wouter";
@@ -30,6 +30,13 @@ const settingsOptions = [
     title: "Subscription",
     description: "Manage your plan and billing",
     hasSwitch: false
+  },
+  {
+    icon: Info,
+    title: "About This App",
+    description: "Learn more about The Executive Society",
+    hasSwitch: false,
+    link: "/about"
   },
   {
     icon: HelpCircle,
@@ -70,6 +77,7 @@ export default function Settings() {
               key={i}
               data-testid={`setting-${i}`}
               className="p-4 hover-elevate active-elevate-2 cursor-pointer"
+              onClick={() => option.link && setLocation(option.link)}
             >
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center flex-shrink-0">
@@ -118,11 +126,13 @@ export default function Settings() {
         <div className="mt-6 text-center text-sm text-muted-foreground">
           <p>Version 1.0.0</p>
           <p className="mt-1">
-            <a href="#" className="text-primary hover:underline">Terms</a>
+            <button onClick={() => setLocation("/about")} className="text-primary hover:underline">About</button>
             {" · "}
-            <a href="#" className="text-primary hover:underline">Privacy</a>
+            <button onClick={() => setLocation("/terms")} className="text-primary hover:underline">Terms</button>
             {" · "}
-            <a href="#" className="text-primary hover:underline">Guidelines</a>
+            <button onClick={() => setLocation("/privacy")} className="text-primary hover:underline">Privacy</button>
+            {" · "}
+            <button onClick={() => setLocation("/guidelines")} className="text-primary hover:underline">Guidelines</button>
           </p>
         </div>
       </div>
