@@ -7,17 +7,17 @@ const howItWorks = [
   {
     step: "1",
     title: "Initial Deposit",
-    description: "Deposit $1,000 minimum via escrow or mutual fund",
+    description: "$1,000 non-refundable deposit via escrow or mutual fund",
   },
   {
     step: "2",
-    title: "First Meeting",
-    description: "$2,000 held securely, earning value if invested",
+    title: "Service Fee",
+    description: "$2,000 platform service fee for matching and verification",
   },
   {
     step: "3",
     title: "Final Match",
-    description: "$50,000 account (plus growth) transfers to submissive",
+    description: "$50,000+ account (plus growth) for submissive's financial security",
   },
 ];
 
@@ -68,16 +68,25 @@ export default function Escrow() {
           <h3 className="font-medium text-foreground mb-3">Financial Structure</h3>
           <div className="space-y-3">
             <div className="flex justify-between items-center">
-              <span className="text-sm text-muted-foreground">Initial deposit</span>
+              <div className="flex flex-col">
+                <span className="text-sm text-muted-foreground">Initial deposit</span>
+                <span className="text-xs text-muted-foreground italic">Non-refundable</span>
+              </div>
               <span className="font-semibold text-foreground">$1,000</span>
             </div>
             <div className="flex justify-between items-center">
-              <span className="text-sm text-muted-foreground">First meeting requirement</span>
+              <div className="flex flex-col">
+                <span className="text-sm text-muted-foreground">Platform service fee</span>
+                <span className="text-xs text-muted-foreground italic">Matching & verification</span>
+              </div>
               <span className="font-semibold text-foreground">$2,000</span>
             </div>
             <div className="pt-3 border-t border-border">
               <div className="flex justify-between items-center">
-                <span className="text-sm text-muted-foreground">Final match requirement</span>
+                <div className="flex flex-col">
+                  <span className="text-sm text-muted-foreground">Final match requirement</span>
+                  <span className="text-xs text-muted-foreground italic">For submissive's security</span>
+                </div>
                 <span className="font-semibold text-red-500">$50,000+</span>
               </div>
               <p className="text-xs text-muted-foreground mt-2">
@@ -94,12 +103,16 @@ export default function Escrow() {
             </div>
             <div>
               <h3 className="font-medium text-foreground mb-1">
-                Account Transfer & Growth
+                Financial Security for Your Partner
               </h3>
               <p className="text-sm text-muted-foreground">
-                Upon final match, the entire account (escrow or mutual fund investment) transfers to your 
-                submissive partner. If held in mutual funds, your commitment grows over time, demonstrating 
-                long-term dedication and providing enhanced financial security.
+                Upon final match, the $50,000+ account (escrow or mutual fund investment) transfers to your 
+                submissive partner, ensuring their financial security. If held in mutual funds, your commitment 
+                grows over time, demonstrating long-term dedication and providing enhanced value.
+              </p>
+              <p className="text-sm text-muted-foreground mt-2">
+                The initial $1,000 deposit is non-refundable and demonstrates serious commitment. 
+                The $2,000 service fee covers our comprehensive matching, verification, and safety services.
               </p>
             </div>
           </div>
