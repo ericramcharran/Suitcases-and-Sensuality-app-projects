@@ -18,6 +18,7 @@ function transformUserForFrontend(user: any) {
     escrowBalance: user.escrow_balance,
     personalityType: user.personality_type,
     relationshipStyle: user.relationship_style,
+    importantTraits: user.important_traits,
     agreedTerms: user.agreed_terms,
     agreedConsent: user.agreed_consent,
     agreedPrivacy: user.agreed_privacy,

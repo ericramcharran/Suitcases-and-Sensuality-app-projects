@@ -40,6 +40,7 @@ export const users = pgTable("users", {
   lookingFor: text("looking_for"), // Casual, Long-term, Exploring, etc.
   experienceLevel: text("experience_level"), // Beginner, Intermediate, Advanced, Expert
   sexualOrientation: text("sexual_orientation"),
+  importantTraits: jsonb("important_traits").$type<string[]>().default(sql`'[]'::jsonb`), // Array of selected important traits
   // Profile bio
   bio: text("bio"),
   createdAt: timestamp("created_at").defaultNow(),

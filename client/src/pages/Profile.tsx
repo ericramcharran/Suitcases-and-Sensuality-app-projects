@@ -614,6 +614,29 @@ export default function Profile() {
             </div>
           </Card>
 
+          {/* Important Traits */}
+          <Card className="p-4 mb-4 hover-elevate active-elevate-2 cursor-pointer" onClick={() => setLocation("/important-traits")}>
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <Heart className="w-5 h-5 text-primary" />
+                <h4 className="font-medium text-foreground">Things Important to Me</h4>
+              </div>
+              <Button
+                data-testid="button-edit-traits"
+                variant="ghost"
+                size="sm"
+              >
+                <Pencil className="w-4 h-4 mr-1" />
+                Edit
+              </Button>
+            </div>
+            <p className="text-sm text-muted-foreground mt-2">
+              {userData?.importantTraits && userData.importantTraits.length > 0 
+                ? `${userData.importantTraits.length} traits selected`
+                : "Select the values that matter most to you"}
+            </p>
+          </Card>
+
           {/* Physical Attributes */}
           <Card className="p-4 mb-4">
             <div className="flex items-center justify-between mb-3">

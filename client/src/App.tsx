@@ -34,6 +34,7 @@ import Discover from "@/pages/Discover";
 import Learn from "@/pages/Learn";
 import Messages from "@/pages/Messages";
 import Profile from "@/pages/Profile";
+import ImportantTraits from "@/pages/ImportantTraits";
 import Settings from "@/pages/Settings";
 import MatchResult from "@/pages/MatchResult";
 import AboutApp from "@/pages/AboutApp";
@@ -128,6 +129,9 @@ function App() {
               </Route>
               <Route path="/profile">
                 <PageTransition><Profile /></PageTransition>
+              </Route>
+              <Route path="/important-traits">
+                <PageTransition><ImportantTraits /></PageTransition>
               </Route>
               <Route path="/settings">
                 <PageTransition><Settings /></PageTransition>
