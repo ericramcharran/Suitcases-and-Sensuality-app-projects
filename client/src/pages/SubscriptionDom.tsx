@@ -241,16 +241,6 @@ export default function SubscriptionDom() {
           ))}
         </div>
 
-        {/* DEBUG INFO */}
-        <div className="text-center mb-4 p-4 bg-purple-500/20 border-2 border-purple-500 rounded-lg">
-          <p className="text-sm font-bold text-purple-600 dark:text-purple-300">
-            🔧 DEBUG: Page Updated - Version 3.0
-          </p>
-          <p className="text-xs text-purple-600 dark:text-purple-300 mt-1">
-            Selected Plan: {selectedPlan || 'None'}
-          </p>
-        </div>
-
         {/* Continue Button */}
         <div className="flex flex-col items-center gap-4">
           <Button
@@ -263,16 +253,16 @@ export default function SubscriptionDom() {
             {selectedPlan === 'trial' ? 'Start Free Trial' : 'Continue to Financial Setup'}
           </Button>
           
-          {/* SKIP BUTTON - ALWAYS VISIBLE */}
+          {/* Testing Skip Button */}
           <Button
             data-testid="button-skip-payment"
             onClick={handleSkipPayment}
             disabled={!selectedPlan}
             variant="outline"
             size="lg"
-            className="w-full max-w-md border-4 border-yellow-500 bg-yellow-500/20 text-yellow-900 dark:text-yellow-100 hover:bg-yellow-500/30 font-bold text-base"
+            className="w-full max-w-md border-2 border-yellow-500 text-yellow-700 dark:text-yellow-400 hover:bg-yellow-500/10 font-medium"
           >
-            ⚡⚡⚡ SKIP PAYMENT (TESTING) ⚡⚡⚡
+            ⚡ Skip Payment (Testing Mode)
           </Button>
           
           <p className="text-xs text-muted-foreground text-center max-w-md">

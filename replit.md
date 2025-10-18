@@ -138,6 +138,10 @@ Preferred communication style: Simple, everyday language.
 ### Payment & Subscription System
 - **Stripe Integration** - Full subscription payment processing with tiered pricing
 - **Digital Signatures** - react-signature-canvas for legal agreement tracking
+- **Testing Features for Development**:
+  - Demo Payment Page (`/payment-demo`) - Simulates payment without real Stripe checkout
+  - "Skip Payment (Testing Mode)" button on subscription pages - Bypasses payment flow entirely
+  - Both testing methods redirect to appropriate next step (Dominants to /escrow, Submissives to /subscription-success)
 - **Subscription Tiers** (Dominant/Domme/Master):
   - Monthly: $249/mo
   - 3-Month: $229/mo (save 8%)
