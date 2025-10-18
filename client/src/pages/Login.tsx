@@ -53,7 +53,7 @@ export default function Login() {
       <div className="max-w-md mx-auto w-full flex flex-col min-h-screen">
         {/* Header */}
         <div className="p-4 sm:p-6 text-center">
-          <div className="mb-2">
+          <div>
             <Logo />
           </div>
           <p className="text-sm text-muted-foreground">
