@@ -236,17 +236,18 @@ export default function SubscriptionSub() {
           ))}
         </div>
 
-        {/* Selected Plan Debug */}
-        {selectedPlan && (
-          <div className="text-center mb-4 p-3 bg-blue-500/10 border border-blue-500/30 rounded-lg">
-            <p className="text-sm font-medium text-blue-600 dark:text-blue-400">
-              ✓ Selected: {plans.find(p => p.id === selectedPlan)?.name}
-            </p>
-          </div>
-        )}
+        {/* DEBUG INFO */}
+        <div className="text-center mb-4 p-4 bg-purple-500/20 border-2 border-purple-500 rounded-lg">
+          <p className="text-sm font-bold text-purple-600 dark:text-purple-300">
+            🔧 DEBUG: Page Updated - Version 3.0
+          </p>
+          <p className="text-xs text-purple-600 dark:text-purple-300 mt-1">
+            Selected Plan: {selectedPlan || 'None'}
+          </p>
+        </div>
 
         {/* Continue Button */}
-        <div className="flex flex-col items-center gap-3">
+        <div className="flex flex-col items-center gap-4">
           <Button
             data-testid="button-continue"
             onClick={handleContinue}
@@ -257,20 +258,19 @@ export default function SubscriptionSub() {
             {selectedPlan === 'trial' ? 'Start Free Trial' : 'Continue to Matching'}
           </Button>
           
-          {/* Testing Skip Button - NOW SHOWS FOR ALL PLANS */}
-          {selectedPlan && (
-            <Button
-              data-testid="button-skip-payment"
-              onClick={handleSkipPayment}
-              variant="outline"
-              size="default"
-              className="border-2 border-yellow-500 text-yellow-600 dark:text-yellow-400 hover:bg-yellow-500/10 font-medium"
-            >
-              ⚡ Skip Payment (Testing Mode)
-            </Button>
-          )}
+          {/* SKIP BUTTON - ALWAYS VISIBLE */}
+          <Button
+            data-testid="button-skip-payment"
+            onClick={handleSkipPayment}
+            disabled={!selectedPlan}
+            variant="outline"
+            size="lg"
+            className="w-full max-w-md border-4 border-yellow-500 bg-yellow-500/20 text-yellow-900 dark:text-yellow-100 hover:bg-yellow-500/30 font-bold text-base"
+          >
+            ⚡⚡⚡ SKIP PAYMENT (TESTING) ⚡⚡⚡
+          </Button>
           
-          <p className="text-xs text-muted-foreground text-center">
+          <p className="text-xs text-muted-foreground text-center max-w-md">
             {selectedPlan === 'trial' 
               ? 'Enjoy 3 months free. All Doms are verified for your safety.'
               : 'Next: Discover verified Dominant members who match your preferences'}
