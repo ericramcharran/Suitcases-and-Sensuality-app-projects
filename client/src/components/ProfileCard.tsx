@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect } from "react";
+import { useState, useCallback, useEffect, useRef } from "react";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { ChevronLeft, ChevronRight, MapPin, Verified, ChevronDown } from "lucide-react";
@@ -42,6 +42,8 @@ export function ProfileCard({
 }: ProfileCardProps) {
   const [emblaRef, emblaApi] = useEmblaCarousel({ loop: false });
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const touchStartY = useRef<number>(0);
+  const touchStartX = useRef<number>(0);
 
   const scrollPrev = useCallback(() => {
     if (emblaApi) emblaApi.scrollPrev();
@@ -66,6 +68,48 @@ export function ProfileCard({
     };
   }, [emblaApi]);
 
+  // Handle touch start
+  const handleTouchStart = useCallback((e: React.TouchEvent) => {
+    touchStartY.current = e.touches[0].clientY;
+    touchStartX.current = e.touches[0].clientX;
+  }, []);
+
+  // Handle touch end
+  const handleTouchEnd = useCallback((e: React.TouchEvent) => {
+    const touchEndY = e.changedTouches[0].clientY;
+    const touchEndX = e.changedTouches[0].clientX;
+    
+    const deltaY = touchEndY - touchStartY.current;
+    const deltaX = touchEndX - touchStartX.current;
+    
+    // Check if it's a downward swipe (more vertical than horizontal)
+    if (deltaY > 50 && Math.abs(deltaX) < Math.abs(deltaY) * 0.5) {
+      // Swipe down detected - go to next image
+      if (currentImageIndex < (profile.profileImages?.length || 0) - 1) {
+        scrollNext();
+      }
+    }
+  }, [currentImageIndex, profile.profileImages, scrollNext]);
+
+  // Handle mouse drag for desktop
+  const handleMouseDown = useCallback((e: React.MouseEvent) => {
+    touchStartY.current = e.clientY;
+    touchStartX.current = e.clientX;
+  }, []);
+
+  const handleMouseUp = useCallback((e: React.MouseEvent) => {
+    const deltaY = e.clientY - touchStartY.current;
+    const deltaX = e.clientX - touchStartX.current;
+    
+    // Check if it's a downward drag (more vertical than horizontal)
+    if (deltaY > 50 && Math.abs(deltaX) < Math.abs(deltaY) * 0.5) {
+      // Drag down detected - go to next image
+      if (currentImageIndex < (profile.profileImages?.length || 0) - 1) {
+        scrollNext();
+      }
+    }
+  }, [currentImageIndex, profile.profileImages, scrollNext]);
+
   return (
     <Card className={`h-full flex flex-col ${className}`} data-testid="profile-card">
       {/* Profile Image Carousel - 30% larger than before */}
@@ -76,27 +120,21 @@ export function ProfileCard({
             <div className="overflow-hidden h-full" ref={emblaRef}>
               <div className="flex h-full">
                 {profile.profileImages.map((imageUrl: string, idx: number) => (
-                  <div key={idx} className="flex-[0_0_100%] min-w-0 relative h-full">
-                    <motion.div
-                      className="w-full h-full"
-                      drag="y"
-                      dragConstraints={{ top: 0, bottom: 0 }}
-                      dragElastic={0.2}
-                      onDragEnd={(e, info) => {
-                        // If dragged down more than 60px, go to next image
-                        if (info.offset.y > 60 && currentImageIndex < (profile.profileImages?.length || 0) - 1) {
-                          scrollNext();
-                        }
-                      }}
-                    >
-                      <img
-                        src={imageUrl}
-                        alt={`${profile.name} ${idx + 1}`}
-                        className="w-full h-full object-cover pointer-events-none select-none"
-                        data-testid={`image-profile-${idx}`}
-                        draggable={false}
-                      />
-                    </motion.div>
+                  <div 
+                    key={idx} 
+                    className="flex-[0_0_100%] min-w-0 relative h-full"
+                    onTouchStart={handleTouchStart}
+                    onTouchEnd={handleTouchEnd}
+                    onMouseDown={handleMouseDown}
+                    onMouseUp={handleMouseUp}
+                  >
+                    <img
+                      src={imageUrl}
+                      alt={`${profile.name} ${idx + 1}`}
+                      className="w-full h-full object-cover select-none"
+                      data-testid={`image-profile-${idx}`}
+                      draggable={false}
+                    />
                     {/* Gradient overlay for better text readability */}
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent pointer-events-none" />
                   </div>
