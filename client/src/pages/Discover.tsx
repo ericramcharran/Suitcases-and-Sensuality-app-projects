@@ -27,20 +27,8 @@ export default function Discover() {
   
   const userId = sessionStorage.getItem('userId');
 
-  // Load saved button positions from localStorage - CLEARED FOR VISIBILITY
-  const [passButtonPosition, setPassButtonPosition] = useState(() => {
-    // Clear any old positioning and start fresh at bottom-left
-    localStorage.removeItem('passButtonPosition');
-    return { x: 30, y: 30 };
-  });
-  
-  const [likeButtonPosition, setLikeButtonPosition] = useState(() => {
-    // Clear any old positioning and start fresh at center-bottom
-    localStorage.removeItem('likeButtonPosition');
-    return { x: 0, y: 0 };
-  });
-
-  const [isDraggingButtons, setIsDraggingButtons] = useState(false);
+  // Buttons locked in fixed positions
+  const [isDraggingButtons] = useState(false);
 
   // Profile card position - developer control
   const [profileCardPosition, setProfileCardPosition] = useState(() => {
@@ -307,29 +295,6 @@ export default function Discover() {
           <h2 className="text-xl sm:text-2xl font-light text-foreground">Discover</h2>
           <div className="flex gap-2">
             <button
-              data-testid="button-reset-layout"
-              onClick={() => {
-                const defaultPass = { x: 30, y: 30 };
-                const defaultLike = { x: 0, y: 0 };
-                const defaultCardPosition = { x: 0, y: 0 };
-                setPassButtonPosition(defaultPass);
-                setLikeButtonPosition(defaultLike);
-                setProfileCardPosition(defaultCardPosition);
-                localStorage.setItem('passButtonPosition', JSON.stringify(defaultPass));
-                localStorage.setItem('likeButtonPosition', JSON.stringify(defaultLike));
-                localStorage.setItem('profileCardPosition', JSON.stringify(defaultCardPosition));
-                localStorage.removeItem('wavePosition');
-                localStorage.removeItem('profileImageHeight');
-                toast({
-                  title: "Layout Reset",
-                  description: "All buttons and card positions restored to default",
-                });
-              }}
-              className="text-foreground/70 hover-elevate active-elevate-2 p-2 rounded-md text-xs font-medium"
-            >
-              Reset Layout
-            </button>
-            <button
               data-testid="button-settings"
               onClick={() => setLocation("/settings")}
               className="text-foreground/70 hover-elevate active-elevate-2 p-2 rounded-md min-w-[44px] min-h-[44px] flex items-center justify-center"
@@ -478,43 +443,20 @@ export default function Discover() {
                   </motion.div>
                 </div>
 
-                {/* Floating Action Buttons */}
-                {/* Pass Button - WHITE X - FLOATING SHADOW */}
-                <motion.div
-                  drag
-                  dragMomentum={false}
-                  dragElastic={0}
-                  onDragStart={() => setIsDraggingButtons(true)}
-                  onDragEnd={(e, info) => {
-                    setIsDraggingButtons(false);
-                    const newPosition = {
-                      x: passButtonPosition.x + info.offset.x,
-                      y: passButtonPosition.y + info.offset.y
-                    };
-                    setPassButtonPosition(newPosition);
-                    localStorage.setItem('passButtonPosition', JSON.stringify(newPosition));
-                    toast({
-                      title: "X Button Moved",
-                      description: `Positioned at (${Math.round(newPosition.x)}, ${Math.round(newPosition.y)})`,
-                    });
-                  }}
+                {/* Floating Action Buttons - LOCKED IN POSITION */}
+                {/* Pass Button - WHITE X - BOTTOM LEFT */}
+                <div
                   style={{
                     position: 'absolute',
-                    left: `${passButtonPosition.x}px`,
-                    bottom: `${passButtonPosition.y}px`,
-                    cursor: 'grab',
+                    left: '30px',
+                    bottom: '30px',
                     zIndex: 999,
                     filter: 'drop-shadow(0 10px 25px rgba(0, 0, 0, 0.4)) drop-shadow(0 6px 12px rgba(0, 0, 0, 0.3))'
                   }}
-                  whileTap={{ cursor: 'grabbing' }}
                 >
                   <Button
                     data-testid="button-pass"
-                    onClick={(e) => {
-                      if (!isDraggingButtons) {
-                        handlePass();
-                      }
-                    }}
+                    onClick={handlePass}
                     disabled={passMutation.isPending || likeMutation.isPending}
                     size="icon"
                     variant="secondary"
@@ -522,52 +464,29 @@ export default function Discover() {
                   >
                     <X className="w-6 h-6 text-red-500 stroke-[2.5]" />
                   </Button>
-                </motion.div>
+                </div>
 
-                {/* Like Button - PINK HEART - FLOATING SHADOW */}
-                <motion.div
-                  drag
-                  dragMomentum={false}
-                  dragElastic={0}
-                  onDragStart={() => setIsDraggingButtons(true)}
-                  onDragEnd={(e, info) => {
-                    setIsDraggingButtons(false);
-                    const newPosition = {
-                      x: likeButtonPosition.x + info.offset.x,
-                      y: likeButtonPosition.y + info.offset.y
-                    };
-                    setLikeButtonPosition(newPosition);
-                    localStorage.setItem('likeButtonPosition', JSON.stringify(newPosition));
-                    toast({
-                      title: "Heart Button Moved",
-                      description: `Positioned at (${Math.round(newPosition.x)}, ${Math.round(newPosition.y)})`,
-                    });
-                  }}
+                {/* Like Button - PINK HEART - CENTER BOTTOM */}
+                <div
                   style={{
                     position: 'absolute',
                     left: '50%',
                     bottom: '30px',
-                    transform: `translate(calc(-50% + ${likeButtonPosition.x}px), ${-likeButtonPosition.y}px)`,
-                    cursor: 'grab',
+                    transform: 'translateX(-50%)',
                     zIndex: 999,
                     filter: 'drop-shadow(0 10px 25px rgba(0, 0, 0, 0.4)) drop-shadow(0 6px 12px rgba(0, 0, 0, 0.3))'
                   }}
-                  whileTap={{ cursor: 'grabbing' }}
                 >
                   <Button
                     data-testid="button-like"
-                    onClick={(e) => {
-                      if (!isDraggingButtons) {
-                        handleLike();
-                      }
-                    }}
+                    onClick={handleLike}
                     disabled={passMutation.isPending || likeMutation.isPending}
                     size="icon"
                     className="rounded-full h-12 w-12 bg-gradient-to-br from-pink-500 to-rose-600 hover:scale-110 transition-transform border-2 border-white"
                   >
                     <Heart className="w-6 h-6 fill-white text-white" />
                   </Button>
-                </motion.div>
+                </div>
               </div>
 
             {/* Profile Info - Scrollable with invisible scrollbar */}
