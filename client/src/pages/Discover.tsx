@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Heart, MessageCircle, Settings, User, BookOpen, X, MapPin, Shield } from "lucide-react";
+import { Heart, MessageCircle, Settings, User, BookOpen, X, MapPin, Shield, ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
@@ -8,11 +8,19 @@ import { useQuery, useMutation } from "@tanstack/react-query";
 import { apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
 import { queryClient } from "@/lib/queryClient";
+import { motion, useMotionValue, useTransform, PanInfo } from "framer-motion";
+import useEmblaCarousel from "embla-carousel-react";
 
 export default function Discover() {
   const [, setLocation] = useLocation();
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const { toast } = useToast();
+  const x = useMotionValue(0);
+  const rotate = useTransform(x, [-200, 200], [-25, 25]);
+  const opacity = useTransform(x, [-200, -100, 0, 100, 200], [0, 1, 1, 1, 0]);
+  
+  const [emblaRef, emblaApi] = useEmblaCarousel({ loop: false });
   
   const userId = sessionStorage.getItem('userId');
 
@@ -101,6 +109,14 @@ export default function Discover() {
   const currentProfile = profiles[currentIndex];
   const hasMore = currentIndex < profiles.length - 1;
 
+  // Reset image index when profile changes
+  useEffect(() => {
+    setCurrentImageIndex(0);
+    if (emblaApi) {
+      emblaApi.scrollTo(0);
+    }
+  }, [currentIndex, emblaApi]);
+
   const handleLike = () => {
     if (currentProfile) {
       likeMutation.mutate(currentProfile.id);
@@ -112,6 +128,41 @@ export default function Discover() {
       passMutation.mutate(currentProfile.id);
     }
   };
+
+  const handleDragEnd = (event: MouseEvent | TouchEvent | PointerEvent, info: PanInfo) => {
+    const swipeThreshold = 100;
+    
+    if (info.offset.x > swipeThreshold) {
+      // Swiped right = dislike/pass
+      handlePass();
+    } else if (info.offset.x < -swipeThreshold) {
+      // Swiped left = like
+      handleLike();
+    }
+  };
+
+  const scrollPrev = () => {
+    if (emblaApi) emblaApi.scrollPrev();
+  };
+
+  const scrollNext = () => {
+    if (emblaApi) emblaApi.scrollNext();
+  };
+
+  useEffect(() => {
+    if (!emblaApi) return;
+
+    const onSelect = () => {
+      setCurrentImageIndex(emblaApi.selectedScrollSnap());
+    };
+
+    emblaApi.on('select', onSelect);
+    onSelect();
+
+    return () => {
+      emblaApi.off('select', onSelect);
+    };
+  }, [emblaApi]);
 
   if (isLoading) {
     return (
@@ -334,50 +385,144 @@ export default function Discover() {
 
         {/* Match Card */}
         <div className="flex-1 p-3 sm:p-4 overflow-hidden">
-          <Card className="h-full flex flex-col overflow-hidden" data-testid="match-card">
-            {/* Profile Image Placeholder */}
-            <div className="bg-gradient-to-br from-primary/60 to-pink-500/60 h-64 flex items-center justify-center relative rounded-t-xl">
-              <Avatar className="w-32 h-32">
-                <AvatarFallback className="text-5xl bg-primary/20">
-                  {currentProfile.name.charAt(0).toUpperCase()}
-                </AvatarFallback>
-              </Avatar>
-              <div className="absolute top-4 right-4 bg-green-500 text-white text-xs px-3 py-1 rounded-full font-medium" data-testid="text-match-percentage">
-                {currentProfile.matchPercentage}%
-              </div>
-              {currentProfile.verified && (
-                <div className="absolute top-4 left-4 bg-blue-500 text-white text-xs px-3 py-1 rounded-full flex items-center gap-1" data-testid="badge-verified">
-                  <Shield className="w-3 h-3" />
-                  Verified {currentProfile.role}
+          <motion.div
+            style={{ x, rotate, opacity }}
+            drag="x"
+            dragConstraints={{ left: 0, right: 0 }}
+            onDragEnd={handleDragEnd}
+            className="h-full"
+          >
+            <Card className="h-full flex flex-col overflow-hidden" data-testid="match-card">
+              {/* Profile Image Carousel */}
+              <div className="relative h-96 bg-muted rounded-t-xl overflow-hidden">
+                {currentProfile.profileImages && currentProfile.profileImages.length > 0 ? (
+                  <>
+                    {/* Carousel */}
+                    <div className="overflow-hidden h-full" ref={emblaRef}>
+                      <div className="flex h-full">
+                        {currentProfile.profileImages.map((imageUrl: string, idx: number) => (
+                          <div key={idx} className="flex-[0_0_100%] min-w-0 relative h-full">
+                            <img
+                              src={imageUrl}
+                              alt={`${currentProfile.name} ${idx + 1}`}
+                              className="w-full h-full object-cover"
+                              data-testid={`image-profile-${idx}`}
+                            />
+                            {/* Gradient overlay for better text readability */}
+                            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent pointer-events-none" />
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* Navigation Arrows */}
+                    {currentProfile.profileImages.length > 1 && (
+                      <>
+                        {currentImageIndex > 0 && (
+                          <button
+                            onClick={scrollPrev}
+                            className="absolute left-2 top-1/2 -translate-y-1/2 bg-black/50 text-white p-2 rounded-full hover:bg-black/70 transition-colors z-10"
+                            data-testid="button-prev-image"
+                          >
+                            <ChevronLeft className="w-5 h-5" />
+                          </button>
+                        )}
+                        {currentImageIndex < currentProfile.profileImages.length - 1 && (
+                          <button
+                            onClick={scrollNext}
+                            className="absolute right-2 top-1/2 -translate-y-1/2 bg-black/50 text-white p-2 rounded-full hover:bg-black/70 transition-colors z-10"
+                            data-testid="button-next-image"
+                          >
+                            <ChevronRight className="w-5 h-5" />
+                          </button>
+                        )}
+
+                        {/* Image Indicators */}
+                        <div className="absolute top-4 left-0 right-0 flex justify-center gap-1 z-10">
+                          {currentProfile.profileImages.map((_: any, idx: number) => (
+                            <div
+                              key={idx}
+                              className={`h-1 rounded-full transition-all ${
+                                idx === currentImageIndex
+                                  ? 'w-8 bg-white'
+                                  : 'w-1 bg-white/50'
+                              }`}
+                              data-testid={`indicator-${idx}`}
+                            />
+                          ))}
+                        </div>
+                      </>
+                    )}
+                  </>
+                ) : (
+                  <div className="bg-gradient-to-br from-primary/60 to-pink-500/60 h-full flex items-center justify-center">
+                    <Avatar className="w-32 h-32">
+                      <AvatarFallback className="text-5xl bg-primary/20">
+                        {currentProfile.name.charAt(0).toUpperCase()}
+                      </AvatarFallback>
+                    </Avatar>
+                  </div>
+                )}
+
+                {/* Match Percentage Badge */}
+                <div className="absolute top-4 right-4 bg-green-500 text-white text-xs px-3 py-1 rounded-full font-medium z-10" data-testid="text-match-percentage">
+                  {currentProfile.matchPercentage}%
                 </div>
-              )}
-              
-              {/* Floating Action Buttons */}
-              <div className="absolute bottom-4 left-0 right-0 flex justify-center gap-4 sm:gap-6">
-                <Button
-                  data-testid="button-pass"
-                  onClick={handlePass}
-                  disabled={passMutation.isPending || likeMutation.isPending}
-                  size="icon"
-                  variant="secondary"
-                  className="rounded-full h-14 w-14 sm:h-16 sm:w-16 bg-background/90 backdrop-blur-sm border-2 border-border/50 shadow-lg hover:scale-110 transition-transform min-h-[56px] min-w-[56px]"
-                >
-                  <X className="w-6 h-6" />
-                </Button>
-                <Button
-                  data-testid="button-like"
-                  onClick={handleLike}
-                  disabled={passMutation.isPending || likeMutation.isPending}
-                  size="icon"
-                  className="rounded-full h-14 w-14 sm:h-16 sm:w-16 bg-primary shadow-lg hover:scale-110 transition-transform min-h-[56px] min-w-[56px]"
-                >
-                  <Heart className="w-6 h-6" />
-                </Button>
+
+                {/* Verified Badge */}
+                {currentProfile.verified && (
+                  <div className="absolute top-4 left-4 bg-blue-500 text-white text-xs px-3 py-1 rounded-full flex items-center gap-1 z-10" data-testid="badge-verified">
+                    <Shield className="w-3 h-3" />
+                    Verified {currentProfile.role}
+                  </div>
+                )}
+                
+                {/* Swipe Hint Overlays */}
+                <div className="absolute left-0 top-0 bottom-0 w-1/3 flex items-center justify-center pointer-events-none">
+                  <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: x.get() > 50 ? 1 : 0 }}
+                    className="bg-red-500/90 text-white px-4 py-2 rounded-lg font-bold text-lg rotate-12"
+                  >
+                    PASS
+                  </motion.div>
+                </div>
+                <div className="absolute right-0 top-0 bottom-0 w-1/3 flex items-center justify-center pointer-events-none">
+                  <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: x.get() < -50 ? 1 : 0 }}
+                    className="bg-green-500/90 text-white px-4 py-2 rounded-lg font-bold text-lg -rotate-12"
+                  >
+                    LIKE
+                  </motion.div>
+                </div>
               </div>
+
+            {/* Action Buttons */}
+            <div className="p-4 flex justify-center gap-4 sm:gap-6 border-t border-border">
+              <Button
+                data-testid="button-pass"
+                onClick={handlePass}
+                disabled={passMutation.isPending || likeMutation.isPending}
+                size="icon"
+                variant="secondary"
+                className="rounded-full h-14 w-14 sm:h-16 sm:w-16 bg-background border-2 border-border shadow-lg hover:scale-110 transition-transform min-h-[56px] min-w-[56px]"
+              >
+                <X className="w-6 h-6" />
+              </Button>
+              <Button
+                data-testid="button-like"
+                onClick={handleLike}
+                disabled={passMutation.isPending || likeMutation.isPending}
+                size="icon"
+                className="rounded-full h-14 w-14 sm:h-16 sm:w-16 bg-primary shadow-lg hover:scale-110 transition-transform min-h-[56px] min-w-[56px]"
+              >
+                <Heart className="w-6 h-6" />
+              </Button>
             </div>
 
             {/* Profile Info */}
-            <div className="flex-1 p-4 sm:p-6 overflow-y-auto">
+            <div className="flex-1 p-4 sm:p-6 overflow-y-auto border-t border-border">
               <h3 className="text-xl sm:text-2xl font-light mb-1 text-foreground" data-testid="text-match-name">
                 {currentProfile.name}
               </h3>
@@ -404,6 +549,7 @@ export default function Discover() {
               </p>
             </div>
           </Card>
+          </motion.div>
         </div>
 
         {/* Bottom Navigation */}
