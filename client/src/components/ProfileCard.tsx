@@ -3,6 +3,7 @@ import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { MapPin, Verified, ChevronUp } from "lucide-react";
 import useEmblaCarousel from 'embla-carousel-react';
+// Updated navigation: pull-up arrow only
 
 interface ProfileCardProps {
   profile: {
