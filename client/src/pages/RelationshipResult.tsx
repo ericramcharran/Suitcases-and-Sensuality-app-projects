@@ -132,10 +132,12 @@ export default function RelationshipResult() {
         <Button
           data-testid="button-continue"
           onClick={() => {
-            if (role === 'Dominant') {
-              setLocation("/subscription-dom");
-            } else {
+            // Master, Domme, and Switch go to dom subscription
+            // submissive goes to sub subscription
+            if (role === 'submissive') {
               setLocation("/subscription-sub");
+            } else {
+              setLocation("/subscription-dom");
             }
           }}
           className="w-full rounded-full bg-red-500 hover:bg-black text-white transition-colors"
