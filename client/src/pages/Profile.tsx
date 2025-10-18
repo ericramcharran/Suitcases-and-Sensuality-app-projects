@@ -377,12 +377,6 @@ export default function Profile() {
             <p className="text-primary font-medium text-sm sm:text-base" data-testid="text-profile-role">
               {userRole}
             </p>
-            <button
-              onClick={() => setLocation("/user-data")}
-              className="text-xs text-muted-foreground/50 hover:text-muted-foreground mt-1"
-            >
-              View Data
-            </button>
           </div>
 
           {/* Profile Name Card */}
