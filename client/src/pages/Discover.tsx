@@ -522,7 +522,7 @@ export default function Discover() {
             </div>
 
             {/* Profile Info */}
-            <div className="flex-1 p-4 sm:p-6 overflow-y-auto border-t border-border">
+            <div className="flex-1 p-4 sm:p-6 overflow-hidden border-t border-border">
               <h3 className="text-xl sm:text-2xl font-light mb-1 text-foreground" data-testid="text-match-name">
                 {currentProfile.name}
               </h3>
