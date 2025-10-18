@@ -1,4 +1,4 @@
-import { Heart, MessageCircle, User, BookOpen, Settings, Shield, Award, Upload, X, UserCircle, FileText, Pencil } from "lucide-react";
+import { Heart, MessageCircle, User, BookOpen, Settings, Shield, Award, Upload, X, UserCircle, FileText, Pencil, Edit2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
@@ -15,8 +15,10 @@ export default function Profile() {
   const [, setLocation] = useLocation();
   const { toast } = useToast();
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const editFileInputRefs = useRef<{ [key: number]: HTMLInputElement | null }>({});
   const [isEditingAttributes, setIsEditingAttributes] = useState(false);
   const [isEditingBio, setIsEditingBio] = useState(false);
+  const [editingImageIndex, setEditingImageIndex] = useState<number | null>(null);
   
   // Get data from sessionStorage (will be replaced with real user data)
   const userName = sessionStorage.getItem('userName') || "User";
@@ -238,6 +240,80 @@ export default function Profile() {
     }
   };
 
+  // Replace mutation for editing existing images
+  const replaceMutation = useMutation({
+    mutationFn: async ({ file, oldImageUrl }: { file: File; oldImageUrl: string }) => {
+      const formData = new FormData();
+      formData.append('image', file);
+      formData.append('oldImageUrl', oldImageUrl);
+      
+      const res = await fetch(`/api/users/${userId}/images/replace`, {
+        method: 'POST',
+        body: formData
+      });
+      
+      if (!res.ok) {
+        const error = await res.json();
+        throw new Error(error.error || 'Failed to replace image');
+      }
+      
+      return await res.json();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['/api/users', userId] });
+      setEditingImageIndex(null);
+      toast({
+        title: "Success",
+        description: "Image replaced successfully"
+      });
+    },
+    onError: (error: Error) => {
+      toast({
+        variant: "destructive",
+        title: "Replace failed",
+        description: error.message
+      });
+    }
+  });
+
+  const handleEditImage = (index: number) => {
+    setEditingImageIndex(index);
+    editFileInputRefs.current[index]?.click();
+  };
+
+  const handleEditFileSelect = (e: React.ChangeEvent<HTMLInputElement>, imageUrl: string) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    // Validate file size (5MB max)
+    if (file.size > 5 * 1024 * 1024) {
+      toast({
+        variant: "destructive",
+        title: "File too large",
+        description: "Image must be less than 5MB"
+      });
+      return;
+    }
+
+    // Validate file type
+    if (!file.type.startsWith('image/')) {
+      toast({
+        variant: "destructive",
+        title: "Invalid file type",
+        description: "Please upload an image file"
+      });
+      return;
+    }
+
+    replaceMutation.mutate({ file, oldImageUrl: imageUrl });
+    
+    // Reset input
+    const index = editingImageIndex;
+    if (index !== null && editFileInputRefs.current[index]) {
+      editFileInputRefs.current[index]!.value = '';
+    }
+  };
+
   return (
     <div className="min-h-screen bg-background flex flex-col">
       <div className="max-w-md mx-auto w-full flex flex-col pb-20">
@@ -314,14 +390,32 @@ export default function Profile() {
                       alt={`Profile ${index + 1}`}
                       className="w-full h-full object-cover"
                     />
-                    <button
-                      data-testid={`button-delete-image-${index}`}
-                      onClick={() => deleteMutation.mutate(imageUrl)}
-                      disabled={deleteMutation.isPending}
-                      className="absolute top-1 right-1 bg-destructive/90 text-destructive-foreground p-1 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
-                    >
-                      <X className="w-4 h-4" />
-                    </button>
+                    <input
+                      ref={(el) => editFileInputRefs.current[index] = el}
+                      type="file"
+                      accept="image/*"
+                      onChange={(e) => handleEditFileSelect(e, imageUrl)}
+                      className="hidden"
+                      data-testid={`input-edit-file-${index}`}
+                    />
+                    <div className="absolute top-1 right-1 flex gap-1">
+                      <button
+                        data-testid={`button-edit-image-${index}`}
+                        onClick={() => handleEditImage(index)}
+                        disabled={replaceMutation.isPending || deleteMutation.isPending}
+                        className="bg-primary/90 text-primary-foreground p-1 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
+                      >
+                        <Edit2 className="w-4 h-4" />
+                      </button>
+                      <button
+                        data-testid={`button-delete-image-${index}`}
+                        onClick={() => deleteMutation.mutate(imageUrl)}
+                        disabled={deleteMutation.isPending || replaceMutation.isPending}
+                        className="bg-destructive/90 text-destructive-foreground p-1 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
+                      >
+                        <X className="w-4 h-4" />
+                      </button>
+                    </div>
                     {index === 0 && (
                       <div className="absolute bottom-1 left-1 bg-blue-500 text-white text-xs px-2 py-0.5 rounded-full">
                         Primary
