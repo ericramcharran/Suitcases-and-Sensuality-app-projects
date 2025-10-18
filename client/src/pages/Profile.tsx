@@ -541,10 +541,9 @@ export default function Profile() {
                   data-testid="button-edit-bio"
                   onClick={() => setIsEditingBio(true)}
                   variant="ghost"
-                  size="sm"
+                  size="icon"
                 >
-                  <Pencil className="w-4 h-4 mr-1" />
-                  Edit
+                  <Pencil className="w-4 h-4" />
                 </Button>
               )}
             </div>
@@ -711,10 +710,9 @@ export default function Profile() {
               <Button
                 data-testid="button-edit-traits"
                 variant="ghost"
-                size="sm"
+                size="icon"
               >
-                <Pencil className="w-4 h-4 mr-1" />
-                Edit
+                <Pencil className="w-4 h-4" />
               </Button>
             </div>
             <p className="text-sm text-muted-foreground mt-2">
@@ -736,10 +734,9 @@ export default function Profile() {
                   data-testid="button-edit-attributes"
                   onClick={() => setIsEditingAttributes(true)}
                   variant="ghost"
-                  size="sm"
+                  size="icon"
                 >
-                  <Pencil className="w-4 h-4 mr-1" />
-                  Edit
+                  <Pencil className="w-4 h-4" />
                 </Button>
               )}
             </div>
