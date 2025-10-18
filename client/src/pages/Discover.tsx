@@ -69,7 +69,10 @@ export default function Discover() {
         if (hasMore) {
           setCurrentIndex(currentIndex + 1);
         } else {
-          queryClient.invalidateQueries({ queryKey: ['/api/matches/potential', userId] });
+          // Only invalidate and reset if not in review mode
+          if (!includeReviewed) {
+            queryClient.invalidateQueries({ queryKey: ['/api/matches/potential', userId] });
+          }
           setCurrentIndex(0);
         }
       }
@@ -96,7 +99,10 @@ export default function Discover() {
       if (hasMore) {
         setCurrentIndex(currentIndex + 1);
       } else {
-        queryClient.invalidateQueries({ queryKey: ['/api/matches/potential', userId] });
+        // Only invalidate and reset if not in review mode
+        if (!includeReviewed) {
+          queryClient.invalidateQueries({ queryKey: ['/api/matches/potential', userId] });
+        }
         setCurrentIndex(0);
       }
     },
@@ -112,6 +118,13 @@ export default function Discover() {
   const profiles = potentialMatches || [];
   const currentProfile = profiles[currentIndex];
   const hasMore = currentIndex < profiles.length - 1;
+
+  // Reset index when includeReviewed changes
+  useEffect(() => {
+    if (includeReviewed && profiles.length > 0) {
+      setCurrentIndex(0);
+    }
+  }, [includeReviewed, profiles.length]);
 
   // Reset image index when profile changes
   useEffect(() => {
