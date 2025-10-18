@@ -392,9 +392,9 @@ export default function Discover() {
             onDragEnd={handleDragEnd}
             className="h-full"
           >
-            <Card className="h-full flex flex-col overflow-hidden" data-testid="match-card">
+            <Card className="h-full flex flex-col overflow-visible" data-testid="match-card">
               {/* Profile Image Carousel */}
-              <div className="relative h-96 bg-muted rounded-t-xl overflow-hidden">
+              <div className="relative h-96 bg-muted rounded-t-xl overflow-visible z-10">
                 {currentProfile.profileImages && currentProfile.profileImages.length > 0 ? (
                   <>
                     {/* Carousel */}
@@ -496,10 +496,21 @@ export default function Discover() {
                     LIKE
                   </motion.div>
                 </div>
+                
+                {/* Curved Wave Overlay */}
+                <div className="absolute bottom-0 left-0 right-0 translate-y-[50px] z-20 pointer-events-none">
+                  <svg viewBox="0 0 400 80" className="w-full h-20" preserveAspectRatio="none">
+                    <path 
+                      d="M 0,0 L 0,40 Q 100,10 200,40 T 400,40 L 400,0 Z" 
+                      fill="currentColor"
+                      className="text-card drop-shadow-lg"
+                    />
+                  </svg>
+                </div>
               </div>
 
             {/* Action Buttons */}
-            <div className="p-4 grid grid-cols-3 border-t border-border">
+            <div className="p-4 pt-8 grid grid-cols-3 relative z-0">
               <div className="flex justify-center items-center">
                 <Button
                   data-testid="button-pass"
