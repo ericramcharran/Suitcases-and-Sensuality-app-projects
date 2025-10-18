@@ -9,6 +9,7 @@ import AgeVerification from "@/pages/AgeVerification";
 import Terms from "@/pages/Terms";
 import Consent from "@/pages/Consent";
 import Privacy from "@/pages/Privacy";
+import PrivacyPolicy from "@/pages/PrivacyPolicy";
 import Guidelines from "@/pages/Guidelines";
 import Signup from "@/pages/Signup";
 import PersonalityTest from "@/pages/PersonalityTest";
@@ -39,6 +40,7 @@ function App() {
             <Route path="/terms" component={Terms} />
             <Route path="/consent" component={Consent} />
             <Route path="/privacy" component={Privacy} />
+            <Route path="/privacy-policy" component={PrivacyPolicy} />
             <Route path="/guidelines" component={Guidelines} />
             <Route path="/signup" component={Signup} />
             <Route path="/personality-test" component={PersonalityTest} />

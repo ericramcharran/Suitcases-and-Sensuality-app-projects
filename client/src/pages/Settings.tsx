@@ -15,8 +15,9 @@ const settingsOptions = [
   {
     icon: Shield,
     title: "Privacy",
-    description: "Control who can see your profile",
-    hasSwitch: false
+    description: "View our privacy policy",
+    hasSwitch: false,
+    link: "/privacy-policy"
   },
   {
     icon: Eye,
