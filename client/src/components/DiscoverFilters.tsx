@@ -177,26 +177,6 @@ export function DiscoverFilters({ filters, onFiltersChange, activeFilterCount }:
             </Select>
           </div>
 
-          {/* Looking For */}
-          <div className="space-y-1.5">
-            <Label className="text-xs font-medium">Looking For</Label>
-            <Select
-              value={localFilters.lookingFor || "all"}
-              onValueChange={(value) => updateFilter('lookingFor', value === "all" ? undefined : value)}
-            >
-              <SelectTrigger data-testid="select-looking-for" className="h-8 text-xs">
-                <SelectValue placeholder="Any" />
-              </SelectTrigger>
-              <SelectContent className="z-[1100]">
-                <SelectItem value="all">Any</SelectItem>
-                <SelectItem value="Casual">Casual</SelectItem>
-                <SelectItem value="Long-term">Long-term</SelectItem>
-                <SelectItem value="Exploring">Exploring</SelectItem>
-                <SelectItem value="Friends">Friends</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-
           {/* Body Type */}
           <div className="space-y-1.5">
             <Label className="text-xs font-medium">Body Type</Label>

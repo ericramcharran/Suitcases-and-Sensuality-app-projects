@@ -176,9 +176,6 @@ export default function Discover() {
       // Experience level filter
       if (filters.experienceLevel && match.experienceLevel !== filters.experienceLevel) return false;
       
-      // Looking for filter
-      if (filters.lookingFor && match.lookingFor !== filters.lookingFor) return false;
-      
       // Body type filter
       if (filters.bodyType && match.bodyType !== filters.bodyType) return false;
       
@@ -204,7 +201,6 @@ export default function Discover() {
     if (filters.minCompatibility && filters.minCompatibility > 0) count++;
     if (filters.role) count++;
     if (filters.experienceLevel) count++;
-    if (filters.lookingFor) count++;
     if (filters.bodyType) count++;
     if (filters.drinking) count++;
     if (filters.smoking) count++;
