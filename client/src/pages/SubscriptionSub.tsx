@@ -254,10 +254,10 @@ export default function SubscriptionSub() {
               data-testid="button-skip-payment"
               onClick={handleSkipPayment}
               variant="outline"
-              size="sm"
-              className="text-xs opacity-70 hover:opacity-100"
+              size="default"
+              className="border-2 border-yellow-500 text-yellow-600 dark:text-yellow-400 hover:bg-yellow-500/10 font-medium"
             >
-              Skip Payment (Testing)
+              ⚡ Skip Payment (Testing Mode)
             </Button>
           )}
           
