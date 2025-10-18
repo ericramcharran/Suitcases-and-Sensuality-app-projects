@@ -357,10 +357,10 @@ export default function Discover() {
                 drag="y"
                 dragMomentum={false}
                 dragElastic={0}
-                dragConstraints={{ top: -200, bottom: 200 }}
+                dragConstraints={{ top: -300, bottom: 100 }}
                 onDrag={(e, info) => {
-                  // Calculate new wave position based on drag
-                  const newPosition = Math.max(0.5, Math.min(0.95, wavePosition + (info.offset.y / 2000)));
+                  // Calculate new wave position based on drag (more sensitive)
+                  const newPosition = Math.max(0.4, Math.min(1.0, wavePosition + (info.offset.y / 800)));
                   setWavePosition(newPosition);
                 }}
                 onDragEnd={() => {
@@ -373,14 +373,17 @@ export default function Discover() {
                 style={{
                   position: 'absolute',
                   left: '50%',
-                  top: `${wavePosition * 100}%`,
-                  transform: 'translate(-50%, -50%)',
+                  top: `${wavePosition * 590}px`,
+                  transform: 'translateX(-50%)',
                   cursor: 'ns-resize',
                   zIndex: 30
                 }}
-                className="bg-white/80 dark:bg-black/80 border-2 border-primary rounded-full p-2 shadow-lg"
+                className="bg-primary/90 border-2 border-white rounded-full px-4 py-2 shadow-xl"
               >
-                <div className="w-8 h-1 bg-primary rounded-full" />
+                <div className="flex items-center gap-2">
+                  <div className="w-12 h-2 bg-white rounded-full" />
+                  <span className="text-white text-xs font-medium">Drag Wave</span>
+                </div>
               </motion.div>
               
               {/* Profile Image Carousel */}
