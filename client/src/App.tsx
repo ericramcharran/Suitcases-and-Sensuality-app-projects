@@ -29,6 +29,7 @@ import SubscriptionRoleSelect from "@/pages/SubscriptionRoleSelect";
 import SubscriptionDom from "@/pages/SubscriptionDom";
 import SubscriptionSub from "@/pages/SubscriptionSub";
 import Subscribe from "@/pages/Subscribe";
+import PaymentDemo from "@/pages/PaymentDemo";
 import SubscriptionSuccess from "@/pages/SubscriptionSuccess";
 import Escrow from "@/pages/Escrow";
 import AgreementTimeline from "@/pages/AgreementTimeline";
@@ -117,6 +118,9 @@ function App() {
               </Route>
               <Route path="/subscribe">
                 <PageTransition><Subscribe /></PageTransition>
+              </Route>
+              <Route path="/payment-demo">
+                <PageTransition><PaymentDemo /></PageTransition>
               </Route>
               <Route path="/subscription-success">
                 <PageTransition><SubscriptionSuccess /></PageTransition>

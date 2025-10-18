@@ -140,10 +140,10 @@ export default function SubscriptionDom() {
     // Get user role from storage to ensure correct pricing
     const userRole = sessionStorage.getItem('userRole') || 'Domme';
     
-    // For paid plans, store details and go to Stripe checkout
+    // For paid plans, store details and go to demo payment page
     sessionStorage.setItem('selectedPlanType', userRole);
     sessionStorage.setItem('selectedBillingPeriod', plan.billingPeriod || 'monthly');
-    setLocation("/subscribe");
+    setLocation("/payment-demo");
   };
 
   return (
