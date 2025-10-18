@@ -137,10 +137,12 @@ export default function Settings() {
             setLocation("/");
           }}
         >
-          <Card className="p-4 hover-elevate active-elevate-2 cursor-pointer bg-destructive/10 border-destructive/20">
+          <Card className="p-4 hover-elevate active-elevate-2 cursor-pointer">
             <div className="flex items-center gap-3">
-              <LogOut className="w-5 h-5 text-destructive" />
-              <h3 className="font-medium text-destructive">Log Out</h3>
+              <div className="w-10 h-10 bg-muted rounded-full flex items-center justify-center flex-shrink-0">
+                <LogOut className="w-5 h-5 text-muted-foreground" />
+              </div>
+              <h3 className="font-medium text-foreground">Log Out</h3>
             </div>
           </Card>
         </button>
