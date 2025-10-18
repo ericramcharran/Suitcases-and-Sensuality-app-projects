@@ -96,6 +96,25 @@ export default function ProfileDetails() {
     profession && drinking && smoking && fitnessLevel && 
     experienceLevel && sexualOrientation;
 
+  // Debug - log missing fields
+  const missingFields = [];
+  if (!age) missingFields.push('age');
+  if (!sex) missingFields.push('sex');
+  if (!heightFeet) missingFields.push('heightFeet');
+  if (!heightInches) missingFields.push('heightInches');
+  if (!bodyType) missingFields.push('bodyType');
+  if (!race) missingFields.push('race');
+  if (!eyeColor) missingFields.push('eyeColor');
+  if (!hairColor) missingFields.push('hairColor');
+  if (!city) missingFields.push('city');
+  if (!state) missingFields.push('state');
+  if (!profession) missingFields.push('profession');
+  if (!drinking) missingFields.push('drinking');
+  if (!smoking) missingFields.push('smoking');
+  if (!fitnessLevel) missingFields.push('fitnessLevel');
+  if (!experienceLevel) missingFields.push('experienceLevel');
+  if (!sexualOrientation) missingFields.push('sexualOrientation');
+
   const handleContinue = () => {
     const height = `${heightFeet}'${heightInches}"`;
     updateProfileMutation.mutate({
@@ -436,6 +455,18 @@ export default function ProfileDetails() {
               </div>
             </div>
           </Card>
+
+          {/* Debug Info */}
+          {missingFields.length > 0 && (
+            <Card className="p-4 bg-yellow-500/10 border-yellow-500/30">
+              <p className="text-sm font-medium text-yellow-700 dark:text-yellow-400 mb-2">
+                Missing fields ({missingFields.length}):
+              </p>
+              <p className="text-xs text-yellow-600 dark:text-yellow-300">
+                {missingFields.join(', ')}
+              </p>
+            </Card>
+          )}
 
           <div className="flex justify-center pt-4">
             <Button
