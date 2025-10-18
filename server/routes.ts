@@ -53,6 +53,35 @@ const upload = multer({
 });
 
 export async function registerRoutes(app: Express): Promise<Server> {
+  // Login endpoint
+  app.post("/api/auth/login", async (req, res) => {
+    try {
+      const { email, password } = req.body;
+      
+      if (!email || !password) {
+        return res.status(400).json({ message: "Email and password are required" });
+      }
+
+      const user = await storage.getUserByEmail(email);
+      
+      if (!user || user.password !== password) {
+        return res.status(401).json({ message: "Invalid credentials" });
+      }
+
+      res.json({ 
+        user: {
+          id: user.id,
+          name: user.name,
+          email: user.email,
+          role: user.role,
+          verified: user.verified
+        }
+      });
+    } catch (error) {
+      res.status(500).json({ message: "Server error" });
+    }
+  });
+
   // Create a new user profile
   app.post("/api/users", async (req, res) => {
     try {

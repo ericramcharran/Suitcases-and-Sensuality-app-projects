@@ -30,15 +30,42 @@ export default function Login() {
 
     setIsLoading(true);
 
-    // Simulate login (will be replaced with actual authentication)
-    setTimeout(() => {
-      setIsLoading(false);
+    try {
+      const response = await fetch('/api/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: username, password })
+      });
+
+      if (!response.ok) {
+        const error = await response.json();
+        toast({
+          variant: "destructive",
+          title: "Login Failed",
+          description: error.message || "Invalid credentials"
+        });
+        setIsLoading(false);
+        return;
+      }
+
+      const data = await response.json();
+      sessionStorage.setItem('userId', data.user.id);
+      sessionStorage.setItem('userName', data.user.name);
+      
       toast({
-        title: "Welcome Back",
+        title: "Welcome Back, " + data.user.name,
         description: "Login successful!"
       });
       setLocation("/discover");
-    }, 1000);
+    } catch (error) {
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: "Something went wrong. Please try again."
+      });
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleForgotPassword = () => {
