@@ -49,23 +49,26 @@ export default function Landing() {
       )}
 
       <div className="w-full max-w-md mx-auto flex flex-col items-center relative z-10">
-        {/* Logo - rises to center, then zooms into keyhole */}
+        {/* Logo - rises to center with curve, then zooms into keyhole */}
         <motion.div
           className="mb-0 w-full"
           style={{
-            transformOrigin: "center 35%"
+            transformOrigin: "center 60%"
           }}
           animate={isAnimating ? {
-            y: "calc(50vh - 35%)",
+            y: "calc(50vh - 60%)",
+            x: [0, -10, 0],
             scale: 50,
-            rotate: 2,
+            rotate: [0, -1, 2],
           } : {
             y: 0,
+            x: 0,
             scale: 1,
             rotate: 0,
           }}
           transition={{
-            y: { duration: 0.7, ease: "easeOut" },
+            y: { duration: 0.7, ease: [0.25, 0.46, 0.45, 0.94] },
+            x: { duration: 1.8, delay: 0.7, ease: "easeInOut" },
             scale: { duration: 1.8, delay: 0.7, ease: [0.4, 0.0, 0.2, 1] },
             rotate: { duration: 1.8, delay: 0.7, ease: "easeInOut" },
           }}
