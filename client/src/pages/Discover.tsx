@@ -397,13 +397,13 @@ export default function Discover() {
               <svg width="0" height="0" style={{ position: 'absolute' }}>
                 <defs>
                   <clipPath id="wave-clip" clipPathUnits="objectBoundingBox">
-                    <path d="M 0,0 L 0,1.15 Q 0.25,1.3 0.5,1.15 T 1,1.15 L 1,0 Z" />
+                    <path d="M 0,0 L 0,0.9 Q 0.25,1 0.5,0.9 T 1,0.9 L 1,0 Z" />
                   </clipPath>
                 </defs>
               </svg>
               
               {/* Profile Image Carousel */}
-              <div className="relative h-[440px] bg-muted rounded-t-xl overflow-visible z-10" style={{ clipPath: 'url(#wave-clip)' }}>
+              <div className="relative h-[590px] bg-muted rounded-t-xl overflow-visible z-10" style={{ clipPath: 'url(#wave-clip)' }}>
                 {currentProfile.profileImages && currentProfile.profileImages.length > 0 ? (
                   <>
                     {/* Carousel */}
