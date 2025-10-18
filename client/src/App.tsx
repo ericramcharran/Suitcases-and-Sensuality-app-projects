@@ -11,6 +11,7 @@ import Consent from "@/pages/Consent";
 import Privacy from "@/pages/Privacy";
 import PrivacyPolicy from "@/pages/PrivacyPolicy";
 import TravelMode from "@/pages/TravelMode";
+import VerificationProcessing from "@/pages/VerificationProcessing";
 import Guidelines from "@/pages/Guidelines";
 import Signup from "@/pages/Signup";
 import PersonalityTest from "@/pages/PersonalityTest";
@@ -38,6 +39,7 @@ function App() {
           <Switch>
             <Route path="/" component={Landing} />
             <Route path="/age-verification" component={AgeVerification} />
+            <Route path="/verification-processing" component={VerificationProcessing} />
             <Route path="/terms" component={Terms} />
             <Route path="/consent" component={Consent} />
             <Route path="/privacy" component={Privacy} />

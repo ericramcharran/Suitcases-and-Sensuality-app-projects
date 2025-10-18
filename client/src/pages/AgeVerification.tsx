@@ -221,7 +221,16 @@ export default function AgeVerification() {
           
           <Button
             data-testid="button-verify"
-            onClick={() => setLocation("/terms")}
+            onClick={() => {
+              // Store verification data in sessionStorage
+              sessionStorage.setItem('verificationMonth', month);
+              sessionStorage.setItem('verificationDay', day);
+              sessionStorage.setItem('verificationYear', year);
+              sessionStorage.setItem('hasUploadedId', 'true');
+              
+              // Navigate to verification processing page
+              setLocation("/verification-processing");
+            }}
             disabled={!canContinue}
             className="w-full rounded-full bg-red-500 hover:bg-black text-white transition-colors"
             size="lg"
