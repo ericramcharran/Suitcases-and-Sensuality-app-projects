@@ -43,6 +43,7 @@ import LegalDocuments from "@/pages/LegalDocuments";
 import MatchResult from "@/pages/MatchResult";
 import AboutApp from "@/pages/AboutApp";
 import TestRelationshipResult from "@/pages/TestRelationshipResult";
+import UserSelect from "@/pages/UserSelect";
 
 function App() {
   const [location] = useLocation();
@@ -160,6 +161,9 @@ function App() {
               </Route>
               <Route path="/test-relationship">
                 <PageTransition><TestRelationshipResult /></PageTransition>
+              </Route>
+              <Route path="/user-select">
+                <PageTransition><UserSelect /></PageTransition>
               </Route>
               <Route>
                 <PageTransition><Landing /></PageTransition>
