@@ -91,8 +91,9 @@ export default function Signup() {
                 <SelectValue placeholder="Select role" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="Dominant">Dominant/Master</SelectItem>
-                <SelectItem value="Submissive">Submissive</SelectItem>
+                <SelectItem value="Master">Master</SelectItem>
+                <SelectItem value="Domme">Domme</SelectItem>
+                <SelectItem value="submissive">submissive</SelectItem>
                 <SelectItem value="Switch">Switch</SelectItem>
               </SelectContent>
             </Select>
