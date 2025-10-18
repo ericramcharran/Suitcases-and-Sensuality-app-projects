@@ -27,9 +27,23 @@ export default function AgeVerification() {
 
   const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    if (file) {
-      setUploadedFile(file);
+    if (!file) return;
+
+    // Security validation: Check file size (max 10MB)
+    const maxSize = 10 * 1024 * 1024; // 10MB
+    if (file.size > maxSize) {
+      alert('File size must be less than 10MB');
+      return;
     }
+
+    // Security validation: Check file type
+    const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp', 'application/pdf'];
+    if (!allowedTypes.includes(file.type)) {
+      alert('Only JPG, PNG, WEBP, or PDF files are allowed');
+      return;
+    }
+
+    setUploadedFile(file);
   };
 
   const handleUploadClick = () => {
@@ -84,6 +98,7 @@ export default function AgeVerification() {
             ref={fileInputRef}
             type="file"
             accept="image/*,.pdf"
+            capture="environment"
             onChange={handleFileSelect}
             className="hidden"
             data-testid="input-file"
@@ -107,13 +122,16 @@ export default function AgeVerification() {
             ) : (
               <>
                 <Camera className="w-12 h-12 mx-auto mb-2 text-muted-foreground" />
-                <p className="text-sm text-foreground font-medium">Upload Passport or Driver's License</p>
-                <p className="text-xs text-muted-foreground mt-1">Required for verification</p>
+                <p className="text-sm text-foreground font-medium">Take Photo or Upload ID</p>
+                <p className="text-xs text-muted-foreground mt-1">Passport or Driver's License required</p>
               </>
             )}
           </div>
+          <p className="text-xs text-muted-foreground text-center mb-2">
+            Tap to use camera or select from files
+          </p>
           <p className="text-xs text-muted-foreground text-center mb-6">
-            Accepted formats: JPG, PNG, or PDF
+            Accepted: JPG, PNG, PDF • Max 10MB
           </p>
           
           <Button
