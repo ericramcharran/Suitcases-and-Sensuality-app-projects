@@ -42,8 +42,9 @@ export function ProfileCard({
 }: ProfileCardProps) {
   const [emblaRef, emblaApi] = useEmblaCarousel({ loop: false });
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
-  const touchStartY = useRef<number>(0);
-  const touchStartX = useRef<number>(0);
+  const pointerStartY = useRef<number>(0);
+  const pointerStartX = useRef<number>(0);
+  const gestureTriggered = useRef<boolean>(false);
 
   const scrollPrev = useCallback(() => {
     if (emblaApi) emblaApi.scrollPrev();
@@ -68,47 +69,53 @@ export function ProfileCard({
     };
   }, [emblaApi]);
 
-  // Handle touch start
-  const handleTouchStart = useCallback((e: React.TouchEvent) => {
-    touchStartY.current = e.touches[0].clientY;
-    touchStartX.current = e.touches[0].clientX;
-  }, []);
+  // Vertical swipe down gesture detector
+  useEffect(() => {
+    if (!emblaApi) return;
 
-  // Handle touch end
-  const handleTouchEnd = useCallback((e: React.TouchEvent) => {
-    const touchEndY = e.changedTouches[0].clientY;
-    const touchEndX = e.changedTouches[0].clientX;
-    
-    const deltaY = touchEndY - touchStartY.current;
-    const deltaX = touchEndX - touchStartX.current;
-    
-    // Check if it's a downward swipe (more vertical than horizontal)
-    if (deltaY > 50 && Math.abs(deltaX) < Math.abs(deltaY) * 0.5) {
-      // Swipe down detected - go to next image
-      if (currentImageIndex < (profile.profileImages?.length || 0) - 1) {
-        scrollNext();
+    const containerNode = emblaApi.containerNode();
+    if (!containerNode) return;
+
+    const handlePointerDown = (e: PointerEvent) => {
+      pointerStartY.current = e.clientY;
+      pointerStartX.current = e.clientX;
+      gestureTriggered.current = false;
+    };
+
+    const handlePointerMove = (e: PointerEvent) => {
+      if (gestureTriggered.current) return;
+
+      const deltaY = e.clientY - pointerStartY.current;
+      const deltaX = e.clientX - pointerStartX.current;
+
+      // Check if swipe down: vertical movement > 60px, more vertical than horizontal
+      if (deltaY > 60 && Math.abs(deltaY) > Math.abs(deltaX) * 1.5) {
+        gestureTriggered.current = true;
+        
+        // Trigger next image
+        if (emblaApi.canScrollNext()) {
+          emblaApi.scrollNext();
+        }
       }
-    }
-  }, [currentImageIndex, profile.profileImages, scrollNext]);
+    };
 
-  // Handle mouse drag for desktop
-  const handleMouseDown = useCallback((e: React.MouseEvent) => {
-    touchStartY.current = e.clientY;
-    touchStartX.current = e.clientX;
-  }, []);
+    const handlePointerUp = () => {
+      gestureTriggered.current = false;
+    };
 
-  const handleMouseUp = useCallback((e: React.MouseEvent) => {
-    const deltaY = e.clientY - touchStartY.current;
-    const deltaX = e.clientX - touchStartX.current;
-    
-    // Check if it's a downward drag (more vertical than horizontal)
-    if (deltaY > 50 && Math.abs(deltaX) < Math.abs(deltaY) * 0.5) {
-      // Drag down detected - go to next image
-      if (currentImageIndex < (profile.profileImages?.length || 0) - 1) {
-        scrollNext();
-      }
-    }
-  }, [currentImageIndex, profile.profileImages, scrollNext]);
+    // Attach pointer event listeners
+    containerNode.addEventListener('pointerdown', handlePointerDown);
+    containerNode.addEventListener('pointermove', handlePointerMove);
+    containerNode.addEventListener('pointerup', handlePointerUp);
+    containerNode.addEventListener('pointercancel', handlePointerUp);
+
+    return () => {
+      containerNode.removeEventListener('pointerdown', handlePointerDown);
+      containerNode.removeEventListener('pointermove', handlePointerMove);
+      containerNode.removeEventListener('pointerup', handlePointerUp);
+      containerNode.removeEventListener('pointercancel', handlePointerUp);
+    };
+  }, [emblaApi]);
 
   return (
     <Card className={`h-full flex flex-col ${className}`} data-testid="profile-card">
@@ -120,14 +127,7 @@ export function ProfileCard({
             <div className="overflow-hidden h-full" ref={emblaRef}>
               <div className="flex h-full">
                 {profile.profileImages.map((imageUrl: string, idx: number) => (
-                  <div 
-                    key={idx} 
-                    className="flex-[0_0_100%] min-w-0 relative h-full"
-                    onTouchStart={handleTouchStart}
-                    onTouchEnd={handleTouchEnd}
-                    onMouseDown={handleMouseDown}
-                    onMouseUp={handleMouseUp}
-                  >
+                  <div key={idx} className="flex-[0_0_100%] min-w-0 relative h-full">
                     <img
                       src={imageUrl}
                       alt={`${profile.name} ${idx + 1}`}
