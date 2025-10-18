@@ -222,6 +222,8 @@ export default function AgeVerification() {
           <Button
             data-testid="button-verify"
             onClick={() => {
+              if (!canContinue) return;
+              
               // Store verification data in sessionStorage
               sessionStorage.setItem('verificationMonth', month);
               sessionStorage.setItem('verificationDay', day);
@@ -232,10 +234,17 @@ export default function AgeVerification() {
               setLocation("/verification-processing");
             }}
             disabled={!canContinue}
-            className="w-full rounded-full bg-red-500 hover:bg-black text-white transition-colors"
+            className="w-full rounded-full bg-red-500 hover:bg-black text-white transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             size="lg"
           >
-            {!hasDateOfBirth ? "Enter Date of Birth" : !uploadedFile ? "Upload ID Document" : "Verify Identity"}
+            {!month || !day || !year 
+              ? "Enter Date of Birth" 
+              : !isOver21() 
+              ? "You Must Be 21+" 
+              : !uploadedFile 
+              ? "Upload ID Document" 
+              : "Verify Identity"
+            }
           </Button>
         </Card>
       </div>
