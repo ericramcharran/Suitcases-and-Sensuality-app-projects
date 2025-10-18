@@ -479,13 +479,12 @@ export default function Discover() {
                   </Button>
                 </div>
 
-                {/* Like Button - PINK HEART - LOCKED IN POSITION */}
+                {/* Like Button - PINK HEART - BOTTOM RIGHT (MIRROR OF X) */}
                 <div
                   style={{
                     position: 'absolute',
-                    left: '50%',
+                    right: '30px',
                     bottom: '30px',
-                    transform: `translate(calc(-50% + ${savedLikePosition.x}px), ${-savedLikePosition.y}px)`,
                     zIndex: 999,
                     filter: 'drop-shadow(0 10px 25px rgba(0, 0, 0, 0.4)) drop-shadow(0 6px 12px rgba(0, 0, 0, 0.3))'
                   }}
