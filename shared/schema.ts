@@ -20,12 +20,26 @@ export const users = pgTable("users", {
   relationshipAnswers: jsonb("relationship_answers"),
   profileImages: jsonb("profile_images").$type<string[]>().default(sql`'[]'::jsonb`), // Array of image URLs (max 6)
   // Physical attributes
+  age: integer("age"),
+  sex: text("sex"), // Male, Female, Non-binary, etc.
   height: text("height"),
+  weight: text("weight"),
+  bodyType: text("body_type"), // Slim, Athletic, Average, Curvy, Plus-size, Muscular
+  race: text("race"),
   eyeColor: text("eye_color"),
   hairColor: text("hair_color"),
-  nationality: text("nationality"),
-  weight: text("weight"),
-  bodyShape: text("body_shape"),
+  // Location
+  city: text("city"),
+  state: text("state"),
+  // Lifestyle
+  profession: text("profession"), // General category
+  drinking: text("drinking"), // Never, Socially, Regularly
+  smoking: text("smoking"), // Never, Socially, Regularly
+  fitnessLevel: text("fitness_level"), // Sedentary, Moderate, Active, Very Active
+  // Relationship preferences
+  lookingFor: text("looking_for"), // Casual, Long-term, Exploring, etc.
+  experienceLevel: text("experience_level"), // Beginner, Intermediate, Advanced, Expert
+  sexualOrientation: text("sexual_orientation"),
   // Profile bio
   bio: text("bio"),
   createdAt: timestamp("created_at").defaultNow(),

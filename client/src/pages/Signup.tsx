@@ -31,7 +31,7 @@ export default function Signup() {
       sessionStorage.setItem('userId', data.id);
       sessionStorage.setItem('userName', name);
       sessionStorage.setItem('userRole', role);
-      setLocation("/personality-test");
+      setLocation("/profile-details");
     },
     onError: () => {
       toast({

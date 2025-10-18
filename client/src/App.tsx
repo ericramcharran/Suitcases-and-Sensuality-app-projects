@@ -16,6 +16,7 @@ import BackgroundCheck from "@/pages/BackgroundCheck";
 import BackgroundCheckProcessing from "@/pages/BackgroundCheckProcessing";
 import Guidelines from "@/pages/Guidelines";
 import Signup from "@/pages/Signup";
+import ProfileDetails from "@/pages/ProfileDetails";
 import PersonalityTest from "@/pages/PersonalityTest";
 import PersonalityResult from "@/pages/PersonalityResult";
 import RelationshipTest from "@/pages/RelationshipTest";
@@ -51,6 +52,7 @@ function App() {
             <Route path="/background-check-processing" component={BackgroundCheckProcessing} />
             <Route path="/guidelines" component={Guidelines} />
             <Route path="/signup" component={Signup} />
+            <Route path="/profile-details" component={ProfileDetails} />
             <Route path="/personality-test" component={PersonalityTest} />
             <Route path="/personality-result" component={PersonalityResult} />
             <Route path="/relationship-test" component={RelationshipTest} />
