@@ -499,26 +499,33 @@ export default function Discover() {
               </div>
 
             {/* Action Buttons */}
-            <div className="p-4 flex justify-center gap-8 sm:gap-10 border-t border-border">
-              <Button
-                data-testid="button-pass"
-                onClick={handlePass}
-                disabled={passMutation.isPending || likeMutation.isPending}
-                size="icon"
-                variant="secondary"
-                className="rounded-full h-11 w-11 sm:h-12 sm:w-12 bg-background border-2 border-border shadow-lg hover:scale-110 transition-transform min-h-[44px] min-w-[44px]"
-              >
-                <X className="w-5 h-5" />
-              </Button>
-              <Button
-                data-testid="button-like"
-                onClick={handleLike}
-                disabled={passMutation.isPending || likeMutation.isPending}
-                size="icon"
-                className="rounded-full h-11 w-11 sm:h-12 sm:w-12 bg-primary shadow-lg hover:scale-110 transition-transform min-h-[44px] min-w-[44px]"
-              >
-                <Heart className="w-5 h-5" />
-              </Button>
+            <div className="p-4 grid grid-cols-3 border-t border-border">
+              <div className="flex justify-center items-center">
+                <Button
+                  data-testid="button-pass"
+                  onClick={handlePass}
+                  disabled={passMutation.isPending || likeMutation.isPending}
+                  size="icon"
+                  variant="secondary"
+                  className="rounded-full h-11 w-11 sm:h-12 sm:w-12 bg-background border-2 border-border shadow-lg hover:scale-110 transition-transform min-h-[44px] min-w-[44px]"
+                >
+                  <X className="w-5 h-5" />
+                </Button>
+              </div>
+              <div className="flex justify-center items-center">
+                {/* Empty middle third */}
+              </div>
+              <div className="flex justify-center items-center">
+                <Button
+                  data-testid="button-like"
+                  onClick={handleLike}
+                  disabled={passMutation.isPending || likeMutation.isPending}
+                  size="icon"
+                  className="rounded-full h-11 w-11 sm:h-12 sm:w-12 bg-primary shadow-lg hover:scale-110 transition-transform min-h-[44px] min-w-[44px]"
+                >
+                  <Heart className="w-5 h-5" />
+                </Button>
+              </div>
             </div>
 
             {/* Profile Info */}
