@@ -431,7 +431,7 @@ export default function Discover() {
             onDragEnd={handleDragEnd}
             className="h-full"
           >
-            <Card className="h-full flex flex-col overflow-visible" data-testid="match-card">
+            <Card className="h-full flex flex-col" data-testid="match-card">
               {/* SVG Clip Path Definition */}
               <svg width="0" height="0" style={{ position: 'absolute' }}>
                 <defs>
@@ -442,7 +442,7 @@ export default function Discover() {
               </svg>
               
               {/* Profile Image Carousel */}
-              <div className="relative h-[590px] bg-muted rounded-t-xl overflow-visible z-10" style={{ clipPath: 'url(#wave-clip)' }}>
+              <div className="relative h-[590px] bg-muted rounded-t-xl z-10" style={{ clipPath: 'url(#wave-clip)' }}>
                 {currentProfile.profileImages && currentProfile.profileImages.length > 0 ? (
                   <>
                     {/* Carousel */}
