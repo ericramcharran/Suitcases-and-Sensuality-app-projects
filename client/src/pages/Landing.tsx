@@ -29,15 +29,23 @@ export default function Landing() {
     <div className="min-h-screen bg-background flex flex-col justify-center items-center px-4 sm:px-6 py-8 sm:py-12 relative overflow-hidden">
       {/* Keyhole vignette that closes in during zoom */}
       {isAnimating && (
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 1, delay: 0.5 }}
-          className="absolute inset-0 z-50 pointer-events-none"
-          style={{
-            background: "radial-gradient(circle at center, transparent 0%, transparent 10%, black 40%)",
-          }}
-        />
+        <>
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.8, delay: 0.6 }}
+            className="absolute inset-0 z-40 pointer-events-none"
+            style={{
+              background: "radial-gradient(ellipse at center, transparent 0%, transparent 5%, black 30%)",
+            }}
+          />
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.6, delay: 1.8 }}
+            className="absolute inset-0 z-50 pointer-events-none bg-black"
+          />
+        </>
       )}
 
       <div className="w-full max-w-md mx-auto flex flex-col items-center relative z-10">
@@ -49,14 +57,17 @@ export default function Landing() {
           }}
           animate={isAnimating ? {
             y: "calc(50vh - 35%)",
-            scale: 25,
+            scale: 50,
+            rotate: 2,
           } : {
             y: 0,
             scale: 1,
+            rotate: 0,
           }}
           transition={{
-            y: { duration: 0.8, ease: "easeOut" },
-            scale: { duration: 1.7, delay: 0.8, ease: "easeIn" },
+            y: { duration: 0.7, ease: "easeOut" },
+            scale: { duration: 1.8, delay: 0.7, ease: [0.4, 0.0, 0.2, 1] },
+            rotate: { duration: 1.8, delay: 0.7, ease: "easeInOut" },
           }}
         >
           <div className="flex items-center justify-center">
