@@ -85,6 +85,8 @@ export default function ImportantTraits() {
         title: "Saved!",
         description: "Your important traits have been updated"
       });
+      // Navigate back to profile after successful save
+      setLocation("/profile");
     },
     onError: () => {
       toast({
