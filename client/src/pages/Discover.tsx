@@ -477,7 +477,7 @@ export default function Discover() {
                 </div>
 
                 {/* Floating Action Buttons */}
-                {/* Pass Button */}
+                {/* Pass Button - 40% smaller */}
                 <motion.div
                   drag
                   dragMomentum={false}
@@ -511,35 +511,21 @@ export default function Discover() {
                     disabled={passMutation.isPending || likeMutation.isPending}
                     size="icon"
                     variant="secondary"
-                    className="rounded-full h-20 w-20 bg-white border-4 border-white shadow-2xl hover:scale-110 transition-transform"
+                    className="rounded-full h-12 w-12 bg-white border-2 border-white shadow-2xl hover:scale-110 transition-transform"
                   >
-                    <X className="w-10 h-10 text-red-500 stroke-[3]" />
+                    <X className="w-6 h-6 text-red-500 stroke-[2.5]" />
                   </Button>
                 </motion.div>
 
-                {/* Like Button - PROMINENT */}
-                <motion.div
-                  drag
-                  dragMomentum={false}
-                  dragElastic={0}
-                  onDragStart={() => setIsDraggingButtons(true)}
-                  onDragEnd={(e, info) => {
-                    setIsDraggingButtons(false);
-                    const newPosition = {
-                      x: likeButtonPosition.x + info.offset.x,
-                      y: likeButtonPosition.y + info.offset.y
-                    };
-                    setLikeButtonPosition(newPosition);
-                    localStorage.setItem('likeButtonPosition', JSON.stringify(newPosition));
-                  }}
+                {/* Like Button - VISIBLE AND PROMINENT */}
+                <div
                   style={{
                     position: 'absolute',
-                    right: `${likeButtonPosition.x}px`,
-                    bottom: `${likeButtonPosition.y}px`,
-                    cursor: 'grab',
+                    left: '50%',
+                    bottom: '20px',
+                    transform: 'translateX(-50%)',
                     zIndex: 50
                   }}
-                  whileTap={{ cursor: 'grabbing' }}
                 >
                   <Button
                     data-testid="button-like"
@@ -554,7 +540,7 @@ export default function Discover() {
                   >
                     <Heart className="w-10 h-10 fill-white text-white" />
                   </Button>
-                </motion.div>
+                </div>
               </div>
 
             {/* Profile Info */}
