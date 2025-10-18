@@ -492,10 +492,10 @@ export default function Discover() {
                 drag="y"
                 dragMomentum={false}
                 dragElastic={0}
-                dragConstraints={{ top: 0, bottom: 0 }}
+                dragConstraints={{ top: -400, bottom: 400 }}
                 onDragStart={() => setIsDraggingHeight(true)}
                 onDrag={(e, info) => {
-                  const newHeight = Math.max(300, Math.min(900, profileImageHeight + info.offset.y));
+                  const newHeight = Math.max(300, Math.min(1200, profileImageHeight + info.offset.y));
                   setProfileImageHeight(newHeight);
                 }}
                 onDragEnd={() => {
@@ -509,16 +509,16 @@ export default function Discover() {
                 style={{
                   position: 'absolute',
                   left: '50%',
-                  bottom: '-16px',
-                  transform: 'translateX(-50%)',
-                  cursor: isDraggingHeight ? 'ns-resize' : 'grab',
+                  top: `${profileImageHeight}px`,
+                  transform: 'translate(-50%, -50%)',
+                  cursor: 'ns-resize',
                   zIndex: 35
                 }}
                 className="bg-primary/90 border-2 border-white rounded-full px-4 py-2 shadow-xl"
               >
                 <div className="flex items-center gap-2">
                   <div className="w-12 h-2 bg-white rounded-full" />
-                  <span className="text-white text-xs font-medium whitespace-nowrap">Resize Height</span>
+                  <span className="text-white text-xs font-medium whitespace-nowrap">⬍ Drag to Resize ⬍</span>
                 </div>
               </motion.div>
 
