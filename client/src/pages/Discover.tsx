@@ -397,7 +397,7 @@ export default function Discover() {
               <svg width="0" height="0" style={{ position: 'absolute' }}>
                 <defs>
                   <clipPath id="wave-clip" clipPathUnits="objectBoundingBox">
-                    <path d="M 0,0 L 0,0.95 Q 0.25,0.99 0.5,0.95 T 1,0.95 L 1,0 Z" />
+                    <path d="M 0,0 L 0,0.88 Q 0.25,1 0.5,0.88 T 1,0.88 L 1,0 Z" />
                   </clipPath>
                 </defs>
               </svg>
