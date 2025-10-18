@@ -40,6 +40,12 @@ export default function Discover() {
 
   const [isDraggingButtons, setIsDraggingButtons] = useState(false);
 
+  // Wave position control (0 = top, 1 = bottom)
+  const [wavePosition, setWavePosition] = useState(() => {
+    const saved = localStorage.getItem('wavePosition');
+    return saved ? parseFloat(saved) : 0.88;
+  });
+
   // Ensure beating heart shows for at least 10 seconds
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -297,22 +303,25 @@ export default function Discover() {
           <h2 className="text-xl sm:text-2xl font-light text-foreground">Discover</h2>
           <div className="flex gap-2">
             <button
-              data-testid="button-reset-buttons"
+              data-testid="button-reset-layout"
               onClick={() => {
                 const defaultPass = { x: 50, y: 10 };
                 const defaultLike = { x: 250, y: 10 };
+                const defaultWave = 0.88;
                 setPassButtonPosition(defaultPass);
                 setLikeButtonPosition(defaultLike);
+                setWavePosition(defaultWave);
                 localStorage.setItem('passButtonPosition', JSON.stringify(defaultPass));
                 localStorage.setItem('likeButtonPosition', JSON.stringify(defaultLike));
+                localStorage.setItem('wavePosition', defaultWave.toString());
                 toast({
-                  title: "Buttons Reset",
-                  description: "Button positions have been restored to default",
+                  title: "Layout Reset",
+                  description: "All positions have been restored to default",
                 });
               }}
               className="text-foreground/70 hover-elevate active-elevate-2 p-2 rounded-md text-xs font-medium"
             >
-              Reset Buttons
+              Reset Layout
             </button>
             <button
               data-testid="button-settings"
@@ -338,10 +347,41 @@ export default function Discover() {
               <svg width="0" height="0" style={{ position: 'absolute' }}>
                 <defs>
                   <clipPath id="wave-clip" clipPathUnits="objectBoundingBox">
-                    <path d="M 0,0 L 0,0.88 Q 0.25,1 0.5,0.88 T 1,0.88 L 1,0 Z" />
+                    <path d={`M 0,0 L 0,${wavePosition} Q 0.25,${wavePosition + 0.12} 0.5,${wavePosition} T 1,${wavePosition} L 1,0 Z`} />
                   </clipPath>
                 </defs>
               </svg>
+              
+              {/* Wave Position Dragger */}
+              <motion.div
+                drag="y"
+                dragMomentum={false}
+                dragElastic={0}
+                dragConstraints={{ top: -200, bottom: 200 }}
+                onDrag={(e, info) => {
+                  // Calculate new wave position based on drag
+                  const newPosition = Math.max(0.5, Math.min(0.95, wavePosition + (info.offset.y / 2000)));
+                  setWavePosition(newPosition);
+                }}
+                onDragEnd={() => {
+                  localStorage.setItem('wavePosition', wavePosition.toString());
+                  toast({
+                    title: "Wave Position Saved",
+                    description: `Wave set to ${Math.round(wavePosition * 100)}%`,
+                  });
+                }}
+                style={{
+                  position: 'absolute',
+                  left: '50%',
+                  top: `${wavePosition * 100}%`,
+                  transform: 'translate(-50%, -50%)',
+                  cursor: 'ns-resize',
+                  zIndex: 30
+                }}
+                className="bg-white/80 dark:bg-black/80 border-2 border-primary rounded-full p-2 shadow-lg"
+              >
+                <div className="w-8 h-1 bg-primary rounded-full" />
+              </motion.div>
               
               {/* Profile Image Carousel */}
               <div className="relative h-[590px] bg-muted rounded-t-xl z-10" style={{ clipPath: 'url(#wave-clip)' }}>
