@@ -35,7 +35,7 @@ export default function Discover() {
   
   const [likeButtonPosition, setLikeButtonPosition] = useState(() => {
     const saved = localStorage.getItem('likeButtonPosition');
-    return saved ? JSON.parse(saved) : { x: 20, y: 20 };
+    return saved ? JSON.parse(saved) : { x: 0, y: 0 };
   });
 
   const [isDraggingButtons, setIsDraggingButtons] = useState(false);
@@ -308,7 +308,7 @@ export default function Discover() {
               data-testid="button-reset-layout"
               onClick={() => {
                 const defaultPass = { x: 20, y: 20 };
-                const defaultLike = { x: 20, y: 20 };
+                const defaultLike = { x: 0, y: 0 };
                 const defaultCardPosition = { x: 0, y: 0 };
                 setPassButtonPosition(defaultPass);
                 setLikeButtonPosition(defaultLike);
@@ -517,15 +517,30 @@ export default function Discover() {
                   </Button>
                 </motion.div>
 
-                {/* Like Button - VISIBLE AND PROMINENT */}
-                <div
+                {/* Like Button - VISIBLE AND DRAGGABLE */}
+                <motion.div
+                  drag
+                  dragMomentum={false}
+                  dragElastic={0}
+                  onDragStart={() => setIsDraggingButtons(true)}
+                  onDragEnd={(e, info) => {
+                    setIsDraggingButtons(false);
+                    const newPosition = {
+                      x: likeButtonPosition.x + info.offset.x,
+                      y: likeButtonPosition.y + info.offset.y
+                    };
+                    setLikeButtonPosition(newPosition);
+                    localStorage.setItem('likeButtonPosition', JSON.stringify(newPosition));
+                  }}
                   style={{
                     position: 'absolute',
-                    left: '50%',
-                    bottom: '20px',
+                    left: `calc(50% + ${likeButtonPosition.x}px)`,
+                    bottom: `${20 + likeButtonPosition.y}px`,
                     transform: 'translateX(-50%)',
+                    cursor: 'grab',
                     zIndex: 50
                   }}
+                  whileTap={{ cursor: 'grabbing' }}
                 >
                   <Button
                     data-testid="button-like"
@@ -540,7 +555,7 @@ export default function Discover() {
                   >
                     <Heart className="w-10 h-10 fill-white text-white" />
                   </Button>
-                </div>
+                </motion.div>
               </div>
 
             {/* Profile Info */}
