@@ -1,4 +1,4 @@
-import { ChevronLeft, Bell, Shield, Eye, CreditCard, HelpCircle, LogOut, Info } from "lucide-react";
+import { ChevronLeft, Bell, Shield, Eye, CreditCard, HelpCircle, LogOut, Info, MapPin } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Switch } from "@/components/ui/switch";
 import { useLocation } from "wouter";
@@ -11,6 +11,13 @@ const settingsOptions = [
     description: "Push notifications and email alerts",
     hasSwitch: true,
     defaultValue: true
+  },
+  {
+    icon: MapPin,
+    title: "I am traveling",
+    description: "Change your location for matching",
+    hasSwitch: false,
+    link: "/travel-mode"
   },
   {
     icon: Shield,
