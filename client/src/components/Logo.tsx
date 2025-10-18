@@ -1,4 +1,4 @@
-import logoImage from "@assets/logo.png";
+import logoImage from "@assets/logo-1_1760791670509.png";
 
 export function Logo() {
   return (
