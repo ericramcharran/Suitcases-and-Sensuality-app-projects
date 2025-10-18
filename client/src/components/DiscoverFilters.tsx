@@ -10,6 +10,7 @@ import { Badge } from "@/components/ui/badge";
 export interface FilterOptions {
   minAge?: number;
   maxAge?: number;
+  maxDistance?: number;
   role?: string;
   experienceLevel?: string;
   lookingFor?: string;
@@ -39,6 +40,7 @@ export function DiscoverFilters({ filters, onFiltersChange, activeFilterCount }:
     const emptyFilters: FilterOptions = {
       minAge: 18,
       maxAge: 99,
+      maxDistance: 100,
       minCompatibility: 0,
     };
     setLocalFilters(emptyFilters);
@@ -69,69 +71,82 @@ export function DiscoverFilters({ filters, onFiltersChange, activeFilterCount }:
           )}
         </Button>
       </SheetTrigger>
-      <SheetContent side="right" className="w-full sm:max-w-md overflow-y-auto z-[1000]">
+      <SheetContent side="right" className="w-full sm:max-w-sm overflow-y-auto z-[1000] p-4">
         <SheetHeader>
-          <SheetTitle className="flex items-center gap-2">
-            <Filter className="w-5 h-5 text-primary" />
+          <SheetTitle className="flex items-center gap-2 text-base mb-3">
+            <Filter className="w-4 h-4 text-primary" />
             Filters
           </SheetTitle>
         </SheetHeader>
 
-        <div className="space-y-6 py-6">
+        <div className="space-y-4">
           {/* Age Range */}
-          <div className="space-y-3">
-            <Label className="text-sm font-medium">Age Range</Label>
-            <div className="space-y-2">
-              <Slider
-                min={18}
-                max={99}
-                step={1}
-                value={[localFilters.minAge || 18, localFilters.maxAge || 99]}
-                onValueChange={([min, max]) => {
-                  updateFilter('minAge', min);
-                  updateFilter('maxAge', max);
-                }}
-                className="w-full"
-                data-testid="slider-age-range"
-              />
-              <div className="flex justify-between text-sm text-muted-foreground">
-                <span>{localFilters.minAge || 18}</span>
-                <span>{localFilters.maxAge || 99}</span>
-              </div>
+          <div className="space-y-1.5">
+            <Label className="text-xs font-medium">Age</Label>
+            <Slider
+              min={18}
+              max={99}
+              step={1}
+              value={[localFilters.minAge || 18, localFilters.maxAge || 99]}
+              onValueChange={([min, max]) => {
+                updateFilter('minAge', min);
+                updateFilter('maxAge', max);
+              }}
+              className="w-full"
+              data-testid="slider-age-range"
+            />
+            <div className="flex justify-between text-xs text-muted-foreground">
+              <span>{localFilters.minAge || 18}</span>
+              <span>{localFilters.maxAge || 99}</span>
+            </div>
+          </div>
+
+          {/* Distance */}
+          <div className="space-y-1.5">
+            <Label className="text-xs font-medium">Max Distance</Label>
+            <Slider
+              min={5}
+              max={100}
+              step={5}
+              value={[localFilters.maxDistance || 100]}
+              onValueChange={([value]) => updateFilter('maxDistance', value)}
+              className="w-full"
+              data-testid="slider-distance"
+            />
+            <div className="text-xs text-muted-foreground">
+              {localFilters.maxDistance || 100} miles
             </div>
           </div>
 
           {/* Minimum Compatibility */}
-          <div className="space-y-3">
-            <Label className="text-sm font-medium">Minimum Compatibility</Label>
-            <div className="space-y-2">
-              <Slider
-                min={0}
-                max={100}
-                step={5}
-                value={[localFilters.minCompatibility || 0]}
-                onValueChange={([value]) => updateFilter('minCompatibility', value)}
-                className="w-full"
-                data-testid="slider-compatibility"
-              />
-              <div className="text-sm text-muted-foreground">
-                {localFilters.minCompatibility || 0}% and above
-              </div>
+          <div className="space-y-1.5">
+            <Label className="text-xs font-medium">Min Compatibility</Label>
+            <Slider
+              min={0}
+              max={100}
+              step={5}
+              value={[localFilters.minCompatibility || 0]}
+              onValueChange={([value]) => updateFilter('minCompatibility', value)}
+              className="w-full"
+              data-testid="slider-compatibility"
+            />
+            <div className="text-xs text-muted-foreground">
+              {localFilters.minCompatibility || 0}%+
             </div>
           </div>
 
           {/* Role */}
-          <div className="space-y-2">
-            <Label className="text-sm font-medium">Role</Label>
+          <div className="space-y-1.5">
+            <Label className="text-xs font-medium">Role</Label>
             <Select
               value={localFilters.role || "all"}
               onValueChange={(value) => updateFilter('role', value === "all" ? undefined : value)}
             >
-              <SelectTrigger data-testid="select-role">
-                <SelectValue placeholder="Any role" />
+              <SelectTrigger data-testid="select-role" className="h-8 text-xs">
+                <SelectValue placeholder="Any" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="all">Any Role</SelectItem>
+                <SelectItem value="all">Any</SelectItem>
                 <SelectItem value="Dominant">Dominant</SelectItem>
                 <SelectItem value="Submissive">Submissive</SelectItem>
                 <SelectItem value="Switch">Switch</SelectItem>
@@ -140,17 +155,17 @@ export function DiscoverFilters({ filters, onFiltersChange, activeFilterCount }:
           </div>
 
           {/* Experience Level */}
-          <div className="space-y-2">
-            <Label className="text-sm font-medium">Experience Level</Label>
+          <div className="space-y-1.5">
+            <Label className="text-xs font-medium">Experience</Label>
             <Select
               value={localFilters.experienceLevel || "all"}
               onValueChange={(value) => updateFilter('experienceLevel', value === "all" ? undefined : value)}
             >
-              <SelectTrigger data-testid="select-experience">
-                <SelectValue placeholder="Any level" />
+              <SelectTrigger data-testid="select-experience" className="h-8 text-xs">
+                <SelectValue placeholder="Any" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="all">Any Level</SelectItem>
+                <SelectItem value="all">Any</SelectItem>
                 <SelectItem value="Beginner">Beginner</SelectItem>
                 <SelectItem value="Intermediate">Intermediate</SelectItem>
                 <SelectItem value="Advanced">Advanced</SelectItem>
@@ -160,17 +175,17 @@ export function DiscoverFilters({ filters, onFiltersChange, activeFilterCount }:
           </div>
 
           {/* Looking For */}
-          <div className="space-y-2">
-            <Label className="text-sm font-medium">Looking For</Label>
+          <div className="space-y-1.5">
+            <Label className="text-xs font-medium">Looking For</Label>
             <Select
               value={localFilters.lookingFor || "all"}
               onValueChange={(value) => updateFilter('lookingFor', value === "all" ? undefined : value)}
             >
-              <SelectTrigger data-testid="select-looking-for">
-                <SelectValue placeholder="Any preference" />
+              <SelectTrigger data-testid="select-looking-for" className="h-8 text-xs">
+                <SelectValue placeholder="Any" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="all">Any Preference</SelectItem>
+                <SelectItem value="all">Any</SelectItem>
                 <SelectItem value="Casual">Casual</SelectItem>
                 <SelectItem value="Long-term">Long-term</SelectItem>
                 <SelectItem value="Exploring">Exploring</SelectItem>
@@ -180,17 +195,17 @@ export function DiscoverFilters({ filters, onFiltersChange, activeFilterCount }:
           </div>
 
           {/* Body Type */}
-          <div className="space-y-2">
-            <Label className="text-sm font-medium">Body Type</Label>
+          <div className="space-y-1.5">
+            <Label className="text-xs font-medium">Body Type</Label>
             <Select
               value={localFilters.bodyType || "all"}
               onValueChange={(value) => updateFilter('bodyType', value === "all" ? undefined : value)}
             >
-              <SelectTrigger data-testid="select-body-type">
-                <SelectValue placeholder="Any body type" />
+              <SelectTrigger data-testid="select-body-type" className="h-8 text-xs">
+                <SelectValue placeholder="Any" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="all">Any Body Type</SelectItem>
+                <SelectItem value="all">Any</SelectItem>
                 <SelectItem value="Slim">Slim</SelectItem>
                 <SelectItem value="Athletic">Athletic</SelectItem>
                 <SelectItem value="Average">Average</SelectItem>
@@ -202,17 +217,17 @@ export function DiscoverFilters({ filters, onFiltersChange, activeFilterCount }:
           </div>
 
           {/* Drinking */}
-          <div className="space-y-2">
-            <Label className="text-sm font-medium">Drinking</Label>
+          <div className="space-y-1.5">
+            <Label className="text-xs font-medium">Drinking</Label>
             <Select
               value={localFilters.drinking || "all"}
               onValueChange={(value) => updateFilter('drinking', value === "all" ? undefined : value)}
             >
-              <SelectTrigger data-testid="select-drinking">
-                <SelectValue placeholder="Any preference" />
+              <SelectTrigger data-testid="select-drinking" className="h-8 text-xs">
+                <SelectValue placeholder="Any" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="all">Any Preference</SelectItem>
+                <SelectItem value="all">Any</SelectItem>
                 <SelectItem value="Never">Never</SelectItem>
                 <SelectItem value="Socially">Socially</SelectItem>
                 <SelectItem value="Regularly">Regularly</SelectItem>
@@ -221,17 +236,17 @@ export function DiscoverFilters({ filters, onFiltersChange, activeFilterCount }:
           </div>
 
           {/* Smoking */}
-          <div className="space-y-2">
-            <Label className="text-sm font-medium">Smoking</Label>
+          <div className="space-y-1.5">
+            <Label className="text-xs font-medium">Smoking</Label>
             <Select
               value={localFilters.smoking || "all"}
               onValueChange={(value) => updateFilter('smoking', value === "all" ? undefined : value)}
             >
-              <SelectTrigger data-testid="select-smoking">
-                <SelectValue placeholder="Any preference" />
+              <SelectTrigger data-testid="select-smoking" className="h-8 text-xs">
+                <SelectValue placeholder="Any" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="all">Any Preference</SelectItem>
+                <SelectItem value="all">Any</SelectItem>
                 <SelectItem value="Never">Never</SelectItem>
                 <SelectItem value="Socially">Socially</SelectItem>
                 <SelectItem value="Regularly">Regularly</SelectItem>
@@ -240,17 +255,17 @@ export function DiscoverFilters({ filters, onFiltersChange, activeFilterCount }:
           </div>
 
           {/* Fitness Level */}
-          <div className="space-y-2">
-            <Label className="text-sm font-medium">Fitness Level</Label>
+          <div className="space-y-1.5">
+            <Label className="text-xs font-medium">Fitness</Label>
             <Select
               value={localFilters.fitnessLevel || "all"}
               onValueChange={(value) => updateFilter('fitnessLevel', value === "all" ? undefined : value)}
             >
-              <SelectTrigger data-testid="select-fitness">
-                <SelectValue placeholder="Any level" />
+              <SelectTrigger data-testid="select-fitness" className="h-8 text-xs">
+                <SelectValue placeholder="Any" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="all">Any Level</SelectItem>
+                <SelectItem value="all">Any</SelectItem>
                 <SelectItem value="Sedentary">Sedentary</SelectItem>
                 <SelectItem value="Moderate">Moderate</SelectItem>
                 <SelectItem value="Active">Active</SelectItem>
@@ -261,22 +276,22 @@ export function DiscoverFilters({ filters, onFiltersChange, activeFilterCount }:
         </div>
 
         {/* Action Buttons */}
-        <div className="flex gap-3 pt-4 border-t">
+        <div className="flex gap-2 pt-3 border-t mt-4">
           <Button
             variant="outline"
             onClick={handleReset}
-            className="flex-1"
+            className="flex-1 h-8 text-xs"
             data-testid="button-reset-filters"
           >
-            <RotateCcw className="w-4 h-4 mr-2" />
+            <RotateCcw className="w-3 h-3 mr-1.5" />
             Reset
           </Button>
           <Button
             onClick={handleApply}
-            className="flex-1"
+            className="flex-1 h-8 text-xs"
             data-testid="button-apply-filters"
           >
-            Apply Filters
+            Apply
           </Button>
         </div>
       </SheetContent>
