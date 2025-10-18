@@ -479,7 +479,7 @@ export default function Discover() {
                         )}
 
                         {/* Image Indicators */}
-                        <div className="absolute top-4 left-0 right-0 flex justify-center gap-1 z-10">
+                        <div className="absolute bottom-4 left-0 right-0 flex justify-center gap-1 z-10">
                           {currentProfile.profileImages.map((_: any, idx: number) => (
                             <div
                               key={idx}
