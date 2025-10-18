@@ -40,6 +40,12 @@ export default function Discover() {
 
   const [isDraggingButtons, setIsDraggingButtons] = useState(false);
 
+  // Profile image height control
+  const [profileImageHeight, setProfileImageHeight] = useState(() => {
+    const saved = localStorage.getItem('profileImageHeight');
+    return saved ? parseInt(saved) : 590;
+  });
+
   // Ensure beating heart shows for at least 10 seconds
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -301,14 +307,17 @@ export default function Discover() {
               onClick={() => {
                 const defaultPass = { x: 50, y: 10 };
                 const defaultLike = { x: 250, y: 10 };
+                const defaultHeight = 590;
                 setPassButtonPosition(defaultPass);
                 setLikeButtonPosition(defaultLike);
+                setProfileImageHeight(defaultHeight);
                 localStorage.setItem('passButtonPosition', JSON.stringify(defaultPass));
                 localStorage.setItem('likeButtonPosition', JSON.stringify(defaultLike));
+                localStorage.setItem('profileImageHeight', defaultHeight.toString());
                 localStorage.removeItem('wavePosition');
                 toast({
                   title: "Layout Reset",
-                  description: "Button positions have been restored to default",
+                  description: "All positions have been restored to default",
                 });
               }}
               className="text-foreground/70 hover-elevate active-elevate-2 p-2 rounded-md text-xs font-medium"
@@ -336,7 +345,7 @@ export default function Discover() {
           >
             <Card className="h-full flex flex-col" data-testid="match-card">
               {/* Profile Image Carousel */}
-              <div className="relative h-[590px] bg-muted rounded-t-xl z-10">
+              <div className="relative bg-muted rounded-t-xl z-10" style={{ height: `${profileImageHeight}px` }}>
                 {currentProfile.profileImages && currentProfile.profileImages.length > 0 ? (
                   <>
                     {/* Carousel */}
@@ -439,6 +448,39 @@ export default function Discover() {
                   </motion.div>
                 </div>
               </div>
+
+              {/* Profile Height Dragger */}
+              <motion.div
+                drag="y"
+                dragMomentum={false}
+                dragElastic={0}
+                dragConstraints={{ top: 0, bottom: 0 }}
+                onDrag={(e, info) => {
+                  const newHeight = Math.max(300, Math.min(800, profileImageHeight + info.offset.y));
+                  setProfileImageHeight(newHeight);
+                }}
+                onDragEnd={() => {
+                  localStorage.setItem('profileImageHeight', profileImageHeight.toString());
+                  toast({
+                    title: "Profile Height Saved",
+                    description: `Image area set to ${profileImageHeight}px`,
+                  });
+                }}
+                style={{
+                  position: 'absolute',
+                  left: '50%',
+                  top: `${profileImageHeight + 16}px`,
+                  transform: 'translateX(-50%)',
+                  cursor: 'ns-resize',
+                  zIndex: 35
+                }}
+                className="bg-primary/90 border-2 border-white rounded-full px-4 py-2 shadow-xl"
+              >
+                <div className="flex items-center gap-2">
+                  <div className="w-12 h-2 bg-white rounded-full" />
+                  <span className="text-white text-xs font-medium">Resize Profile</span>
+                </div>
+              </motion.div>
 
             {/* Action Buttons - Now Draggable */}
             <div className="p-4 pt-2 relative z-20 min-h-[100px]">
