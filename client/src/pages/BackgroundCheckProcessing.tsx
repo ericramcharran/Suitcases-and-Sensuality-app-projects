@@ -13,10 +13,13 @@ export default function BackgroundCheckProcessing() {
   const userName = sessionStorage.getItem('backgroundCheckName');
 
   useEffect(() => {
-    // If no submission data, redirect back
+    // If no submission data, redirect back (only check once on mount)
     if (!hasSubmitted) {
-      setLocation('/background-check');
-      return;
+      console.log('Missing background check data, redirecting back');
+      const redirectTimer = setTimeout(() => {
+        setLocation('/background-check');
+      }, 500);
+      return () => clearTimeout(redirectTimer);
     }
 
     // Simulate background check processing steps
@@ -31,13 +34,13 @@ export default function BackgroundCheckProcessing() {
     }, 15000); // Complete
 
     const timer7 = setTimeout(() => {
+      // Mark as verified first
+      sessionStorage.setItem('backgroundCheckComplete', 'true');
+      sessionStorage.setItem('backgroundCheckStatus', 'clear');
+      
       // Clear background check data
       sessionStorage.removeItem('backgroundCheckSubmitted');
       sessionStorage.removeItem('backgroundCheckName');
-      
-      // Mark as verified
-      sessionStorage.setItem('backgroundCheckComplete', 'true');
-      sessionStorage.setItem('backgroundCheckStatus', 'clear');
       
       // Continue onboarding
       setLocation('/subscription-role-select');
@@ -52,7 +55,7 @@ export default function BackgroundCheckProcessing() {
       clearTimeout(timer6);
       clearTimeout(timer7);
     };
-  }, [hasSubmitted, setLocation]);
+  }, []);
 
   const steps = [
     { id: 1, label: "Validating personal information", icon: Loader2 },
