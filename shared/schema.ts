@@ -61,6 +61,7 @@ export const users = pgTable("users", {
   // Profile bio
   bio: text("bio"),
   createdAt: timestamp("created_at").defaultNow(),
+  lastActive: timestamp("last_active").defaultNow(),
 });
 
 export const matches = pgTable("matches", {

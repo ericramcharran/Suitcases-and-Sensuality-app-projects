@@ -1,5 +1,21 @@
 import { useState, useEffect, useMemo } from "react";
 import { Heart, MessageCircle, Settings, User, BookOpen, X, MapPin, Shield, ChevronLeft, ChevronRight } from "lucide-react";
+
+// Helper function to format last active time
+const formatLastActive = (lastActive: string) => {
+  const now = new Date();
+  const activeDate = new Date(lastActive);
+  const diffMs = now.getTime() - activeDate.getTime();
+  const diffMins = Math.floor(diffMs / 60000);
+  const diffHours = Math.floor(diffMs / 3600000);
+  const diffDays = Math.floor(diffMs / 86400000);
+  
+  if (diffMins < 1) return 'just now';
+  if (diffMins < 60) return `${diffMins}m ago`;
+  if (diffHours < 24) return `${diffHours}h ago`;
+  if (diffDays < 7) return `${diffDays}d ago`;
+  return `${Math.floor(diffDays / 7)}w ago`;
+};
 import HeartTransition from "@/components/HeartTransition";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -591,6 +607,16 @@ export default function Discover() {
               <p className="text-primary mb-2 font-medium text-sm sm:text-base" data-testid="text-match-role">
                 {currentProfile.role}
               </p>
+              <div className="flex items-center gap-3 text-muted-foreground text-sm mb-3">
+                {currentProfile.age && (
+                  <span data-testid="text-match-age">{currentProfile.age} years old</span>
+                )}
+                {currentProfile.lastActive && (
+                  <span data-testid="text-match-last-active">
+                    Active {formatLastActive(currentProfile.lastActive)}
+                  </span>
+                )}
+              </div>
               <p className="text-muted-foreground text-sm mb-3 flex items-center gap-1" data-testid="text-match-distance">
                 <MapPin className="w-4 h-4" />
                 Location hidden for privacy

@@ -88,6 +88,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(401).json({ message: "Invalid credentials" });
       }
 
+      // Update last active timestamp
+      await storage.updateUser(user.id, { lastActive: new Date() });
+
       res.json({ 
         user: {
           id: user.id,
@@ -757,7 +760,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
       conversations.sort((a, b) => {
         const aTime = a.latestMessage?.createdAt || a.createdAt;
         const bTime = b.latestMessage?.createdAt || b.createdAt;
-        return new Date(bTime).getTime() - new Date(aTime).getTime();
+        const aDate = aTime ? new Date(aTime) : new Date(0);
+        const bDate = bTime ? new Date(bTime) : new Date(0);
+        return bDate.getTime() - aDate.getTime();
       });
       
       res.json(conversations);
