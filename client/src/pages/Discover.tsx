@@ -133,11 +133,11 @@ export default function Discover() {
     const swipeThreshold = 100;
     
     if (info.offset.x > swipeThreshold) {
-      // Swiped right = dislike/pass
-      handlePass();
-    } else if (info.offset.x < -swipeThreshold) {
-      // Swiped left = like
+      // Swiped right = like
       handleLike();
+    } else if (info.offset.x < -swipeThreshold) {
+      // Swiped left = pass
+      handlePass();
     }
   };
 
@@ -490,8 +490,8 @@ export default function Discover() {
                 <div className="absolute left-0 top-0 bottom-0 w-1/3 flex items-center justify-center pointer-events-none">
                   <motion.div
                     initial={{ opacity: 0 }}
-                    animate={{ opacity: x.get() > 50 ? 1 : 0 }}
-                    className="bg-red-500/90 text-white px-4 py-2 rounded-lg font-bold text-lg rotate-12"
+                    animate={{ opacity: x.get() < -50 ? 1 : 0 }}
+                    className="bg-red-500/90 text-white px-4 py-2 rounded-lg font-bold text-lg -rotate-12"
                   >
                     PASS
                   </motion.div>
@@ -499,8 +499,8 @@ export default function Discover() {
                 <div className="absolute right-0 top-0 bottom-0 w-1/3 flex items-center justify-center pointer-events-none">
                   <motion.div
                     initial={{ opacity: 0 }}
-                    animate={{ opacity: x.get() < -50 ? 1 : 0 }}
-                    className="bg-green-500/90 text-white px-4 py-2 rounded-lg font-bold text-lg -rotate-12"
+                    animate={{ opacity: x.get() > 50 ? 1 : 0 }}
+                    className="bg-green-500/90 text-white px-4 py-2 rounded-lg font-bold text-lg rotate-12"
                   >
                     LIKE
                   </motion.div>
