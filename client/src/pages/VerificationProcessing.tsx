@@ -15,10 +15,13 @@ export default function VerificationProcessing() {
   const hasUploadedId = sessionStorage.getItem('hasUploadedId') === 'true';
 
   useEffect(() => {
-    // If no verification data, redirect back
+    // If no verification data, redirect back (only check once on mount)
     if (!month || !day || !year || !hasUploadedId) {
-      setLocation('/age-verification');
-      return;
+      console.log('Missing verification data, redirecting back');
+      const redirectTimer = setTimeout(() => {
+        setLocation('/age-verification');
+      }, 500);
+      return () => clearTimeout(redirectTimer);
     }
 
     // Simulate verification steps
@@ -31,15 +34,15 @@ export default function VerificationProcessing() {
     }, 8000); // Complete
 
     const timer5 = setTimeout(() => {
+      // Mark as verified first
+      sessionStorage.setItem('ageVerified', 'true');
+      sessionStorage.setItem('dateOfBirth', `${month}/${day}/${year}`);
+      
       // Clear verification data
       sessionStorage.removeItem('verificationMonth');
       sessionStorage.removeItem('verificationDay');
       sessionStorage.removeItem('verificationYear');
       sessionStorage.removeItem('hasUploadedId');
-      
-      // Mark as verified
-      sessionStorage.setItem('ageVerified', 'true');
-      sessionStorage.setItem('dateOfBirth', `${month}/${day}/${year}`);
       
       // Redirect to terms
       setLocation('/terms');
@@ -52,7 +55,7 @@ export default function VerificationProcessing() {
       clearTimeout(timer4);
       clearTimeout(timer5);
     };
-  }, [month, day, year, hasUploadedId, setLocation]);
+  }, []);
 
   const steps = [
     { id: 1, label: "Receiving document", icon: Loader2 },
