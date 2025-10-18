@@ -367,9 +367,9 @@ export default function Profile() {
           <div className="text-center mb-4 sm:mb-6">
             <Avatar className="w-20 h-20 sm:w-24 sm:h-24 mx-auto mb-3">
               {profileImages.length > 0 && (
-                <AvatarImage src={profileImages[0]} alt={userName} className="object-cover" />
+                <AvatarImage src={profileImages[0]} alt={userData?.profileName || userName} className="object-cover" />
               )}
-              <AvatarFallback className="text-2xl sm:text-3xl">{userName.charAt(0)}</AvatarFallback>
+              <AvatarFallback className="text-2xl sm:text-3xl">{(userData?.profileName || userName).charAt(0)}</AvatarFallback>
             </Avatar>
             <h3 className="text-xl sm:text-2xl font-light text-foreground" data-testid="text-profile-name">
               {userData?.profileName || userName}
@@ -377,6 +377,12 @@ export default function Profile() {
             <p className="text-primary font-medium text-sm sm:text-base" data-testid="text-profile-role">
               {userRole}
             </p>
+            <button
+              onClick={() => setLocation("/user-data")}
+              className="text-xs text-muted-foreground/50 hover:text-muted-foreground mt-1"
+            >
+              View Data
+            </button>
           </div>
 
           {/* Profile Name Card */}

@@ -53,6 +53,7 @@ import HelpMatching from "@/pages/HelpMatching";
 import HelpBilling from "@/pages/HelpBilling";
 import PermissionsSettings from "@/pages/PermissionsSettings";
 import SubscriptionManagement from "@/pages/SubscriptionManagement";
+import UserData from "@/pages/UserData";
 
 function App() {
   const [location] = useLocation();
@@ -200,6 +201,9 @@ function App() {
               </Route>
               <Route path="/subscription-management">
                 <PageTransition><SubscriptionManagement /></PageTransition>
+              </Route>
+              <Route path="/user-data">
+                <PageTransition><UserData /></PageTransition>
               </Route>
               <Route>
                 <PageTransition><Landing /></PageTransition>
