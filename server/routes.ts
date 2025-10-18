@@ -425,8 +425,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
                              Math.abs(userScores.stability - targetScores.stability) +
                              Math.abs(userScores.dsCompatibility - targetScores.dsCompatibility);
             
-            // Convert to compatibility (max diff is 20, so normalize to 0-30 points)
-            compatibility += Math.max(0, 30 - (scoreDiff * 1.5));
+            // Convert to compatibility (max diff is 20, so normalize to 0-25 points)
+            compatibility += Math.max(0, 25 - (scoreDiff * 1.25));
           }
 
           // Role compatibility bonus
@@ -441,8 +441,26 @@ export async function registerRoutes(app: Express): Promise<Server> {
           // Relationship style compatibility
           if (userRelationship && targetRelationship) {
             if (userRelationship.relationshipStyle === targetRelationship.relationshipStyle) {
-              compatibility += 10;
+              compatibility += 8;
             }
+          }
+
+          // Important traits compatibility (new)
+          const currentUserTraits = (currentUser.important_traits || []) as string[];
+          const targetUserTraits = (user.important_traits || []) as string[];
+          
+          if (currentUserTraits.length > 0 && targetUserTraits.length > 0) {
+            // Find overlapping traits
+            const overlappingTraits = currentUserTraits.filter(trait => 
+              targetUserTraits.includes(trait)
+            );
+            
+            // Calculate trait match percentage
+            const totalUniqueTraits = new Set([...currentUserTraits, ...targetUserTraits]).size;
+            const traitMatchPercentage = (overlappingTraits.length / totalUniqueTraits) * 100;
+            
+            // Add up to 12 points based on trait overlap (weighted heavily for matching values)
+            compatibility += Math.round((traitMatchPercentage / 100) * 12);
           }
 
           // Cap at 99%
