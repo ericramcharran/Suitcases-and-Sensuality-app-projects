@@ -30,12 +30,12 @@ export default function Discover() {
   // Load saved button positions from localStorage
   const [passButtonPosition, setPassButtonPosition] = useState(() => {
     const saved = localStorage.getItem('passButtonPosition');
-    return saved ? JSON.parse(saved) : { x: 80, y: 520 };
+    return saved ? JSON.parse(saved) : { x: 50, y: 10 };
   });
   
   const [likeButtonPosition, setLikeButtonPosition] = useState(() => {
     const saved = localStorage.getItem('likeButtonPosition');
-    return saved ? JSON.parse(saved) : { x: 280, y: 520 };
+    return saved ? JSON.parse(saved) : { x: 250, y: 10 };
   });
 
   const [isDraggingButtons, setIsDraggingButtons] = useState(false);
@@ -299,8 +299,8 @@ export default function Discover() {
             <button
               data-testid="button-reset-buttons"
               onClick={() => {
-                const defaultPass = { x: 80, y: 520 };
-                const defaultLike = { x: 280, y: 520 };
+                const defaultPass = { x: 50, y: 10 };
+                const defaultLike = { x: 250, y: 10 };
                 setPassButtonPosition(defaultPass);
                 setLikeButtonPosition(defaultLike);
                 localStorage.setItem('passButtonPosition', JSON.stringify(defaultPass));
@@ -449,7 +449,7 @@ export default function Discover() {
               </div>
 
             {/* Action Buttons - Now Draggable */}
-            <div className="p-4 pt-2 relative z-20" style={{ height: '80px' }}>
+            <div className="p-4 pt-2 relative z-20 min-h-[100px]">
               {/* Pass Button */}
               <motion.div
                 drag
@@ -467,14 +467,12 @@ export default function Discover() {
                 }}
                 style={{
                   position: 'absolute',
-                  left: passButtonPosition.x,
-                  top: passButtonPosition.y,
-                  x: 0,
-                  y: 0,
-                  cursor: 'grab'
+                  left: `${passButtonPosition.x}px`,
+                  top: `${passButtonPosition.y}px`,
+                  cursor: 'grab',
+                  zIndex: 40
                 }}
                 whileTap={{ cursor: 'grabbing' }}
-                className="z-30"
               >
                 <Button
                   data-testid="button-pass"
@@ -486,9 +484,9 @@ export default function Discover() {
                   disabled={passMutation.isPending || likeMutation.isPending}
                   size="icon"
                   variant="secondary"
-                  className="rounded-full h-12 w-12 bg-background border-2 border-border shadow-lg hover:scale-110 transition-transform min-h-[48px] min-w-[48px] touch-none"
+                  className="rounded-full h-14 w-14 bg-background border-2 border-border shadow-xl hover:scale-110 transition-transform"
                 >
-                  <X className="w-5 h-5" />
+                  <X className="w-6 h-6" />
                 </Button>
               </motion.div>
 
@@ -509,14 +507,12 @@ export default function Discover() {
                 }}
                 style={{
                   position: 'absolute',
-                  left: likeButtonPosition.x,
-                  top: likeButtonPosition.y,
-                  x: 0,
-                  y: 0,
-                  cursor: 'grab'
+                  left: `${likeButtonPosition.x}px`,
+                  top: `${likeButtonPosition.y}px`,
+                  cursor: 'grab',
+                  zIndex: 40
                 }}
                 whileTap={{ cursor: 'grabbing' }}
-                className="z-30"
               >
                 <Button
                   data-testid="button-like"
@@ -527,9 +523,9 @@ export default function Discover() {
                   }}
                   disabled={passMutation.isPending || likeMutation.isPending}
                   size="icon"
-                  className="rounded-full h-12 w-12 bg-primary shadow-lg hover:scale-110 transition-transform min-h-[48px] min-w-[48px] touch-none"
+                  className="rounded-full h-14 w-14 bg-primary shadow-xl hover:scale-110 transition-transform"
                 >
-                  <Heart className="w-5 h-5" />
+                  <Heart className="w-6 h-6" />
                 </Button>
               </motion.div>
             </div>
