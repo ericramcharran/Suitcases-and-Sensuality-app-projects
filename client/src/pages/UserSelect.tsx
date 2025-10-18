@@ -97,8 +97,10 @@ const testUsers: TestUser[] = [
 export default function UserSelect() {
   const [, setLocation] = useLocation();
 
-  const handleSelectUser = (userId: string) => {
+  const handleSelectUser = (userId: string, userName: string) => {
+    console.log('Selecting user:', userName, 'with ID:', userId);
     sessionStorage.setItem('userId', userId);
+    console.log('Stored userId:', sessionStorage.getItem('userId'));
     setLocation('/discover');
   };
 
@@ -122,9 +124,12 @@ export default function UserSelect() {
                   <p className="text-xs text-muted-foreground mt-1">
                     {user.city}, {user.state}
                   </p>
+                  <p className="text-xs text-muted-foreground/50 mt-1 font-mono">
+                    ID: {user.id.slice(0, 8)}...
+                  </p>
                 </div>
                 <Button
-                  onClick={() => handleSelectUser(user.id)}
+                  onClick={() => handleSelectUser(user.id, user.name)}
                   variant="default"
                   className="rounded-full"
                   data-testid={`button-select-${user.id}`}
