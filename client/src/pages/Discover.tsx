@@ -199,14 +199,14 @@ export default function Discover() {
           <div className="w-full max-w-md aspect-[9/16] flex items-center justify-center border border-black rounded-lg">
             <div className="relative flex items-center justify-center">
               {/* Ripple outlines */}
-              {[1, 2, 3, 4, 5].map((i) => (
+              {[1, 2, 3, 4].map((i) => (
                 <Heart 
                   key={i}
                   className="absolute w-24 h-24 text-red-500 animate-ripple"
                   fill="none"
                   strokeWidth={2}
                   stroke="currentColor"
-                  style={{ animationDelay: `${i * 0.3}s` }}
+                  style={{ animationDelay: `${(i - 1) * 2.5}s` }}
                 />
               ))}
               {/* Main beating heart */}
@@ -247,7 +247,7 @@ export default function Discover() {
           }
           
           .animate-ripple {
-            animation: ripple 2s ease-out infinite;
+            animation: ripple 10s ease-out infinite;
           }
         `}</style>
       </>
