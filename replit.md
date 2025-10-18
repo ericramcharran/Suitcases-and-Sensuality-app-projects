@@ -178,6 +178,13 @@ Preferred communication style: Simple, everyday language.
   - 1-Year: $18/mo
   - 5-Year: $15/mo
 - **Payment Flow**: Subscription selection → Stripe checkout → Role-based redirect (Dominants to escrow, others to success page)
+- **Subscription Management Page** (`/subscription-management`):
+  - Current plan details with role-specific pricing and features
+  - Active subscription badge and plan type display
+  - Billing information with payment method and next billing date
+  - Management actions: Change plan, view billing history, cancel subscription
+  - Integrated help and support links
+  - Accessible from Settings → Subscription option
 
 ### Email Notification System
 - **Resend Integration** - Transactional email service for match notifications

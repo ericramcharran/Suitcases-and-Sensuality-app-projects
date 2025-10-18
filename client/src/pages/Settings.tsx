@@ -51,7 +51,8 @@ const settingsOptions = [
     icon: CreditCard,
     title: "Subscription",
     description: "Manage your plan and billing",
-    hasSwitch: false
+    hasSwitch: false,
+    link: "/subscription-management"
   },
   {
     icon: Info,
