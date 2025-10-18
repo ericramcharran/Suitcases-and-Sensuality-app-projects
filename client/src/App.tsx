@@ -36,6 +36,7 @@ import AgreementTimeline from "@/pages/AgreementTimeline";
 import Discover from "@/pages/Discover";
 import Learn from "@/pages/Learn";
 import Messages from "@/pages/Messages";
+import Chat from "@/pages/Chat";
 import Profile from "@/pages/Profile";
 import ImportantTraits from "@/pages/ImportantTraits";
 import Settings from "@/pages/Settings";
@@ -147,6 +148,9 @@ function App() {
               </Route>
               <Route path="/messages">
                 <PageTransition><Messages /></PageTransition>
+              </Route>
+              <Route path="/chat/:matchId">
+                <PageTransition><Chat /></PageTransition>
               </Route>
               <Route path="/profile">
                 <PageTransition><Profile /></PageTransition>

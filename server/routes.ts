@@ -718,6 +718,112 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Message API Routes
+  
+  // Get all conversations for a user (from mutual matches)
+  app.get("/api/messages/conversations/:userId", async (req, res) => {
+    try {
+      const userId = req.params.userId;
+      
+      // Get all mutual matches for this user
+      const mutualMatches = await storage.getMutualMatches(userId);
+      
+      // Get the latest message for each match and build conversation list
+      const conversations = await Promise.all(
+        mutualMatches.map(async (match) => {
+          const otherUserId = match.userId === userId ? match.targetUserId : match.userId;
+          const otherUser = await storage.getUser(otherUserId);
+          
+          // Get all messages for this match
+          const matchMessages = await storage.getMessages(match.id);
+          const latestMessage = matchMessages[matchMessages.length - 1];
+          
+          // Count unread messages
+          const unreadCount = matchMessages.filter(
+            msg => msg.receiverId === userId && !msg.read
+          ).length;
+          
+          return {
+            matchId: match.id,
+            user: otherUser,
+            latestMessage: latestMessage || null,
+            unreadCount,
+            createdAt: match.createdAt
+          };
+        })
+      );
+      
+      // Sort by latest message time
+      conversations.sort((a, b) => {
+        const aTime = a.latestMessage?.createdAt || a.createdAt;
+        const bTime = b.latestMessage?.createdAt || b.createdAt;
+        return new Date(bTime).getTime() - new Date(aTime).getTime();
+      });
+      
+      res.json(conversations);
+    } catch (error) {
+      console.error('Get conversations error:', error);
+      res.status(500).json({ error: "Failed to get conversations" });
+    }
+  });
+  
+  // Get all messages for a specific match
+  app.get("/api/messages/:matchId", async (req, res) => {
+    try {
+      const matchId = req.params.matchId;
+      const messages = await storage.getMessages(matchId);
+      res.json(messages);
+    } catch (error) {
+      console.error('Get messages error:', error);
+      res.status(500).json({ error: "Failed to get messages" });
+    }
+  });
+  
+  // Send a new message
+  app.post("/api/messages", async (req, res) => {
+    try {
+      const { matchId, senderId, receiverId, content } = req.body;
+      
+      if (!matchId || !senderId || !receiverId || !content) {
+        res.status(400).json({ error: "Missing required fields" });
+        return;
+      }
+      
+      const message = await storage.createMessage({
+        matchId,
+        senderId,
+        receiverId,
+        content
+      });
+      
+      // Send WebSocket notification to receiver if they're online
+      const receiverWs = wsClients.get(receiverId);
+      if (receiverWs && receiverWs.readyState === WebSocket.OPEN) {
+        receiverWs.send(JSON.stringify({
+          type: 'new_message',
+          data: message
+        }));
+      }
+      
+      res.json(message);
+    } catch (error) {
+      console.error('Send message error:', error);
+      res.status(500).json({ error: "Failed to send message" });
+    }
+  });
+  
+  // Mark message as read
+  app.patch("/api/messages/:id/read", async (req, res) => {
+    try {
+      const messageId = req.params.id;
+      await storage.markMessageAsRead(messageId);
+      res.json({ success: true });
+    } catch (error) {
+      console.error('Mark as read error:', error);
+      res.status(500).json({ error: "Failed to mark message as read" });
+    }
+  });
+
   // Push notification routes
   
   // Get VAPID public key

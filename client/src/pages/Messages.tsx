@@ -1,34 +1,34 @@
 import { Heart, MessageCircle, User, BookOpen } from "lucide-react";
-import { Card } from "@/components/ui/card";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useLocation } from "wouter";
+import { useQuery } from "@tanstack/react-query";
+import { formatDistanceToNow } from "date-fns";
 
-const conversations = [
-  {
-    name: "Alex",
-    lastMessage: "That sounds wonderful! When would you like to meet?",
-    time: "2m ago",
-    unread: 2,
-    initials: "A"
-  },
-  {
-    name: "Jordan",
-    lastMessage: "I appreciate your thoughtful approach",
-    time: "1h ago",
-    unread: 0,
-    initials: "J"
-  },
-  {
-    name: "Sam",
-    lastMessage: "Thank you for sharing that with me",
-    time: "3h ago",
-    unread: 0,
-    initials: "S"
-  },
-];
+interface Conversation {
+  matchId: string;
+  user: {
+    id: string;
+    name: string;
+    profileImages: string[];
+  };
+  latestMessage: {
+    content: string;
+    createdAt: string;
+  } | null;
+  unreadCount: number;
+  createdAt: string;
+}
 
 export default function Messages() {
   const [, setLocation] = useLocation();
+  const currentUserId = sessionStorage.getItem("userId");
+
+  const { data: conversations = [], isLoading } = useQuery<Conversation[]>({
+    queryKey: ['/api/messages/conversations', currentUserId],
+    enabled: !!currentUserId,
+  });
+
+  const totalUnread = conversations.filter(c => c.unreadCount > 0).length;
 
   return (
     <div className="min-h-screen bg-background flex flex-col">
@@ -37,35 +37,60 @@ export default function Messages() {
         <div className="p-4 border-b border-border bg-background">
           <h2 className="text-2xl font-light text-foreground">Messages</h2>
           <p className="text-sm text-muted-foreground mt-1">
-            {conversations.filter(c => c.unread > 0).length} unread conversations
+            {totalUnread > 0 ? `${totalUnread} unread conversation${totalUnread > 1 ? 's' : ''}` : 'All caught up'}
           </p>
         </div>
 
         {/* Messages List */}
         <div className="flex-1 overflow-y-auto">
-          {conversations.length > 0 ? (
+          {isLoading ? (
+            <div className="flex items-center justify-center h-full">
+              <div className="text-muted-foreground">Loading conversations...</div>
+            </div>
+          ) : conversations.length > 0 ? (
             <div className="divide-y divide-border">
-              {conversations.map((conv, i) => (
+              {conversations.map((conv) => (
                 <div
-                  key={i}
-                  data-testid={`message-${i}`}
+                  key={conv.matchId}
+                  data-testid={`conversation-${conv.matchId}`}
+                  onClick={() => setLocation(`/chat/${conv.matchId}`)}
                   className="p-4 hover-elevate active-elevate-2 cursor-pointer flex gap-3"
                 >
                   <Avatar>
-                    <AvatarFallback>{conv.initials}</AvatarFallback>
+                    {conv.user.profileImages && conv.user.profileImages.length > 0 && (
+                      <AvatarImage src={conv.user.profileImages[0]} alt={conv.user.name} />
+                    )}
+                    <AvatarFallback>
+                      {conv.user.name.split(' ').map(n => n[0]).join('').slice(0, 2).toUpperCase()}
+                    </AvatarFallback>
                   </Avatar>
                   <div className="flex-1 min-w-0">
                     <div className="flex justify-between items-start mb-1">
-                      <h3 className="font-medium text-foreground">{conv.name}</h3>
-                      <span className="text-xs text-muted-foreground">{conv.time}</span>
+                      <h3 className="font-medium text-foreground">
+                        {conv.user.name}
+                      </h3>
+                      {conv.latestMessage && (
+                        <span className="text-xs text-muted-foreground">
+                          {formatDistanceToNow(new Date(conv.latestMessage.createdAt), { addSuffix: true })}
+                        </span>
+                      )}
                     </div>
-                    <p className="text-sm text-muted-foreground truncate">
-                      {conv.lastMessage}
-                    </p>
+                    {conv.latestMessage ? (
+                      <p className="text-sm text-muted-foreground truncate">
+                        {conv.latestMessage.content}
+                      </p>
+                    ) : (
+                      <p className="text-sm text-muted-foreground italic">
+                        Start a conversation
+                      </p>
+                    )}
                   </div>
-                  {conv.unread > 0 && (
-                    <div className="bg-primary text-primary-foreground rounded-full w-5 h-5 flex items-center justify-center text-xs font-medium">
-                      {conv.unread}
+                  {conv.unreadCount > 0 && (
+                    <div 
+                      data-testid={`unread-count-${conv.matchId}`}
+                      className="bg-primary text-primary-foreground rounded-full w-5 h-5 flex items-center justify-center text-xs font-medium"
+                    >
+                      {conv.unreadCount}
                     </div>
                   )}
                 </div>
