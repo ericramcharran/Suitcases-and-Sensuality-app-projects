@@ -7,17 +7,17 @@ const howItWorks = [
   {
     step: "1",
     title: "Initial Deposit",
-    description: "Deposit $1,000 minimum to activate account",
+    description: "Deposit $1,000 minimum via escrow or mutual fund",
   },
   {
     step: "2",
     title: "First Meeting",
-    description: "$2,000 held in escrow for security",
+    description: "$2,000 held securely, earning value if invested",
   },
   {
     step: "3",
     title: "Final Match",
-    description: "$50,000 held in escrow transfers to submissive",
+    description: "$50,000 account (plus growth) transfers to submissive",
   },
 ];
 
@@ -41,10 +41,10 @@ export default function Escrow() {
         </div>
         
         <h2 className="text-3xl font-light mb-2 text-center text-foreground">
-          Partner Escrow Account
+          Partner Escrow & Investment Account
         </h2>
         <p className="text-muted-foreground mb-8 text-center">
-          Financial verification ensures trust and commitment within our community
+          Secure your commitment with funds that grow over time through escrow or mutual fund investments
         </p>
 
         <Card className="p-6 mb-6">
@@ -72,16 +72,16 @@ export default function Escrow() {
               <span className="font-semibold text-foreground">$1,000</span>
             </div>
             <div className="flex justify-between items-center">
-              <span className="text-sm text-muted-foreground">First meeting escrow</span>
+              <span className="text-sm text-muted-foreground">First meeting requirement</span>
               <span className="font-semibold text-foreground">$2,000</span>
             </div>
             <div className="pt-3 border-t border-border">
               <div className="flex justify-between items-center">
-                <span className="text-sm text-muted-foreground">Final match escrow</span>
-                <span className="font-semibold text-red-500">$50,000</span>
+                <span className="text-sm text-muted-foreground">Final match requirement</span>
+                <span className="font-semibold text-red-500">$50,000+</span>
               </div>
               <p className="text-xs text-muted-foreground mt-2">
-                Transferred to submissive upon final match
+                Transferred to submissive upon final match (includes investment growth if applicable)
               </p>
             </div>
           </div>
@@ -94,24 +94,26 @@ export default function Escrow() {
             </div>
             <div>
               <h3 className="font-medium text-foreground mb-1">
-                Account Transfer & Security
+                Account Transfer & Growth
               </h3>
               <p className="text-sm text-muted-foreground">
-                Upon final match, the entire escrow account transfers to your submissive partner, ensuring their financial security and demonstrating your commitment to the relationship.
+                Upon final match, the entire account (escrow or mutual fund investment) transfers to your 
+                submissive partner. If held in mutual funds, your commitment grows over time, demonstrating 
+                long-term dedication and providing enhanced financial security.
               </p>
             </div>
           </div>
         </Card>
 
-        {/* Escrow Provider Options */}
+        {/* Escrow & Investment Provider Options */}
         <Card className="p-6 mb-6 border-2 border-red-500/30">
           <h3 className="font-medium text-foreground mb-2 flex items-center gap-2">
             <Shield className="w-5 h-5 text-red-500" />
-            Secure Escrow Partners
+            Secure Escrow & Investment Partners
           </h3>
           <p className="text-sm text-muted-foreground mb-4">
-            We partner with licensed and regulated escrow services to ensure your funds are held 
-            securely with built-in compliance and zero chargebacks.
+            Choose between traditional escrow (secure holding) or mutual fund investments (growing value over time). 
+            Both options ensure your funds are held securely with built-in compliance.
           </p>
           
           {/* Provider Options */}
@@ -120,12 +122,12 @@ export default function Escrow() {
               <div className="flex items-start justify-between mb-2">
                 <div>
                   <h4 className="font-medium text-foreground">Escrow.com</h4>
-                  <p className="text-xs text-muted-foreground">Licensed & regulated since 1999</p>
+                  <p className="text-xs text-muted-foreground">Traditional escrow - Licensed & regulated since 1999</p>
                 </div>
                 <span className="text-xs bg-green-500/10 text-green-600 dark:text-green-400 px-2 py-1 rounded">Available Now</span>
               </div>
               <p className="text-sm text-muted-foreground mb-2">
-                Over $5 billion in transactions protected. Full compliance and multiple payment methods.
+                Secure holding of funds with over $5 billion in transactions protected. Full compliance and multiple payment methods.
               </p>
             </div>
             
@@ -133,12 +135,13 @@ export default function Escrow() {
               <div className="flex items-start justify-between mb-2">
                 <div>
                   <h4 className="font-medium text-foreground">FinFitLife.com</h4>
-                  <p className="text-xs text-muted-foreground">Financial wellness partner</p>
+                  <p className="text-xs text-muted-foreground">Escrow + mutual fund investment options</p>
                 </div>
                 <span className="text-xs bg-amber-500/10 text-amber-600 dark:text-amber-400 px-2 py-1 rounded">Coming Soon</span>
               </div>
               <p className="text-sm text-muted-foreground mb-2">
-                Specialized escrow services for relationship-based financial commitments. Integration in progress.
+                Specialized services combining secure escrow with mutual fund investments that grow over time. 
+                Your commitment earns value while demonstrating long-term dedication.
               </p>
             </div>
           </div>
@@ -146,7 +149,11 @@ export default function Escrow() {
           <div className="space-y-3 mb-4">
             <div className="flex items-center gap-2 text-sm">
               <Shield className="w-4 h-4 text-green-500" />
-              <span className="text-foreground">Licensed & regulated escrow service</span>
+              <span className="text-foreground">Escrow: Secure holding with guaranteed protection</span>
+            </div>
+            <div className="flex items-center gap-2 text-sm">
+              <Shield className="w-4 h-4 text-green-500" />
+              <span className="text-foreground">Mutual Funds: Investment growth over time (coming soon)</span>
             </div>
             <div className="flex items-center gap-2 text-sm">
               <Shield className="w-4 h-4 text-green-500" />
@@ -154,11 +161,7 @@ export default function Escrow() {
             </div>
             <div className="flex items-center gap-2 text-sm">
               <Shield className="w-4 h-4 text-green-500" />
-              <span className="text-foreground">Funds protected in tier-1 banks</span>
-            </div>
-            <div className="flex items-center gap-2 text-sm">
-              <Shield className="w-4 h-4 text-green-500" />
-              <span className="text-foreground">No chargebacks - permanent settlement</span>
+              <span className="text-foreground">Funds protected in tier-1 financial institutions</span>
             </div>
           </div>
 
@@ -182,17 +185,18 @@ export default function Escrow() {
 
           <div className="bg-red-500/10 border border-red-500/20 p-4 rounded-lg">
             <p className="text-sm text-foreground mb-2">
-              <strong>Setup Process (Escrow.com):</strong>
+              <strong>Setup Process (Escrow.com - Traditional Holding):</strong>
             </p>
             <ol className="text-sm text-muted-foreground space-y-1 ml-4 list-decimal">
-              <li>Click "Create Escrow Account with Escrow.com" below</li>
+              <li>Click "Create Account with Escrow.com" below</li>
               <li>Complete the secure account registration</li>
               <li>Verify your identity (required for compliance)</li>
               <li>Fund your account with minimum $1,000 deposit</li>
               <li>Return here to complete your profile setup</li>
             </ol>
             <p className="text-xs text-muted-foreground mt-3 italic">
-              Note: Additional providers including FinFitLife.com will be available soon for enhanced options.
+              <strong>Investment Option Coming Soon:</strong> FinFitLife.com will offer mutual fund investments 
+              where your commitment grows over time, earning market returns while securing your relationship commitment.
             </p>
           </div>
         </Card>
@@ -204,16 +208,19 @@ export default function Escrow() {
             className="rounded-full bg-red-500 hover:bg-black text-white transition-colors px-12 flex items-center gap-2"
             size="lg"
           >
-            Create Escrow Account with Escrow.com
+            Create Account with Escrow.com
             <ExternalLink className="w-4 h-4" />
           </Button>
           <p className="text-xs text-muted-foreground text-center max-w-md">
-            You'll be securely redirected to Escrow.com to complete account setup and deposit funds
+            Traditional escrow: Secure holding of funds with guaranteed protection
           </p>
           
-          <div className="text-center mt-2">
+          <div className="text-center mt-4">
+            <p className="text-xs text-muted-foreground font-medium">
+              Coming Soon: Mutual Fund Investment Option
+            </p>
             <p className="text-xs text-muted-foreground">
-              More providers coming soon • FinFitLife.com integration in progress
+              FinFitLife.com integration • Grow your commitment over time while maintaining security
             </p>
           </div>
           

@@ -32,7 +32,7 @@ const plans = [
       'Verified Dom badge',
       'Priority support',
       'Concierge matching service',
-      'Escrow account management',
+      'Escrow or mutual fund account setup',
       'Featured profile placement'
     ],
     popular: false
@@ -131,13 +131,14 @@ export default function SubscriptionDom() {
                 Masters/Doms/Dommes Must Be Verified
               </h3>
               <p className="text-sm text-muted-foreground leading-relaxed">
-                All Dominant members are required to complete escrow account verification after subscription. 
+                All Dominant members are required to complete financial verification after subscription. 
+                Choose escrow (secure holding) or mutual funds (growing investment). 
                 Initial deposit: <span className="font-medium text-foreground">$1,000</span> | 
-                Final match requirement: <span className="font-medium text-foreground">$50,000</span>
+                Final match requirement: <span className="font-medium text-foreground">$50,000+</span>
               </p>
               <p className="text-sm text-muted-foreground mt-2">
-                This verification ensures financial stability, serious commitment, and creates a safe 
-                environment for all community members.
+                Mutual fund option allows your commitment to earn value over time while ensuring financial 
+                stability and creating a safe environment for all community members.
               </p>
             </div>
           </div>
@@ -198,12 +199,12 @@ export default function SubscriptionDom() {
             className="rounded-full bg-red-500 hover:bg-black text-white transition-colors px-12"
             size="lg"
           >
-            {selectedPlan === 'trial' ? 'Start Free Trial' : 'Continue to Escrow Setup'}
+            {selectedPlan === 'trial' ? 'Start Free Trial' : 'Continue to Financial Setup'}
           </Button>
           <p className="text-xs text-muted-foreground text-center">
             {selectedPlan === 'trial' 
-              ? 'Start your trial today. Escrow verification required before matching.'
-              : 'Next: Complete escrow account setup to verify your membership'}
+              ? 'Start your trial today. Financial verification (escrow or mutual fund) required before matching.'
+              : 'Next: Choose between escrow or mutual fund investment to verify your membership'}
           </p>
         </div>
       </div>

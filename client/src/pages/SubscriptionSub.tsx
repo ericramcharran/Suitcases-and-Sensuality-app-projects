@@ -142,13 +142,13 @@ export default function SubscriptionSub() {
                 Your Safety is Our Priority
               </h3>
               <p className="text-sm text-muted-foreground leading-relaxed">
-                All Dominant members are financially verified through our escrow system, ensuring you connect 
-                only with serious, committed individuals. Every Master/Dom/Domme maintains a minimum escrow balance 
-                and is required to deposit $50,000 before finalizing any match.
+                All Dominant members are financially verified through our escrow or mutual fund investment system, 
+                ensuring you connect only with serious, committed individuals. Every Master/Dom/Domme maintains a 
+                minimum account balance and is required to secure $50,000+ before finalizing any match.
               </p>
               <p className="text-sm text-muted-foreground mt-2">
-                This creates a safe, trustworthy environment where you can explore authentic connections 
-                with confidence.
+                Mutual fund option means their commitment grows over time, demonstrating long-term dedication. 
+                This creates a safe, trustworthy environment where you can explore authentic connections with confidence.
               </p>
             </div>
           </div>
