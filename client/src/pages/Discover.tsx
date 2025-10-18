@@ -183,146 +183,28 @@ export default function Discover() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-background flex flex-col overflow-hidden">
-        <div className="max-w-md mx-auto w-full flex flex-col pb-20">
-          {/* Header */}
-          <div className="p-4 border-b border-border bg-background flex justify-between items-center">
-            <h2 className="text-2xl font-light text-foreground">Discover</h2>
-            <Settings className="w-6 h-6 text-foreground/70" />
-          </div>
-
-          {/* Floating Hearts Background */}
-          <div className="fixed inset-0 pointer-events-none overflow-hidden">
-            <Heart className="absolute w-8 h-8 text-red-500/20 animate-float-1" style={{ left: '10%', top: '20%' }} />
-            <Heart className="absolute w-6 h-6 text-red-500/15 animate-float-2" style={{ left: '80%', top: '15%' }} />
-            <Heart className="absolute w-10 h-10 text-red-500/25 animate-float-3" style={{ left: '20%', top: '70%' }} />
-            <Heart className="absolute w-7 h-7 text-red-500/20 animate-float-4" style={{ left: '70%', top: '60%' }} />
-            <Heart className="absolute w-5 h-5 text-red-500/15 animate-float-5" style={{ left: '40%', top: '40%' }} />
-            <Heart className="absolute w-9 h-9 text-red-500/20 animate-float-6" style={{ left: '85%', top: '75%' }} />
-            <Heart className="absolute w-6 h-6 text-red-500/15 animate-float-1" style={{ left: '15%', top: '85%', animationDelay: '1s' }} />
-            <Heart className="absolute w-8 h-8 text-red-500/20 animate-float-2" style={{ left: '60%', top: '25%', animationDelay: '1.5s' }} />
-          </div>
-
-          {/* Loading Content */}
-          <div className="flex-1 flex items-center justify-center p-6 relative z-10">
-            <div className="w-full max-w-sm space-y-4">
-              {/* Animated Hearts */}
-              <div className="flex justify-center mb-8 relative">
-                <Heart className="w-12 h-12 text-red-500 animate-pulse absolute" style={{ animationDelay: '0ms' }} />
-                <Heart className="w-8 h-8 text-red-500/60 animate-pulse absolute -left-8 top-2" style={{ animationDelay: '300ms' }} />
-                <Heart className="w-6 h-6 text-red-500/40 animate-pulse absolute -right-8 top-3" style={{ animationDelay: '600ms' }} />
-              </div>
-
-              {/* Skeleton Profile Card */}
-              <Card className="overflow-hidden">
-                <div className="relative">
-                  {/* Shimmer effect */}
-                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent animate-shimmer" 
-                       style={{ 
-                         backgroundSize: '200% 100%',
-                         animation: 'shimmer 2s infinite'
-                       }} 
-                  />
-                  
-                  {/* Card content skeleton */}
-                  <div className="aspect-[3/4] bg-gradient-to-br from-muted/50 to-muted animate-pulse" />
-                  
-                  <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-6">
-                    <div className="space-y-3">
-                      <div className="h-8 bg-white/20 rounded-lg w-3/4 animate-pulse" />
-                      <div className="h-4 bg-white/20 rounded-lg w-1/2 animate-pulse" style={{ animationDelay: '150ms' }} />
-                      <div className="flex gap-2">
-                        <div className="h-6 bg-white/20 rounded-full w-24 animate-pulse" style={{ animationDelay: '300ms' }} />
-                        <div className="h-6 bg-white/20 rounded-full w-20 animate-pulse" style={{ animationDelay: '450ms' }} />
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </Card>
-
-              {/* Loading text with animated dots */}
-              <div className="text-center">
-                <p className="text-lg text-foreground font-light">
-                  Finding your perfect match
-                  <span className="inline-flex w-12">
-                    <span className="animate-pulse" style={{ animationDelay: '0ms' }}>.</span>
-                    <span className="animate-pulse" style={{ animationDelay: '200ms' }}>.</span>
-                    <span className="animate-pulse" style={{ animationDelay: '400ms' }}>.</span>
-                  </span>
-                </p>
-                <p className="text-sm text-muted-foreground mt-2">
-                  Analyzing compatibility scores
-                </p>
-              </div>
-
-              {/* Action buttons skeleton */}
-              <div className="flex justify-center gap-4 pt-4">
-                <div className="w-16 h-16 rounded-full bg-muted animate-pulse" />
-                <div className="w-20 h-20 rounded-full bg-red-500/20 animate-pulse" style={{ animationDelay: '200ms' }} />
-                <div className="w-16 h-16 rounded-full bg-muted animate-pulse" style={{ animationDelay: '400ms' }} />
-              </div>
-            </div>
-          </div>
-
-          {/* Bottom Navigation */}
-          <nav className="bg-background p-4 flex justify-around border-t border-border fixed bottom-0 left-0 right-0 max-w-md mx-auto">
-            <div className="text-primary p-2">
-              <Heart className="w-6 h-6" />
-            </div>
-            <div className="text-muted-foreground/30 p-2">
-              <BookOpen className="w-6 h-6" />
-            </div>
-            <div className="text-muted-foreground/30 p-2">
-              <MessageCircle className="w-6 h-6" />
-            </div>
-            <div className="text-muted-foreground/30 p-2">
-              <User className="w-6 h-6" />
-            </div>
-          </nav>
-        </div>
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <Heart 
+          className="w-24 h-24 text-red-500 animate-heartbeat" 
+          fill="currentColor"
+        />
 
         <style>{`
-          @keyframes shimmer {
-            0% { background-position: -200% 0; }
-            100% { background-position: 200% 0; }
+          @keyframes heartbeat {
+            0%, 100% { 
+              transform: scale(1);
+            }
+            10%, 30% { 
+              transform: scale(1.1);
+            }
+            20%, 40% { 
+              transform: scale(1);
+            }
           }
           
-          @keyframes float-1 {
-            0%, 100% { transform: translateY(0) translateX(0) rotate(0deg); opacity: 0.2; }
-            50% { transform: translateY(-30px) translateX(15px) rotate(10deg); opacity: 0.3; }
+          .animate-heartbeat { 
+            animation: heartbeat 1.5s ease-in-out infinite;
           }
-          
-          @keyframes float-2 {
-            0%, 100% { transform: translateY(0) translateX(0) rotate(0deg); opacity: 0.15; }
-            50% { transform: translateY(-40px) translateX(-20px) rotate(-15deg); opacity: 0.25; }
-          }
-          
-          @keyframes float-3 {
-            0%, 100% { transform: translateY(0) translateX(0) rotate(0deg); opacity: 0.25; }
-            50% { transform: translateY(-50px) translateX(10px) rotate(20deg); opacity: 0.35; }
-          }
-          
-          @keyframes float-4 {
-            0%, 100% { transform: translateY(0) translateX(0) rotate(0deg); opacity: 0.2; }
-            50% { transform: translateY(-35px) translateX(-15px) rotate(-10deg); opacity: 0.3; }
-          }
-          
-          @keyframes float-5 {
-            0%, 100% { transform: translateY(0) translateX(0) rotate(0deg); opacity: 0.15; }
-            50% { transform: translateY(-45px) translateX(20px) rotate(15deg); opacity: 0.25; }
-          }
-          
-          @keyframes float-6 {
-            0%, 100% { transform: translateY(0) translateX(0) rotate(0deg); opacity: 0.2; }
-            50% { transform: translateY(-40px) translateX(-10px) rotate(-20deg); opacity: 0.3; }
-          }
-          
-          .animate-float-1 { animation: float-1 4s ease-in-out infinite; }
-          .animate-float-2 { animation: float-2 5s ease-in-out infinite; }
-          .animate-float-3 { animation: float-3 6s ease-in-out infinite; }
-          .animate-float-4 { animation: float-4 4.5s ease-in-out infinite; }
-          .animate-float-5 { animation: float-5 5.5s ease-in-out infinite; }
-          .animate-float-6 { animation: float-6 4.2s ease-in-out infinite; }
         `}</style>
       </div>
     );
