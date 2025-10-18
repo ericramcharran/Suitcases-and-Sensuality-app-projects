@@ -92,7 +92,7 @@ export default function Settings() {
             <Card
               key={i}
               data-testid={`setting-${i}`}
-              className="p-3 rounded-2xl hover-elevate active-elevate-2 cursor-pointer"
+              className="p-3 rounded-2xl cursor-pointer transition-colors hover:bg-primary/10 active-elevate-2"
               onClick={() => option.link && setLocation(option.link)}
             >
               <div className="flex items-center gap-3">
@@ -138,7 +138,7 @@ export default function Settings() {
             setLocation("/");
           }}
         >
-          <Card className="p-3 rounded-2xl hover-elevate active-elevate-2 cursor-pointer">
+          <Card className="p-3 rounded-2xl cursor-pointer transition-colors hover:bg-primary/10 active-elevate-2">
             <div className="flex items-center gap-3">
               <div className="w-9 h-9 bg-muted rounded-full flex items-center justify-center flex-shrink-0">
                 <LogOut className="w-4 h-4 text-muted-foreground" />
