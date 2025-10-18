@@ -27,39 +27,46 @@ export default function Landing() {
 
   return (
     <div className="min-h-screen bg-background flex flex-col justify-center items-center px-4 sm:px-6 py-8 sm:py-12 relative overflow-hidden">
-      {/* Keyhole vignette that closes in */}
+      {/* Keyhole vignette that closes in during zoom */}
       {isAnimating && (
-        <>
-          <motion.div
-            initial={{ scale: 1, opacity: 0 }}
-            animate={{ scale: 0, opacity: 1 }}
-            transition={{ duration: 2.5, ease: "easeIn" }}
-            className="absolute inset-0 z-40 pointer-events-none"
-            style={{
-              background: "radial-gradient(ellipse at center, transparent 0%, transparent 20%, black 50%)",
-            }}
-          />
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 1.5, delay: 1 }}
-            className="absolute inset-0 bg-black z-50 pointer-events-none"
-          />
-        </>
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 1, delay: 0.5 }}
+          className="absolute inset-0 z-50 pointer-events-none"
+          style={{
+            background: "radial-gradient(circle at center, transparent 0%, transparent 10%, black 40%)",
+          }}
+        />
       )}
 
       <div className="w-full max-w-md mx-auto flex flex-col items-center relative z-10">
-        {/* Logo - zooms into keyhole */}
+        {/* Logo - first centers, then zooms into keyhole */}
         <motion.div
           className="mb-0"
           animate={isAnimating ? {
-            scale: 8,
-            y: -50
+            position: "fixed",
+            top: "50%",
+            left: "50%",
+            x: "-50%",
+            y: "-50%",
+            scale: 10,
           } : {
+            position: "relative",
+            top: "auto",
+            left: "auto",
+            x: 0,
+            y: 0,
             scale: 1,
-            y: 0
           }}
-          transition={{ duration: 2.5, ease: "easeIn" }}
+          transition={{
+            position: { duration: 0 },
+            top: { duration: 0.6, ease: "easeOut" },
+            left: { duration: 0.6, ease: "easeOut" },
+            x: { duration: 0.6, ease: "easeOut" },
+            y: { duration: 0.6, ease: "easeOut" },
+            scale: { duration: 1.8, delay: 0.6, ease: "easeIn" },
+          }}
         >
           <div className="flex items-center justify-center">
             <img 
