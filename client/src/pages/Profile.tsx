@@ -209,6 +209,33 @@ export default function Profile() {
     }
   });
 
+  // Set primary image mutation
+  const setPrimaryMutation = useMutation({
+    mutationFn: async (imageUrl: string) => {
+      // Reorder the images array to put selected image first
+      const reorderedImages = [imageUrl, ...profileImages.filter(url => url !== imageUrl)];
+      
+      return await apiRequest(`/api/users/${userId}`, {
+        method: 'PATCH',
+        body: JSON.stringify({ profileImages: reorderedImages })
+      });
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['/api/users', userId] });
+      toast({
+        title: "Success",
+        description: "Primary photo updated"
+      });
+    },
+    onError: () => {
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: "Failed to set primary photo"
+      });
+    }
+  });
+
   const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
@@ -403,7 +430,7 @@ export default function Profile() {
                       <button
                         data-testid={`button-edit-image-${index}`}
                         onClick={() => handleEditImage(index)}
-                        disabled={replaceMutation.isPending || deleteMutation.isPending}
+                        disabled={replaceMutation.isPending || deleteMutation.isPending || setPrimaryMutation.isPending}
                         className="bg-primary/90 text-primary-foreground p-1 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
                       >
                         <Edit2 className="w-4 h-4" />
@@ -411,16 +438,25 @@ export default function Profile() {
                       <button
                         data-testid={`button-delete-image-${index}`}
                         onClick={() => deleteMutation.mutate(imageUrl)}
-                        disabled={deleteMutation.isPending || replaceMutation.isPending}
+                        disabled={deleteMutation.isPending || replaceMutation.isPending || setPrimaryMutation.isPending}
                         className="bg-destructive/90 text-destructive-foreground p-1 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
                       >
                         <X className="w-4 h-4" />
                       </button>
                     </div>
-                    {index === 0 && (
+                    {index === 0 ? (
                       <div className="absolute bottom-1 left-1 bg-blue-500 text-white text-xs px-2 py-0.5 rounded-full">
                         Primary
                       </div>
+                    ) : (
+                      <button
+                        data-testid={`button-set-primary-${index}`}
+                        onClick={() => setPrimaryMutation.mutate(imageUrl)}
+                        disabled={setPrimaryMutation.isPending || deleteMutation.isPending || replaceMutation.isPending}
+                        className="absolute bottom-1 left-1 bg-blue-500/90 hover:bg-blue-600 text-white text-xs px-2 py-0.5 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
+                      >
+                        Set as Primary
+                      </button>
                     )}
                   </div>
                 ))}
