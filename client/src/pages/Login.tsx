@@ -143,16 +143,16 @@ export default function Login() {
               </div>
 
               <div className="flex items-center justify-between">
-                <div className="flex items-center">
+                <div className="flex items-center gap-2">
                   <input
                     type="checkbox"
                     id="remember"
                     data-testid="checkbox-remember"
-                    className="rounded border-border"
+                    className="w-3.5 h-3.5 rounded border-border cursor-pointer"
                   />
                   <label
                     htmlFor="remember"
-                    className="ml-2 text-sm text-muted-foreground cursor-pointer"
+                    className="text-sm text-muted-foreground cursor-pointer"
                   >
                     Remember me
                   </label>
