@@ -16,6 +16,8 @@ import PersonalityResult from "@/pages/PersonalityResult";
 import RelationshipTest from "@/pages/RelationshipTest";
 import RelationshipResult from "@/pages/RelationshipResult";
 import Subscription from "@/pages/Subscription";
+import SubscriptionDom from "@/pages/SubscriptionDom";
+import SubscriptionSub from "@/pages/SubscriptionSub";
 import Escrow from "@/pages/Escrow";
 import Discover from "@/pages/Discover";
 import Learn from "@/pages/Learn";
@@ -43,6 +45,8 @@ function App() {
             <Route path="/relationship-test" component={RelationshipTest} />
             <Route path="/relationship-result" component={RelationshipResult} />
             <Route path="/subscription" component={Subscription} />
+            <Route path="/subscription-dom" component={SubscriptionDom} />
+            <Route path="/subscription-sub" component={SubscriptionSub} />
             <Route path="/escrow" component={Escrow} />
             <Route path="/discover" component={Discover} />
             <Route path="/learn" component={Learn} />
