@@ -11,7 +11,7 @@ export default function Landing() {
       <div className="mb-0">
         <Logo />
       </div>
-      <p className="text-muted-foreground text-xl mb-4 text-center font-light">
+      <p className="text-muted-foreground text-xl mb-2 text-center font-light">
         Where Power Meets Passion
       </p>
       <p className="text-foreground/80 mb-12 max-w-md text-center leading-relaxed">
