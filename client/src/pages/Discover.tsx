@@ -393,8 +393,17 @@ export default function Discover() {
             className="h-full"
           >
             <Card className="h-full flex flex-col overflow-visible" data-testid="match-card">
+              {/* SVG Clip Path Definition */}
+              <svg width="0" height="0" style={{ position: 'absolute' }}>
+                <defs>
+                  <clipPath id="wave-clip" clipPathUnits="objectBoundingBox">
+                    <path d="M 0,0 L 0,0.85 Q 0.25,0.95 0.5,0.85 T 1,0.85 L 1,0 Z" />
+                  </clipPath>
+                </defs>
+              </svg>
+              
               {/* Profile Image Carousel */}
-              <div className="relative h-96 bg-muted rounded-t-xl overflow-visible z-10">
+              <div className="relative h-96 bg-muted rounded-t-xl overflow-visible z-10" style={{ clipPath: 'url(#wave-clip)' }}>
                 {currentProfile.profileImages && currentProfile.profileImages.length > 0 ? (
                   <>
                     {/* Carousel */}
@@ -495,17 +504,6 @@ export default function Discover() {
                   >
                     LIKE
                   </motion.div>
-                </div>
-                
-                {/* Curved Wave Overlay */}
-                <div className="absolute bottom-0 left-0 right-0 translate-y-[50px] z-20 pointer-events-none">
-                  <svg viewBox="0 0 400 80" className="w-full h-20" preserveAspectRatio="none">
-                    <path 
-                      d="M 0,0 L 0,40 Q 100,10 200,40 T 400,40 L 400,0 Z" 
-                      fill="currentColor"
-                      className="text-card drop-shadow-lg"
-                    />
-                  </svg>
                 </div>
               </div>
 
