@@ -247,6 +247,42 @@ Preferred communication style: Simple, everyday language.
   });
   ```
 
+### Device Permissions System
+- **Permissions Manager** - Centralized utility class for managing device permissions (`client/src/lib/permissions.ts`)
+  - Camera access with facingMode support (front/rear camera selection)
+  - Location access with high accuracy positioning
+  - Notification permissions integrated with push notification system
+  - Gallery/file access for photo uploads
+  - Automatic fallback for devices without specific camera types
+  - Proper stream lifecycle management and cleanup
+- **Permissions Settings UI** - User-friendly interface at `/permissions`
+  - Real-time permission status checking (granted/denied/not requested)
+  - One-click permission request buttons
+  - Visual status indicators (checkmark/X/alert icons)
+  - In-app error messaging with device settings guidance
+  - Accessible from Settings page via "App Permissions" option
+- **Camera Features**:
+  - Stream management with automatic cleanup
+  - Video element lifecycle handling (prevents memory leaks)
+  - Photo capture with canvas rendering
+  - Support for both front and rear cameras with graceful fallback
+  - Compatible with desktop and mobile devices
+- **Location Features**:
+  - High accuracy geolocation requests
+  - Privacy-focused distance calculations
+  - Timeout and error handling
+- **Gallery Features**:
+  - File API support detection
+  - Multiple file selection
+  - Image/video filtering
+  - Mobile-optimized file picker
+- **Integration Points**:
+  - `/permissions` route in App.tsx
+  - Settings page link at `/settings`
+  - Used in profile photo uploads and ID verification
+  - Location data for match distance calculations
+  - Push notification enrollment
+
 ### Future Integration Points
 - **Session Management** - connect-pg-simple configured for PostgreSQL session store (not yet active)
 - **Age Verification Service** - ID verification API integration needed
