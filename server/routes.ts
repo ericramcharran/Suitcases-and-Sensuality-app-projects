@@ -19,13 +19,22 @@ const stripe = process.env.STRIPE_SECRET_KEY
     })
   : null;
 
-// Initialize Web Push with VAPID keys
-if (process.env.VAPID_PUBLIC_KEY && process.env.VAPID_PRIVATE_KEY && process.env.VAPID_SUBJECT) {
-  webpush.setVapidDetails(
-    process.env.VAPID_SUBJECT,
-    process.env.VAPID_PUBLIC_KEY,
-    process.env.VAPID_PRIVATE_KEY
-  );
+// Initialize Web Push with VAPID keys (optional - gracefully handle missing/invalid keys)
+let pushNotificationsEnabled = false;
+try {
+  if (process.env.VAPID_PUBLIC_KEY && process.env.VAPID_PRIVATE_KEY && process.env.VAPID_SUBJECT) {
+    webpush.setVapidDetails(
+      process.env.VAPID_SUBJECT,
+      process.env.VAPID_PUBLIC_KEY,
+      process.env.VAPID_PRIVATE_KEY
+    );
+    pushNotificationsEnabled = true;
+    console.log('✅ Push notifications enabled');
+  } else {
+    console.log('⚠️  Push notifications disabled - VAPID keys not configured');
+  }
+} catch (error) {
+  console.error('⚠️  Push notifications disabled - Invalid VAPID keys:', error);
 }
 
 // Drizzle ORM automatically converts database snake_case to TypeScript camelCase
@@ -713,11 +722,18 @@ export async function registerRoutes(app: Express): Promise<Server> {
   
   // Get VAPID public key
   app.get("/api/push/vapid-public-key", (req, res) => {
+    if (!pushNotificationsEnabled) {
+      return res.status(503).json({ error: "Push notifications not configured" });
+    }
     res.json({ publicKey: process.env.VAPID_PUBLIC_KEY });
   });
 
   // Subscribe to push notifications
   app.post("/api/push/subscribe", async (req, res) => {
+    if (!pushNotificationsEnabled) {
+      return res.status(503).json({ error: "Push notifications not configured" });
+    }
+    
     try {
       const { userId, subscription } = req.body;
       
@@ -778,6 +794,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   // Send notification to specific user
   app.post("/api/push/send", async (req, res) => {
+    if (!pushNotificationsEnabled) {
+      return res.status(503).json({ error: "Push notifications not configured" });
+    }
+    
     try {
       const { userId, title, body, url } = req.body;
       

@@ -192,6 +192,61 @@ Preferred communication style: Simple, everyday language.
   - `RESEND_API_KEY` - API key from resend.com
   - `ADMIN_EMAIL` - Email address to receive match notifications
 
+### Push Notification & Real-Time Messaging System
+- **Web Push Notifications** - Browser push notifications using VAPID authentication
+  - Service worker (`client/public/sw.js`) handles push events and notification clicks
+  - Database table `push_subscriptions` stores user push endpoints with encryption keys
+  - Graceful degradation - app functions normally when push notifications unavailable
+  - Automatic subscription cleanup for invalid/expired endpoints
+- **WebSocket Real-Time Notifications** - In-app instant messaging and alerts
+  - WebSocket server integrated with Express HTTP server
+  - Per-user WebSocket connections with automatic reconnection logic
+  - Heartbeat mechanism (30s intervals) to maintain connections
+  - Connection tracking by user ID for targeted message delivery
+- **Notification Manager** - Frontend singleton class (`client/src/lib/notifications.ts`)
+  - Handles service worker registration and push subscription lifecycle
+  - Manages WebSocket connections with exponential backoff reconnection
+  - Event-based message routing with type handlers
+  - Utility functions for sending push and WebSocket notifications
+- **Backend API Routes**:
+  - `GET /api/push/vapid-public-key` - Retrieve VAPID public key for push subscription
+  - `POST /api/push/subscribe` - Save push subscription with welcome notification
+  - `POST /api/push/unsubscribe` - Remove push subscription
+  - `POST /api/push/send` - Send push notification to specific user (all devices)
+  - `POST /api/ws/send` - Send WebSocket message to connected user
+- **Database Schema**:
+  - `push_subscriptions` table with userId, endpoint, p256dh key, auth key
+  - Foreign key relationship to users table
+  - Unique constraint on endpoint to prevent duplicate subscriptions
+- **Environment Variables Required**:
+  - `VAPID_PUBLIC_KEY` - VAPID public key for web push (base64 URL-safe format)
+  - `VAPID_PRIVATE_KEY` - VAPID private key for web push authentication
+  - `VAPID_SUBJECT` - VAPID subject (mailto: or https: URL)
+- **Dependencies**:
+  - `web-push` - Node.js library for sending web push notifications
+  - `ws` - WebSocket server and client library
+- **Usage Example**:
+  ```typescript
+  // Initialize notifications for logged-in user
+  await notificationManager.initialize(userId);
+  
+  // Subscribe to push notifications
+  await notificationManager.subscribeToPush(userId);
+  
+  // Listen for WebSocket messages
+  notificationManager.on('new_match', (data) => {
+    console.log('New match:', data);
+  });
+  
+  // Send push notification to user
+  await sendPushNotification({
+    userId: targetUserId,
+    title: 'New Match!',
+    body: 'You have a new mutual match',
+    url: '/matches'
+  });
+  ```
+
 ### Future Integration Points
 - **Session Management** - connect-pg-simple configured for PostgreSQL session store (not yet active)
 - **Age Verification Service** - ID verification API integration needed
