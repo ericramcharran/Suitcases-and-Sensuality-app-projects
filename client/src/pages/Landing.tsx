@@ -3,7 +3,7 @@ import { Shield } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useLocation } from "wouter";
 import { motion } from "framer-motion";
-import logoImage from "@assets/logo-1_1760791670509.png";
+import logoImage from "@assets/logo.png";
 
 export default function Landing() {
   const [, setLocation] = useLocation();
