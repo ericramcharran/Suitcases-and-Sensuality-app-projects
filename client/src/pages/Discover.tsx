@@ -27,6 +27,19 @@ export default function Discover() {
   
   const userId = sessionStorage.getItem('userId');
 
+  // Load saved button positions from localStorage
+  const [passButtonPosition, setPassButtonPosition] = useState(() => {
+    const saved = localStorage.getItem('passButtonPosition');
+    return saved ? JSON.parse(saved) : { x: 80, y: 520 };
+  });
+  
+  const [likeButtonPosition, setLikeButtonPosition] = useState(() => {
+    const saved = localStorage.getItem('likeButtonPosition');
+    return saved ? JSON.parse(saved) : { x: 280, y: 520 };
+  });
+
+  const [isDraggingButtons, setIsDraggingButtons] = useState(false);
+
   // Ensure beating heart shows for at least 10 seconds
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -282,13 +295,33 @@ export default function Discover() {
         {/* Header */}
         <div className="p-3 sm:p-4 border-b border-border flex justify-between items-center bg-background">
           <h2 className="text-xl sm:text-2xl font-light text-foreground">Discover</h2>
-          <button
-            data-testid="button-settings"
-            onClick={() => setLocation("/settings")}
-            className="text-foreground/70 hover-elevate active-elevate-2 p-2 rounded-md min-w-[44px] min-h-[44px] flex items-center justify-center"
-          >
-            <Settings className="w-6 h-6" />
-          </button>
+          <div className="flex gap-2">
+            <button
+              data-testid="button-reset-buttons"
+              onClick={() => {
+                const defaultPass = { x: 80, y: 520 };
+                const defaultLike = { x: 280, y: 520 };
+                setPassButtonPosition(defaultPass);
+                setLikeButtonPosition(defaultLike);
+                localStorage.setItem('passButtonPosition', JSON.stringify(defaultPass));
+                localStorage.setItem('likeButtonPosition', JSON.stringify(defaultLike));
+                toast({
+                  title: "Buttons Reset",
+                  description: "Button positions have been restored to default",
+                });
+              }}
+              className="text-foreground/70 hover-elevate active-elevate-2 p-2 rounded-md text-xs font-medium"
+            >
+              Reset Buttons
+            </button>
+            <button
+              data-testid="button-settings"
+              onClick={() => setLocation("/settings")}
+              className="text-foreground/70 hover-elevate active-elevate-2 p-2 rounded-md min-w-[44px] min-h-[44px] flex items-center justify-center"
+            >
+              <Settings className="w-6 h-6" />
+            </button>
+          </div>
         </div>
 
         {/* Match Card */}
@@ -415,34 +448,90 @@ export default function Discover() {
                 </div>
               </div>
 
-            {/* Action Buttons */}
-            <div className="p-4 pt-2 grid grid-cols-3 relative z-0">
-              <div className="flex justify-center items-center">
+            {/* Action Buttons - Now Draggable */}
+            <div className="p-4 pt-2 relative z-20" style={{ height: '80px' }}>
+              {/* Pass Button */}
+              <motion.div
+                drag
+                dragMomentum={false}
+                dragElastic={0}
+                onDragStart={() => setIsDraggingButtons(true)}
+                onDragEnd={(e, info) => {
+                  setIsDraggingButtons(false);
+                  const newPosition = {
+                    x: passButtonPosition.x + info.offset.x,
+                    y: passButtonPosition.y + info.offset.y
+                  };
+                  setPassButtonPosition(newPosition);
+                  localStorage.setItem('passButtonPosition', JSON.stringify(newPosition));
+                }}
+                style={{
+                  position: 'absolute',
+                  left: passButtonPosition.x,
+                  top: passButtonPosition.y,
+                  x: 0,
+                  y: 0,
+                  cursor: 'grab'
+                }}
+                whileTap={{ cursor: 'grabbing' }}
+                className="z-30"
+              >
                 <Button
                   data-testid="button-pass"
-                  onClick={handlePass}
+                  onClick={(e) => {
+                    if (!isDraggingButtons) {
+                      handlePass();
+                    }
+                  }}
                   disabled={passMutation.isPending || likeMutation.isPending}
                   size="icon"
                   variant="secondary"
-                  className="rounded-full h-11 w-11 sm:h-12 sm:w-12 bg-background border-2 border-border shadow-lg hover:scale-110 transition-transform min-h-[44px] min-w-[44px]"
+                  className="rounded-full h-12 w-12 bg-background border-2 border-border shadow-lg hover:scale-110 transition-transform min-h-[48px] min-w-[48px] touch-none"
                 >
                   <X className="w-5 h-5" />
                 </Button>
-              </div>
-              <div className="flex justify-center items-center">
-                {/* Empty middle third */}
-              </div>
-              <div className="flex justify-center items-center">
+              </motion.div>
+
+              {/* Like Button */}
+              <motion.div
+                drag
+                dragMomentum={false}
+                dragElastic={0}
+                onDragStart={() => setIsDraggingButtons(true)}
+                onDragEnd={(e, info) => {
+                  setIsDraggingButtons(false);
+                  const newPosition = {
+                    x: likeButtonPosition.x + info.offset.x,
+                    y: likeButtonPosition.y + info.offset.y
+                  };
+                  setLikeButtonPosition(newPosition);
+                  localStorage.setItem('likeButtonPosition', JSON.stringify(newPosition));
+                }}
+                style={{
+                  position: 'absolute',
+                  left: likeButtonPosition.x,
+                  top: likeButtonPosition.y,
+                  x: 0,
+                  y: 0,
+                  cursor: 'grab'
+                }}
+                whileTap={{ cursor: 'grabbing' }}
+                className="z-30"
+              >
                 <Button
                   data-testid="button-like"
-                  onClick={handleLike}
+                  onClick={(e) => {
+                    if (!isDraggingButtons) {
+                      handleLike();
+                    }
+                  }}
                   disabled={passMutation.isPending || likeMutation.isPending}
                   size="icon"
-                  className="rounded-full h-11 w-11 sm:h-12 sm:w-12 bg-primary shadow-lg hover:scale-110 transition-transform min-h-[44px] min-w-[44px]"
+                  className="rounded-full h-12 w-12 bg-primary shadow-lg hover:scale-110 transition-transform min-h-[48px] min-w-[48px] touch-none"
                 >
                   <Heart className="w-5 h-5" />
                 </Button>
-              </div>
+              </motion.div>
             </div>
 
             {/* Profile Info */}
