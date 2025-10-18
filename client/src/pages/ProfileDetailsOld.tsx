@@ -161,7 +161,7 @@ export default function ProfileDetails() {
 
       <div className="max-w-2xl mx-auto">
         <div className="flex items-center justify-center mb-2">
-          <div className="w-12 h-12 rounded-full bg-gradient-to-br from-red-500 to-black flex items-center justify-center">
+          <div className="w-12 h-12 rounded-full bg-gradient-to-br from-primary to-black flex items-center justify-center">
             <User className="w-6 h-6 text-white" />
           </div>
         </div>
@@ -175,7 +175,7 @@ export default function ProfileDetails() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
                 <Label htmlFor="age" className="text-foreground mb-2 block">
-                  Age {showErrors && !age && <span className="text-red-500">*</span>}
+                  Age {showErrors && !age && <span className="text-primary">*</span>}
                 </Label>
                 <Input
                   data-testid="input-age"
@@ -184,21 +184,21 @@ export default function ProfileDetails() {
                   placeholder="25"
                   value={age}
                   onChange={(e) => setAge(e.target.value)}
-                  className={`rounded-xl ${showErrors && !age ? 'border-red-500 border-2' : ''}`}
+                  className={`rounded-xl ${showErrors && !age ? 'border-primary border-2' : ''}`}
                   min="21"
                   max="99"
                 />
                 {showErrors && !age && (
-                  <p className="text-xs text-red-500 mt-1">Age is required</p>
+                  <p className="text-xs text-primary mt-1">Age is required</p>
                 )}
               </div>
 
               <div>
                 <Label htmlFor="sex" className="text-foreground mb-2 block">
-                  Sex {showErrors && !sex && <span className="text-red-500">*</span>}
+                  Sex {showErrors && !sex && <span className="text-primary">*</span>}
                 </Label>
                 <Select value={sex} onValueChange={setSex}>
-                  <SelectTrigger data-testid="select-sex" id="sex" className={`rounded-xl ${showErrors && !sex ? 'border-red-500 border-2' : ''}`}>
+                  <SelectTrigger data-testid="select-sex" id="sex" className={`rounded-xl ${showErrors && !sex ? 'border-primary border-2' : ''}`}>
                     <SelectValue placeholder="Select sex" />
                   </SelectTrigger>
                   <SelectContent>
@@ -211,13 +211,13 @@ export default function ProfileDetails() {
                   </SelectContent>
                 </Select>
                 {showErrors && !sex && (
-                  <p className="text-xs text-red-500 mt-1">Sex is required</p>
+                  <p className="text-xs text-primary mt-1">Sex is required</p>
                 )}
               </div>
 
               <div>
                 <Label className="text-foreground mb-2 block">
-                  Height {showErrors && (!heightFeet || !heightInches) && <span className="text-red-500">*</span>}
+                  Height {showErrors && (!heightFeet || !heightInches) && <span className="text-primary">*</span>}
                 </Label>
                 <div className="flex gap-2">
                   <Input
@@ -226,7 +226,7 @@ export default function ProfileDetails() {
                     placeholder="5"
                     value={heightFeet}
                     onChange={(e) => setHeightFeet(e.target.value)}
-                    className={`rounded-xl ${showErrors && !heightFeet ? 'border-red-500 border-2' : ''}`}
+                    className={`rounded-xl ${showErrors && !heightFeet ? 'border-primary border-2' : ''}`}
                     min="3"
                     max="8"
                   />
@@ -237,14 +237,14 @@ export default function ProfileDetails() {
                     placeholder="10"
                     value={heightInches}
                     onChange={(e) => setHeightInches(e.target.value)}
-                    className={`rounded-xl ${showErrors && !heightInches ? 'border-red-500 border-2' : ''}`}
+                    className={`rounded-xl ${showErrors && !heightInches ? 'border-primary border-2' : ''}`}
                     min="0"
                     max="11"
                   />
                   <span className="flex items-center text-muted-foreground">in</span>
                 </div>
                 {showErrors && (!heightFeet || !heightInches) && (
-                  <p className="text-xs text-red-500 mt-1">Both feet and inches are required</p>
+                  <p className="text-xs text-primary mt-1">Both feet and inches are required</p>
                 )}
               </div>
 
@@ -266,10 +266,10 @@ export default function ProfileDetails() {
 
               <div>
                 <Label htmlFor="bodyType" className="text-foreground mb-2 block">
-                  Body Type {showErrors && !bodyType && <span className="text-red-500">*</span>}
+                  Body Type {showErrors && !bodyType && <span className="text-primary">*</span>}
                 </Label>
                 <Select value={bodyType} onValueChange={setBodyType}>
-                  <SelectTrigger data-testid="select-body-type" id="bodyType" className={`rounded-xl ${showErrors && !bodyType ? 'border-red-500 border-2' : ''}`}>
+                  <SelectTrigger data-testid="select-body-type" id="bodyType" className={`rounded-xl ${showErrors && !bodyType ? 'border-primary border-2' : ''}`}>
                     <SelectValue placeholder="Select body type" />
                   </SelectTrigger>
                   <SelectContent>
@@ -509,7 +509,7 @@ export default function ProfileDetails() {
           </div>
           
           {showErrors && missingFields.length > 0 && (
-            <p className="text-center text-sm text-red-500 mt-2">
+            <p className="text-center text-sm text-primary mt-2">
               Please complete all required fields above (marked with red borders)
             </p>
           )}

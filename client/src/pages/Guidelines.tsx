@@ -91,8 +91,8 @@ export default function Guidelines() {
 
               <div className="border-b border-border pb-3">
                 <div className="flex items-start gap-4">
-                  <div className="flex-shrink-0 w-10 h-10 rounded-full bg-red-500/10 flex items-center justify-center">
-                    <Shield className="w-5 h-5 text-red-500" />
+                  <div className="flex-shrink-0 w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
+                    <Shield className="w-5 h-5 text-primary" />
                   </div>
                   <div>
                     <h3 className="font-medium text-foreground mb-1">Zero Tolerance Policy</h3>
@@ -105,8 +105,8 @@ export default function Guidelines() {
 
               <div className="pb-3">
                 <div className="flex items-start gap-4">
-                  <div className="flex-shrink-0 w-10 h-10 rounded-full bg-red-500/10 flex items-center justify-center">
-                    <Phone className="w-5 h-5 text-red-500" />
+                  <div className="flex-shrink-0 w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
+                    <Phone className="w-5 h-5 text-primary" />
                   </div>
                   <div>
                     <h3 className="font-medium text-foreground mb-1">Emergency Resources</h3>
@@ -126,8 +126,8 @@ export default function Guidelines() {
             <div className="absolute bottom-6 left-0 right-0 flex justify-center pointer-events-none">
               <div className="bg-gradient-to-t from-muted via-muted to-transparent pt-8 pb-4 px-6 rounded-lg">
                 <div className="flex flex-col items-center gap-2 animate-bounce">
-                  <ArrowDown className="w-5 h-5 text-red-500" />
-                  <p className="text-xs font-medium text-red-500">Scroll to continue</p>
+                  <ArrowDown className="w-5 h-5 text-primary" />
+                  <p className="text-xs font-medium text-primary">Scroll to continue</p>
                 </div>
               </div>
             </div>

@@ -248,7 +248,7 @@ export default function Discover() {
     return (
       <div className="min-h-screen bg-background flex items-center justify-center p-6">
         <Card className="p-8 text-center max-w-md">
-          <Heart className="w-16 h-16 text-red-500 animate-pulse mx-auto mb-4" />
+          <Heart className="w-16 h-16 text-primary animate-pulse mx-auto mb-4" />
           <h3 className="text-2xl font-light text-foreground mb-2">
             Loading Profiles...
           </h3>
@@ -265,7 +265,7 @@ export default function Discover() {
     return (
       <div className="min-h-screen bg-background flex items-center justify-center p-6">
         <Card className="p-8 text-center max-w-md">
-          <Heart className="w-16 h-16 text-red-500/30 mx-auto mb-4" />
+          <Heart className="w-16 h-16 text-primary/30 mx-auto mb-4" />
           <h3 className="text-2xl font-light text-foreground mb-2">
             You're All Caught Up
           </h3>
@@ -441,7 +441,7 @@ export default function Discover() {
                   <motion.div
                     initial={{ opacity: 0 }}
                     animate={{ opacity: x.get() < -50 ? 1 : 0 }}
-                    className="bg-red-500/90 text-white px-4 py-2 rounded-lg font-bold text-lg -rotate-12"
+                    className="bg-primary/90 text-white px-4 py-2 rounded-lg font-bold text-lg -rotate-12"
                   >
                     PASS
                   </motion.div>
@@ -475,11 +475,11 @@ export default function Discover() {
                     variant="secondary"
                     className="rounded-full h-12 w-12 bg-white border-2 border-white hover:scale-110 transition-transform"
                   >
-                    <X className="w-6 h-6 text-red-500 stroke-[2.5]" />
+                    <X className="w-6 h-6 text-primary stroke-[2.5]" />
                   </Button>
                 </div>
 
-                {/* Like Button - PINK HEART - BOTTOM RIGHT (MIRROR OF X) */}
+                {/* Like Button - ROSE HEART - BOTTOM RIGHT (MIRROR OF X) */}
                 <div
                   style={{
                     position: 'absolute',
@@ -494,9 +494,9 @@ export default function Discover() {
                     onClick={handleLike}
                     disabled={passMutation.isPending || likeMutation.isPending}
                     size="icon"
-                    className="rounded-full h-12 w-12 bg-gradient-to-br from-pink-500 to-rose-600 hover:scale-110 transition-transform border-2 border-white"
+                    className="rounded-full h-12 w-12 bg-white hover:scale-110 transition-transform border-2 border-white"
                   >
-                    <Heart className="w-6 h-6 fill-white text-white" />
+                    <Heart className="w-6 h-6 fill-primary text-primary" />
                   </Button>
                 </div>
               </div>

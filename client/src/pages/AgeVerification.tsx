@@ -91,7 +91,7 @@ export default function AgeVerification() {
         Back
       </button>
       <div className="max-w-md mx-auto">
-        <div className="w-16 h-16 mx-auto mb-6 bg-gradient-to-br from-red-500 to-black rounded-full flex items-center justify-center">
+        <div className="w-16 h-16 mx-auto mb-6 bg-gradient-to-br from-primary to-black rounded-full flex items-center justify-center">
           <Shield className="w-8 h-8 text-white" />
         </div>
         <h2 className="text-3xl font-light mb-2 text-center text-foreground">
@@ -194,7 +194,7 @@ export default function AgeVerification() {
             className={`border-2 border-dashed rounded-xl p-8 text-center mb-2 cursor-pointer transition-colors ${
               uploadedFile 
                 ? 'border-green-500 bg-green-500/5' 
-                : 'border-border hover:border-red-500'
+                : 'border-border hover:border-primary'
             }`}
             data-testid="upload-area"
           >

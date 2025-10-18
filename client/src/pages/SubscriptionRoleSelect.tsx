@@ -28,8 +28,8 @@ export default function SubscriptionRoleSelect() {
             className="p-8 cursor-pointer hover-elevate active-elevate-2 transition-all group"
           >
             <div className="text-center">
-              <div className="w-20 h-20 mx-auto mb-4 rounded-full bg-red-500/10 flex items-center justify-center group-hover:bg-red-500/20 transition-colors">
-                <Crown className="w-10 h-10 text-red-500" />
+              <div className="w-20 h-20 mx-auto mb-4 rounded-full bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
+                <Crown className="w-10 h-10 text-primary" />
               </div>
               <h2 className="text-2xl font-medium text-foreground mb-3">
                 Master / Dom / Domme
@@ -53,8 +53,8 @@ export default function SubscriptionRoleSelect() {
             className="p-8 cursor-pointer hover-elevate active-elevate-2 transition-all group"
           >
             <div className="text-center">
-              <div className="w-20 h-20 mx-auto mb-4 rounded-full bg-red-500/10 flex items-center justify-center group-hover:bg-red-500/20 transition-colors">
-                <Heart className="w-10 h-10 text-red-500" />
+              <div className="w-20 h-20 mx-auto mb-4 rounded-full bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
+                <Heart className="w-10 h-10 text-primary" />
               </div>
               <h2 className="text-2xl font-medium text-foreground mb-3">
                 Submissive

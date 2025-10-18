@@ -93,7 +93,7 @@ export default function PrivacyPolicy() {
         </div>
 
         {/* Privacy Commitment */}
-        <Card className="p-6 mb-6 bg-gradient-to-br from-red-500/5 to-black/5">
+        <Card className="p-6 mb-6 bg-gradient-to-br from-primary/5 to-black/5">
           <h2 className="text-2xl font-light text-foreground mb-4">Our Commitment</h2>
           <p className="text-foreground leading-relaxed">
             At The Executive Society, we understand the importance of privacy, especially in the context of 
@@ -107,8 +107,8 @@ export default function PrivacyPolicy() {
           {privacyContent.map((item, i) => (
             <Card key={i} className="p-5">
               <div className="flex items-start gap-3">
-                <div className="p-2 bg-red-500/10 rounded-lg">
-                  <item.icon className="w-6 h-6 text-red-500" />
+                <div className="p-2 bg-primary/10 rounded-lg">
+                  <item.icon className="w-6 h-6 text-primary" />
                 </div>
                 <div>
                   <h3 className="font-medium text-foreground mb-1">{item.title}</h3>
@@ -122,7 +122,7 @@ export default function PrivacyPolicy() {
         </div>
 
         {/* Contact Information */}
-        <Card className="p-6 bg-gradient-to-br from-red-500/10 to-black/10 text-center">
+        <Card className="p-6 bg-gradient-to-br from-primary/10 to-black/10 text-center">
           <h3 className="text-xl font-light text-foreground mb-2">
             Questions About Privacy?
           </h3>

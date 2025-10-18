@@ -97,7 +97,7 @@ export default function PermissionsSettings() {
     if (status.granted) {
       return <CheckCircle2 className="w-5 h-5 text-green-500" />;
     } else if (status.denied) {
-      return <XCircle className="w-5 h-5 text-red-500" />;
+      return <XCircle className="w-5 h-5 text-primary" />;
     } else {
       return <AlertCircle className="w-5 h-5 text-yellow-500" />;
     }
@@ -107,7 +107,7 @@ export default function PermissionsSettings() {
     if (status.granted) {
       return <span className="text-sm text-green-500">Granted</span>;
     } else if (status.denied) {
-      return <span className="text-sm text-red-500">Denied</span>;
+      return <span className="text-sm text-primary">Denied</span>;
     } else {
       return <span className="text-sm text-muted-foreground">Not requested</span>;
     }

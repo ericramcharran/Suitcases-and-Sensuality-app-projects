@@ -36,7 +36,7 @@ export default function Escrow() {
       </button>
       
       <div className="max-w-2xl mx-auto">
-        <div className="w-16 h-16 mx-auto mb-6 bg-gradient-to-br from-red-500 to-black rounded-full flex items-center justify-center">
+        <div className="w-16 h-16 mx-auto mb-6 bg-gradient-to-br from-primary to-black rounded-full flex items-center justify-center">
           <Shield className="w-8 h-8 text-white" />
         </div>
         
@@ -52,8 +52,8 @@ export default function Escrow() {
           <div className="space-y-4">
             {howItWorks.map((item, i) => (
               <div key={i} className="flex gap-4">
-                <div className="w-10 h-10 bg-red-500/10 rounded-full flex items-center justify-center flex-shrink-0">
-                  <span className="text-red-500 font-semibold">{item.step}</span>
+                <div className="w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center flex-shrink-0">
+                  <span className="text-primary font-semibold">{item.step}</span>
                 </div>
                 <div>
                   <p className="font-medium text-foreground">{item.title}</p>
@@ -64,7 +64,7 @@ export default function Escrow() {
           </div>
         </Card>
 
-        <Card className="p-6 mb-6 bg-gradient-to-r from-red-500/5 to-black/5 border-red-500/20">
+        <Card className="p-6 mb-6 bg-gradient-to-r from-primary/5 to-black/5 border-primary/20">
           <h3 className="font-medium text-foreground mb-3">Financial Structure</h3>
           <div className="space-y-3">
             <div className="flex justify-between items-center">
@@ -87,7 +87,7 @@ export default function Escrow() {
                   <span className="text-sm text-muted-foreground">Final match requirement</span>
                   <span className="text-xs text-muted-foreground italic">For submissive's security</span>
                 </div>
-                <span className="font-semibold text-red-500">$50,000+</span>
+                <span className="font-semibold text-primary">$50,000+</span>
               </div>
               <p className="text-xs text-muted-foreground mt-2">
                 Transferred to submissive upon final match (includes investment growth if applicable)
@@ -96,10 +96,10 @@ export default function Escrow() {
           </div>
         </Card>
 
-        <Card className="p-6 mb-6 bg-gradient-to-r from-black/5 to-red-500/5 border-red-500/20">
+        <Card className="p-6 mb-6 bg-gradient-to-r from-black/5 to-primary/5 border-primary/20">
           <div className="flex items-start gap-4">
-            <div className="flex-shrink-0 w-10 h-10 rounded-full bg-red-500/10 flex items-center justify-center">
-              <Shield className="w-5 h-5 text-red-500" />
+            <div className="flex-shrink-0 w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
+              <Shield className="w-5 h-5 text-primary" />
             </div>
             <div>
               <h3 className="font-medium text-foreground mb-1">
@@ -119,9 +119,9 @@ export default function Escrow() {
         </Card>
 
         {/* Escrow & Investment Provider Options */}
-        <Card className="p-6 mb-6 border-2 border-red-500/30">
+        <Card className="p-6 mb-6 border-2 border-primary/30">
           <h3 className="font-medium text-foreground mb-2 flex items-center gap-2">
-            <Shield className="w-5 h-5 text-red-500" />
+            <Shield className="w-5 h-5 text-primary" />
             Secure Escrow & Investment Partners
           </h3>
           <p className="text-sm text-muted-foreground mb-4">
@@ -182,21 +182,21 @@ export default function Escrow() {
             <h4 className="font-medium text-foreground text-sm mb-3">Payment Methods Available</h4>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
               <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                <Building2 className="w-4 h-4 text-red-500" />
+                <Building2 className="w-4 h-4 text-primary" />
                 <span>Wire Transfer</span>
               </div>
               <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                <CreditCard className="w-4 h-4 text-red-500" />
+                <CreditCard className="w-4 h-4 text-primary" />
                 <span>Credit Card</span>
               </div>
               <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                <Wallet className="w-4 h-4 text-red-500" />
+                <Wallet className="w-4 h-4 text-primary" />
                 <span>PayPal</span>
               </div>
             </div>
           </div>
 
-          <div className="bg-red-500/10 border border-red-500/20 p-4 rounded-lg">
+          <div className="bg-primary/10 border border-primary/20 p-4 rounded-lg">
             <p className="text-sm text-foreground mb-2">
               <strong>Setup Process (Escrow.com - Traditional Holding):</strong>
             </p>
@@ -214,10 +214,10 @@ export default function Escrow() {
           </div>
         </Card>
 
-        <Card className="p-6 mb-6 bg-gradient-to-r from-red-500/5 to-black/5 border-red-500/20">
+        <Card className="p-6 mb-6 bg-gradient-to-r from-primary/5 to-black/5 border-primary/20">
           <div className="flex items-start gap-4">
-            <div className="flex-shrink-0 w-10 h-10 rounded-full bg-red-500/10 flex items-center justify-center">
-              <Calendar className="w-5 h-5 text-red-500" />
+            <div className="flex-shrink-0 w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
+              <Calendar className="w-5 h-5 text-primary" />
             </div>
             <div className="flex-1">
               <h3 className="font-medium text-foreground mb-1">

@@ -115,8 +115,8 @@ export default function Terms() {
             <div className="absolute bottom-6 left-0 right-0 flex justify-center pointer-events-none">
               <div className="bg-gradient-to-t from-muted via-muted to-transparent pt-8 pb-4 px-6 rounded-lg">
                 <div className="flex flex-col items-center gap-2 animate-bounce">
-                  <ArrowDown className="w-5 h-5 text-red-500" />
-                  <p className="text-xs font-medium text-red-500">Scroll to continue</p>
+                  <ArrowDown className="w-5 h-5 text-primary" />
+                  <p className="text-xs font-medium text-primary">Scroll to continue</p>
                 </div>
               </div>
             </div>

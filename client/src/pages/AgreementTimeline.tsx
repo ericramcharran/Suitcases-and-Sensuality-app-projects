@@ -111,7 +111,7 @@ export default function AgreementTimeline() {
       </button>
       
       <div className="max-w-2xl mx-auto">
-        <div className="w-16 h-16 mx-auto mb-6 bg-gradient-to-br from-red-500 to-black rounded-full flex items-center justify-center">
+        <div className="w-16 h-16 mx-auto mb-6 bg-gradient-to-br from-primary to-black rounded-full flex items-center justify-center">
           <Calendar className="w-8 h-8 text-white" />
         </div>
         
@@ -122,10 +122,10 @@ export default function AgreementTimeline() {
           Understanding financial security over time
         </p>
 
-        <Card className="p-6 mb-6 bg-gradient-to-r from-red-500/5 to-black/5 border-red-500/20">
+        <Card className="p-6 mb-6 bg-gradient-to-r from-primary/5 to-black/5 border-primary/20">
           <div className="flex items-start gap-4">
-            <div className="flex-shrink-0 w-10 h-10 rounded-full bg-red-500/10 flex items-center justify-center">
-              <Shield className="w-5 h-5 text-red-500" />
+            <div className="flex-shrink-0 w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
+              <Shield className="w-5 h-5 text-primary" />
             </div>
             <div>
               <h3 className="font-medium text-foreground mb-1">
@@ -142,7 +142,7 @@ export default function AgreementTimeline() {
 
         <Card className="p-6 mb-6">
           <h3 className="font-medium mb-4 text-foreground flex items-center gap-2">
-            <TrendingUp className="w-5 h-5 text-red-500" />
+            <TrendingUp className="w-5 h-5 text-primary" />
             5-Year Vesting Schedule
           </h3>
           <p className="text-sm text-muted-foreground mb-4">
@@ -155,7 +155,7 @@ export default function AgreementTimeline() {
                 key={i} 
                 className={`p-4 rounded-lg border ${
                   i === vestingSchedule.length - 1 
-                    ? 'bg-red-500/5 border-red-500/20' 
+                    ? 'bg-primary/5 border-primary/20' 
                     : 'bg-muted/50 border-border'
                 }`}
               >
@@ -165,13 +165,13 @@ export default function AgreementTimeline() {
                     <p className="text-xs text-muted-foreground">{item.description}</p>
                   </div>
                   <div className="text-right">
-                    <p className="font-semibold text-red-500">{item.percentage}</p>
+                    <p className="font-semibold text-primary">{item.percentage}</p>
                     <p className="text-xs text-muted-foreground">{item.amount}</p>
                   </div>
                 </div>
                 <div className="w-full bg-border/30 h-2 rounded-full overflow-hidden">
                   <div 
-                    className="h-full bg-gradient-to-r from-red-500 to-black transition-all"
+                    className="h-full bg-gradient-to-r from-primary to-black transition-all"
                     style={{ width: item.percentage }}
                   />
                 </div>
@@ -184,8 +184,8 @@ export default function AgreementTimeline() {
           <h3 className="font-medium mb-4 text-foreground">How It Works</h3>
           <div className="space-y-3 text-sm">
             <div className="flex gap-3">
-              <div className="flex-shrink-0 w-6 h-6 rounded-full bg-red-500/10 flex items-center justify-center">
-                <span className="text-red-500 text-xs font-semibold">1</span>
+              <div className="flex-shrink-0 w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center">
+                <span className="text-primary text-xs font-semibold">1</span>
               </div>
               <div>
                 <p className="font-medium text-foreground mb-1">Relationship Begins</p>
@@ -196,8 +196,8 @@ export default function AgreementTimeline() {
             </div>
 
             <div className="flex gap-3">
-              <div className="flex-shrink-0 w-6 h-6 rounded-full bg-red-500/10 flex items-center justify-center">
-                <span className="text-red-500 text-xs font-semibold">2</span>
+              <div className="flex-shrink-0 w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center">
+                <span className="text-primary text-xs font-semibold">2</span>
               </div>
               <div>
                 <p className="font-medium text-foreground mb-1">Vesting Period</p>
@@ -208,8 +208,8 @@ export default function AgreementTimeline() {
             </div>
 
             <div className="flex gap-3">
-              <div className="flex-shrink-0 w-6 h-6 rounded-full bg-red-500/10 flex items-center justify-center">
-                <span className="text-red-500 text-xs font-semibold">3</span>
+              <div className="flex-shrink-0 w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center">
+                <span className="text-primary text-xs font-semibold">3</span>
               </div>
               <div>
                 <p className="font-medium text-foreground mb-1">Early Termination</p>
@@ -220,8 +220,8 @@ export default function AgreementTimeline() {
             </div>
 
             <div className="flex gap-3">
-              <div className="flex-shrink-0 w-6 h-6 rounded-full bg-red-500/10 flex items-center justify-center">
-                <span className="text-red-500 text-xs font-semibold">4</span>
+              <div className="flex-shrink-0 w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center">
+                <span className="text-primary text-xs font-semibold">4</span>
               </div>
               <div>
                 <p className="font-medium text-foreground mb-1">Full Vesting (5 Years)</p>
@@ -233,10 +233,10 @@ export default function AgreementTimeline() {
           </div>
         </Card>
 
-        <Card className="p-6 mb-6 bg-gradient-to-r from-black/5 to-red-500/5 border-red-500/20">
+        <Card className="p-6 mb-6 bg-gradient-to-r from-black/5 to-primary/5 border-primary/20">
           <div className="flex items-start gap-4">
-            <div className="flex-shrink-0 w-10 h-10 rounded-full bg-red-500/10 flex items-center justify-center">
-              <TrendingUp className="w-5 h-5 text-red-500" />
+            <div className="flex-shrink-0 w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
+              <TrendingUp className="w-5 h-5 text-primary" />
             </div>
             <div>
               <h3 className="font-medium text-foreground mb-1">
@@ -270,7 +270,7 @@ export default function AgreementTimeline() {
               </p>
             </div>
 
-            <div className="p-4 bg-red-500/5 rounded-lg border border-red-500/20">
+            <div className="p-4 bg-primary/5 rounded-lg border border-primary/20">
               <p className="font-medium text-foreground mb-2">Scenario 3: 5+ Years (Full Vesting)</p>
               <p className="text-sm text-muted-foreground">
                 After 5 years, the submissive receives 100% of the account - the full $50,000+ including 
@@ -283,7 +283,7 @@ export default function AgreementTimeline() {
         {/* Digital Signature Section */}
         <Card className="p-6 mb-6">
           <h3 className="font-medium mb-4 text-foreground flex items-center gap-2">
-            <PenTool className="w-5 h-5 text-red-500" />
+            <PenTool className="w-5 h-5 text-primary" />
             Digital Signature Required
           </h3>
           <p className="text-sm text-muted-foreground mb-4">
@@ -310,7 +310,7 @@ export default function AgreementTimeline() {
               variant="ghost"
               size="sm"
               onClick={handleClearSignature}
-              className="text-red-500 hover:text-red-600"
+              className="text-primary hover:text-primary"
             >
               Clear
             </Button>

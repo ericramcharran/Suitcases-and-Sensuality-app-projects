@@ -159,7 +159,7 @@ export default function SubscriptionSub() {
         {/* Header */}
         <div className="text-center mb-6">
           <div className="inline-flex items-center gap-2 mb-4">
-            <Heart className="w-8 h-8 text-red-500" />
+            <Heart className="w-8 h-8 text-primary" />
             <h2 className="text-4xl font-light text-foreground">Submissive Membership</h2>
           </div>
           <p className="text-muted-foreground text-lg">
@@ -168,10 +168,10 @@ export default function SubscriptionSub() {
         </div>
         
         {/* Safety Notice */}
-        <Card className="p-6 mb-6 bg-gradient-to-r from-red-500/10 to-black/10 border-red-500/30">
+        <Card className="p-6 mb-6 bg-gradient-to-r from-primary/10 to-black/10 border-primary/30">
           <div className="flex items-start gap-4">
-            <div className="flex-shrink-0 w-12 h-12 rounded-full bg-red-500/20 flex items-center justify-center">
-              <Sparkles className="w-6 h-6 text-red-500" />
+            <div className="flex-shrink-0 w-12 h-12 rounded-full bg-primary/20 flex items-center justify-center">
+              <Sparkles className="w-6 h-6 text-primary" />
             </div>
             <div>
               <h3 className="font-medium text-foreground mb-2 text-lg">
@@ -198,11 +198,11 @@ export default function SubscriptionSub() {
               data-testid={`card-plan-${plan.id}`}
               onClick={() => setSelectedPlan(plan.id)}
               className={`p-6 cursor-pointer transition-all hover-elevate active-elevate-2 relative ${
-                selectedPlan === plan.id ? 'ring-2 ring-red-500' : ''
+                selectedPlan === plan.id ? 'ring-2 ring-primary' : ''
               }`}
             >
               {plan.popular && (
-                <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-red-500 text-white text-xs px-4 py-1.5 rounded-full font-medium">
+                <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-primary text-white text-xs px-4 py-1.5 rounded-full font-medium">
                   Most Popular
                 </div>
               )}
@@ -214,7 +214,7 @@ export default function SubscriptionSub() {
 
               <div className="mb-4">
                 <div className="flex items-baseline gap-1">
-                  <span className="text-3xl font-light text-red-500">{plan.price}</span>
+                  <span className="text-3xl font-light text-primary">{plan.price}</span>
                   <span className="text-sm text-muted-foreground">/{plan.duration}</span>
                 </div>
                 {plan.totalPrice && (
@@ -227,7 +227,7 @@ export default function SubscriptionSub() {
               <ul className="space-y-2">
                 {plan.features.map((feature, index) => (
                   <li key={index} className="flex items-start gap-2 text-sm text-foreground">
-                    <Check className="w-4 h-4 text-red-500 flex-shrink-0 mt-0.5" />
+                    <Check className="w-4 h-4 text-primary flex-shrink-0 mt-0.5" />
                     <span>{feature}</span>
                   </li>
                 ))}

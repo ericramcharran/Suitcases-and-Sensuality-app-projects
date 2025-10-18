@@ -76,7 +76,7 @@ export default function BackgroundCheck() {
 
       <div className="max-w-2xl mx-auto">
         <div className="text-center mb-6">
-          <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-to-br from-red-500 to-black flex items-center justify-center">
+          <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-to-br from-primary to-black flex items-center justify-center">
             <Shield className="w-8 h-8 text-white" />
           </div>
           <h2 className="text-2xl sm:text-3xl font-light mb-2 text-foreground">
@@ -90,9 +90,9 @@ export default function BackgroundCheck() {
         </div>
 
         {/* What We Check */}
-        <Card className="p-4 sm:p-6 mb-6 bg-gradient-to-br from-red-500/5 to-black/5">
+        <Card className="p-4 sm:p-6 mb-6 bg-gradient-to-br from-primary/5 to-black/5">
           <h3 className="font-medium text-foreground mb-3 flex items-center gap-2">
-            <Info className="w-5 h-5 text-red-500" />
+            <Info className="w-5 h-5 text-primary" />
             What We Verify
           </h3>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm">

@@ -30,7 +30,7 @@ export default function AboutApp() {
         </div>
 
         {/* Mission Statement */}
-        <Card className="p-6 mb-6 bg-gradient-to-br from-red-500/5 to-black/5">
+        <Card className="p-6 mb-6 bg-gradient-to-br from-primary/5 to-black/5">
           <h2 className="text-2xl font-light text-foreground mb-4">Our Mission</h2>
           <p className="text-foreground leading-relaxed">
             The Executive Society was created to provide a sophisticated, safe, and trustworthy space for 
@@ -45,8 +45,8 @@ export default function AboutApp() {
           <div className="space-y-4">
             <Card className="p-5">
               <div className="flex items-start gap-3">
-                <div className="p-2 bg-red-500/10 rounded-lg">
-                  <Shield className="w-6 h-6 text-red-500" />
+                <div className="p-2 bg-primary/10 rounded-lg">
+                  <Shield className="w-6 h-6 text-primary" />
                 </div>
                 <div>
                   <h3 className="font-medium text-foreground mb-1">Verified Dominant Members</h3>
@@ -60,8 +60,8 @@ export default function AboutApp() {
 
             <Card className="p-5">
               <div className="flex items-start gap-3">
-                <div className="p-2 bg-red-500/10 rounded-lg">
-                  <Award className="w-6 h-6 text-red-500" />
+                <div className="p-2 bg-primary/10 rounded-lg">
+                  <Award className="w-6 h-6 text-primary" />
                 </div>
                 <div>
                   <h3 className="font-medium text-foreground mb-1">Comprehensive Assessments</h3>
@@ -75,8 +75,8 @@ export default function AboutApp() {
 
             <Card className="p-5">
               <div className="flex items-start gap-3">
-                <div className="p-2 bg-red-500/10 rounded-lg">
-                  <Heart className="w-6 h-6 text-red-500" />
+                <div className="p-2 bg-primary/10 rounded-lg">
+                  <Heart className="w-6 h-6 text-primary" />
                 </div>
                 <div>
                   <h3 className="font-medium text-foreground mb-1">Compatibility Matching</h3>
@@ -90,8 +90,8 @@ export default function AboutApp() {
 
             <Card className="p-5">
               <div className="flex items-start gap-3">
-                <div className="p-2 bg-red-500/10 rounded-lg">
-                  <Lock className="w-6 h-6 text-red-500" />
+                <div className="p-2 bg-primary/10 rounded-lg">
+                  <Lock className="w-6 h-6 text-primary" />
                 </div>
                 <div>
                   <h3 className="font-medium text-foreground mb-1">Privacy & Discretion</h3>
@@ -105,8 +105,8 @@ export default function AboutApp() {
 
             <Card className="p-5">
               <div className="flex items-start gap-3">
-                <div className="p-2 bg-red-500/10 rounded-lg">
-                  <Users className="w-6 h-6 text-red-500" />
+                <div className="p-2 bg-primary/10 rounded-lg">
+                  <Users className="w-6 h-6 text-primary" />
                 </div>
                 <div>
                   <h3 className="font-medium text-foreground mb-1">Exclusive Community</h3>
@@ -126,7 +126,7 @@ export default function AboutApp() {
           <Card className="p-6">
             <div className="space-y-4">
               <div className="flex items-start gap-3">
-                <CheckCircle className="w-5 h-5 text-red-500 mt-0.5 flex-shrink-0" />
+                <CheckCircle className="w-5 h-5 text-primary mt-0.5 flex-shrink-0" />
                 <div>
                   <h4 className="font-medium text-foreground">Consent First</h4>
                   <p className="text-sm text-muted-foreground">
@@ -135,7 +135,7 @@ export default function AboutApp() {
                 </div>
               </div>
               <div className="flex items-start gap-3">
-                <CheckCircle className="w-5 h-5 text-red-500 mt-0.5 flex-shrink-0" />
+                <CheckCircle className="w-5 h-5 text-primary mt-0.5 flex-shrink-0" />
                 <div>
                   <h4 className="font-medium text-foreground">Safety & Trust</h4>
                   <p className="text-sm text-muted-foreground">
@@ -145,7 +145,7 @@ export default function AboutApp() {
                 </div>
               </div>
               <div className="flex items-start gap-3">
-                <CheckCircle className="w-5 h-5 text-red-500 mt-0.5 flex-shrink-0" />
+                <CheckCircle className="w-5 h-5 text-primary mt-0.5 flex-shrink-0" />
                 <div>
                   <h4 className="font-medium text-foreground">Authenticity</h4>
                   <p className="text-sm text-muted-foreground">
@@ -155,7 +155,7 @@ export default function AboutApp() {
                 </div>
               </div>
               <div className="flex items-start gap-3">
-                <CheckCircle className="w-5 h-5 text-red-500 mt-0.5 flex-shrink-0" />
+                <CheckCircle className="w-5 h-5 text-primary mt-0.5 flex-shrink-0" />
                 <div>
                   <h4 className="font-medium text-foreground">Respect</h4>
                   <p className="text-sm text-muted-foreground">
@@ -174,7 +174,7 @@ export default function AboutApp() {
           <div className="space-y-3">
             <Card className="p-4">
               <div className="flex gap-3">
-                <div className="flex-shrink-0 w-8 h-8 rounded-full bg-red-500 text-white flex items-center justify-center font-medium">
+                <div className="flex-shrink-0 w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center font-medium">
                   1
                 </div>
                 <div>
@@ -188,7 +188,7 @@ export default function AboutApp() {
 
             <Card className="p-4">
               <div className="flex gap-3">
-                <div className="flex-shrink-0 w-8 h-8 rounded-full bg-red-500 text-white flex items-center justify-center font-medium">
+                <div className="flex-shrink-0 w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center font-medium">
                   2
                 </div>
                 <div>
@@ -203,7 +203,7 @@ export default function AboutApp() {
 
             <Card className="p-4">
               <div className="flex gap-3">
-                <div className="flex-shrink-0 w-8 h-8 rounded-full bg-red-500 text-white flex items-center justify-center font-medium">
+                <div className="flex-shrink-0 w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center font-medium">
                   3
                 </div>
                 <div>
@@ -217,7 +217,7 @@ export default function AboutApp() {
 
             <Card className="p-4">
               <div className="flex gap-3">
-                <div className="flex-shrink-0 w-8 h-8 rounded-full bg-red-500 text-white flex items-center justify-center font-medium">
+                <div className="flex-shrink-0 w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center font-medium">
                   4
                 </div>
                 <div>
@@ -232,7 +232,7 @@ export default function AboutApp() {
 
             <Card className="p-4">
               <div className="flex gap-3">
-                <div className="flex-shrink-0 w-8 h-8 rounded-full bg-red-500 text-white flex items-center justify-center font-medium">
+                <div className="flex-shrink-0 w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center font-medium">
                   5
                 </div>
                 <div>
@@ -247,7 +247,7 @@ export default function AboutApp() {
         </div>
 
         {/* Call to Action */}
-        <Card className="p-6 bg-gradient-to-br from-red-500/10 to-black/10 text-center">
+        <Card className="p-6 bg-gradient-to-br from-primary/10 to-black/10 text-center">
           <h3 className="text-xl font-light text-foreground mb-2">
             Ready to Begin Your Journey?
           </h3>

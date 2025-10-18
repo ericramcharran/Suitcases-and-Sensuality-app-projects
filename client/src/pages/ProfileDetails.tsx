@@ -133,19 +133,19 @@ export default function ProfileDetails() {
 
   // Helper to add error styling
   const getFieldClassName = (isValid: boolean, baseClass: string = "rounded-xl") => {
-    return `${baseClass} ${showErrors && !isValid ? 'border-red-500 border-2' : ''}`;
+    return `${baseClass} ${showErrors && !isValid ? 'border-primary border-2' : ''}`;
   };
 
   // Helper for error message
   const ErrorMessage = ({ show, message }: { show: boolean; message: string }) => {
     if (!show) return null;
-    return <p className="text-xs text-red-500 mt-1">{message}</p>;
+    return <p className="text-xs text-primary mt-1">{message}</p>;
   };
 
   // Helper for required asterisk
   const RequiredMark = ({ show }: { show: boolean }) => {
     if (!show) return null;
-    return <span className="text-red-500">*</span>;
+    return <span className="text-primary">*</span>;
   };
 
   return (
@@ -161,7 +161,7 @@ export default function ProfileDetails() {
 
       <div className="max-w-2xl mx-auto">
         <div className="flex items-center justify-center mb-2">
-          <div className="w-12 h-12 rounded-full bg-gradient-to-br from-red-500 to-black flex items-center justify-center">
+          <div className="w-12 h-12 rounded-full bg-gradient-to-br from-primary to-black flex items-center justify-center">
             <User className="w-6 h-6 text-white" />
           </div>
         </div>
@@ -169,8 +169,8 @@ export default function ProfileDetails() {
         <p className="text-muted-foreground mb-8 text-center">Help us find your perfect match</p>
 
         {showErrors && !canContinue && (
-          <Card className="p-4 mb-6 bg-red-500/10 border-red-500/30">
-            <p className="text-sm font-medium text-red-700 dark:text-red-400 text-center">
+          <Card className="p-4 mb-6 bg-primary/10 border-primary/30">
+            <p className="text-sm font-medium text-red-700 dark:text-primary text-center">
               ⚠️ Please complete all required fields below (marked with *)
             </p>
           </Card>
@@ -532,7 +532,7 @@ export default function ProfileDetails() {
             </Button>
             
             {showErrors && !canContinue && (
-              <p className="text-center text-sm text-red-500">
+              <p className="text-center text-sm text-primary">
                 ⚠️ {16 - [age, sex, heightFeet, heightInches, bodyType, race, eyeColor, hairColor, city, state, profession, drinking, smoking, fitnessLevel, experienceLevel, sexualOrientation].filter(Boolean).length} fields still need to be completed
               </p>
             )}

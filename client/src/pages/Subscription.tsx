@@ -98,10 +98,10 @@ export default function Subscription() {
         <p className="text-muted-foreground mb-6 text-center">Start with a 30-day free trial, then select your subscription</p>
         
         {role === 'Dominant' && (
-          <Card className="p-6 mb-6 bg-gradient-to-r from-red-500/5 to-black/5 border-red-500/20">
+          <Card className="p-6 mb-6 bg-gradient-to-r from-primary/5 to-black/5 border-primary/20">
             <div className="flex items-start gap-4">
-              <div className="flex-shrink-0 w-10 h-10 rounded-full bg-red-500/10 flex items-center justify-center">
-                <Check className="w-5 h-5 text-red-500" />
+              <div className="flex-shrink-0 w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
+                <Check className="w-5 h-5 text-primary" />
               </div>
               <div>
                 <h3 className="font-medium text-foreground mb-1">
