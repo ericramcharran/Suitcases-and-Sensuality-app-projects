@@ -66,7 +66,7 @@ Preferred communication style: Simple, everyday language.
 
 ### User Onboarding Flow
 
-**Multi-Step Journey**
+**Multi-Step Journey (Shared)**
 1. Landing page introduction
 2. Age verification (21+ requirement with DOB and ID upload)
 3. ID verification processing (5-step realistic flow)
@@ -75,13 +75,26 @@ Preferred communication style: Simple, everyday language.
 6. Privacy policy agreement (scroll-to-read required)
 7. Community guidelines agreement (scroll-to-read required)
 8. Background check (7-step verification with FCRA compliance)
-9. Basic signup (name, role selection: Master/Domme/submissive/Switch)
-10. Profile details (13 fields: physical attributes, location, lifestyle preferences - age/city/state prefilled)
-11. Personality assessment (20 questions covering emotional intelligence, ethics, sensuality, stability, D/s compatibility)
-12. Relationship assessment (20 questions based on Sex Personality, Boundaries, Listening Skills, Sexual Openness, Interpersonal Communication)
-13. Subscription plan selection (multiple tiers with Stripe payment processing)
-14. Payment processing (Stripe checkout with role-based redirects)
-15. Escrow/vesting agreement (Dominants only - digital signature required)
+
+**Dominant/Domme/Master Flow**
+9. Subscription plan selection (premium tiers with Stripe payment)
+10. Payment processing (demo or real Stripe checkout)
+11. Escrow/financial verification setup (Escrow.com or FinFitLife.com)
+12. Basic signup (name, role selection)
+13. Profile details (13 fields: physical attributes, location, lifestyle preferences)
+14. Personality assessment (20 questions)
+15. Relationship assessment (20 questions)
+16. Important traits selection
+17. Discover/matching interface
+
+**Submissive/Switch Flow**
+9. Subscription plan selection (affordable tiers with free trial option)
+10. Payment processing (demo or real Stripe checkout)
+11. Basic signup (name, role selection)
+12. Profile details (13 fields: physical attributes, location, lifestyle preferences)
+13. Personality assessment (20 questions)
+14. Relationship assessment (20 questions)
+15. Important traits selection
 16. Discover/matching interface
 
 ### Matching & Discovery System

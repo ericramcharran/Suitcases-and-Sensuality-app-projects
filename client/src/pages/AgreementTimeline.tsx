@@ -86,7 +86,8 @@ export default function AgreementTimeline() {
         description: "Your vesting agreement has been recorded",
       });
 
-      setLocation("/discover");
+      // Continue to profile setup flow
+      setLocation("/signup");
     } catch (error) {
       toast({
         title: "Error",

@@ -242,7 +242,12 @@ export default function Escrow() {
         <div className="flex flex-col items-center gap-3">
           <Button
             data-testid="button-create-escrow"
-            onClick={() => window.open('https://www.escrow.com/integrations/signup', '_blank')}
+            onClick={() => {
+              // Open escrow signup in new tab
+              window.open('https://www.escrow.com/integrations/signup', '_blank');
+              // Mark as initiated
+              sessionStorage.setItem('escrowInitiated', 'true');
+            }}
             className="rounded-full bg-red-500 hover:bg-black text-white transition-colors px-12 flex items-center gap-2"
             size="lg"
           >
@@ -264,15 +269,20 @@ export default function Escrow() {
           
           <Button
             data-testid="button-skip-for-now"
-            onClick={() => setLocation("/discover")}
+            onClick={() => {
+              // Mark escrow as acknowledged
+              sessionStorage.setItem('escrowAcknowledged', 'true');
+              // Continue to profile setup
+              setLocation("/signup");
+            }}
             variant="outline"
             className="rounded-full mt-4"
             size="lg"
           >
-            I'll Set This Up Later
+            Continue to Profile Setup
           </Button>
           <p className="text-xs text-muted-foreground text-center">
-            Note: Matching will be limited until escrow verification is complete
+            Next: Complete your profile and matching assessments
           </p>
         </div>
       </div>
