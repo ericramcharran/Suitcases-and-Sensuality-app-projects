@@ -50,7 +50,7 @@ export function DiscoverFilters({ filters, onFiltersChange, activeFilterCount }:
   };
 
   return (
-    <Sheet open={isOpen} onOpenChange={setIsOpen}>
+    <Sheet open={isOpen} onOpenChange={setIsOpen} modal={true}>
       <SheetTrigger asChild>
         <Button
           variant="outline"
