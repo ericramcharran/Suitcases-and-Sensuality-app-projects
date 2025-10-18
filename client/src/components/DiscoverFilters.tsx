@@ -150,6 +150,7 @@ export function DiscoverFilters({ filters, onFiltersChange, activeFilterCount }:
               <SelectContent className="z-[1100]">
                 <SelectItem value="all">Any</SelectItem>
                 <SelectItem value="Dominant">Dominant</SelectItem>
+                <SelectItem value="Domme">Domme</SelectItem>
                 <SelectItem value="Submissive">Submissive</SelectItem>
                 <SelectItem value="Switch">Switch</SelectItem>
               </SelectContent>
