@@ -44,6 +44,7 @@ import MatchResult from "@/pages/MatchResult";
 import AboutApp from "@/pages/AboutApp";
 import TestRelationshipResult from "@/pages/TestRelationshipResult";
 import UserSelect from "@/pages/UserSelect";
+import HelpSupport from "@/pages/HelpSupport";
 
 function App() {
   const [location] = useLocation();
@@ -164,6 +165,9 @@ function App() {
               </Route>
               <Route path="/user-select">
                 <PageTransition><UserSelect /></PageTransition>
+              </Route>
+              <Route path="/help-support">
+                <PageTransition><HelpSupport /></PageTransition>
               </Route>
               <Route>
                 <PageTransition><Landing /></PageTransition>

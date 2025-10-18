@@ -57,7 +57,8 @@ const settingsOptions = [
     icon: HelpCircle,
     title: "Help & Support",
     description: "Get help and contact support",
-    hasSwitch: false
+    hasSwitch: false,
+    link: "/help-support"
   },
 ];
 
