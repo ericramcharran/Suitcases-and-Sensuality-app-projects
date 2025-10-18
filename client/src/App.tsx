@@ -49,6 +49,7 @@ import HelpGettingStarted from "@/pages/HelpGettingStarted";
 import HelpSafety from "@/pages/HelpSafety";
 import HelpMatching from "@/pages/HelpMatching";
 import HelpBilling from "@/pages/HelpBilling";
+import PermissionsSettings from "@/pages/PermissionsSettings";
 
 function App() {
   const [location] = useLocation();
@@ -184,6 +185,9 @@ function App() {
               </Route>
               <Route path="/help-billing">
                 <PageTransition><HelpBilling /></PageTransition>
+              </Route>
+              <Route path="/permissions">
+                <PageTransition><PermissionsSettings /></PageTransition>
               </Route>
               <Route>
                 <PageTransition><Landing /></PageTransition>
