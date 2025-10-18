@@ -38,6 +38,7 @@ The platform features a compatibility algorithm based on 5-dimensional personali
 -   **Real-Time Messaging**: WebSocket integration for in-app instant messaging and alerts, with per-user connections and a heartbeat mechanism.
 -   **Device Permissions**: A centralized utility (`Permissions Manager`) for managing camera, location, notification, and gallery access, with a user-friendly UI for managing permissions.
 -   **Travel Mode**: Allows users to set a temporary location to match in other cities, accessible from the user profile and managed through a dedicated travel mode page.
+-   **Verified & Fully Funded Badge**: Premium verification system for Dominants with escrow/mutual fund verification (`escrowVerified` and `fullyFunded` database fields). Gold gradient badge (amber-to-yellow) displays at top-left of profile images in Discover, replacing standard blue verification badge. Includes premium status card on profile pages with detailed verification explanation.
 
 ## External Dependencies
 
