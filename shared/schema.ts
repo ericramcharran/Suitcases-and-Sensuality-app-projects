@@ -11,6 +11,8 @@ export const users = pgTable("users", {
   role: text("role").notNull(), // 'Dominant', 'Submissive', 'Switch'
   verified: boolean("verified").default(false),
   escrowBalance: integer("escrow_balance").default(0),
+  escrowVerified: boolean("escrow_verified").default(false), // For Dominants with escrow/mutual fund verification
+  fullyFunded: boolean("fully_funded").default(false), // Indicates if escrow account is fully funded
   personalityType: text("personality_type"),
   relationshipStyle: text("relationship_style"),
   plan: text("plan"),

@@ -623,14 +623,30 @@ export default function Profile() {
           </Card>
 
           {/* Verification Status */}
-          {userRole === 'Dominant' && (
+          {userRole === 'Dominant' && userData?.escrowVerified && userData?.fullyFunded && (
+            <Card className="p-4 mb-4 bg-gradient-to-r from-amber-500/10 to-yellow-500/10 border-amber-500/20">
+              <div className="flex items-center gap-2 mb-2">
+                <div className="w-10 h-10 rounded-full bg-gradient-to-r from-amber-500 to-yellow-500 flex items-center justify-center">
+                  <Shield className="w-5 h-5 text-white" />
+                </div>
+                <div>
+                  <h4 className="font-semibold text-amber-700 dark:text-amber-400">Verified & Fully Funded</h4>
+                  <p className="text-xs text-amber-700/80 dark:text-amber-400/80">Premium verification status</p>
+                </div>
+              </div>
+              <p className="text-sm text-amber-700 dark:text-amber-400">
+                You have completed escrow/mutual fund verification with full funding. This premium badge is displayed on your profile to demonstrate maximum commitment and trustworthiness.
+              </p>
+            </Card>
+          )}
+          {userRole === 'Dominant' && userData?.verified && !userData?.fullyFunded && (
             <Card className="p-4 mb-4 bg-green-500/10 border-green-500/20">
               <div className="flex items-center gap-2 mb-1">
                 <Shield className="w-4 h-4 text-green-600 dark:text-green-400" />
                 <h4 className="font-medium text-green-600 dark:text-green-400">Verified Dom</h4>
               </div>
               <p className="text-sm text-green-600 dark:text-green-400">
-                Escrow account active and verified
+                Account verified with active escrow
               </p>
             </Card>
           )}

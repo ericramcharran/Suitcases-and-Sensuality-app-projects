@@ -435,6 +435,14 @@ export default function Discover() {
                     Verified {currentProfile.role}
                   </div>
                 )}
+
+                {/* Verified & Fully Funded Badge for Dominants */}
+                {currentProfile.escrowVerified && currentProfile.fullyFunded && (
+                  <div className="absolute bottom-4 left-4 bg-gradient-to-r from-amber-500 to-yellow-500 text-white text-xs px-3 py-1.5 rounded-full flex items-center gap-1 shadow-lg z-10 font-semibold" data-testid="badge-fully-funded">
+                    <Shield className="w-3.5 h-3.5" />
+                    Verified & Fully Funded
+                  </div>
+                )}
                 
                 {/* Swipe Hint Overlays */}
                 <div className="absolute left-0 top-0 bottom-0 w-1/3 flex items-center justify-center pointer-events-none">
@@ -521,8 +529,19 @@ export default function Discover() {
                 </p>
               )}
               
-              {currentProfile.escrowBalance > 0 && currentProfile.role === 'Dominant' && (
-                <Card className="p-3 mb-3 bg-blue-500/10 border-blue-500/20" data-testid="card-escrow-info">
+              {currentProfile.escrowVerified && currentProfile.fullyFunded && (
+                <Card className="p-3 mb-3 bg-gradient-to-r from-amber-500/10 to-yellow-500/10 border-amber-500/20" data-testid="card-escrow-info">
+                  <p className="text-xs font-semibold mb-1 flex items-center gap-1 text-amber-700 dark:text-amber-400">
+                    <Shield className="w-3.5 h-3.5" />
+                    Verified & Fully Funded
+                  </p>
+                  <p className="text-xs text-amber-700 dark:text-amber-400">
+                    This Dom has completed escrow/mutual fund verification with full funding for maximum trust and safety
+                  </p>
+                </Card>
+              )}
+              {currentProfile.escrowBalance > 0 && !currentProfile.fullyFunded && currentProfile.role === 'Dominant' && (
+                <Card className="p-3 mb-3 bg-blue-500/10 border-blue-500/20" data-testid="card-escrow-partial">
                   <p className="text-xs text-blue-600 dark:text-blue-400 font-medium mb-1 flex items-center gap-1">
                     <Shield className="w-3 h-3" />
                     Escrow Protected
