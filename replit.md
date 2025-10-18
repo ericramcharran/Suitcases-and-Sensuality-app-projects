@@ -66,17 +66,20 @@ Preferred communication style: Simple, everyday language.
 
 **Multi-Step Journey**
 1. Landing page introduction
-2. Age verification (21+ requirement)
-3. Terms of Service agreement
-4. Consent framework agreement
-5. Privacy policy agreement
-6. Community guidelines agreement
-7. Basic signup (name, role selection)
-8. Personality assessment (5-category test covering emotional intelligence, ethics, sensuality, stability, D/s compatibility)
-9. Relationship style assessment
-10. Subscription plan selection (30-day free trial)
-11. Escrow setup (Dominants only - $1,000 minimum, $50,000 final match requirement)
-12. Discover/matching interface
+2. Age verification (21+ requirement with DOB and ID upload)
+3. ID verification processing (5-step realistic flow)
+4. Terms of Service agreement (scroll-to-read required)
+5. Consent framework agreement (scroll-to-read required)
+6. Privacy policy agreement (scroll-to-read required)
+7. Community guidelines agreement (scroll-to-read required)
+8. Background check (7-step verification with FCRA compliance)
+9. Basic signup (name, role selection: Master/Domme/submissive/Switch)
+10. Profile details (13 fields: physical attributes, location, lifestyle preferences - age/city/state prefilled)
+11. Personality assessment (20 questions covering emotional intelligence, ethics, sensuality, stability, D/s compatibility)
+12. Relationship assessment (20 questions based on Sex Personality, Boundaries, Listening Skills, Sexual Openness, Interpersonal Communication)
+13. Subscription plan selection (30-day free trial)
+14. Escrow setup (Dominants only - $1,000 minimum, $50,000 final match requirement)
+15. Discover/matching interface
 
 ### Matching & Discovery System
 
