@@ -499,25 +499,25 @@ export default function Discover() {
               </div>
 
             {/* Action Buttons */}
-            <div className="p-4 flex justify-center gap-4 sm:gap-6 border-t border-border">
+            <div className="p-4 flex justify-center gap-8 sm:gap-10 border-t border-border">
               <Button
                 data-testid="button-pass"
                 onClick={handlePass}
                 disabled={passMutation.isPending || likeMutation.isPending}
                 size="icon"
                 variant="secondary"
-                className="rounded-full h-14 w-14 sm:h-16 sm:w-16 bg-background border-2 border-border shadow-lg hover:scale-110 transition-transform min-h-[56px] min-w-[56px]"
+                className="rounded-full h-11 w-11 sm:h-12 sm:w-12 bg-background border-2 border-border shadow-lg hover:scale-110 transition-transform min-h-[44px] min-w-[44px]"
               >
-                <X className="w-6 h-6" />
+                <X className="w-5 h-5" />
               </Button>
               <Button
                 data-testid="button-like"
                 onClick={handleLike}
                 disabled={passMutation.isPending || likeMutation.isPending}
                 size="icon"
-                className="rounded-full h-14 w-14 sm:h-16 sm:w-16 bg-primary shadow-lg hover:scale-110 transition-transform min-h-[56px] min-w-[56px]"
+                className="rounded-full h-11 w-11 sm:h-12 sm:w-12 bg-primary shadow-lg hover:scale-110 transition-transform min-h-[44px] min-w-[44px]"
               >
-                <Heart className="w-6 h-6" />
+                <Heart className="w-5 h-5" />
               </Button>
             </div>
 
