@@ -27,8 +27,8 @@ export default function Discover() {
   
   const userId = sessionStorage.getItem('userId');
 
-  // X button locked, Heart button draggable
-  const [isDraggingButtons, setIsDraggingButtons] = useState(false);
+  // Both buttons locked in fixed positions
+  const [isDraggingButtons] = useState(false);
   
   // X button - locked position from localStorage
   const savedPassPosition = (() => {
@@ -36,11 +36,11 @@ export default function Discover() {
     return saved ? JSON.parse(saved) : { x: 30, y: 30 };
   })();
   
-  // Heart button - draggable position
-  const [likeButtonPosition, setLikeButtonPosition] = useState(() => {
+  // Heart button - locked position from localStorage
+  const savedLikePosition = (() => {
     const saved = localStorage.getItem('likeButtonPosition');
     return saved ? JSON.parse(saved) : { x: 0, y: 0 };
-  });
+  })();
 
   // Profile card position - developer control
   const [profileCardPosition, setProfileCardPosition] = useState(() => {
@@ -478,50 +478,27 @@ export default function Discover() {
                   </Button>
                 </div>
 
-                {/* Like Button - PINK HEART - DRAGGABLE */}
-                <motion.div
-                  drag
-                  dragMomentum={false}
-                  dragElastic={0}
-                  onDragStart={() => setIsDraggingButtons(true)}
-                  onDragEnd={(e, info) => {
-                    setIsDraggingButtons(false);
-                    const newPosition = {
-                      x: likeButtonPosition.x + info.offset.x,
-                      y: likeButtonPosition.y + info.offset.y
-                    };
-                    setLikeButtonPosition(newPosition);
-                    localStorage.setItem('likeButtonPosition', JSON.stringify(newPosition));
-                    toast({
-                      title: "Heart Button Moved",
-                      description: `Positioned at (${Math.round(newPosition.x)}, ${Math.round(newPosition.y)})`,
-                    });
-                  }}
+                {/* Like Button - PINK HEART - LOCKED IN POSITION */}
+                <div
                   style={{
                     position: 'absolute',
                     left: '50%',
                     bottom: '30px',
-                    transform: `translate(calc(-50% + ${likeButtonPosition.x}px), ${-likeButtonPosition.y}px)`,
-                    cursor: 'grab',
+                    transform: `translate(calc(-50% + ${savedLikePosition.x}px), ${-savedLikePosition.y}px)`,
                     zIndex: 999,
                     filter: 'drop-shadow(0 10px 25px rgba(0, 0, 0, 0.4)) drop-shadow(0 6px 12px rgba(0, 0, 0, 0.3))'
                   }}
-                  whileTap={{ cursor: 'grabbing' }}
                 >
                   <Button
                     data-testid="button-like"
-                    onClick={(e) => {
-                      if (!isDraggingButtons) {
-                        handleLike();
-                      }
-                    }}
+                    onClick={handleLike}
                     disabled={passMutation.isPending || likeMutation.isPending}
                     size="icon"
                     className="rounded-full h-12 w-12 bg-gradient-to-br from-pink-500 to-rose-600 hover:scale-110 transition-transform border-2 border-white"
                   >
                     <Heart className="w-6 h-6 fill-white text-white" />
                   </Button>
-                </motion.div>
+                </div>
               </div>
 
             {/* Profile Info - Scrollable with invisible scrollbar */}
