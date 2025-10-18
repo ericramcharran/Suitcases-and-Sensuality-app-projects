@@ -424,9 +424,19 @@ export default function Discover() {
                 )}
 
                 {/* Match Percentage Badge */}
-                <div className="absolute top-4 right-4 bg-green-500 text-white text-xs px-3 py-1 rounded-full font-medium z-10" data-testid="text-match-percentage">
-                  {currentProfile.matchPercentage}%
-                </div>
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    toast({
+                      title: `${currentProfile.matchPercentage}% Compatibility`,
+                      description: "This score is based on your personality traits, relationship preferences, role compatibility, and shared important values. Higher percentages indicate stronger overall compatibility."
+                    });
+                  }}
+                  className="absolute top-4 right-4 bg-green-500 hover:bg-green-600 text-white text-xs px-3 py-1.5 rounded-full font-medium z-10 transition-colors cursor-pointer"
+                  data-testid="button-match-percentage"
+                >
+                  {currentProfile.matchPercentage}% ℹ️
+                </button>
 
                 {/* Verified & Fully Funded Badge for Dominants (replaces standard verified badge) */}
                 {currentProfile.escrowVerified && currentProfile.fullyFunded ? (
