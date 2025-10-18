@@ -1,8 +1,7 @@
-import { useState, useCallback, useEffect, useRef } from "react";
+import { useState } from "react";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { MapPin, Verified, ChevronUp } from "lucide-react";
-import useEmblaCarousel from 'embla-carousel-react';
+import { MapPin, Verified, ChevronLeft, ChevronRight } from "lucide-react";
 
 interface ProfileCardProps {
   profile: {
@@ -39,118 +38,101 @@ export function ProfileCard({
   showActions = false,
   className = ""
 }: ProfileCardProps) {
-  const [emblaRef, emblaApi] = useEmblaCarousel({ 
-    loop: false,
-    axis: 'y'  // Vertical scrolling
-  });
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
-  const [showArrow, setShowArrow] = useState(false);
+  const [isHovering, setIsHovering] = useState(false);
 
-  const scrollNext = useCallback(() => {
-    if (emblaApi) emblaApi.scrollNext();
-  }, [emblaApi]);
-
-  useEffect(() => {
-    if (!emblaApi) return;
-
-    const onSelect = () => {
-      setCurrentImageIndex(emblaApi.selectedScrollSnap());
-    };
-
-    emblaApi.on('select', onSelect);
-    onSelect();
-
-    return () => {
-      emblaApi.off('select', onSelect);
-    };
-  }, [emblaApi]);
-
-  // Show arrow on hover/touch
-  const handleInteractionStart = () => {
-    if (profile.profileImages && profile.profileImages.length > 1 && currentImageIndex < profile.profileImages.length - 1) {
-      setShowArrow(true);
+  const goToNext = () => {
+    if (profile.profileImages && currentImageIndex < profile.profileImages.length - 1) {
+      setCurrentImageIndex(currentImageIndex + 1);
     }
   };
 
-  const handleInteractionEnd = () => {
-    setShowArrow(false);
+  const goToPrevious = () => {
+    if (currentImageIndex > 0) {
+      setCurrentImageIndex(currentImageIndex - 1);
+    }
+  };
+
+  const goToImage = (index: number) => {
+    setCurrentImageIndex(index);
   };
 
   return (
     <Card className={`h-full flex flex-col ${className}`} data-testid="profile-card">
-      {/* Profile Image Carousel - 30% larger than before */}
+      {/* Profile Image Section */}
       <div 
         className="relative bg-muted rounded-t-xl flex-[1.3] overflow-hidden"
-        onMouseEnter={handleInteractionStart}
-        onMouseLeave={handleInteractionEnd}
-        onTouchStart={handleInteractionStart}
-        onTouchEnd={handleInteractionEnd}
+        onMouseEnter={() => setIsHovering(true)}
+        onMouseLeave={() => setIsHovering(false)}
       >
         {profile.profileImages && profile.profileImages.length > 0 ? (
           <>
-            {/* Vertical Carousel */}
-            <div className="overflow-hidden h-full" ref={emblaRef}>
-              <div className="flex flex-col h-full touch-pan-y">
-                {profile.profileImages.map((imageUrl: string, idx: number) => (
-                  <div key={idx} className="flex-[0_0_100%] min-h-0 relative">
-                    <img
-                      src={imageUrl}
-                      alt={`${profile.name} ${idx + 1}`}
-                      className="w-full h-full object-cover select-none"
-                      data-testid={`image-profile-${idx}`}
-                      draggable={false}
-                    />
-                    {/* Gradient overlay for better text readability */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent pointer-events-none" />
-                  </div>
-                ))}
-              </div>
+            {/* Main Image Display */}
+            <div className="relative h-full w-full">
+              <img
+                src={profile.profileImages[currentImageIndex]}
+                alt={`${profile.name} ${currentImageIndex + 1}`}
+                className="w-full h-full object-cover select-none"
+                data-testid={`image-profile-${currentImageIndex}`}
+                draggable={false}
+              />
+              {/* Gradient overlay for better text readability */}
+              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent pointer-events-none" />
             </div>
 
-            {/* Pull Up Arrow - Bottom Center */}
-            {profile.profileImages.length > 1 && currentImageIndex < profile.profileImages.length - 1 && (
-              <div
-                className={`absolute bottom-16 left-1/2 -translate-x-1/2 transition-all duration-300 z-20 ${
-                  showArrow ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
-                }`}
-              >
-                <button
-                  onClick={scrollNext}
-                  className="bg-black/60 backdrop-blur-md text-white p-4 rounded-full hover:bg-black/80 active:bg-black/90 transition-all shadow-lg border border-white/20"
-                  data-testid="button-pull-up"
-                  aria-label="Next image"
-                >
-                  <ChevronUp className="w-6 h-6 animate-bounce" />
-                </button>
-              </div>
-            )}
-
-            {/* Pull-up instruction text */}
-            {profile.profileImages.length > 1 && currentImageIndex < profile.profileImages.length - 1 && (
-              <div
-                className={`absolute bottom-32 left-1/2 -translate-x-1/2 transition-all duration-300 z-10 ${
-                  showArrow ? 'opacity-100' : 'opacity-0'
-                }`}
-              >
-                <p className="text-white text-sm font-medium bg-black/40 backdrop-blur-sm px-3 py-1.5 rounded-full">
-                  Swipe up for more photos
-                </p>
-              </div>
-            )}
-
-            {/* Pagination Dots */}
+            {/* Navigation Arrows */}
             {profile.profileImages.length > 1 && (
-              <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex flex-col gap-1.5 z-10">
-                {profile.profileImages.map((_, idx) => (
-                  <div
-                    key={idx}
-                    className={`h-1.5 rounded-full transition-all ${
-                      idx === currentImageIndex
-                        ? 'w-6 bg-white'
-                        : 'w-1.5 bg-white/50'
+              <>
+                {currentImageIndex > 0 && (
+                  <button
+                    onClick={goToPrevious}
+                    className={`absolute left-4 top-1/2 -translate-y-1/2 bg-black/60 backdrop-blur-md text-white p-3 rounded-full hover:bg-black/80 active:bg-black/90 transition-all shadow-lg border border-white/20 z-20 ${
+                      isHovering ? 'opacity-100' : 'opacity-0'
                     }`}
-                    data-testid={`dot-${idx}`}
-                  />
+                    data-testid="button-previous-image"
+                    aria-label="Previous image"
+                  >
+                    <ChevronLeft className="w-5 h-5" />
+                  </button>
+                )}
+                
+                {currentImageIndex < profile.profileImages.length - 1 && (
+                  <button
+                    onClick={goToNext}
+                    className={`absolute right-4 top-1/2 -translate-y-1/2 bg-black/60 backdrop-blur-md text-white p-3 rounded-full hover:bg-black/80 active:bg-black/90 transition-all shadow-lg border border-white/20 z-20 ${
+                      isHovering ? 'opacity-100' : 'opacity-0'
+                    }`}
+                    data-testid="button-next-image"
+                    aria-label="Next image"
+                  >
+                    <ChevronRight className="w-5 h-5" />
+                  </button>
+                )}
+              </>
+            )}
+
+            {/* Thumbnail Navigation */}
+            {profile.profileImages.length > 1 && (
+              <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2 z-10 bg-black/40 backdrop-blur-sm px-3 py-2 rounded-full">
+                {profile.profileImages.map((image, idx) => (
+                  <button
+                    key={idx}
+                    onClick={() => goToImage(idx)}
+                    className={`transition-all overflow-hidden rounded border-2 ${
+                      idx === currentImageIndex
+                        ? 'w-12 h-12 border-white'
+                        : 'w-10 h-10 border-white/50 hover:border-white/80'
+                    }`}
+                    data-testid={`thumbnail-${idx}`}
+                    aria-label={`View image ${idx + 1}`}
+                  >
+                    <img
+                      src={image}
+                      alt={`${profile.name} thumbnail ${idx + 1}`}
+                      className="w-full h-full object-cover"
+                      draggable={false}
+                    />
+                  </button>
                 ))}
               </div>
             )}
