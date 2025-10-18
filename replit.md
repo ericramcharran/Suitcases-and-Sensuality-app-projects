@@ -58,8 +58,10 @@ Preferred communication style: Simple, everyday language.
 - Identity: id (UUID), name, role (Dominant/Submissive/Switch)
 - Verification: verified flag, escrowBalance for Dominants
 - Assessments: personalityType, relationshipStyle, personality/relationship answers (JSONB)
-- Legal: agreedTerms, agreedConsent, agreedPrivacy, agreedGuidelines flags
-- Subscription: plan field for tiered access
+- Legal: agreedTerms, agreedConsent, agreedPrivacy, agreedGuidelines flags with digital signatures
+  - Each agreement has signature (base64 PNG) and signedDate timestamp fields
+  - termsSignature/termsSignedDate, consentSignature/consentSignedDate, privacySignature/privacySignedDate, guidelinesSignature/guidelinesSignedDate
+- Subscription: plan field for tiered access, stripeCustomerId, stripeSubscriptionId
 - Timestamps: createdAt
 
 ### User Onboarding Flow
@@ -77,9 +79,10 @@ Preferred communication style: Simple, everyday language.
 10. Profile details (13 fields: physical attributes, location, lifestyle preferences - age/city/state prefilled)
 11. Personality assessment (20 questions covering emotional intelligence, ethics, sensuality, stability, D/s compatibility)
 12. Relationship assessment (20 questions based on Sex Personality, Boundaries, Listening Skills, Sexual Openness, Interpersonal Communication)
-13. Subscription plan selection (30-day free trial)
-14. Escrow setup (Dominants only - $1,000 minimum, $50,000 final match requirement)
-15. Discover/matching interface
+13. Subscription plan selection (multiple tiers with Stripe payment processing)
+14. Payment processing (Stripe checkout with role-based redirects)
+15. Escrow/vesting agreement (Dominants only - digital signature required)
+16. Discover/matching interface
 
 ### Matching & Discovery System
 
@@ -132,9 +135,25 @@ Preferred communication style: Simple, everyday language.
 - **TypeScript** - Type safety across full stack
 - **ESBuild** - Production build bundler
 
+### Payment & Subscription System
+- **Stripe Integration** - Full subscription payment processing with tiered pricing
+- **Digital Signatures** - react-signature-canvas for legal agreement tracking
+- **Subscription Tiers** (Dominant/Domme/Master):
+  - Monthly: $249/mo
+  - 3-Month: $229/mo (save 8%)
+  - 6-Month: $199/mo (save 20%)
+  - 1-Year: $149/mo (save 40%)
+  - 5-Year: $119/mo (save 52%)
+- **Subscription Tiers** (Submissive/Switch):
+  - Monthly: $25/mo
+  - 3-Month: $23/mo
+  - 6-Month: $20/mo
+  - 1-Year: $18/mo
+  - 5-Year: $15/mo
+- **Payment Flow**: Subscription selection → Stripe checkout → Role-based redirect (Dominants to escrow, others to success page)
+
 ### Future Integration Points
 - **Session Management** - connect-pg-simple configured for PostgreSQL session store (not yet active)
-- **Payment Processing** - Escrow system requires payment gateway integration (Stripe recommended)
 - **Age Verification Service** - ID verification API integration needed
 - **Geolocation API** - For distance-based matching
 - **Image Upload/Storage** - Profile photos and verification documents (S3 or similar CDN)
