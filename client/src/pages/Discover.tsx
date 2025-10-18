@@ -15,6 +15,7 @@ export default function Discover() {
   const [, setLocation] = useLocation();
   const [currentIndex, setCurrentIndex] = useState(0);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [includeReviewed, setIncludeReviewed] = useState(false);
   const { toast } = useToast();
   const x = useMotionValue(0);
   const rotate = useTransform(x, [-200, 200], [-25, 25]);
@@ -38,9 +39,12 @@ export default function Discover() {
 
   // Fetch potential matches only if userId exists
   const { data: potentialMatches, isLoading, isError } = useQuery<any[]>({
-    queryKey: ['/api/matches/potential', userId],
+    queryKey: ['/api/matches/potential', userId, includeReviewed],
     queryFn: async () => {
-      const res = await fetch(`/api/matches/potential/${userId}`);
+      const url = includeReviewed 
+        ? `/api/matches/potential/${userId}?includeReviewed=true`
+        : `/api/matches/potential/${userId}`;
+      const res = await fetch(url);
       if (!res.ok) throw new Error('Failed to fetch matches');
       return await res.json();
     },
@@ -357,7 +361,7 @@ export default function Discover() {
               data-testid="button-start-over"
               onClick={() => {
                 setCurrentIndex(0);
-                queryClient.invalidateQueries({ queryKey: ['/api/matches/potential', userId] });
+                setIncludeReviewed(true);
               }}
               variant="outline"
               className="rounded-full px-12"

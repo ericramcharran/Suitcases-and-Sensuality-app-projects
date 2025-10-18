@@ -360,6 +360,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.get("/api/matches/potential/:userId", async (req, res) => {
     try {
       const { userId } = req.params;
+      const { includeReviewed } = req.query;
       
       // Get current user's data
       const currentUser = await storage.getUser(userId);
@@ -375,9 +376,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const existingMatches = await storage.getMatches(userId);
       const matchedUserIds = existingMatches.map(m => m.targetUserId);
       
-      // Filter out self and already matched users
+      // Filter out self and optionally already matched users
       const potentialMatches = allUsers.filter(
-        u => u.id !== userId && !matchedUserIds.includes(u.id)
+        u => u.id !== userId && (includeReviewed === 'true' || !matchedUserIds.includes(u.id))
       );
 
       // Get personality and relationship data for current user
