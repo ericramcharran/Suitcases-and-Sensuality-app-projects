@@ -41,7 +41,7 @@ export default function SubscriptionRoleSelect() {
                 className="w-full rounded-full bg-red-500 hover:bg-black text-white transition-colors"
                 size="lg"
               >
-                View Dom Plans
+                View Dominant plans
               </Button>
             </div>
           </Card>
@@ -66,7 +66,7 @@ export default function SubscriptionRoleSelect() {
                 className="w-full rounded-full bg-red-500 hover:bg-black text-white transition-colors"
                 size="lg"
               >
-                View Sub Plans
+                View submissive plans
               </Button>
             </div>
           </Card>
