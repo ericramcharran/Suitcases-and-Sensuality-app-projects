@@ -19,6 +19,16 @@ Preferred communication style: Simple, everyday language.
 - Design system based on shadcn/ui with Radix UI primitives
 - Tailwind CSS with custom design tokens for dark/light mode theming
 
+**Mobile App Configuration**
+- Progressive Web App (PWA) with manifest.json for Android
+- iOS Web App meta tags for standalone mode (no browser chrome)
+- Safe area support for iPhone notches and home indicators
+- Theme colors configured for both iOS and Android
+- Viewport optimized with viewport-fit=cover
+- Touch-optimized with 44px minimum touch targets
+- Smooth scrolling and overscroll prevention
+- Platform-specific app icons and splash screens configured
+
 **State Management**
 - TanStack Query (React Query) for server state management and caching
 - Session storage for temporary user data during onboarding flow
