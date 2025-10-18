@@ -194,7 +194,7 @@ export default function Discover() {
   // Show beating heart for at least 10 seconds
   if (isLoading || !minLoadingTimePassed) {
     return (
-      <div className="min-h-screen bg-background flex items-center justify-center">
+      <div className="min-h-screen bg-background flex items-center justify-center border border-black">
         <Heart 
           className="w-24 h-24 text-red-500 animate-heartbeat" 
           fill="currentColor"
