@@ -113,7 +113,7 @@ export default function SubscriptionDom() {
         <div className="text-center mb-6">
           <div className="inline-flex items-center gap-2 mb-4">
             <Crown className="w-8 h-8 text-red-500" />
-            <h2 className="text-4xl font-light text-foreground">Master/Dom Membership</h2>
+            <h2 className="text-4xl font-light text-foreground">Master/Dom/Domme Membership</h2>
           </div>
           <p className="text-muted-foreground text-lg">
             Premium plans designed for leaders in power exchange
@@ -128,7 +128,7 @@ export default function SubscriptionDom() {
             </div>
             <div>
               <h3 className="font-medium text-foreground mb-2 text-lg">
-                Masters/Doms Must Be Verified
+                Masters/Doms/Dommes Must Be Verified
               </h3>
               <p className="text-sm text-muted-foreground leading-relaxed">
                 All Dominant members are required to complete escrow account verification after subscription. 

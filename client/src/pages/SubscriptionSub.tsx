@@ -143,7 +143,7 @@ export default function SubscriptionSub() {
               </h3>
               <p className="text-sm text-muted-foreground leading-relaxed">
                 All Dominant members are financially verified through our escrow system, ensuring you connect 
-                only with serious, committed individuals. Every Master/Dom maintains a minimum escrow balance 
+                only with serious, committed individuals. Every Master/Dom/Domme maintains a minimum escrow balance 
                 and is required to deposit $50,000 before finalizing any match.
               </p>
               <p className="text-sm text-muted-foreground mt-2">
