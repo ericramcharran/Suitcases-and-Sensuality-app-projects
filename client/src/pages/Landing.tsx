@@ -27,19 +27,37 @@ export default function Landing() {
 
   return (
     <div className="min-h-screen bg-background flex flex-col justify-center items-center px-4 sm:px-6 py-8 sm:py-12 relative overflow-hidden">
+      {/* Keyhole vignette that closes in */}
+      {isAnimating && (
+        <>
+          <motion.div
+            initial={{ scale: 1, opacity: 0 }}
+            animate={{ scale: 0, opacity: 1 }}
+            transition={{ duration: 2.5, ease: "easeIn" }}
+            className="absolute inset-0 z-40 pointer-events-none"
+            style={{
+              background: "radial-gradient(ellipse at center, transparent 0%, transparent 20%, black 50%)",
+            }}
+          />
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 1.5, delay: 1 }}
+            className="absolute inset-0 bg-black z-50 pointer-events-none"
+          />
+        </>
+      )}
+
       <div className="w-full max-w-md mx-auto flex flex-col items-center relative z-10">
-        {/* Logo - grows massively to zoom into keyhole */}
+        {/* Logo - zooms into keyhole */}
         <motion.div
-          className="mb-0 absolute top-1/2 left-1/2"
-          style={{ x: "-50%", y: "-50%" }}
+          className="mb-0"
           animate={isAnimating ? {
-            scale: 20,
-            opacity: 1
+            scale: 8,
+            y: -50
           } : {
             scale: 1,
-            opacity: 1,
-            x: "-50%",
-            y: "-50%"
+            y: 0
           }}
           transition={{ duration: 2.5, ease: "easeIn" }}
         >
@@ -58,9 +76,9 @@ export default function Landing() {
 
         {/* Text and Buttons - fade out on animation */}
         <motion.div
-          className="w-full relative z-20"
+          className="w-full"
           animate={isAnimating ? { opacity: 0 } : { opacity: 1 }}
-          transition={{ duration: 0.8, ease: "easeOut" }}
+          transition={{ duration: 0.5, ease: "easeOut" }}
         >
           <p className="text-muted-foreground text-lg sm:text-xl mb-2 text-center font-light">
             Where Power Meets Passion
