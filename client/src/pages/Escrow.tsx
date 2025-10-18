@@ -103,17 +103,45 @@ export default function Escrow() {
           </div>
         </Card>
 
-        {/* Escrow.com Integration Section */}
+        {/* Escrow Provider Options */}
         <Card className="p-6 mb-6 border-2 border-red-500/30">
           <h3 className="font-medium text-foreground mb-2 flex items-center gap-2">
             <Shield className="w-5 h-5 text-red-500" />
-            Secure Escrow Partner: Escrow.com
+            Secure Escrow Partners
           </h3>
           <p className="text-sm text-muted-foreground mb-4">
-            We partner with Escrow.com, a licensed and regulated escrow service that has protected 
-            over $5 billion in transactions since 1999. Your funds are held securely with built-in 
-            compliance and zero chargebacks.
+            We partner with licensed and regulated escrow services to ensure your funds are held 
+            securely with built-in compliance and zero chargebacks.
           </p>
+          
+          {/* Provider Options */}
+          <div className="space-y-3 mb-4">
+            <div className="bg-muted/50 p-4 rounded-lg border border-border">
+              <div className="flex items-start justify-between mb-2">
+                <div>
+                  <h4 className="font-medium text-foreground">Escrow.com</h4>
+                  <p className="text-xs text-muted-foreground">Licensed & regulated since 1999</p>
+                </div>
+                <span className="text-xs bg-green-500/10 text-green-600 dark:text-green-400 px-2 py-1 rounded">Available Now</span>
+              </div>
+              <p className="text-sm text-muted-foreground mb-2">
+                Over $5 billion in transactions protected. Full compliance and multiple payment methods.
+              </p>
+            </div>
+            
+            <div className="bg-muted/50 p-4 rounded-lg border border-border opacity-75">
+              <div className="flex items-start justify-between mb-2">
+                <div>
+                  <h4 className="font-medium text-foreground">FinFitLife.com</h4>
+                  <p className="text-xs text-muted-foreground">Financial wellness partner</p>
+                </div>
+                <span className="text-xs bg-amber-500/10 text-amber-600 dark:text-amber-400 px-2 py-1 rounded">Coming Soon</span>
+              </div>
+              <p className="text-sm text-muted-foreground mb-2">
+                Specialized escrow services for relationship-based financial commitments. Integration in progress.
+              </p>
+            </div>
+          </div>
           
           <div className="space-y-3 mb-4">
             <div className="flex items-center gap-2 text-sm">
@@ -154,15 +182,18 @@ export default function Escrow() {
 
           <div className="bg-red-500/10 border border-red-500/20 p-4 rounded-lg">
             <p className="text-sm text-foreground mb-2">
-              <strong>Setup Process:</strong>
+              <strong>Setup Process (Escrow.com):</strong>
             </p>
             <ol className="text-sm text-muted-foreground space-y-1 ml-4 list-decimal">
-              <li>Click "Create Escrow Account" below to visit Escrow.com</li>
+              <li>Click "Create Escrow Account with Escrow.com" below</li>
               <li>Complete the secure account registration</li>
               <li>Verify your identity (required for compliance)</li>
               <li>Fund your account with minimum $1,000 deposit</li>
               <li>Return here to complete your profile setup</li>
             </ol>
+            <p className="text-xs text-muted-foreground mt-3 italic">
+              Note: Additional providers including FinFitLife.com will be available soon for enhanced options.
+            </p>
           </div>
         </Card>
 
@@ -173,12 +204,18 @@ export default function Escrow() {
             className="rounded-full bg-red-500 hover:bg-black text-white transition-colors px-12 flex items-center gap-2"
             size="lg"
           >
-            Create Escrow Account
+            Create Escrow Account with Escrow.com
             <ExternalLink className="w-4 h-4" />
           </Button>
           <p className="text-xs text-muted-foreground text-center max-w-md">
             You'll be securely redirected to Escrow.com to complete account setup and deposit funds
           </p>
+          
+          <div className="text-center mt-2">
+            <p className="text-xs text-muted-foreground">
+              More providers coming soon • FinFitLife.com integration in progress
+            </p>
+          </div>
           
           <Button
             data-testid="button-skip-for-now"
