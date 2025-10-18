@@ -16,6 +16,7 @@ export default function Discover() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [includeReviewed, setIncludeReviewed] = useState(false);
+  const [minLoadingTimePassed, setMinLoadingTimePassed] = useState(false);
   const { toast } = useToast();
   const x = useMotionValue(0);
   const rotate = useTransform(x, [-200, 200], [-25, 25]);
@@ -24,6 +25,15 @@ export default function Discover() {
   const [emblaRef, emblaApi] = useEmblaCarousel({ loop: false });
   
   const userId = sessionStorage.getItem('userId');
+
+  // Ensure beating heart shows for at least 10 seconds
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setMinLoadingTimePassed(true);
+    }, 10000); // 10 seconds
+
+    return () => clearTimeout(timer);
+  }, []);
 
   // Redirect to signup if no userId
   useEffect(() => {
@@ -181,7 +191,8 @@ export default function Discover() {
     };
   }, [emblaApi]);
 
-  if (isLoading) {
+  // Show beating heart for at least 10 seconds
+  if (isLoading || !minLoadingTimePassed) {
     return (
       <div className="min-h-screen bg-background flex items-center justify-center">
         <Heart 
