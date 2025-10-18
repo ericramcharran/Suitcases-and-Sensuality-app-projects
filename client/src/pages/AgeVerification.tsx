@@ -2,28 +2,55 @@ import { useState, useRef } from "react";
 import { Shield, ChevronLeft, Camera, CheckCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useLocation } from "wouter";
 
 export default function AgeVerification() {
   const [, setLocation] = useLocation();
-  const [dateOfBirth, setDateOfBirth] = useState("");
+  const [month, setMonth] = useState("");
+  const [day, setDay] = useState("");
+  const [year, setYear] = useState("");
   const [uploadedFile, setUploadedFile] = useState<File | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const isOver21 = () => {
-    if (!dateOfBirth) return false;
-    const birthDate = new Date(dateOfBirth);
+    if (!month || !day || !year) return false;
+    
+    // Create date object (month is 0-indexed in JavaScript Date)
+    const birthDate = new Date(parseInt(year), parseInt(month) - 1, parseInt(day));
     const today = new Date();
-    const age = today.getFullYear() - birthDate.getFullYear();
+    
+    // Calculate age
+    let age = today.getFullYear() - birthDate.getFullYear();
     const monthDiff = today.getMonth() - birthDate.getMonth();
     
     if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
-      return age - 1 >= 21;
+      age--;
     }
+    
     return age >= 21;
   };
+
+  // Generate arrays for dropdowns
+  const months = [
+    { value: "1", label: "January" },
+    { value: "2", label: "February" },
+    { value: "3", label: "March" },
+    { value: "4", label: "April" },
+    { value: "5", label: "May" },
+    { value: "6", label: "June" },
+    { value: "7", label: "July" },
+    { value: "8", label: "August" },
+    { value: "9", label: "September" },
+    { value: "10", label: "October" },
+    { value: "11", label: "November" },
+    { value: "12", label: "December" }
+  ];
+
+  const days = Array.from({ length: 31 }, (_, i) => (i + 1).toString());
+  const currentYear = new Date().getFullYear();
+  const years = Array.from({ length: 100 }, (_, i) => (currentYear - i).toString());
 
   const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -50,6 +77,7 @@ export default function AgeVerification() {
     fileInputRef.current?.click();
   };
 
+  const hasDateOfBirth = month && day && year;
   const canContinue = isOver21() && uploadedFile !== null;
 
   return (
@@ -73,22 +101,79 @@ export default function AgeVerification() {
           You must be 21+ to continue
         </p>
         <Card className="p-8 mb-6">
-          <div className="mb-6 text-center">
-            <Label htmlFor="dob" className="text-foreground mb-2 block text-center">
-              Date of Birth
+          <div className="mb-6">
+            <Label className="text-foreground mb-3 block text-center">
+              Date of Birth (US Format)
             </Label>
-            <div className="max-w-xs mx-auto">
-              <Input
-                data-testid="input-dob"
-                id="dob"
-                type="date"
-                value={dateOfBirth}
-                onChange={(e) => setDateOfBirth(e.target.value)}
-                className="rounded-xl text-center"
-              />
+            <div className="grid grid-cols-3 gap-3 max-w-md mx-auto">
+              <div>
+                <Label htmlFor="month" className="text-xs text-muted-foreground mb-1 block">
+                  Month
+                </Label>
+                <Select value={month} onValueChange={setMonth}>
+                  <SelectTrigger 
+                    id="month" 
+                    data-testid="select-month"
+                    className="rounded-xl"
+                  >
+                    <SelectValue placeholder="MM" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {months.map((m) => (
+                      <SelectItem key={m.value} value={m.value}>
+                        {m.label}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+              
+              <div>
+                <Label htmlFor="day" className="text-xs text-muted-foreground mb-1 block">
+                  Day
+                </Label>
+                <Select value={day} onValueChange={setDay}>
+                  <SelectTrigger 
+                    id="day" 
+                    data-testid="select-day"
+                    className="rounded-xl"
+                  >
+                    <SelectValue placeholder="DD" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {days.map((d) => (
+                      <SelectItem key={d} value={d}>
+                        {d}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+              
+              <div>
+                <Label htmlFor="year" className="text-xs text-muted-foreground mb-1 block">
+                  Year
+                </Label>
+                <Select value={year} onValueChange={setYear}>
+                  <SelectTrigger 
+                    id="year" 
+                    data-testid="select-year"
+                    className="rounded-xl"
+                  >
+                    <SelectValue placeholder="YYYY" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {years.map((y) => (
+                      <SelectItem key={y} value={y}>
+                        {y}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
             </div>
-            {dateOfBirth && !isOver21() && (
-              <p className="text-sm text-destructive mt-2">
+            {hasDateOfBirth && !isOver21() && (
+              <p className="text-sm text-destructive mt-3 text-center">
                 You must be 21 or older to use this platform
               </p>
             )}
@@ -141,7 +226,7 @@ export default function AgeVerification() {
             className="w-full rounded-full bg-red-500 hover:bg-black text-white transition-colors"
             size="lg"
           >
-            {!dateOfBirth ? "Enter Date of Birth" : !uploadedFile ? "Upload ID Document" : "Verify Identity"}
+            {!hasDateOfBirth ? "Enter Date of Birth" : !uploadedFile ? "Upload ID Document" : "Verify Identity"}
           </Button>
         </Card>
       </div>
