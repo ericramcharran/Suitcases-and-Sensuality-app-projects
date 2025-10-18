@@ -12,6 +12,8 @@ import Privacy from "@/pages/Privacy";
 import PrivacyPolicy from "@/pages/PrivacyPolicy";
 import TravelMode from "@/pages/TravelMode";
 import VerificationProcessing from "@/pages/VerificationProcessing";
+import BackgroundCheck from "@/pages/BackgroundCheck";
+import BackgroundCheckProcessing from "@/pages/BackgroundCheckProcessing";
 import Guidelines from "@/pages/Guidelines";
 import Signup from "@/pages/Signup";
 import PersonalityTest from "@/pages/PersonalityTest";
@@ -45,6 +47,8 @@ function App() {
             <Route path="/privacy" component={Privacy} />
             <Route path="/privacy-policy" component={PrivacyPolicy} />
             <Route path="/travel-mode" component={TravelMode} />
+            <Route path="/background-check" component={BackgroundCheck} />
+            <Route path="/background-check-processing" component={BackgroundCheckProcessing} />
             <Route path="/guidelines" component={Guidelines} />
             <Route path="/signup" component={Signup} />
             <Route path="/personality-test" component={PersonalityTest} />
