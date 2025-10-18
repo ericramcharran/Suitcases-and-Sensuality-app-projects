@@ -97,6 +97,25 @@ export default function ProfileDetails() {
     profession && drinking && smoking && fitnessLevel && 
     experienceLevel && sexualOrientation;
 
+  // Debug - log missing fields
+  const missingFields = [];
+  if (!age) missingFields.push('age');
+  if (!sex) missingFields.push('sex');
+  if (!heightFeet) missingFields.push('heightFeet');
+  if (!heightInches) missingFields.push('heightInches');
+  if (!bodyType) missingFields.push('bodyType');
+  if (!race) missingFields.push('race');
+  if (!eyeColor) missingFields.push('eyeColor');
+  if (!hairColor) missingFields.push('hairColor');
+  if (!city) missingFields.push('city');
+  if (!state) missingFields.push('state');
+  if (!profession) missingFields.push('profession');
+  if (!drinking) missingFields.push('drinking');
+  if (!smoking) missingFields.push('smoking');
+  if (!fitnessLevel) missingFields.push('fitnessLevel');
+  if (!experienceLevel) missingFields.push('experienceLevel');
+  if (!sexualOrientation) missingFields.push('sexualOrientation');
+
   const handleContinue = () => {
     if (!canContinue) {
       setShowErrors(true);
@@ -105,8 +124,6 @@ export default function ProfileDetails() {
         description: "Please fill in all required fields marked in red",
         variant: "destructive",
       });
-      // Scroll to top to see errors
-      window.scrollTo({ top: 0, behavior: 'smooth' });
       return;
     }
 
@@ -131,23 +148,6 @@ export default function ProfileDetails() {
     });
   };
 
-  // Helper to add error styling
-  const getFieldClassName = (isValid: boolean, baseClass: string = "rounded-xl") => {
-    return `${baseClass} ${showErrors && !isValid ? 'border-red-500 border-2' : ''}`;
-  };
-
-  // Helper for error message
-  const ErrorMessage = ({ show, message }: { show: boolean; message: string }) => {
-    if (!show) return null;
-    return <p className="text-xs text-red-500 mt-1">{message}</p>;
-  };
-
-  // Helper for required asterisk
-  const RequiredMark = ({ show }: { show: boolean }) => {
-    if (!show) return null;
-    return <span className="text-red-500">*</span>;
-  };
-
   return (
     <div className="min-h-screen bg-muted p-6">
       <button
@@ -168,14 +168,6 @@ export default function ProfileDetails() {
         <h2 className="text-3xl font-light mb-2 text-center text-foreground">Complete Your Profile</h2>
         <p className="text-muted-foreground mb-8 text-center">Help us find your perfect match</p>
 
-        {showErrors && !canContinue && (
-          <Card className="p-4 mb-6 bg-red-500/10 border-red-500/30">
-            <p className="text-sm font-medium text-red-700 dark:text-red-400 text-center">
-              ⚠️ Please complete all required fields below (marked with *)
-            </p>
-          </Card>
-        )}
-
         <div className="space-y-6">
           {/* Physical Attributes */}
           <Card className="p-6">
@@ -183,7 +175,7 @@ export default function ProfileDetails() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
                 <Label htmlFor="age" className="text-foreground mb-2 block">
-                  Age <RequiredMark show={showErrors && !age} />
+                  Age {showErrors && !age && <span className="text-red-500">*</span>}
                 </Label>
                 <Input
                   data-testid="input-age"
@@ -192,19 +184,21 @@ export default function ProfileDetails() {
                   placeholder="25"
                   value={age}
                   onChange={(e) => setAge(e.target.value)}
-                  className={getFieldClassName(!!age)}
+                  className={`rounded-xl ${showErrors && !age ? 'border-red-500 border-2' : ''}`}
                   min="21"
                   max="99"
                 />
-                <ErrorMessage show={showErrors && !age} message="Age is required" />
+                {showErrors && !age && (
+                  <p className="text-xs text-red-500 mt-1">Age is required</p>
+                )}
               </div>
 
               <div>
                 <Label htmlFor="sex" className="text-foreground mb-2 block">
-                  Sex <RequiredMark show={showErrors && !sex} />
+                  Sex {showErrors && !sex && <span className="text-red-500">*</span>}
                 </Label>
                 <Select value={sex} onValueChange={setSex}>
-                  <SelectTrigger data-testid="select-sex" id="sex" className={getFieldClassName(!!sex)}>
+                  <SelectTrigger data-testid="select-sex" id="sex" className={`rounded-xl ${showErrors && !sex ? 'border-red-500 border-2' : ''}`}>
                     <SelectValue placeholder="Select sex" />
                   </SelectTrigger>
                   <SelectContent>
@@ -216,12 +210,14 @@ export default function ProfileDetails() {
                     <SelectItem value="Prefer not to say">Prefer not to say</SelectItem>
                   </SelectContent>
                 </Select>
-                <ErrorMessage show={showErrors && !sex} message="Sex is required" />
+                {showErrors && !sex && (
+                  <p className="text-xs text-red-500 mt-1">Sex is required</p>
+                )}
               </div>
 
               <div>
                 <Label className="text-foreground mb-2 block">
-                  Height <RequiredMark show={showErrors && (!heightFeet || !heightInches)} />
+                  Height {showErrors && (!heightFeet || !heightInches) && <span className="text-red-500">*</span>}
                 </Label>
                 <div className="flex gap-2">
                   <Input
@@ -230,7 +226,7 @@ export default function ProfileDetails() {
                     placeholder="5"
                     value={heightFeet}
                     onChange={(e) => setHeightFeet(e.target.value)}
-                    className={getFieldClassName(!!heightFeet)}
+                    className={`rounded-xl ${showErrors && !heightFeet ? 'border-red-500 border-2' : ''}`}
                     min="3"
                     max="8"
                   />
@@ -241,13 +237,15 @@ export default function ProfileDetails() {
                     placeholder="10"
                     value={heightInches}
                     onChange={(e) => setHeightInches(e.target.value)}
-                    className={getFieldClassName(!!heightInches)}
+                    className={`rounded-xl ${showErrors && !heightInches ? 'border-red-500 border-2' : ''}`}
                     min="0"
                     max="11"
                   />
                   <span className="flex items-center text-muted-foreground">in</span>
                 </div>
-                <ErrorMessage show={showErrors && (!heightFeet || !heightInches)} message="Both feet and inches are required" />
+                {showErrors && (!heightFeet || !heightInches) && (
+                  <p className="text-xs text-red-500 mt-1">Both feet and inches are required</p>
+                )}
               </div>
 
               <div>
@@ -268,10 +266,10 @@ export default function ProfileDetails() {
 
               <div>
                 <Label htmlFor="bodyType" className="text-foreground mb-2 block">
-                  Body Type <RequiredMark show={showErrors && !bodyType} />
+                  Body Type {showErrors && !bodyType && <span className="text-red-500">*</span>}
                 </Label>
                 <Select value={bodyType} onValueChange={setBodyType}>
-                  <SelectTrigger data-testid="select-body-type" id="bodyType" className={getFieldClassName(!!bodyType)}>
+                  <SelectTrigger data-testid="select-body-type" id="bodyType" className={`rounded-xl ${showErrors && !bodyType ? 'border-red-500 border-2' : ''}`}>
                     <SelectValue placeholder="Select body type" />
                   </SelectTrigger>
                   <SelectContent>
@@ -283,15 +281,12 @@ export default function ProfileDetails() {
                     <SelectItem value="Plus-size">Plus-size</SelectItem>
                   </SelectContent>
                 </Select>
-                <ErrorMessage show={showErrors && !bodyType} message="Body type is required" />
               </div>
 
               <div>
-                <Label htmlFor="race" className="text-foreground mb-2 block">
-                  Race/Ethnicity <RequiredMark show={showErrors && !race} />
-                </Label>
+                <Label htmlFor="race" className="text-foreground mb-2 block">Race/Ethnicity</Label>
                 <Select value={race} onValueChange={setRace}>
-                  <SelectTrigger data-testid="select-race" id="race" className={getFieldClassName(!!race)}>
+                  <SelectTrigger data-testid="select-race" id="race" className="rounded-xl">
                     <SelectValue placeholder="Select race" />
                   </SelectTrigger>
                   <SelectContent>
@@ -306,15 +301,12 @@ export default function ProfileDetails() {
                     <SelectItem value="Other">Other</SelectItem>
                   </SelectContent>
                 </Select>
-                <ErrorMessage show={showErrors && !race} message="Race/ethnicity is required" />
               </div>
 
               <div>
-                <Label htmlFor="eyeColor" className="text-foreground mb-2 block">
-                  Eye Color <RequiredMark show={showErrors && !eyeColor} />
-                </Label>
+                <Label htmlFor="eyeColor" className="text-foreground mb-2 block">Eye Color</Label>
                 <Select value={eyeColor} onValueChange={setEyeColor}>
-                  <SelectTrigger data-testid="select-eye-color" id="eyeColor" className={getFieldClassName(!!eyeColor)}>
+                  <SelectTrigger data-testid="select-eye-color" id="eyeColor" className="rounded-xl">
                     <SelectValue placeholder="Select eye color" />
                   </SelectTrigger>
                   <SelectContent>
@@ -326,15 +318,12 @@ export default function ProfileDetails() {
                     <SelectItem value="Amber">Amber</SelectItem>
                   </SelectContent>
                 </Select>
-                <ErrorMessage show={showErrors && !eyeColor} message="Eye color is required" />
               </div>
 
               <div>
-                <Label htmlFor="hairColor" className="text-foreground mb-2 block">
-                  Hair Color <RequiredMark show={showErrors && !hairColor} />
-                </Label>
+                <Label htmlFor="hairColor" className="text-foreground mb-2 block">Hair Color</Label>
                 <Select value={hairColor} onValueChange={setHairColor}>
-                  <SelectTrigger data-testid="select-hair-color" id="hairColor" className={getFieldClassName(!!hairColor)}>
+                  <SelectTrigger data-testid="select-hair-color" id="hairColor" className="rounded-xl">
                     <SelectValue placeholder="Select hair color" />
                   </SelectTrigger>
                   <SelectContent>
@@ -347,7 +336,6 @@ export default function ProfileDetails() {
                     <SelectItem value="Other">Other</SelectItem>
                   </SelectContent>
                 </Select>
-                <ErrorMessage show={showErrors && !hairColor} message="Hair color is required" />
               </div>
             </div>
           </Card>
@@ -357,9 +345,7 @@ export default function ProfileDetails() {
             <h3 className="text-lg font-medium text-foreground mb-4">Location</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <Label htmlFor="city" className="text-foreground mb-2 block">
-                  City <RequiredMark show={showErrors && !city} />
-                </Label>
+                <Label htmlFor="city" className="text-foreground mb-2 block">City</Label>
                 <Input
                   data-testid="input-city"
                   id="city"
@@ -367,15 +353,12 @@ export default function ProfileDetails() {
                   placeholder="New York"
                   value={city}
                   onChange={(e) => setCity(e.target.value)}
-                  className={getFieldClassName(!!city)}
+                  className="rounded-xl"
                 />
-                <ErrorMessage show={showErrors && !city} message="City is required" />
               </div>
 
               <div>
-                <Label htmlFor="state" className="text-foreground mb-2 block">
-                  State <RequiredMark show={showErrors && !state} />
-                </Label>
+                <Label htmlFor="state" className="text-foreground mb-2 block">State</Label>
                 <Input
                   data-testid="input-state"
                   id="state"
@@ -383,10 +366,9 @@ export default function ProfileDetails() {
                   placeholder="NY"
                   value={state}
                   onChange={(e) => setState(e.target.value)}
-                  className={getFieldClassName(!!state)}
+                  className="rounded-xl"
                   maxLength={2}
                 />
-                <ErrorMessage show={showErrors && !state} message="State is required" />
               </div>
             </div>
           </Card>
@@ -396,11 +378,9 @@ export default function ProfileDetails() {
             <h3 className="text-lg font-medium text-foreground mb-4">Lifestyle</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <Label htmlFor="profession" className="text-foreground mb-2 block">
-                  Profession <RequiredMark show={showErrors && !profession} />
-                </Label>
+                <Label htmlFor="profession" className="text-foreground mb-2 block">Profession</Label>
                 <Select value={profession} onValueChange={setProfession}>
-                  <SelectTrigger data-testid="select-profession" id="profession" className={getFieldClassName(!!profession)}>
+                  <SelectTrigger data-testid="select-profession" id="profession" className="rounded-xl">
                     <SelectValue placeholder="Select profession" />
                   </SelectTrigger>
                   <SelectContent>
@@ -416,15 +396,12 @@ export default function ProfileDetails() {
                     <SelectItem value="Other Professional">Other Professional</SelectItem>
                   </SelectContent>
                 </Select>
-                <ErrorMessage show={showErrors && !profession} message="Profession is required" />
               </div>
 
               <div>
-                <Label htmlFor="drinking" className="text-foreground mb-2 block">
-                  Drinking <RequiredMark show={showErrors && !drinking} />
-                </Label>
+                <Label htmlFor="drinking" className="text-foreground mb-2 block">Drinking</Label>
                 <Select value={drinking} onValueChange={setDrinking}>
-                  <SelectTrigger data-testid="select-drinking" id="drinking" className={getFieldClassName(!!drinking)}>
+                  <SelectTrigger data-testid="select-drinking" id="drinking" className="rounded-xl">
                     <SelectValue placeholder="Select drinking habits" />
                   </SelectTrigger>
                   <SelectContent>
@@ -434,15 +411,12 @@ export default function ProfileDetails() {
                     <SelectItem value="Regularly">Regularly</SelectItem>
                   </SelectContent>
                 </Select>
-                <ErrorMessage show={showErrors && !drinking} message="Drinking habits are required" />
               </div>
 
               <div>
-                <Label htmlFor="smoking" className="text-foreground mb-2 block">
-                  Smoking <RequiredMark show={showErrors && !smoking} />
-                </Label>
+                <Label htmlFor="smoking" className="text-foreground mb-2 block">Smoking</Label>
                 <Select value={smoking} onValueChange={setSmoking}>
-                  <SelectTrigger data-testid="select-smoking" id="smoking" className={getFieldClassName(!!smoking)}>
+                  <SelectTrigger data-testid="select-smoking" id="smoking" className="rounded-xl">
                     <SelectValue placeholder="Select smoking habits" />
                   </SelectTrigger>
                   <SelectContent>
@@ -452,15 +426,12 @@ export default function ProfileDetails() {
                     <SelectItem value="Regularly">Regularly</SelectItem>
                   </SelectContent>
                 </Select>
-                <ErrorMessage show={showErrors && !smoking} message="Smoking habits are required" />
               </div>
 
               <div>
-                <Label htmlFor="fitnessLevel" className="text-foreground mb-2 block">
-                  Fitness Level <RequiredMark show={showErrors && !fitnessLevel} />
-                </Label>
+                <Label htmlFor="fitnessLevel" className="text-foreground mb-2 block">Fitness Level</Label>
                 <Select value={fitnessLevel} onValueChange={setFitnessLevel}>
-                  <SelectTrigger data-testid="select-fitness" id="fitnessLevel" className={getFieldClassName(!!fitnessLevel)}>
+                  <SelectTrigger data-testid="select-fitness" id="fitnessLevel" className="rounded-xl">
                     <SelectValue placeholder="Select fitness level" />
                   </SelectTrigger>
                   <SelectContent>
@@ -470,7 +441,6 @@ export default function ProfileDetails() {
                     <SelectItem value="Very Active">Very Active</SelectItem>
                   </SelectContent>
                 </Select>
-                <ErrorMessage show={showErrors && !fitnessLevel} message="Fitness level is required" />
               </div>
             </div>
           </Card>
@@ -480,11 +450,9 @@ export default function ProfileDetails() {
             <h3 className="text-lg font-medium text-foreground mb-4">Relationship Preferences</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <Label htmlFor="experienceLevel" className="text-foreground mb-2 block">
-                  BDSM Experience <RequiredMark show={showErrors && !experienceLevel} />
-                </Label>
+                <Label htmlFor="experienceLevel" className="text-foreground mb-2 block">BDSM Experience</Label>
                 <Select value={experienceLevel} onValueChange={setExperienceLevel}>
-                  <SelectTrigger data-testid="select-experience" id="experienceLevel" className={getFieldClassName(!!experienceLevel)}>
+                  <SelectTrigger data-testid="select-experience" id="experienceLevel" className="rounded-xl">
                     <SelectValue placeholder="Your experience level" />
                   </SelectTrigger>
                   <SelectContent>
@@ -494,15 +462,12 @@ export default function ProfileDetails() {
                     <SelectItem value="Expert">Expert</SelectItem>
                   </SelectContent>
                 </Select>
-                <ErrorMessage show={showErrors && !experienceLevel} message="Experience level is required" />
               </div>
 
               <div>
-                <Label htmlFor="sexualOrientation" className="text-foreground mb-2 block">
-                  Sexual Orientation <RequiredMark show={showErrors && !sexualOrientation} />
-                </Label>
+                <Label htmlFor="sexualOrientation" className="text-foreground mb-2 block">Sexual Orientation</Label>
                 <Select value={sexualOrientation} onValueChange={setSexualOrientation}>
-                  <SelectTrigger data-testid="select-orientation" id="sexualOrientation" className={getFieldClassName(!!sexualOrientation)}>
+                  <SelectTrigger data-testid="select-orientation" id="sexualOrientation" className="rounded-xl">
                     <SelectValue placeholder="Select orientation" />
                   </SelectTrigger>
                   <SelectContent>
@@ -515,12 +480,23 @@ export default function ProfileDetails() {
                     <SelectItem value="Other">Other</SelectItem>
                   </SelectContent>
                 </Select>
-                <ErrorMessage show={showErrors && !sexualOrientation} message="Sexual orientation is required" />
               </div>
             </div>
           </Card>
 
-          <div className="flex flex-col items-center gap-3 pt-4">
+          {/* Debug Info */}
+          {missingFields.length > 0 && (
+            <Card className="p-4 bg-yellow-500/10 border-yellow-500/30">
+              <p className="text-sm font-medium text-yellow-700 dark:text-yellow-400 mb-2">
+                Missing fields ({missingFields.length}):
+              </p>
+              <p className="text-xs text-yellow-600 dark:text-yellow-300">
+                {missingFields.join(', ')}
+              </p>
+            </Card>
+          )}
+
+          <div className="flex justify-center pt-4">
             <Button
               data-testid="button-continue"
               onClick={handleContinue}
@@ -530,13 +506,13 @@ export default function ProfileDetails() {
             >
               {updateProfileMutation.isPending ? "Saving..." : "Continue"}
             </Button>
-            
-            {showErrors && !canContinue && (
-              <p className="text-center text-sm text-red-500">
-                ⚠️ {16 - [age, sex, heightFeet, heightInches, bodyType, race, eyeColor, hairColor, city, state, profession, drinking, smoking, fitnessLevel, experienceLevel, sexualOrientation].filter(Boolean).length} fields still need to be completed
-              </p>
-            )}
           </div>
+          
+          {showErrors && missingFields.length > 0 && (
+            <p className="text-center text-sm text-red-500 mt-2">
+              Please complete all required fields above (marked with red borders)
+            </p>
+          )}
         </div>
       </div>
     </div>
