@@ -273,15 +273,29 @@ export default function Profile() {
             <div className="flex items-center justify-between mb-3">
               <h4 className="font-medium text-foreground">Profile Photos</h4>
               <span className="text-sm text-muted-foreground">
-                {profileImages.length}/6
+                {profileImages.length}/5
               </span>
+            </div>
+            
+            <div className="mb-3 p-3 bg-muted/50 rounded-lg border border-border">
+              <p className="text-xs text-foreground font-medium mb-2">Photo Guidelines:</p>
+              <ul className="text-xs text-muted-foreground space-y-1">
+                <li>• Face photos are <span className="font-medium text-foreground">not required</span></li>
+                <li>• Choose photos in good lighting</li>
+                <li>• Show yourself active outdoors</li>
+                <li>• Include social settings or events</li>
+                <li>• Lifestyle photos that represent you</li>
+              </ul>
             </div>
             
             {profileImages.length === 0 && (
               <div className="text-center py-8 bg-muted rounded-lg mb-3">
                 <Upload className="w-8 h-8 text-muted-foreground/50 mx-auto mb-2" />
                 <p className="text-sm text-muted-foreground">
-                  Upload at least 1 face photo
+                  Upload up to 5 lifestyle photos
+                </p>
+                <p className="text-xs text-muted-foreground mt-1">
+                  Face photos optional
                 </p>
               </div>
             )}
@@ -319,7 +333,7 @@ export default function Profile() {
             )}
 
             {/* Upload Button */}
-            {profileImages.length < 6 && (
+            {profileImages.length < 5 && (
               <>
                 <input
                   ref={fileInputRef}
@@ -343,8 +357,8 @@ export default function Profile() {
             )}
 
             {profileImages.length === 0 && (
-              <p className="text-xs text-muted-foreground mt-2">
-                At least 1 face photo is required. Max 6 photos.
+              <p className="text-xs text-muted-foreground mt-2 text-center">
+                Upload photos that showcase your lifestyle. Maximum 5 photos.
               </p>
             )}
           </Card>
