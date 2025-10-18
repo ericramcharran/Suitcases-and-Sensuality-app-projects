@@ -3,7 +3,7 @@ import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { ChevronLeft, ChevronRight, MapPin, Verified, ChevronDown } from "lucide-react";
 import useEmblaCarousel from 'embla-carousel-react';
-import { motion, useMotionValue, useTransform, PanInfo } from 'framer-motion';
+import { motion, useMotionValue, PanInfo } from 'framer-motion';
 
 interface ProfileCardProps {
   profile: {
@@ -44,6 +44,7 @@ export function ProfileCard({
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [isZoomed, setIsZoomed] = useState(false);
   const imageRef = useRef<HTMLDivElement>(null);
+  const panStartTime = useRef<number>(0);
   
   // Motion values for zoom
   const scale = useMotionValue(1);
@@ -73,43 +74,47 @@ export function ProfileCard({
     };
   }, [emblaApi]);
 
-  // Handle swipe down to navigate to next image
-  const handleSwipeDown = useCallback((event: any, info: PanInfo) => {
-    // Only trigger if swiping down (positive Y offset) and not zoomed
-    if (!isZoomed && info.offset.y > 80 && Math.abs(info.offset.x) < 50) {
+  // Handle pan start
+  const handlePanStart = useCallback(() => {
+    panStartTime.current = Date.now();
+  }, []);
+
+  // Handle pan/drag gestures
+  const handlePan = useCallback((event: any, info: PanInfo) => {
+    const panDuration = Date.now() - panStartTime.current;
+    const velocity = Math.abs(info.velocity.y);
+    
+    // Check if this is a quick swipe down (fast gesture)
+    const isQuickSwipe = panDuration < 300 && velocity > 200;
+    const isDownwardSwipe = info.offset.y > 50 && Math.abs(info.offset.x) < 40;
+    
+    if (isQuickSwipe && isDownwardSwipe && !isZoomed) {
+      // Quick swipe down = navigate to next image
       scrollNext();
+      // Reset zoom values
+      scale.set(1);
+      x.set(0);
+      y.set(0);
+    } else if (!isQuickSwipe && Math.abs(info.offset.x) > 10 || Math.abs(info.offset.y) > 10) {
+      // Slow drag = zoom
+      if (!isZoomed) {
+        setIsZoomed(true);
+      }
+      // Calculate scale based on drag distance
+      const distance = Math.sqrt(info.offset.x ** 2 + info.offset.y ** 2);
+      const newScale = Math.min(2.5, 1 + (distance / 200));
+      scale.set(newScale);
+      x.set(info.offset.x * 0.3);
+      y.set(info.offset.y * 0.3);
     }
-  }, [isZoomed, scrollNext]);
+  }, [isZoomed, scrollNext, scale, x, y]);
 
-  // Handle pinch/drag to zoom
-  const handleDrag = useCallback((event: any, info: PanInfo) => {
-    if (!isZoomed) {
-      setIsZoomed(true);
-    }
-  }, [isZoomed]);
-
-  const handleDragEnd = useCallback(() => {
+  const handlePanEnd = useCallback(() => {
     // Return to original size when letting go
     setIsZoomed(false);
     scale.set(1);
     x.set(0);
     y.set(0);
-  }, [scale, x, y]);
-
-  // Calculate scale based on drag distance
-  const calculateScale = (info: PanInfo) => {
-    // Calculate distance from center
-    const distance = Math.sqrt(info.offset.x ** 2 + info.offset.y ** 2);
-    // Scale between 1x and 2.5x based on drag distance (max 300px)
-    const newScale = Math.min(2.5, 1 + (distance / 200));
-    return newScale;
-  };
-
-  const handleDragUpdate = useCallback((event: any, info: PanInfo) => {
-    const newScale = calculateScale(info);
-    scale.set(newScale);
-    x.set(info.offset.x * 0.3); // Dampen the movement
-    y.set(info.offset.y * 0.3);
   }, [scale, x, y]);
 
   return (
@@ -129,9 +134,9 @@ export function ProfileCard({
                       drag
                       dragElastic={0.1}
                       dragMomentum={false}
-                      onDrag={handleDragUpdate}
-                      onDragEnd={handleDragEnd}
-                      onPanEnd={handleSwipeDown}
+                      onPanStart={handlePanStart}
+                      onPan={handlePan}
+                      onPanEnd={handlePanEnd}
                       style={{
                         scale,
                         x,
@@ -189,10 +194,10 @@ export function ProfileCard({
             {/* Swipe Down Hint - Only show if there are more images and not zoomed */}
             {profile.profileImages.length > 1 && currentImageIndex < profile.profileImages.length - 1 && !isZoomed && (
               <motion.div
-                className="absolute bottom-20 left-1/2 -translate-x-1/2 bg-black/50 backdrop-blur-sm text-white px-4 py-2 rounded-full text-sm flex items-center gap-2 z-10"
+                className="absolute bottom-20 left-1/2 -translate-x-1/2 bg-black/50 backdrop-blur-sm text-white px-4 py-2 rounded-full text-sm flex items-center gap-2 z-10 pointer-events-none"
                 initial={{ opacity: 0, y: -10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.5, duration: 0.3 }}
+                animate={{ opacity: [0, 1, 1, 0] }}
+                transition={{ duration: 3, times: [0, 0.1, 0.8, 1], delay: 0.5 }}
               >
                 <ChevronDown className="w-4 h-4 animate-bounce" />
                 Swipe down for more
@@ -202,13 +207,12 @@ export function ProfileCard({
             {/* Zoom Hint */}
             {!isZoomed && (
               <motion.div
-                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-black/40 backdrop-blur-sm text-white px-4 py-2 rounded-full text-xs pointer-events-none z-10"
+                className="absolute top-20 left-1/2 -translate-x-1/2 bg-black/40 backdrop-blur-sm text-white px-4 py-2 rounded-full text-xs pointer-events-none z-10"
                 initial={{ opacity: 0 }}
-                animate={{ opacity: 0.7 }}
-                transition={{ delay: 1, duration: 0.3 }}
-                exit={{ opacity: 0 }}
+                animate={{ opacity: [0, 0.7, 0.7, 0] }}
+                transition={{ duration: 3, times: [0, 0.1, 0.8, 1], delay: 1.5 }}
               >
-                Drag to zoom
+                Hold & drag to zoom
               </motion.div>
             )}
 
