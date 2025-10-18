@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { ChevronLeft, Shield, Phone } from "lucide-react";
+import { useState, useRef, useEffect } from "react";
+import { ChevronLeft, Shield, Phone, ArrowDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -21,6 +21,29 @@ const guidelinesContent = [
 export default function Guidelines() {
   const [, setLocation] = useLocation();
   const [agreed, setAgreed] = useState(false);
+  const [hasScrolledToBottom, setHasScrolledToBottom] = useState(false);
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const container = scrollContainerRef.current;
+    if (!container) return;
+
+    const handleScroll = () => {
+      const { scrollTop, scrollHeight, clientHeight } = container;
+      // Check if scrolled to bottom (with 5px threshold for smoother detection)
+      const isAtBottom = scrollTop + clientHeight >= scrollHeight - 5;
+      
+      if (isAtBottom && !hasScrolledToBottom) {
+        setHasScrolledToBottom(true);
+      }
+    };
+
+    container.addEventListener('scroll', handleScroll);
+    // Check initial state in case content is already fully visible
+    handleScroll();
+
+    return () => container.removeEventListener('scroll', handleScroll);
+  }, [hasScrolledToBottom]);
 
   return (
     <div className="min-h-screen bg-muted p-6">
@@ -34,69 +57,92 @@ export default function Guidelines() {
       </button>
       <div className="max-w-2xl mx-auto">
         <h2 className="text-3xl font-light mb-2 text-center text-foreground">Community Guidelines</h2>
-        <p className="text-muted-foreground mb-6 text-center">Built on respect, consent, and safety</p>
+        <p className="text-muted-foreground mb-6 text-center">
+          {hasScrolledToBottom ? "Please accept our community guidelines to continue" : "Scroll to read all guidelines"}
+        </p>
         
-        <Card className="p-6 mb-6 max-h-96 overflow-y-auto">
-          <div className="space-y-4">
-            {guidelinesContent.map((item, i) => (
-              <div key={i} className="border-b border-border last:border-0 pb-3 last:pb-0">
-                <h3 className="font-medium text-foreground mb-2">{item.title}</h3>
-                <div className="space-y-1">
-                  <p className="text-sm text-foreground/80">✓ {item.dos}</p>
-                  <p className="text-sm text-muted-foreground">✗ {item.donts}</p>
+        <div className="relative">
+          <Card 
+            ref={scrollContainerRef}
+            className="p-6 mb-6 max-h-96 overflow-y-auto"
+            data-testid="guidelines-content"
+          >
+            <div className="space-y-4">
+              {guidelinesContent.map((item, i) => (
+                <div key={i} className="border-b border-border last:border-0 pb-3 last:pb-0">
+                  <h3 className="font-medium text-foreground mb-2">{item.title}</h3>
+                  <div className="space-y-1">
+                    <p className="text-sm text-foreground/80">✓ {item.dos}</p>
+                    <p className="text-sm text-muted-foreground">✗ {item.donts}</p>
+                  </div>
+                </div>
+              ))}
+
+              <div className="border-b border-border pb-3">
+                <div className="flex items-start gap-4">
+                  <div className="flex-shrink-0 w-10 h-10 rounded-full bg-red-500/10 flex items-center justify-center">
+                    <Shield className="w-5 h-5 text-red-500" />
+                  </div>
+                  <div>
+                    <h3 className="font-medium text-foreground mb-1">Zero Tolerance Policy</h3>
+                    <p className="text-sm text-muted-foreground">
+                      Non-consent, harassment, hate speech, illegal activity, minors, threats, and doxxing result in immediate account termination.
+                    </p>
+                  </div>
                 </div>
               </div>
-            ))}
-          </div>
-        </Card>
 
-        <Card className="p-6 mb-6 bg-gradient-to-r from-red-500/5 to-black/5 border-red-500/20">
-          <div className="flex items-start gap-4">
-            <div className="flex-shrink-0 w-10 h-10 rounded-full bg-red-500/10 flex items-center justify-center">
-              <Shield className="w-5 h-5 text-red-500" />
-            </div>
-            <div>
-              <h3 className="font-medium text-foreground mb-1">Zero Tolerance Policy</h3>
-              <p className="text-sm text-muted-foreground">
-                Non-consent, harassment, hate speech, illegal activity, minors, threats, and doxxing result in immediate account termination.
-              </p>
-            </div>
-          </div>
-        </Card>
-
-        <Card className="p-6 mb-6 bg-gradient-to-r from-black/5 to-red-500/5 border-red-500/20">
-          <div className="flex items-start gap-4">
-            <div className="flex-shrink-0 w-10 h-10 rounded-full bg-red-500/10 flex items-center justify-center">
-              <Phone className="w-5 h-5 text-red-500" />
-            </div>
-            <div>
-              <h3 className="font-medium text-foreground mb-1">Emergency Resources</h3>
-              <div className="text-sm text-muted-foreground space-y-1">
-                <p>Sexual Assault: 1-800-656-4673</p>
-                <p>Domestic Violence: 1-800-799-7233</p>
-                <p>Crisis Text Line: Text HOME to 741741</p>
+              <div className="pb-3">
+                <div className="flex items-start gap-4">
+                  <div className="flex-shrink-0 w-10 h-10 rounded-full bg-red-500/10 flex items-center justify-center">
+                    <Phone className="w-5 h-5 text-red-500" />
+                  </div>
+                  <div>
+                    <h3 className="font-medium text-foreground mb-1">Emergency Resources</h3>
+                    <div className="text-sm text-muted-foreground space-y-1">
+                      <p>Sexual Assault: 1-800-656-4673</p>
+                      <p>Domestic Violence: 1-800-799-7233</p>
+                      <p>Crisis Text Line: Text HOME to 741741</p>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
-          </div>
-        </Card>
+          </Card>
+          
+          {/* Scroll indicator - only show if not scrolled to bottom */}
+          {!hasScrolledToBottom && (
+            <div className="absolute bottom-6 left-0 right-0 flex justify-center pointer-events-none">
+              <div className="bg-gradient-to-t from-muted via-muted to-transparent pt-8 pb-4 px-6 rounded-lg">
+                <div className="flex flex-col items-center gap-2 animate-bounce">
+                  <ArrowDown className="w-5 h-5 text-red-500" />
+                  <p className="text-xs font-medium text-red-500">Scroll to continue</p>
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
 
-        <Card className="p-4 mb-6">
-          <div className="flex items-start gap-3">
-            <Checkbox
-              data-testid="checkbox-guidelines"
-              id="guidelines"
-              checked={agreed}
-              onCheckedChange={(checked) => setAgreed(checked as boolean)}
-              className="mt-1"
-            />
-            <label
-              htmlFor="guidelines"
-              className="text-sm text-foreground/80 cursor-pointer"
-            >
-              I agree to follow Community Guidelines
-            </label>
-          </div>
-        </Card>
+        {/* Checkbox - only appears after scrolling */}
+        {hasScrolledToBottom && (
+          <Card className="p-4 mb-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
+            <div className="flex items-start gap-3">
+              <Checkbox
+                data-testid="checkbox-guidelines"
+                id="guidelines"
+                checked={agreed}
+                onCheckedChange={(checked) => setAgreed(checked as boolean)}
+                className="mt-1"
+              />
+              <label
+                htmlFor="guidelines"
+                className="text-sm text-foreground/80 cursor-pointer"
+              >
+                I agree to follow Community Guidelines
+              </label>
+            </div>
+          </Card>
+        )}
 
         <div className="flex justify-center">
           <Button
