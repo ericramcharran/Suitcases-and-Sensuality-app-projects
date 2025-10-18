@@ -1,7 +1,11 @@
-import { ChevronLeft, Calendar, Shield, TrendingUp } from "lucide-react";
+import { useState, useRef } from "react";
+import { ChevronLeft, Calendar, Shield, TrendingUp, PenTool } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { useLocation } from "wouter";
+import SignatureCanvas from "react-signature-canvas";
+import { useToast } from "@/hooks/use-toast";
+import { apiRequest } from "@/lib/queryClient";
 
 const vestingSchedule = [
   {
@@ -38,6 +42,60 @@ const vestingSchedule = [
 
 export default function AgreementTimeline() {
   const [, setLocation] = useLocation();
+  const [isSigning, setIsSigning] = useState(false);
+  const signatureRef = useRef<SignatureCanvas>(null);
+  const { toast } = useToast();
+
+  const handleClearSignature = () => {
+    signatureRef.current?.clear();
+  };
+
+  const handleContinue = async () => {
+    const userId = sessionStorage.getItem('userId');
+    if (!userId) {
+      setLocation('/signup');
+      return;
+    }
+
+    // Check if signature is provided
+    if (signatureRef.current?.isEmpty()) {
+      toast({
+        title: "Signature Required",
+        description: "Please provide your digital signature to continue",
+        variant: "destructive"
+      });
+      return;
+    }
+
+    setIsSigning(true);
+
+    try {
+      // Get signature as data URL
+      const signatureData = signatureRef.current?.toDataURL();
+      const signedDate = new Date().toISOString();
+
+      // Save signature for vesting agreement
+      await apiRequest("PATCH", `/api/users/${userId}`, {
+        guidelinesSignature: signatureData,
+        guidelinesSignedDate: signedDate,
+        agreedGuidelines: true
+      });
+
+      toast({
+        title: "Agreement Signed",
+        description: "Your vesting agreement has been recorded",
+      });
+
+      setLocation("/discover");
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Failed to save signature. Please try again.",
+        variant: "destructive"
+      });
+      setIsSigning(false);
+    }
+  };
 
   return (
     <div className="min-h-screen bg-muted p-6">
@@ -220,14 +278,63 @@ export default function AgreementTimeline() {
           </div>
         </Card>
 
+        {/* Digital Signature Section */}
+        <Card className="p-6 mb-6">
+          <h3 className="font-medium mb-4 text-foreground flex items-center gap-2">
+            <PenTool className="w-5 h-5 text-red-500" />
+            Digital Signature Required
+          </h3>
+          <p className="text-sm text-muted-foreground mb-4">
+            By signing below, you acknowledge that you have read and understood the vesting agreement timeline 
+            and financial terms outlined above. This signature will be recorded with today's date.
+          </p>
+          
+          <div className="border-2 border-border rounded-lg p-2 bg-white mb-3">
+            <SignatureCanvas
+              ref={signatureRef}
+              data-testid="signature-canvas"
+              canvasProps={{
+                className: 'w-full h-40',
+                style: { touchAction: 'none' }
+              }}
+              backgroundColor="white"
+            />
+          </div>
+          
+          <div className="flex justify-between items-center text-sm mb-4">
+            <p className="text-muted-foreground">Sign above</p>
+            <Button
+              data-testid="button-clear-signature"
+              variant="ghost"
+              size="sm"
+              onClick={handleClearSignature}
+              className="text-red-500 hover:text-red-600"
+            >
+              Clear
+            </Button>
+          </div>
+          
+          <div className="p-3 bg-muted/50 rounded-lg">
+            <p className="text-xs text-muted-foreground">
+              <strong>Date:</strong> {new Date().toLocaleDateString('en-US', { 
+                weekday: 'long', 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric' 
+              })}
+            </p>
+          </div>
+        </Card>
+
         <div className="flex justify-center">
           <Button
             data-testid="button-continue"
-            onClick={() => setLocation("/discover")}
+            onClick={handleContinue}
             className="rounded-full bg-red-500 hover:bg-black text-white transition-colors px-12"
             size="lg"
+            disabled={isSigning}
           >
-            Continue to Platform
+            {isSigning ? "Saving..." : "Sign & Continue to Platform"}
           </Button>
         </div>
       </div>

@@ -1,4 +1,4 @@
-import { ChevronLeft, Bell, Shield, Eye, CreditCard, HelpCircle, LogOut, Info, MapPin } from "lucide-react";
+import { ChevronLeft, Bell, Shield, Eye, CreditCard, HelpCircle, LogOut, Info, MapPin, FileText } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Switch } from "@/components/ui/switch";
 import { useLocation } from "wouter";
@@ -18,6 +18,13 @@ const settingsOptions = [
     description: "Change your location for matching",
     hasSwitch: false,
     link: "/travel-mode"
+  },
+  {
+    icon: FileText,
+    title: "Legal Documents",
+    description: "View signed agreements and signatures",
+    hasSwitch: false,
+    link: "/legal-documents"
   },
   {
     icon: Shield,

@@ -38,6 +38,7 @@ import Messages from "@/pages/Messages";
 import Profile from "@/pages/Profile";
 import ImportantTraits from "@/pages/ImportantTraits";
 import Settings from "@/pages/Settings";
+import LegalDocuments from "@/pages/LegalDocuments";
 import MatchResult from "@/pages/MatchResult";
 import AboutApp from "@/pages/AboutApp";
 import TestRelationshipResult from "@/pages/TestRelationshipResult";
@@ -143,6 +144,9 @@ function App() {
               </Route>
               <Route path="/settings">
                 <PageTransition><Settings /></PageTransition>
+              </Route>
+              <Route path="/legal-documents">
+                <PageTransition><LegalDocuments /></PageTransition>
               </Route>
               <Route path="/match-result">
                 <PageTransition><MatchResult /></PageTransition>
