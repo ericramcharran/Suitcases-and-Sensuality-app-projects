@@ -345,26 +345,48 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return;
       }
 
-      // Define price amounts based on role and billing period
+      // Define price amounts based on role and billing period (in cents)
       const prices: Record<string, Record<string, number>> = {
         "Dominant": {
-          "monthly": 24900, // $249.00
-          "5year": 11900    // $119.00
+          "monthly": 24900,  // $249.00/mo
+          "3month": 22900,   // $229.00/mo ($687 total)
+          "6month": 19900,   // $199.00/mo ($1,194 total)
+          "1year": 14900,    // $149.00/mo ($1,788 total)
+          "5year": 11900     // $119.00/mo ($7,140 total)
         },
         "Domme": {
           "monthly": 24900,
+          "3month": 22900,
+          "6month": 19900,
+          "1year": 14900,
+          "5year": 11900
+        },
+        "Master": {
+          "monthly": 24900,
+          "3month": 22900,
+          "6month": 19900,
+          "1year": 14900,
           "5year": 11900
         },
         "Submissive": {
-          "monthly": 2500,  // $25.00
-          "5year": 1500     // $15.00
+          "monthly": 2500,   // $25.00/mo
+          "3month": 2300,    // $23.00/mo ($69 total)
+          "6month": 2000,    // $20.00/mo ($120 total)
+          "1year": 1800,     // $18.00/mo ($216 total)
+          "5year": 1500      // $15.00/mo ($900 total)
         },
         "submissive": {
           "monthly": 2500,
+          "3month": 2300,
+          "6month": 2000,
+          "1year": 1800,
           "5year": 1500
         },
         "Switch": {
           "monthly": 2500,
+          "3month": 2300,
+          "6month": 2000,
+          "1year": 1800,
           "5year": 1500
         }
       };
@@ -391,20 +413,32 @@ export async function registerRoutes(app: Express): Promise<Server> {
         await storage.updateUser(userId, { stripeCustomerId: customerId });
       }
 
+      // Map billing period to interval and count
+      const billingConfig: Record<string, { interval: 'month' | 'year', intervalCount: number, displayName: string }> = {
+        "monthly": { interval: 'month', intervalCount: 1, displayName: 'Monthly' },
+        "3month": { interval: 'month', intervalCount: 3, displayName: '3-Month' },
+        "6month": { interval: 'month', intervalCount: 6, displayName: '6-Month' },
+        "1year": { interval: 'year', intervalCount: 1, displayName: 'Yearly' },
+        "5year": { interval: 'year', intervalCount: 5, displayName: '5-Year' }
+      };
+
+      const config = billingConfig[billingPeriod];
+      if (!config) {
+        res.status(400).json({ error: "Invalid billing period" });
+        return;
+      }
+
       // Create subscription
       const subscription = await stripe.subscriptions.create({
         customer: customerId,
         items: [{
           price_data: {
             currency: 'usd',
-            product_data: {
-              name: `${user.role} Membership - ${billingPeriod === 'monthly' ? 'Monthly' : '5 Year'}`,
-              description: `The Executive Society ${user.role} subscription`
-            },
+            product: `${user.role} Membership - ${config.displayName}`,
             unit_amount: amount,
             recurring: {
-              interval: billingPeriod === 'monthly' ? 'month' : 'year',
-              interval_count: billingPeriod === '5year' ? 5 : 1
+              interval: config.interval,
+              interval_count: config.intervalCount
             }
           } as any
         }],

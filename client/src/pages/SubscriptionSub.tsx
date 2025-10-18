@@ -39,13 +39,65 @@ const plans = [
     popular: false
   },
   {
+    id: '3-month',
+    billingPeriod: '3month',
+    name: '3-Month',
+    price: '$23',
+    duration: 'per month',
+    totalPrice: '$69 (paid upfront)',
+    description: 'Save 8% - Get started',
+    features: [
+      'All Monthly features',
+      'Save $6 vs monthly',
+      'Price lock for 3 months',
+      'Priority matching'
+    ],
+    popular: false
+  },
+  {
+    id: '6-month',
+    billingPeriod: '6month',
+    name: '6-Month',
+    price: '$20',
+    duration: 'per month',
+    totalPrice: '$120 (paid upfront)',
+    description: 'Save 20% - Great value',
+    features: [
+      'All Monthly features',
+      'Save $30 vs monthly',
+      'Price lock for 6 months',
+      'Enhanced priority matching',
+      'VIP concierge services'
+    ],
+    popular: false
+  },
+  {
+    id: '1-year',
+    billingPeriod: '1year',
+    name: 'Yearly',
+    price: '$18',
+    duration: 'per month',
+    totalPrice: '$216 (paid upfront)',
+    description: 'Save 28% - Best value',
+    features: [
+      'All Monthly features',
+      'Save $84 vs monthly',
+      'Lifetime price lock guarantee',
+      'VIP concierge services',
+      'Top priority matching',
+      'Exclusive yearly member benefits',
+      'Free account upgrades'
+    ],
+    popular: true
+  },
+  {
     id: '5-year',
     billingPeriod: '5year',
     name: '5 Years',
     price: '$15',
     duration: 'per month',
     totalPrice: '$900 (paid upfront)',
-    description: 'Maximum value - Save 40%',
+    description: 'Save 40% - Ultimate value',
     features: [
       'All Monthly features',
       'Save $600 vs monthly',
@@ -56,7 +108,7 @@ const plans = [
       'Free account upgrades',
       'Annual membership gifts'
     ],
-    popular: true
+    popular: false
   }
 ];
 

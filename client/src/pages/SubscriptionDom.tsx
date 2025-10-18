@@ -40,13 +40,66 @@ const plans = [
     popular: false
   },
   {
+    id: '3-month',
+    billingPeriod: '3month',
+    name: 'Executive 3-Month',
+    price: '$229',
+    duration: 'per month',
+    totalPrice: '$687 (paid upfront)',
+    description: 'Save 8% - Commitment pays',
+    features: [
+      'All Monthly features',
+      'Save $60 vs monthly',
+      'Price lock for 3 months',
+      'Priority matching',
+      'Concierge services'
+    ],
+    popular: false
+  },
+  {
+    id: '6-month',
+    billingPeriod: '6month',
+    name: 'Executive 6-Month',
+    price: '$199',
+    duration: 'per month',
+    totalPrice: '$1,194 (paid upfront)',
+    description: 'Save 20% - Serious commitment',
+    features: [
+      'All Monthly features',
+      'Save $300 vs monthly',
+      'Price lock for 6 months',
+      'Enhanced priority matching',
+      'Elite concierge services'
+    ],
+    popular: false
+  },
+  {
+    id: '1-year',
+    billingPeriod: '1year',
+    name: 'Executive Yearly',
+    price: '$149',
+    duration: 'per month',
+    totalPrice: '$1,788 (paid upfront)',
+    description: 'Save 40% - Best value',
+    features: [
+      'All Monthly features',
+      'Save $1,200 vs monthly',
+      'Lifetime price lock guarantee',
+      'VIP concierge services',
+      'Top priority matching',
+      'Exclusive yearly member benefits',
+      'Free account upgrades'
+    ],
+    popular: true
+  },
+  {
     id: '5-year',
     billingPeriod: '5year',
     name: 'Executive 5-Year',
     price: '$119',
     duration: 'per month',
     totalPrice: '$7,140 (paid upfront)',
-    description: 'Ultimate value - Save 52%',
+    description: 'Save 52% - Ultimate commitment',
     features: [
       'All Monthly features',
       'Save $7,800 vs monthly',
@@ -59,7 +112,7 @@ const plans = [
       'Personal relationship advisor',
       'Annual luxury gifts'
     ],
-    popular: true
+    popular: false
   }
 ];
 

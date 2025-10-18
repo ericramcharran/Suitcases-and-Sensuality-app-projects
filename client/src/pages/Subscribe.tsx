@@ -125,17 +125,62 @@ export default function Subscribe() {
 
     // Set plan details for display
     const prices: Record<string, Record<string, string>> = {
-      "Dominant": { "monthly": "$249/mo", "5year": "$119/mo (5 years)" },
-      "Domme": { "monthly": "$249/mo", "5year": "$119/mo (5 years)" },
-      "Submissive": { "monthly": "$25/mo", "5year": "$15/mo (5 years)" },
-      "submissive": { "monthly": "$25/mo", "5year": "$15/mo (5 years)" },
-      "Switch": { "monthly": "$25/mo", "5year": "$15/mo (5 years)" }
+      "Dominant": { 
+        "monthly": "$249/mo", 
+        "3month": "$229/mo", 
+        "6month": "$199/mo", 
+        "1year": "$149/mo", 
+        "5year": "$119/mo" 
+      },
+      "Domme": { 
+        "monthly": "$249/mo", 
+        "3month": "$229/mo", 
+        "6month": "$199/mo", 
+        "1year": "$149/mo", 
+        "5year": "$119/mo" 
+      },
+      "Master": { 
+        "monthly": "$249/mo", 
+        "3month": "$229/mo", 
+        "6month": "$199/mo", 
+        "1year": "$149/mo", 
+        "5year": "$119/mo" 
+      },
+      "Submissive": { 
+        "monthly": "$25/mo", 
+        "3month": "$23/mo", 
+        "6month": "$20/mo", 
+        "1year": "$18/mo", 
+        "5year": "$15/mo" 
+      },
+      "submissive": { 
+        "monthly": "$25/mo", 
+        "3month": "$23/mo", 
+        "6month": "$20/mo", 
+        "1year": "$18/mo", 
+        "5year": "$15/mo" 
+      },
+      "Switch": { 
+        "monthly": "$25/mo", 
+        "3month": "$23/mo", 
+        "6month": "$20/mo", 
+        "1year": "$18/mo", 
+        "5year": "$15/mo" 
+      }
+    };
+
+    const periodLabels: Record<string, string> = {
+      "monthly": "Monthly",
+      "3month": "3-Month Commitment",
+      "6month": "6-Month Commitment",
+      "1year": "Yearly Commitment",
+      "5year": "5-Year Commitment"
     };
 
     setPlanDetails({
       role: planType,
       price: prices[planType]?.[billingPeriod] || '',
-      period: billingPeriod === 'monthly' ? 'Monthly' : '5 Year Commitment'
+      period: periodLabels[billingPeriod] || billingPeriod
     });
 
     // Create subscription and get client secret
