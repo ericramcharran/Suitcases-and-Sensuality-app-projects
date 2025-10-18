@@ -23,8 +23,33 @@ export default function ProfileDetails() {
   // Get user ID from session
   const userId = sessionStorage.getItem('userId');
 
+  // Calculate age from verification data
+  const calculateAge = () => {
+    const month = sessionStorage.getItem('verificationMonth');
+    const day = sessionStorage.getItem('verificationDay');
+    const year = sessionStorage.getItem('verificationYear');
+    
+    if (!month || !day || !year) return "";
+    
+    const birthDate = new Date(parseInt(year), parseInt(month) - 1, parseInt(day));
+    const today = new Date();
+    let age = today.getFullYear() - birthDate.getFullYear();
+    const monthDiff = today.getMonth() - birthDate.getMonth();
+    
+    if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+      age--;
+    }
+    
+    return age.toString();
+  };
+
+  // Get prefilled data from verification/background check
+  const prefilledCity = sessionStorage.getItem('backgroundCheckCity') || "";
+  const prefilledState = sessionStorage.getItem('backgroundCheckState') || "";
+  const prefilledAge = calculateAge();
+
   // Physical attributes
-  const [age, setAge] = useState("");
+  const [age, setAge] = useState(prefilledAge);
   const [sex, setSex] = useState("");
   const [heightFeet, setHeightFeet] = useState("");
   const [heightInches, setHeightInches] = useState("");
@@ -35,8 +60,8 @@ export default function ProfileDetails() {
   const [hairColor, setHairColor] = useState("");
 
   // Location
-  const [city, setCity] = useState("");
-  const [state, setState] = useState("");
+  const [city, setCity] = useState(prefilledCity);
+  const [state, setState] = useState(prefilledState);
 
   // Lifestyle
   const [profession, setProfession] = useState("");

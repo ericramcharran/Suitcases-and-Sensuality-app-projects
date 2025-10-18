@@ -56,6 +56,8 @@ export default function BackgroundCheck() {
     // Store background check data
     sessionStorage.setItem('backgroundCheckSubmitted', 'true');
     sessionStorage.setItem('backgroundCheckName', `${firstName} ${lastName}`);
+    sessionStorage.setItem('backgroundCheckCity', city);
+    sessionStorage.setItem('backgroundCheckState', state);
     
     // Navigate to processing page
     setLocation('/background-check-processing');
