@@ -231,6 +231,7 @@ export function DiscoverFilters({ filters, onFiltersChange, activeFilterCount }:
               <SelectContent className="z-[1100]">
                 <SelectItem value="all">Any</SelectItem>
                 <SelectItem value="Never">Never</SelectItem>
+                <SelectItem value="Occasionally">Occasionally</SelectItem>
                 <SelectItem value="Socially">Socially</SelectItem>
                 <SelectItem value="Regularly">Regularly</SelectItem>
               </SelectContent>
@@ -250,6 +251,7 @@ export function DiscoverFilters({ filters, onFiltersChange, activeFilterCount }:
               <SelectContent className="z-[1100]">
                 <SelectItem value="all">Any</SelectItem>
                 <SelectItem value="Never">Never</SelectItem>
+                <SelectItem value="Occasionally">Occasionally</SelectItem>
                 <SelectItem value="Socially">Socially</SelectItem>
                 <SelectItem value="Regularly">Regularly</SelectItem>
               </SelectContent>
