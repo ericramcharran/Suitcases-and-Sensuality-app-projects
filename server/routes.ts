@@ -7,6 +7,7 @@ import multer from "multer";
 import path from "path";
 import fs from "fs";
 import Stripe from "stripe";
+import { sendMatchNotification } from "./email";
 
 // Initialize Stripe (from blueprint:javascript_stripe)
 // Guard initialization to allow development without keys
@@ -489,6 +490,30 @@ export async function registerRoutes(app: Express): Promise<Server> {
         targetUserId,
         action: 'like'
       });
+
+      // Check if this creates a mutual match
+      const reverseMatch = await storage.checkMutualMatch(userId, targetUserId);
+      const isMutualMatch = reverseMatch && reverseMatch.action === 'like';
+
+      // If it's a mutual match, send email notification
+      if (isMutualMatch) {
+        try {
+          const user1 = await storage.getUser(userId);
+          const user2 = await storage.getUser(targetUserId);
+          
+          if (user1 && user2) {
+            await sendMatchNotification({
+              user1: user1 as any,
+              user2: user2 as any,
+              matchId: match.id
+            });
+            console.log(`Match notification sent for ${user1.name} & ${user2.name}`);
+          }
+        } catch (emailError) {
+          console.error('Failed to send match notification:', emailError);
+          // Don't fail the request if email fails
+        }
+      }
 
       res.json(match);
     } catch (error) {
