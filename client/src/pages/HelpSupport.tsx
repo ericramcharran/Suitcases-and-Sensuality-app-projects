@@ -8,49 +8,25 @@ const helpTopics = [
     icon: HelpCircle,
     title: "Getting Started",
     description: "Learn how to set up your profile and start matching",
-    content: [
-      "Complete your profile with accurate information",
-      "Upload clear, recent photos",
-      "Complete personality and relationship assessments",
-      "Review your matches in the Discover section",
-      "Like profiles you're interested in"
-    ]
+    link: "/help-getting-started"
   },
   {
     icon: Shield,
     title: "Safety & Verification",
     description: "Understanding our verification process",
-    content: [
-      "All members undergo ID verification",
-      "Dominants complete escrow verification",
-      "Report suspicious profiles immediately",
-      "Never share financial information",
-      "Meet in public places for first meetings"
-    ]
+    link: "/help-safety"
   },
   {
     icon: MessageCircle,
     title: "Matching & Messages",
     description: "How to connect with other members",
-    content: [
-      "Both users must like each other to match",
-      "Messages appear after mutual matches",
-      "Be respectful in all communications",
-      "Review important traits before matching",
-      "Check compatibility percentage"
-    ]
+    link: "/help-matching"
   },
   {
     icon: FileText,
     title: "Subscription & Billing",
     description: "Manage your membership",
-    content: [
-      "View your current plan in Settings",
-      "Subscriptions auto-renew unless cancelled",
-      "Cancel anytime through your account",
-      "Refunds processed within 5-7 business days",
-      "Contact support for billing questions"
-    ]
+    link: "/help-billing"
   }
 ];
 
@@ -104,8 +80,13 @@ export default function HelpSupport() {
           <h3 className="text-lg font-medium mb-4 text-foreground">Help Topics</h3>
           <div className="space-y-3">
             {helpTopics.map((topic, i) => (
-              <Card key={i} className="p-4" data-testid={`help-topic-${i}`}>
-                <div className="flex gap-3 mb-3">
+              <Card 
+                key={i} 
+                className="p-4 hover-elevate active-elevate-2 cursor-pointer" 
+                data-testid={`help-topic-${i}`}
+                onClick={() => setLocation(topic.link)}
+              >
+                <div className="flex gap-3 items-center">
                   <div className="w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center flex-shrink-0">
                     <topic.icon className="w-5 h-5 text-primary" />
                   </div>
@@ -113,15 +94,8 @@ export default function HelpSupport() {
                     <h4 className="font-medium text-foreground mb-1">{topic.title}</h4>
                     <p className="text-sm text-muted-foreground">{topic.description}</p>
                   </div>
+                  <ChevronLeft className="w-5 h-5 text-muted-foreground rotate-180" />
                 </div>
-                <ul className="ml-13 space-y-2">
-                  {topic.content.map((item, idx) => (
-                    <li key={idx} className="text-sm text-foreground flex items-start gap-2">
-                      <span className="text-primary mt-1">•</span>
-                      <span>{item}</span>
-                    </li>
-                  ))}
-                </ul>
               </Card>
             ))}
           </div>

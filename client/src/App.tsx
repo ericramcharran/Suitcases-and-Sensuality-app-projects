@@ -45,6 +45,10 @@ import AboutApp from "@/pages/AboutApp";
 import TestRelationshipResult from "@/pages/TestRelationshipResult";
 import UserSelect from "@/pages/UserSelect";
 import HelpSupport from "@/pages/HelpSupport";
+import HelpGettingStarted from "@/pages/HelpGettingStarted";
+import HelpSafety from "@/pages/HelpSafety";
+import HelpMatching from "@/pages/HelpMatching";
+import HelpBilling from "@/pages/HelpBilling";
 
 function App() {
   const [location] = useLocation();
@@ -168,6 +172,18 @@ function App() {
               </Route>
               <Route path="/help-support">
                 <PageTransition><HelpSupport /></PageTransition>
+              </Route>
+              <Route path="/help-getting-started">
+                <PageTransition><HelpGettingStarted /></PageTransition>
+              </Route>
+              <Route path="/help-safety">
+                <PageTransition><HelpSafety /></PageTransition>
+              </Route>
+              <Route path="/help-matching">
+                <PageTransition><HelpMatching /></PageTransition>
+              </Route>
+              <Route path="/help-billing">
+                <PageTransition><HelpBilling /></PageTransition>
               </Route>
               <Route>
                 <PageTransition><Landing /></PageTransition>
