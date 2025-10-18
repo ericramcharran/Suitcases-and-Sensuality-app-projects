@@ -51,6 +51,7 @@ export default function Login() {
       const data = await response.json();
       sessionStorage.setItem('userId', data.user.id);
       sessionStorage.setItem('userName', data.user.name);
+      sessionStorage.setItem('userRole', data.user.role);
       
       toast({
         title: "Welcome Back, " + data.user.name,
