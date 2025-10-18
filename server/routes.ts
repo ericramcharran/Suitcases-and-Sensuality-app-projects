@@ -446,8 +446,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
           }
 
           // Important traits compatibility (new)
-          const currentUserTraits = (currentUser.important_traits || []) as string[];
-          const targetUserTraits = (user.important_traits || []) as string[];
+          const currentUserTraits = (currentUser.importantTraits || []) as string[];
+          const targetUserTraits = (user.importantTraits || []) as string[];
           
           if (currentUserTraits.length > 0 && targetUserTraits.length > 0) {
             // Find overlapping traits
