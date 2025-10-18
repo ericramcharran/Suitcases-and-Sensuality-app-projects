@@ -1,13 +1,15 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
-import { insertUserSchema, insertPersonalityAnswersSchema, insertRelationshipAnswersSchema } from "@shared/schema";
+import { insertUserSchema, insertPersonalityAnswersSchema, insertRelationshipAnswersSchema, insertPushSubscriptionSchema } from "@shared/schema";
 import { z } from "zod";
 import multer from "multer";
 import path from "path";
 import fs from "fs";
 import Stripe from "stripe";
 import { sendMatchNotification } from "./email";
+import webpush from "web-push";
+import { WebSocketServer, WebSocket } from "ws";
 
 // Initialize Stripe (from blueprint:javascript_stripe)
 // Guard initialization to allow development without keys
@@ -16,6 +18,15 @@ const stripe = process.env.STRIPE_SECRET_KEY
       apiVersion: "2025-09-30.clover",
     })
   : null;
+
+// Initialize Web Push with VAPID keys
+if (process.env.VAPID_PUBLIC_KEY && process.env.VAPID_PRIVATE_KEY && process.env.VAPID_SUBJECT) {
+  webpush.setVapidDetails(
+    process.env.VAPID_SUBJECT,
+    process.env.VAPID_PUBLIC_KEY,
+    process.env.VAPID_PRIVATE_KEY
+  );
+}
 
 // Drizzle ORM automatically converts database snake_case to TypeScript camelCase
 // No transformation needed - just return user objects as-is
@@ -698,6 +709,188 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Push notification routes
+  
+  // Get VAPID public key
+  app.get("/api/push/vapid-public-key", (req, res) => {
+    res.json({ publicKey: process.env.VAPID_PUBLIC_KEY });
+  });
+
+  // Subscribe to push notifications
+  app.post("/api/push/subscribe", async (req, res) => {
+    try {
+      const { userId, subscription } = req.body;
+      
+      if (!userId || !subscription || !subscription.endpoint || !subscription.keys) {
+        return res.status(400).json({ error: "Invalid subscription data" });
+      }
+
+      const validatedSubscription = insertPushSubscriptionSchema.parse({
+        userId,
+        endpoint: subscription.endpoint,
+        p256dh: subscription.keys.p256dh,
+        auth: subscription.keys.auth
+      });
+
+      await storage.createPushSubscription(validatedSubscription);
+      
+      // Send welcome notification
+      const payload = JSON.stringify({
+        title: 'Notifications Enabled',
+        body: 'You will now receive notifications for matches and messages.',
+        icon: '/icon-192x192.png',
+        badge: '/icon-192x192.png'
+      });
+
+      try {
+        await webpush.sendNotification(subscription, payload);
+      } catch (pushError) {
+        console.error('Failed to send welcome notification:', pushError);
+      }
+
+      res.status(201).json({ success: true });
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        res.status(400).json({ error: "Validation failed", details: error.errors });
+      } else {
+        console.error('Subscription error:', error);
+        res.status(500).json({ error: "Failed to save subscription" });
+      }
+    }
+  });
+
+  // Unsubscribe from push notifications
+  app.post("/api/push/unsubscribe", async (req, res) => {
+    try {
+      const { endpoint } = req.body;
+      
+      if (!endpoint) {
+        return res.status(400).json({ error: "Endpoint is required" });
+      }
+
+      await storage.deletePushSubscription(endpoint);
+      res.json({ success: true });
+    } catch (error) {
+      console.error('Unsubscribe error:', error);
+      res.status(500).json({ error: "Failed to unsubscribe" });
+    }
+  });
+
+  // Send notification to specific user
+  app.post("/api/push/send", async (req, res) => {
+    try {
+      const { userId, title, body, url } = req.body;
+      
+      if (!userId || !title || !body) {
+        return res.status(400).json({ error: "userId, title, and body are required" });
+      }
+
+      const subscriptions = await storage.getPushSubscriptions(userId);
+      
+      if (subscriptions.length === 0) {
+        return res.status(404).json({ error: "No subscriptions found for user" });
+      }
+
+      const payload = JSON.stringify({
+        title,
+        body,
+        icon: '/icon-192x192.png',
+        badge: '/icon-192x192.png',
+        url: url || '/'
+      });
+
+      const sendPromises = subscriptions.map(async (sub) => {
+        const pushSubscription = {
+          endpoint: sub.endpoint,
+          keys: {
+            p256dh: sub.p256dh,
+            auth: sub.auth
+          }
+        };
+
+        try {
+          await webpush.sendNotification(pushSubscription, payload);
+        } catch (error: any) {
+          // Remove invalid subscriptions
+          if (error.statusCode === 404 || error.statusCode === 410) {
+            await storage.deletePushSubscription(sub.endpoint);
+          }
+          console.error('Push notification error:', error);
+        }
+      });
+
+      await Promise.all(sendPromises);
+      res.json({ success: true, sent: subscriptions.length });
+    } catch (error) {
+      console.error('Send notification error:', error);
+      res.status(500).json({ error: "Failed to send notifications" });
+    }
+  });
+
   const httpServer = createServer(app);
+  
+  // WebSocket server for real-time notifications
+  const wss = new WebSocketServer({ noServer: true });
+  
+  // Store WebSocket connections by user ID
+  const wsClients = new Map<string, WebSocket>();
+
+  // Handle WebSocket upgrade
+  httpServer.on('upgrade', (request, socket, head) => {
+    const url = new URL(request.url || '', `ws://${request.headers.host}`);
+    const userId = url.searchParams.get('userId');
+    
+    if (!userId) {
+      socket.write('HTTP/1.1 401 Unauthorized\r\n\r\n');
+      socket.destroy();
+      return;
+    }
+
+    wss.handleUpgrade(request, socket, head, (ws) => {
+      wss.emit('connection', ws, userId);
+    });
+  });
+
+  // Handle WebSocket connections
+  wss.on('connection', (ws: WebSocket, userId: string) => {
+    console.log(`User ${userId} connected via WebSocket`);
+    wsClients.set(userId, ws);
+
+    // Heartbeat
+    const heartbeatInterval = setInterval(() => {
+      if (ws.readyState === WebSocket.OPEN) {
+        ws.ping();
+      }
+    }, 30000);
+
+    ws.on('close', () => {
+      console.log(`User ${userId} disconnected`);
+      wsClients.delete(userId);
+      clearInterval(heartbeatInterval);
+    });
+
+    ws.on('error', (error) => {
+      console.error(`WebSocket error for user ${userId}:`, error);
+    });
+  });
+
+  // Helper function to send WebSocket notification
+  app.post("/api/ws/send", async (req, res) => {
+    try {
+      const { userId, type, data } = req.body;
+      
+      const client = wsClients.get(userId);
+      if (client && client.readyState === WebSocket.OPEN) {
+        client.send(JSON.stringify({ type, data }));
+        res.json({ success: true, delivered: true });
+      } else {
+        res.json({ success: true, delivered: false, message: "User not connected" });
+      }
+    } catch (error) {
+      console.error('WebSocket send error:', error);
+      res.status(500).json({ error: "Failed to send WebSocket message" });
+    }
+  });
+
   return httpServer;
 }
