@@ -403,7 +403,7 @@ export default function Discover() {
               </svg>
               
               {/* Profile Image Carousel */}
-              <div className="relative h-96 bg-muted rounded-t-xl overflow-visible z-10" style={{ clipPath: 'url(#wave-clip)' }}>
+              <div className="relative h-[440px] bg-muted rounded-t-xl overflow-visible z-10" style={{ clipPath: 'url(#wave-clip)' }}>
                 {currentProfile.profileImages && currentProfile.profileImages.length > 0 ? (
                   <>
                     {/* Carousel */}
