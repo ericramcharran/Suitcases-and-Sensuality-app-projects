@@ -28,7 +28,7 @@ The onboarding is a multi-step process for all users, including age and ID verif
 
 ### Matching & Discovery System
 
-The platform features a compatibility algorithm based on 5-dimensional personality test results, relationship style preferences, role compatibility, and approximate location. The discovery interface is a Tinder-style card swiping system displaying compatibility percentages, verification status, role badges, and distance.
+The platform features a compatibility algorithm based on 5-dimensional personality test results, relationship style preferences, role compatibility, and approximate location. The discovery interface is a Tinder-style card swiping system displaying compatibility percentages, verification status, role badges, and distance. Users can filter potential matches by age range, compatibility score, role, experience level, relationship preferences, body type, drinking/smoking habits, and fitness level.
 
 ### Core Features
 

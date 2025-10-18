@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { Heart, MessageCircle, Settings, User, BookOpen, X, MapPin, Shield, ChevronLeft, ChevronRight } from "lucide-react";
 import HeartTransition from "@/components/HeartTransition";
 import { Button } from "@/components/ui/button";
@@ -11,6 +11,7 @@ import { useToast } from "@/hooks/use-toast";
 import { queryClient } from "@/lib/queryClient";
 import { motion, useMotionValue, useTransform, PanInfo } from "framer-motion";
 import useEmblaCarousel from "embla-carousel-react";
+import { DiscoverFilters, type FilterOptions } from "@/components/DiscoverFilters";
 
 export default function Discover() {
   const [, setLocation] = useLocation();
@@ -19,6 +20,11 @@ export default function Discover() {
   const [includeReviewed, setIncludeReviewed] = useState(false);
   const [minLoadingTimePassed, setMinLoadingTimePassed] = useState(false);
   const { toast } = useToast();
+  const [filters, setFilters] = useState<FilterOptions>({
+    minAge: 18,
+    maxAge: 99,
+    minCompatibility: 0,
+  });
   const x = useMotionValue(0);
   const rotate = useTransform(x, [-200, 200], [-25, 25]);
   const opacity = useTransform(x, [-200, -100, 0, 100, 200], [0, 1, 1, 1, 0]);
@@ -150,7 +156,60 @@ export default function Discover() {
     }
   });
 
-  const profiles = potentialMatches || [];
+  // Apply filters to potential matches
+  const filteredMatches = useMemo(() => {
+    if (!potentialMatches) return [];
+    
+    return potentialMatches.filter(match => {
+      // Age filter
+      if (filters.minAge && match.age < filters.minAge) return false;
+      if (filters.maxAge && match.age > filters.maxAge) return false;
+      
+      // Compatibility filter
+      if (filters.minCompatibility && match.matchPercentage < filters.minCompatibility) return false;
+      
+      // Role filter
+      if (filters.role && match.role !== filters.role) return false;
+      
+      // Experience level filter
+      if (filters.experienceLevel && match.experienceLevel !== filters.experienceLevel) return false;
+      
+      // Looking for filter
+      if (filters.lookingFor && match.lookingFor !== filters.lookingFor) return false;
+      
+      // Body type filter
+      if (filters.bodyType && match.bodyType !== filters.bodyType) return false;
+      
+      // Drinking filter
+      if (filters.drinking && match.drinking !== filters.drinking) return false;
+      
+      // Smoking filter
+      if (filters.smoking && match.smoking !== filters.smoking) return false;
+      
+      // Fitness level filter
+      if (filters.fitnessLevel && match.fitnessLevel !== filters.fitnessLevel) return false;
+      
+      return true;
+    });
+  }, [potentialMatches, filters]);
+
+  // Count active filters (excluding defaults)
+  const activeFilterCount = useMemo(() => {
+    let count = 0;
+    if (filters.minAge && filters.minAge > 18) count++;
+    if (filters.maxAge && filters.maxAge < 99) count++;
+    if (filters.minCompatibility && filters.minCompatibility > 0) count++;
+    if (filters.role) count++;
+    if (filters.experienceLevel) count++;
+    if (filters.lookingFor) count++;
+    if (filters.bodyType) count++;
+    if (filters.drinking) count++;
+    if (filters.smoking) count++;
+    if (filters.fitnessLevel) count++;
+    return count;
+  }, [filters]);
+
+  const profiles = filteredMatches || [];
   const currentProfile = profiles[currentIndex];
   const hasMore = currentIndex < profiles.length - 1;
 
@@ -307,6 +366,14 @@ export default function Discover() {
         <div className="p-3 sm:p-4 border-b border-border flex justify-between items-center bg-background">
           <h2 className="text-xl sm:text-2xl font-light text-foreground">Discover</h2>
           <div className="flex gap-2">
+            <DiscoverFilters
+              filters={filters}
+              onFiltersChange={(newFilters) => {
+                setFilters(newFilters);
+                setCurrentIndex(0); // Reset to first profile when filters change
+              }}
+              activeFilterCount={activeFilterCount}
+            />
             <button
               data-testid="button-settings"
               onClick={() => setLocation("/settings")}
