@@ -7,6 +7,25 @@ import multer from "multer";
 import path from "path";
 import fs from "fs";
 
+// Transform snake_case database fields to camelCase for frontend
+function transformUserForFrontend(user: any) {
+  return {
+    ...user,
+    eyeColor: user.eye_color,
+    hairColor: user.hair_color,
+    bodyShape: user.body_shape,
+    profileImages: user.profile_images,
+    escrowBalance: user.escrow_balance,
+    personalityType: user.personality_type,
+    relationshipStyle: user.relationship_style,
+    agreedTerms: user.agreed_terms,
+    agreedConsent: user.agreed_consent,
+    agreedPrivacy: user.agreed_privacy,
+    agreedGuidelines: user.agreed_guidelines,
+    createdAt: user.created_at
+  };
+}
+
 // Configure multer for image uploads
 const uploadDir = path.join(process.cwd(), 'public', 'uploads');
 if (!fs.existsSync(uploadDir)) {
@@ -63,7 +82,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         res.status(404).json({ error: "User not found" });
         return;
       }
-      res.json(user);
+      res.json(transformUserForFrontend(user));
     } catch (error) {
       res.status(500).json({ error: "Failed to fetch user" });
     }
@@ -429,7 +448,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
           compatibility = Math.min(99, Math.round(compatibility));
 
           return {
-            ...user,
+            ...transformUserForFrontend(user),
             matchPercentage: compatibility
           };
         })
