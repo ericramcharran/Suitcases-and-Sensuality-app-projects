@@ -115,7 +115,7 @@ export default function Discover() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-background flex flex-col">
+      <div className="min-h-screen bg-background flex flex-col overflow-hidden">
         <div className="max-w-md mx-auto w-full flex flex-col pb-20">
           {/* Header */}
           <div className="p-4 border-b border-border bg-background flex justify-between items-center">
@@ -123,8 +123,20 @@ export default function Discover() {
             <Settings className="w-6 h-6 text-foreground/70" />
           </div>
 
+          {/* Floating Hearts Background */}
+          <div className="fixed inset-0 pointer-events-none overflow-hidden">
+            <Heart className="absolute w-8 h-8 text-red-500/20 animate-float-1" style={{ left: '10%', top: '20%' }} />
+            <Heart className="absolute w-6 h-6 text-red-500/15 animate-float-2" style={{ left: '80%', top: '15%' }} />
+            <Heart className="absolute w-10 h-10 text-red-500/25 animate-float-3" style={{ left: '20%', top: '70%' }} />
+            <Heart className="absolute w-7 h-7 text-red-500/20 animate-float-4" style={{ left: '70%', top: '60%' }} />
+            <Heart className="absolute w-5 h-5 text-red-500/15 animate-float-5" style={{ left: '40%', top: '40%' }} />
+            <Heart className="absolute w-9 h-9 text-red-500/20 animate-float-6" style={{ left: '85%', top: '75%' }} />
+            <Heart className="absolute w-6 h-6 text-red-500/15 animate-float-1" style={{ left: '15%', top: '85%', animationDelay: '1s' }} />
+            <Heart className="absolute w-8 h-8 text-red-500/20 animate-float-2" style={{ left: '60%', top: '25%', animationDelay: '1.5s' }} />
+          </div>
+
           {/* Loading Content */}
-          <div className="flex-1 flex items-center justify-center p-6">
+          <div className="flex-1 flex items-center justify-center p-6 relative z-10">
             <div className="w-full max-w-sm space-y-4">
               {/* Animated Hearts */}
               <div className="flex justify-center mb-8 relative">
@@ -206,6 +218,43 @@ export default function Discover() {
             0% { background-position: -200% 0; }
             100% { background-position: 200% 0; }
           }
+          
+          @keyframes float-1 {
+            0%, 100% { transform: translateY(0) translateX(0) rotate(0deg); opacity: 0.2; }
+            50% { transform: translateY(-30px) translateX(15px) rotate(10deg); opacity: 0.3; }
+          }
+          
+          @keyframes float-2 {
+            0%, 100% { transform: translateY(0) translateX(0) rotate(0deg); opacity: 0.15; }
+            50% { transform: translateY(-40px) translateX(-20px) rotate(-15deg); opacity: 0.25; }
+          }
+          
+          @keyframes float-3 {
+            0%, 100% { transform: translateY(0) translateX(0) rotate(0deg); opacity: 0.25; }
+            50% { transform: translateY(-50px) translateX(10px) rotate(20deg); opacity: 0.35; }
+          }
+          
+          @keyframes float-4 {
+            0%, 100% { transform: translateY(0) translateX(0) rotate(0deg); opacity: 0.2; }
+            50% { transform: translateY(-35px) translateX(-15px) rotate(-10deg); opacity: 0.3; }
+          }
+          
+          @keyframes float-5 {
+            0%, 100% { transform: translateY(0) translateX(0) rotate(0deg); opacity: 0.15; }
+            50% { transform: translateY(-45px) translateX(20px) rotate(15deg); opacity: 0.25; }
+          }
+          
+          @keyframes float-6 {
+            0%, 100% { transform: translateY(0) translateX(0) rotate(0deg); opacity: 0.2; }
+            50% { transform: translateY(-40px) translateX(-10px) rotate(-20deg); opacity: 0.3; }
+          }
+          
+          .animate-float-1 { animation: float-1 4s ease-in-out infinite; }
+          .animate-float-2 { animation: float-2 5s ease-in-out infinite; }
+          .animate-float-3 { animation: float-3 6s ease-in-out infinite; }
+          .animate-float-4 { animation: float-4 4.5s ease-in-out infinite; }
+          .animate-float-5 { animation: float-5 5.5s ease-in-out infinite; }
+          .animate-float-6 { animation: float-6 4.2s ease-in-out infinite; }
         `}</style>
       </div>
     );
