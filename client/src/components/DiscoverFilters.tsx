@@ -107,7 +107,7 @@ export function DiscoverFilters({ filters, onFiltersChange, activeFilterCount }:
             <Slider
               min={0}
               max={1000}
-              step={10}
+              step={1}
               value={[localFilters.maxDistance || 1000]}
               onValueChange={([value]) => updateFilter('maxDistance', value)}
               className="w-full"
@@ -116,7 +116,7 @@ export function DiscoverFilters({ filters, onFiltersChange, activeFilterCount }:
             <div className="text-xs text-muted-foreground">
               {localFilters.maxDistance === 1000 || localFilters.maxDistance === 0 
                 ? 'Any distance' 
-                : `${localFilters.maxDistance} miles`}
+                : `${localFilters.maxDistance} mile${localFilters.maxDistance === 1 ? '' : 's'}`}
             </div>
           </div>
 
