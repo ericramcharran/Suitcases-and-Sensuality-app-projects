@@ -1,9 +1,9 @@
-import { useState, useCallback, useEffect, useRef } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { ChevronLeft, ChevronRight, MapPin, Verified, ChevronDown } from "lucide-react";
 import useEmblaCarousel from 'embla-carousel-react';
-import { motion, useMotionValue, PanInfo } from 'framer-motion';
+import { motion } from 'framer-motion';
 
 interface ProfileCardProps {
   profile: {
@@ -42,14 +42,6 @@ export function ProfileCard({
 }: ProfileCardProps) {
   const [emblaRef, emblaApi] = useEmblaCarousel({ loop: false });
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
-  const [isZoomed, setIsZoomed] = useState(false);
-  const imageRef = useRef<HTMLDivElement>(null);
-  const panStartTime = useRef<number>(0);
-  
-  // Motion values for zoom
-  const scale = useMotionValue(1);
-  const x = useMotionValue(0);
-  const y = useMotionValue(0);
 
   const scrollPrev = useCallback(() => {
     if (emblaApi) emblaApi.scrollPrev();
@@ -74,49 +66,6 @@ export function ProfileCard({
     };
   }, [emblaApi]);
 
-  // Handle pan start
-  const handlePanStart = useCallback(() => {
-    panStartTime.current = Date.now();
-  }, []);
-
-  // Handle pan/drag gestures
-  const handlePan = useCallback((event: any, info: PanInfo) => {
-    const panDuration = Date.now() - panStartTime.current;
-    const velocity = Math.abs(info.velocity.y);
-    
-    // Check if this is a quick swipe down (fast gesture)
-    const isQuickSwipe = panDuration < 300 && velocity > 200;
-    const isDownwardSwipe = info.offset.y > 50 && Math.abs(info.offset.x) < 40;
-    
-    if (isQuickSwipe && isDownwardSwipe && !isZoomed) {
-      // Quick swipe down = navigate to next image
-      scrollNext();
-      // Reset zoom values
-      scale.set(1);
-      x.set(0);
-      y.set(0);
-    } else if (!isQuickSwipe && Math.abs(info.offset.x) > 10 || Math.abs(info.offset.y) > 10) {
-      // Slow drag = zoom
-      if (!isZoomed) {
-        setIsZoomed(true);
-      }
-      // Calculate scale based on drag distance
-      const distance = Math.sqrt(info.offset.x ** 2 + info.offset.y ** 2);
-      const newScale = Math.min(2.5, 1 + (distance / 200));
-      scale.set(newScale);
-      x.set(info.offset.x * 0.3);
-      y.set(info.offset.y * 0.3);
-    }
-  }, [isZoomed, scrollNext, scale, x, y]);
-
-  const handlePanEnd = useCallback(() => {
-    // Return to original size when letting go
-    setIsZoomed(false);
-    scale.set(1);
-    x.set(0);
-    y.set(0);
-  }, [scale, x, y]);
-
   return (
     <Card className={`h-full flex flex-col ${className}`} data-testid="profile-card">
       {/* Profile Image Carousel - 30% larger than before */}
@@ -129,27 +78,15 @@ export function ProfileCard({
                 {profile.profileImages.map((imageUrl: string, idx: number) => (
                   <div key={idx} className="flex-[0_0_100%] min-w-0 relative h-full">
                     <motion.div
-                      ref={imageRef}
                       className="w-full h-full"
-                      drag
-                      dragElastic={0.1}
-                      dragMomentum={false}
-                      onPanStart={handlePanStart}
-                      onPan={handlePan}
-                      onPanEnd={handlePanEnd}
-                      style={{
-                        scale,
-                        x,
-                        y,
-                        cursor: isZoomed ? 'grabbing' : 'grab',
-                      }}
-                      animate={{
-                        scale: isZoomed ? scale.get() : 1,
-                      }}
-                      transition={{
-                        type: "spring",
-                        stiffness: 300,
-                        damping: 30
+                      drag="y"
+                      dragConstraints={{ top: 0, bottom: 0 }}
+                      dragElastic={0.2}
+                      onDragEnd={(e, info) => {
+                        // If dragged down more than 60px, go to next image
+                        if (info.offset.y > 60 && currentImageIndex < (profile.profileImages?.length || 0) - 1) {
+                          scrollNext();
+                        }
                       }}
                     >
                       <img
@@ -168,7 +105,7 @@ export function ProfileCard({
             </div>
 
             {/* Navigation Arrows */}
-            {profile.profileImages.length > 1 && !isZoomed && (
+            {profile.profileImages.length > 1 && (
               <>
                 {currentImageIndex > 0 && (
                   <button
@@ -191,28 +128,16 @@ export function ProfileCard({
               </>
             )}
 
-            {/* Swipe Down Hint - Only show if there are more images and not zoomed */}
-            {profile.profileImages.length > 1 && currentImageIndex < profile.profileImages.length - 1 && !isZoomed && (
+            {/* Swipe Down Hint - Only show if there are more images */}
+            {profile.profileImages.length > 1 && currentImageIndex < profile.profileImages.length - 1 && (
               <motion.div
                 className="absolute bottom-20 left-1/2 -translate-x-1/2 bg-black/50 backdrop-blur-sm text-white px-4 py-2 rounded-full text-sm flex items-center gap-2 z-10 pointer-events-none"
                 initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: [0, 1, 1, 0] }}
-                transition={{ duration: 3, times: [0, 0.1, 0.8, 1], delay: 0.5 }}
+                transition={{ duration: 4, times: [0, 0.1, 0.7, 1], delay: 0.5 }}
               >
                 <ChevronDown className="w-4 h-4 animate-bounce" />
                 Swipe down for more
-              </motion.div>
-            )}
-
-            {/* Zoom Hint */}
-            {!isZoomed && (
-              <motion.div
-                className="absolute top-20 left-1/2 -translate-x-1/2 bg-black/40 backdrop-blur-sm text-white px-4 py-2 rounded-full text-xs pointer-events-none z-10"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: [0, 0.7, 0.7, 0] }}
-                transition={{ duration: 3, times: [0, 0.1, 0.8, 1], delay: 1.5 }}
-              >
-                Hold & drag to zoom
               </motion.div>
             )}
 
@@ -234,14 +159,14 @@ export function ProfileCard({
             )}
 
             {/* Match Badge - Top Left */}
-            {matchPercentage !== undefined && !isZoomed && (
+            {matchPercentage !== undefined && (
               <div className="absolute top-4 left-4 bg-primary text-primary-foreground px-3 py-1.5 rounded-full font-medium text-sm z-10" data-testid="badge-match">
                 {matchPercentage}% Match
               </div>
             )}
 
             {/* Distance Badge - Top Right */}
-            {distance && !isZoomed && (
+            {distance && (
               <div className="absolute top-4 right-4 bg-black/50 backdrop-blur-sm text-white px-3 py-1.5 rounded-full font-medium text-sm flex items-center gap-1 z-10" data-testid="badge-distance">
                 <MapPin className="w-3.5 h-3.5" />
                 {distance}
