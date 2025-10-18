@@ -86,17 +86,15 @@ export default function ImportantTraits() {
         description: "Your important traits have been updated"
       });
       
-      // Check if user is Dominant and needs escrow
-      const userRole = sessionStorage.getItem('userRole') || '';
-      const isDominant = userRole === 'Dominant' || userRole === 'Domme' || userRole === 'Master';
-      const escrowCompleted = sessionStorage.getItem('escrowAcknowledged') === 'true';
+      // After important traits, continue to subscription selection
+      const role = sessionStorage.getItem('userRole') || '';
       
-      // If Dominant and hasn't completed escrow, go there
-      if (isDominant && !escrowCompleted) {
-        setLocation("/escrow");
+      // Master, Domme, and Switch go to dom subscription
+      // submissive goes to sub subscription
+      if (role === 'submissive') {
+        setLocation("/subscription-sub");
       } else {
-        // Otherwise go to discover to start matching
-        setLocation("/discover");
+        setLocation("/subscription-dom");
       }
     },
     onError: () => {
@@ -205,12 +203,12 @@ export default function ImportantTraits() {
           <div className="flex gap-3">
             <Button
               data-testid="button-back"
-              onClick={() => setLocation("/profile")}
+              onClick={() => setLocation("/relationship-result")}
               variant="outline"
               className="flex-1 rounded-full"
               size="lg"
             >
-              Back to Profile
+              Back
             </Button>
             <Button
               data-testid="button-save"
@@ -220,7 +218,7 @@ export default function ImportantTraits() {
               size="lg"
             >
               <Heart className="w-4 h-4 mr-2" />
-              {saveMutation.isPending ? 'Saving...' : 'Save Traits'}
+              {saveMutation.isPending ? 'Saving...' : 'Continue'}
             </Button>
           </div>
         </div>

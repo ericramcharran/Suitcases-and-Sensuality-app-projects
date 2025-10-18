@@ -119,12 +119,11 @@ export default function RelationshipResult() {
           </div>
         </Card>
 
-        <Card className="p-4 mb-6 bg-green-500/10 border-green-500/20">
-          <p className="text-sm text-green-600 dark:text-green-400 flex items-start gap-2">
+        <Card className="p-4 mb-6 bg-blue-500/10 border-blue-500/20">
+          <p className="text-sm text-blue-600 dark:text-blue-400 flex items-start gap-2">
             <Check className="w-4 h-4 flex-shrink-0 mt-0.5" />
             <span>
-              Your matching profile is complete! We'll use these results to find your most
-              compatible matches.
+              Next, let's identify what's most important to you in a partner. This will help us find your best matches.
             </span>
           </p>
         </Card>
@@ -132,17 +131,11 @@ export default function RelationshipResult() {
         <Button
           data-testid="button-continue"
           onClick={() => {
-            // Master, Domme, and Switch go to dom subscription
-            // submissive goes to sub subscription
-            if (role === 'submissive') {
-              setLocation("/subscription-sub");
-            } else {
-              setLocation("/subscription-dom");
-            }
+            setLocation("/important-traits");
           }}
           className="w-full rounded-full bg-primary hover:bg-primary/20 text-white transition-colors"
         >
-          Continue to Subscription
+          Continue to Important Traits
         </Button>
       </div>
     </div>

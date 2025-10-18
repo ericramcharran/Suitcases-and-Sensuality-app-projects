@@ -24,11 +24,11 @@ The `users` table captures identity, role (Dominant/Submissive/Switch), profile 
 
 ### User Onboarding Flow
 
-The onboarding is a multi-step process for all users, including age and ID verification, agreement to various legal policies (Terms, Consent, Privacy, Guidelines) with digital signatures, and a background check. Dominants and Submissives then proceed to role-specific flows involving subscription plan selection, profile detailing, personality and relationship assessments, and important trait selection. Dominants also complete escrow/financial verification.
+The onboarding is a multi-step process for all users, including age and ID verification, agreement to various legal policies (Terms, Consent, Privacy, Guidelines) with digital signatures, and a background check. Users then proceed to role-specific flows involving subscription plan selection, profile detailing, personality assessment, relationship assessment, and important traits selection (which is used in the compatibility algorithm). Dominants also complete escrow/financial verification after subscription selection.
 
 ### Matching & Discovery System
 
-The platform features a compatibility algorithm based on 5-dimensional personality test results, relationship style preferences, role compatibility, and approximate location. The discovery interface is a Tinder-style card swiping system displaying compatibility percentages, verification status, role badges, and distance. Users can filter potential matches by age range, compatibility score, role, experience level, relationship preferences, body type, drinking/smoking habits, and fitness level.
+The platform features a compatibility algorithm based on 5-dimensional personality test results, relationship style preferences, role compatibility, important traits overlap (weighted heavily in scoring), and approximate location. The discovery interface is a Tinder-style card swiping system displaying compatibility percentages with hover tooltips, verification status, role badges, and distance. Users can filter potential matches by age range, compatibility score, role, experience level, relationship preferences, body type, drinking/smoking habits, and fitness level.
 
 ### Core Features
 
