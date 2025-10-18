@@ -355,7 +355,10 @@ export default function Discover() {
             </Button>
             <Button
               data-testid="button-start-over"
-              onClick={() => setCurrentIndex(0)}
+              onClick={() => {
+                setCurrentIndex(0);
+                queryClient.invalidateQueries({ queryKey: ['/api/matches/potential', userId] });
+              }}
               variant="outline"
               className="rounded-full px-12"
               size="lg"
