@@ -26,6 +26,7 @@ import SubscriptionRoleSelect from "@/pages/SubscriptionRoleSelect";
 import SubscriptionDom from "@/pages/SubscriptionDom";
 import SubscriptionSub from "@/pages/SubscriptionSub";
 import Escrow from "@/pages/Escrow";
+import AgreementTimeline from "@/pages/AgreementTimeline";
 import Discover from "@/pages/Discover";
 import Learn from "@/pages/Learn";
 import Messages from "@/pages/Messages";
@@ -62,6 +63,7 @@ function App() {
             <Route path="/subscription-dom" component={SubscriptionDom} />
             <Route path="/subscription-sub" component={SubscriptionSub} />
             <Route path="/escrow" component={Escrow} />
+            <Route path="/agreement-timeline" component={AgreementTimeline} />
             <Route path="/discover" component={Discover} />
             <Route path="/learn" component={Learn} />
             <Route path="/messages" component={Messages} />

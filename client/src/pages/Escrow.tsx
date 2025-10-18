@@ -1,4 +1,4 @@
-import { ChevronLeft, Shield, ExternalLink, CreditCard, Building2, Wallet } from "lucide-react";
+import { ChevronLeft, Shield, ExternalLink, CreditCard, Building2, Wallet, Calendar } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { useLocation } from "wouter";
@@ -211,6 +211,31 @@ export default function Escrow() {
               <strong>Investment Option Coming Soon:</strong> FinFitLife.com will offer mutual fund investments 
               where your commitment grows over time, earning market returns while securing your relationship commitment.
             </p>
+          </div>
+        </Card>
+
+        <Card className="p-6 mb-6 bg-gradient-to-r from-red-500/5 to-black/5 border-red-500/20">
+          <div className="flex items-start gap-4">
+            <div className="flex-shrink-0 w-10 h-10 rounded-full bg-red-500/10 flex items-center justify-center">
+              <Calendar className="w-5 h-5 text-red-500" />
+            </div>
+            <div className="flex-1">
+              <h3 className="font-medium text-foreground mb-1">
+                Understanding the Agreement Timeline
+              </h3>
+              <p className="text-sm text-muted-foreground mb-3">
+                Learn about our 5-year vesting schedule and what happens if the relationship ends at different points in time.
+              </p>
+              <Button
+                data-testid="button-view-timeline"
+                onClick={() => setLocation("/agreement-timeline")}
+                variant="outline"
+                size="sm"
+                className="rounded-full"
+              >
+                View Agreement Timeline
+              </Button>
+            </div>
           </div>
         </Card>
 
