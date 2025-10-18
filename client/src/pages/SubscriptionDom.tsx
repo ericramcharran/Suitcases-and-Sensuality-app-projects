@@ -146,6 +146,17 @@ export default function SubscriptionDom() {
     setLocation("/payment-demo");
   };
 
+  const handleSkipPayment = () => {
+    // Skip payment and go directly to escrow for testing
+    const plan = plans.find(p => p.id === selectedPlan);
+    if (!plan) return;
+
+    sessionStorage.setItem('selectedPlan', selectedPlan);
+    sessionStorage.setItem('subscriptionActive', 'true');
+    sessionStorage.setItem('subscriptionPlan', `Dominant-${plan.billingPeriod || 'trial'}`);
+    setLocation("/escrow");
+  };
+
   return (
     <div className="min-h-screen bg-background p-6">
       <div className="max-w-3xl mx-auto">
@@ -241,6 +252,20 @@ export default function SubscriptionDom() {
           >
             {selectedPlan === 'trial' ? 'Start Free Trial' : 'Continue to Financial Setup'}
           </Button>
+          
+          {/* Testing Skip Button */}
+          {selectedPlan && selectedPlan !== 'trial' && (
+            <Button
+              data-testid="button-skip-payment"
+              onClick={handleSkipPayment}
+              variant="outline"
+              size="sm"
+              className="text-xs opacity-70 hover:opacity-100"
+            >
+              Skip Payment (Testing)
+            </Button>
+          )}
+          
           <p className="text-xs text-muted-foreground text-center">
             {selectedPlan === 'trial' 
               ? 'Start your trial today. Financial verification (escrow or mutual fund) required before matching.'

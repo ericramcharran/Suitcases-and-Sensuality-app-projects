@@ -142,6 +142,17 @@ export default function SubscriptionSub() {
     setLocation("/payment-demo");
   };
 
+  const handleSkipPayment = () => {
+    // Skip payment and go directly to subscription success for testing
+    const plan = plans.find(p => p.id === selectedPlan);
+    if (!plan) return;
+
+    sessionStorage.setItem('selectedPlan', selectedPlan);
+    sessionStorage.setItem('subscriptionActive', 'true');
+    sessionStorage.setItem('subscriptionPlan', `Submissive-${plan.billingPeriod || 'trial'}`);
+    setLocation("/subscription-success");
+  };
+
   return (
     <div className="min-h-screen bg-background p-6">
       <div className="max-w-3xl mx-auto">
@@ -236,6 +247,20 @@ export default function SubscriptionSub() {
           >
             {selectedPlan === 'trial' ? 'Start Free Trial' : 'Continue to Matching'}
           </Button>
+          
+          {/* Testing Skip Button */}
+          {selectedPlan && selectedPlan !== 'trial' && (
+            <Button
+              data-testid="button-skip-payment"
+              onClick={handleSkipPayment}
+              variant="outline"
+              size="sm"
+              className="text-xs opacity-70 hover:opacity-100"
+            >
+              Skip Payment (Testing)
+            </Button>
+          )}
+          
           <p className="text-xs text-muted-foreground text-center">
             {selectedPlan === 'trial' 
               ? 'Enjoy 3 months free. All Doms are verified for your safety.'
