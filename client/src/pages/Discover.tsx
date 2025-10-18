@@ -523,7 +523,7 @@ export default function Discover() {
                   </Button>
                 </motion.div>
 
-                {/* Like Button - BRIGHT PINK HEART - VISIBLE AND DRAGGABLE */}
+                {/* Like Button - PINK HEART - 40% smaller - VISIBLE AND DRAGGABLE */}
                 <motion.div
                   drag
                   dragMomentum={false}
@@ -561,9 +561,9 @@ export default function Discover() {
                     }}
                     disabled={passMutation.isPending || likeMutation.isPending}
                     size="icon"
-                    className="rounded-full h-20 w-20 bg-gradient-to-br from-pink-500 to-rose-600 shadow-2xl hover:scale-110 transition-transform border-4 border-white"
+                    className="rounded-full h-12 w-12 bg-gradient-to-br from-pink-500 to-rose-600 shadow-2xl hover:scale-110 transition-transform border-2 border-white"
                   >
-                    <Heart className="w-10 h-10 fill-white text-white" />
+                    <Heart className="w-6 h-6 fill-white text-white" />
                   </Button>
                 </motion.div>
               </div>
