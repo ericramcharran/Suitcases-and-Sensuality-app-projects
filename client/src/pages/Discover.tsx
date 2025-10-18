@@ -350,6 +350,24 @@ export default function Discover() {
     );
   }
 
+  // Show loading state when switching to review mode
+  if (!currentProfile && includeReviewed && isLoading) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center p-6">
+        <Card className="p-8 text-center max-w-md">
+          <Heart className="w-16 h-16 text-red-500 animate-pulse mx-auto mb-4" />
+          <h3 className="text-2xl font-light text-foreground mb-2">
+            Loading Profiles...
+          </h3>
+          <p className="text-muted-foreground mb-6">
+            Getting all matches ready for review
+          </p>
+        </Card>
+      </div>
+    );
+  }
+
+  // Show "All Caught Up" if no profiles and not in review mode
   if (!currentProfile) {
     return (
       <div className="min-h-screen bg-background flex items-center justify-center p-6">
@@ -372,9 +390,10 @@ export default function Discover() {
             </Button>
             <Button
               data-testid="button-start-over"
-              onClick={() => {
-                setCurrentIndex(0);
+              onClick={async () => {
                 setIncludeReviewed(true);
+                setCurrentIndex(0);
+                await queryClient.refetchQueries({ queryKey: ['/api/matches/potential', userId, true] });
               }}
               variant="outline"
               className="rounded-full px-12"
