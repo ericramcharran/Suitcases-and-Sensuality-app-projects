@@ -1,7 +1,7 @@
 import { Heart, MessageCircle, User, BookOpen, Settings, Shield, Award, Upload, X, UserCircle, FileText, Pencil, Edit2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
@@ -366,6 +366,9 @@ export default function Profile() {
           {/* Profile Header */}
           <div className="text-center mb-4 sm:mb-6">
             <Avatar className="w-20 h-20 sm:w-24 sm:h-24 mx-auto mb-3">
+              {profileImages.length > 0 && (
+                <AvatarImage src={profileImages[0]} alt={userName} className="object-cover" />
+              )}
               <AvatarFallback className="text-2xl sm:text-3xl">{userName.charAt(0)}</AvatarFallback>
             </Avatar>
             <h3 className="text-xl sm:text-2xl font-light text-foreground" data-testid="text-profile-name">
