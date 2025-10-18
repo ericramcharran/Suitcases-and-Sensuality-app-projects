@@ -236,6 +236,15 @@ export default function SubscriptionSub() {
           ))}
         </div>
 
+        {/* Selected Plan Debug */}
+        {selectedPlan && (
+          <div className="text-center mb-4 p-3 bg-blue-500/10 border border-blue-500/30 rounded-lg">
+            <p className="text-sm font-medium text-blue-600 dark:text-blue-400">
+              ✓ Selected: {plans.find(p => p.id === selectedPlan)?.name}
+            </p>
+          </div>
+        )}
+
         {/* Continue Button */}
         <div className="flex flex-col items-center gap-3">
           <Button
@@ -248,8 +257,8 @@ export default function SubscriptionSub() {
             {selectedPlan === 'trial' ? 'Start Free Trial' : 'Continue to Matching'}
           </Button>
           
-          {/* Testing Skip Button */}
-          {selectedPlan && selectedPlan !== 'trial' && (
+          {/* Testing Skip Button - NOW SHOWS FOR ALL PLANS */}
+          {selectedPlan && (
             <Button
               data-testid="button-skip-payment"
               onClick={handleSkipPayment}
