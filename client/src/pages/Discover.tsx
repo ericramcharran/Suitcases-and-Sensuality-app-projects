@@ -601,12 +601,12 @@ export default function Discover() {
 
             {/* Profile Info - Scrollable with invisible scrollbar */}
             <div className="flex-[0.85] p-4 sm:p-6 overflow-y-auto border-t border-border scrollbar-hide" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
+              <p className="text-primary mb-3 font-medium text-lg sm:text-xl text-center" data-testid="text-match-role">
+                {currentProfile.role.toLowerCase()}
+              </p>
               <h3 className="text-xl sm:text-2xl font-light mb-1 text-foreground" data-testid="text-match-name">
                 {currentProfile.profileName || currentProfile.name}
               </h3>
-              <p className="text-primary mb-2 font-medium text-sm sm:text-base" data-testid="text-match-role">
-                {currentProfile.role}
-              </p>
               <div className="flex items-center gap-3 text-muted-foreground text-sm mb-3">
                 {currentProfile.age && (
                   <span data-testid="text-match-age">{currentProfile.age} years old</span>
