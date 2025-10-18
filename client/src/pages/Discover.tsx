@@ -550,7 +550,7 @@ export default function Discover() {
                     transform: `translate(calc(-50% + ${likeButtonPosition.x}px), ${-likeButtonPosition.y}px)`,
                     cursor: 'grab',
                     zIndex: 999,
-                    filter: 'drop-shadow(0 10px 25px rgba(236, 72, 153, 0.5)) drop-shadow(0 6px 12px rgba(236, 72, 153, 0.4))'
+                    filter: 'drop-shadow(0 10px 25px rgba(0, 0, 0, 0.4)) drop-shadow(0 6px 12px rgba(0, 0, 0, 0.3))'
                   }}
                   whileTap={{ cursor: 'grabbing' }}
                 >
