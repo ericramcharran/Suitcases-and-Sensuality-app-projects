@@ -77,8 +77,13 @@ export default function Landing() {
               className="w-96 sm:w-[480px] h-auto object-contain"
               style={{
                 maxHeight: '240px',
-                objectPosition: 'center'
-              }}
+                objectPosition: 'center',
+                imageRendering: '-webkit-optimize-contrast',
+                WebkitBackfaceVisibility: 'hidden',
+                backfaceVisibility: 'hidden',
+                transform: 'translateZ(0)',
+                willChange: 'transform',
+              } as React.CSSProperties}
             />
           </div>
         </motion.div>
