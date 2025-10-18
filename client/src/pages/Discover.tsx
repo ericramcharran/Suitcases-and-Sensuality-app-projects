@@ -59,11 +59,11 @@ export default function Discover() {
 
   const [isDraggingProfileCard, setIsDraggingProfileCard] = useState(false);
 
-  // Ensure beating heart shows for at least 10 seconds
+  // Ensure beating heart shows for at least 5 seconds
   useEffect(() => {
     const timer = setTimeout(() => {
       setMinLoadingTimePassed(true);
-    }, 10000); // 10 seconds
+    }, 5000); // 5 seconds
 
     return () => clearTimeout(timer);
   }, []);
