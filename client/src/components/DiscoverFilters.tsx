@@ -38,7 +38,7 @@ export function DiscoverFilters({ filters, onFiltersChange, activeFilterCount }:
 
   const handleReset = () => {
     const emptyFilters: FilterOptions = {
-      minAge: 18,
+      minAge: 21,
       maxAge: 99,
       maxDistance: 1000,
       minCompatibility: 0,
@@ -84,10 +84,10 @@ export function DiscoverFilters({ filters, onFiltersChange, activeFilterCount }:
           <div className="space-y-1.5">
             <Label className="text-xs font-medium">Age</Label>
             <Slider
-              min={18}
+              min={21}
               max={99}
               step={1}
-              value={[localFilters.minAge || 18, localFilters.maxAge || 99]}
+              value={[localFilters.minAge || 21, localFilters.maxAge || 99]}
               onValueChange={([min, max]) => {
                 updateFilter('minAge', min);
                 updateFilter('maxAge', max);
@@ -96,7 +96,7 @@ export function DiscoverFilters({ filters, onFiltersChange, activeFilterCount }:
               data-testid="slider-age-range"
             />
             <div className="flex justify-between text-xs text-muted-foreground">
-              <span>{localFilters.minAge || 18}</span>
+              <span>{localFilters.minAge || 21}</span>
               <span>{localFilters.maxAge || 99}</span>
             </div>
           </div>

@@ -22,7 +22,7 @@ export default function Discover() {
   const [minLoadingTimePassed, setMinLoadingTimePassed] = useState(false);
   const { toast } = useToast();
   const [filters, setFilters] = useState<FilterOptions>({
-    minAge: 18,
+    minAge: 21,
     maxAge: 99,
     maxDistance: 1000,
     minCompatibility: 0,
@@ -163,7 +163,7 @@ export default function Discover() {
     if (!potentialMatches) return [];
     
     return potentialMatches.filter(match => {
-      // Age filter
+      // Age filter (minimum 21)
       if (filters.minAge && match.age < filters.minAge) return false;
       if (filters.maxAge && match.age > filters.maxAge) return false;
       
@@ -198,7 +198,7 @@ export default function Discover() {
   // Count active filters (excluding defaults)
   const activeFilterCount = useMemo(() => {
     let count = 0;
-    if (filters.minAge && filters.minAge > 18) count++;
+    if (filters.minAge && filters.minAge > 21) count++;
     if (filters.maxAge && filters.maxAge < 99) count++;
     if (filters.maxDistance && filters.maxDistance < 1000) count++;
     if (filters.minCompatibility && filters.minCompatibility > 0) count++;
