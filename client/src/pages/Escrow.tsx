@@ -1,4 +1,4 @@
-import { ChevronLeft, Shield } from "lucide-react";
+import { ChevronLeft, Shield, ExternalLink, CreditCard, Building2, Wallet } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { useLocation } from "wouter";
@@ -103,15 +103,95 @@ export default function Escrow() {
           </div>
         </Card>
 
-        <div className="flex justify-center">
+        {/* Escrow.com Integration Section */}
+        <Card className="p-6 mb-6 border-2 border-red-500/30">
+          <h3 className="font-medium text-foreground mb-2 flex items-center gap-2">
+            <Shield className="w-5 h-5 text-red-500" />
+            Secure Escrow Partner: Escrow.com
+          </h3>
+          <p className="text-sm text-muted-foreground mb-4">
+            We partner with Escrow.com, a licensed and regulated escrow service that has protected 
+            over $5 billion in transactions since 1999. Your funds are held securely with built-in 
+            compliance and zero chargebacks.
+          </p>
+          
+          <div className="space-y-3 mb-4">
+            <div className="flex items-center gap-2 text-sm">
+              <Shield className="w-4 h-4 text-green-500" />
+              <span className="text-foreground">Licensed & regulated escrow service</span>
+            </div>
+            <div className="flex items-center gap-2 text-sm">
+              <Shield className="w-4 h-4 text-green-500" />
+              <span className="text-foreground">Built-in KYC/AML compliance verification</span>
+            </div>
+            <div className="flex items-center gap-2 text-sm">
+              <Shield className="w-4 h-4 text-green-500" />
+              <span className="text-foreground">Funds protected in tier-1 banks</span>
+            </div>
+            <div className="flex items-center gap-2 text-sm">
+              <Shield className="w-4 h-4 text-green-500" />
+              <span className="text-foreground">No chargebacks - permanent settlement</span>
+            </div>
+          </div>
+
+          <div className="bg-muted p-4 rounded-lg mb-4">
+            <h4 className="font-medium text-foreground text-sm mb-3">Payment Methods Available</h4>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+              <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                <Building2 className="w-4 h-4 text-red-500" />
+                <span>Wire Transfer</span>
+              </div>
+              <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                <CreditCard className="w-4 h-4 text-red-500" />
+                <span>Credit Card</span>
+              </div>
+              <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                <Wallet className="w-4 h-4 text-red-500" />
+                <span>PayPal</span>
+              </div>
+            </div>
+          </div>
+
+          <div className="bg-red-500/10 border border-red-500/20 p-4 rounded-lg">
+            <p className="text-sm text-foreground mb-2">
+              <strong>Setup Process:</strong>
+            </p>
+            <ol className="text-sm text-muted-foreground space-y-1 ml-4 list-decimal">
+              <li>Click "Create Escrow Account" below to visit Escrow.com</li>
+              <li>Complete the secure account registration</li>
+              <li>Verify your identity (required for compliance)</li>
+              <li>Fund your account with minimum $1,000 deposit</li>
+              <li>Return here to complete your profile setup</li>
+            </ol>
+          </div>
+        </Card>
+
+        <div className="flex flex-col items-center gap-3">
           <Button
-            data-testid="button-setup-escrow"
-            onClick={() => setLocation("/discover")}
-            className="rounded-full bg-red-500 hover:bg-black text-white transition-colors px-12"
+            data-testid="button-create-escrow"
+            onClick={() => window.open('https://www.escrow.com/integrations/signup', '_blank')}
+            className="rounded-full bg-red-500 hover:bg-black text-white transition-colors px-12 flex items-center gap-2"
             size="lg"
           >
-            Set Up Escrow
+            Create Escrow Account
+            <ExternalLink className="w-4 h-4" />
           </Button>
+          <p className="text-xs text-muted-foreground text-center max-w-md">
+            You'll be securely redirected to Escrow.com to complete account setup and deposit funds
+          </p>
+          
+          <Button
+            data-testid="button-skip-for-now"
+            onClick={() => setLocation("/discover")}
+            variant="outline"
+            className="rounded-full mt-4"
+            size="lg"
+          >
+            I'll Set This Up Later
+          </Button>
+          <p className="text-xs text-muted-foreground text-center">
+            Note: Matching will be limited until escrow verification is complete
+          </p>
         </div>
       </div>
     </div>
