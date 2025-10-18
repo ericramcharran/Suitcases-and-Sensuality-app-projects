@@ -42,7 +42,7 @@ export default function Login() {
         toast({
           variant: "destructive",
           title: "Login Failed",
-          description: error.message || "Invalid credentials"
+          description: "Please check your username and password for correct spelling and try again."
         });
         setIsLoading(false);
         return;
