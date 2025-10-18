@@ -28,6 +28,8 @@ export const users = pgTable("users", {
   race: text("race"),
   eyeColor: text("eye_color"),
   hairColor: text("hair_color"),
+  nationality: text("nationality"),
+  bodyShape: text("body_shape"),
   // Location
   city: text("city"),
   state: text("state"),

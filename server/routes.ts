@@ -7,25 +7,8 @@ import multer from "multer";
 import path from "path";
 import fs from "fs";
 
-// Transform snake_case database fields to camelCase for frontend
-function transformUserForFrontend(user: any) {
-  return {
-    ...user,
-    eyeColor: user.eye_color,
-    hairColor: user.hair_color,
-    bodyShape: user.body_shape,
-    profileImages: user.profile_images,
-    escrowBalance: user.escrow_balance,
-    personalityType: user.personality_type,
-    relationshipStyle: user.relationship_style,
-    importantTraits: user.important_traits,
-    agreedTerms: user.agreed_terms,
-    agreedConsent: user.agreed_consent,
-    agreedPrivacy: user.agreed_privacy,
-    agreedGuidelines: user.agreed_guidelines,
-    createdAt: user.created_at
-  };
-}
+// Drizzle ORM automatically converts database snake_case to TypeScript camelCase
+// No transformation needed - just return user objects as-is
 
 // Configure multer for image uploads
 const uploadDir = path.join(process.cwd(), 'public', 'uploads');
@@ -83,7 +66,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         res.status(404).json({ error: "User not found" });
         return;
       }
-      res.json(transformUserForFrontend(user));
+      res.json(user);
     } catch (error) {
       res.status(500).json({ error: "Failed to fetch user" });
     }
@@ -467,7 +450,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
           compatibility = Math.min(99, Math.round(compatibility));
 
           return {
-            ...transformUserForFrontend(user),
+            ...user,
             matchPercentage: compatibility
           };
         })
