@@ -45,7 +45,6 @@ export default function ProfileDetails() {
   const [fitnessLevel, setFitnessLevel] = useState("");
 
   // Relationship preferences
-  const [lookingFor, setLookingFor] = useState("");
   const [experienceLevel, setExperienceLevel] = useState("");
   const [sexualOrientation, setSexualOrientation] = useState("");
 
@@ -70,7 +69,7 @@ export default function ProfileDetails() {
     age && sex && heightFeet && heightInches && bodyType && 
     race && eyeColor && hairColor && city && state && 
     profession && drinking && smoking && fitnessLevel && 
-    lookingFor && experienceLevel && sexualOrientation;
+    experienceLevel && sexualOrientation;
 
   const handleContinue = () => {
     const height = `${heightFeet}'${heightInches}"`;
@@ -89,7 +88,6 @@ export default function ProfileDetails() {
       drinking,
       smoking,
       fitnessLevel,
-      lookingFor,
       experienceLevel,
       sexualOrientation,
     });
@@ -380,23 +378,6 @@ export default function ProfileDetails() {
             <h3 className="text-lg font-medium text-foreground mb-4">Relationship Preferences</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <Label htmlFor="lookingFor" className="text-foreground mb-2 block">Looking For</Label>
-                <Select value={lookingFor} onValueChange={setLookingFor}>
-                  <SelectTrigger data-testid="select-looking-for" id="lookingFor" className="rounded-xl">
-                    <SelectValue placeholder="What are you seeking?" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="Casual Play">Casual Play</SelectItem>
-                    <SelectItem value="Long-term D/s">Long-term D/s</SelectItem>
-                    <SelectItem value="24/7 Dynamic">24/7 Dynamic</SelectItem>
-                    <SelectItem value="Exploring/Learning">Exploring/Learning</SelectItem>
-                    <SelectItem value="Friends First">Friends First</SelectItem>
-                    <SelectItem value="Open to Anything">Open to Anything</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-
-              <div>
                 <Label htmlFor="experienceLevel" className="text-foreground mb-2 block">BDSM Experience</Label>
                 <Select value={experienceLevel} onValueChange={setExperienceLevel}>
                   <SelectTrigger data-testid="select-experience" id="experienceLevel" className="rounded-xl">
@@ -411,7 +392,7 @@ export default function ProfileDetails() {
                 </Select>
               </div>
 
-              <div className="md:col-span-2">
+              <div>
                 <Label htmlFor="sexualOrientation" className="text-foreground mb-2 block">Sexual Orientation</Label>
                 <Select value={sexualOrientation} onValueChange={setSexualOrientation}>
                   <SelectTrigger data-testid="select-orientation" id="sexualOrientation" className="rounded-xl">
