@@ -1,9 +1,8 @@
 import { useState, useCallback, useEffect, useRef } from "react";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { ChevronLeft, ChevronRight, MapPin, Verified, ChevronDown } from "lucide-react";
+import { MapPin, Verified, ChevronUp } from "lucide-react";
 import useEmblaCarousel from 'embla-carousel-react';
-import { motion } from 'framer-motion';
 
 interface ProfileCardProps {
   profile: {
@@ -42,13 +41,10 @@ export function ProfileCard({
 }: ProfileCardProps) {
   const [emblaRef, emblaApi] = useEmblaCarousel({ loop: false });
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [isHovering, setIsHovering] = useState(false);
   const pointerStartY = useRef<number>(0);
   const pointerStartX = useRef<number>(0);
   const gestureTriggered = useRef<boolean>(false);
-
-  const scrollPrev = useCallback(() => {
-    if (emblaApi) emblaApi.scrollPrev();
-  }, [emblaApi]);
 
   const scrollNext = useCallback(() => {
     if (emblaApi) emblaApi.scrollNext();
@@ -69,7 +65,7 @@ export function ProfileCard({
     };
   }, [emblaApi]);
 
-  // Vertical swipe down gesture detector
+  // Vertical pull up gesture detector
   useEffect(() => {
     if (!emblaApi) return;
 
@@ -88,8 +84,8 @@ export function ProfileCard({
       const deltaY = e.clientY - pointerStartY.current;
       const deltaX = e.clientX - pointerStartX.current;
 
-      // Check if swipe down: vertical movement > 60px, more vertical than horizontal
-      if (deltaY > 60 && Math.abs(deltaY) > Math.abs(deltaX) * 1.5) {
+      // Check if pull up: upward movement > 60px, more vertical than horizontal
+      if (deltaY < -60 && Math.abs(deltaY) > Math.abs(deltaX) * 1.5) {
         gestureTriggered.current = true;
         
         // Trigger next image
@@ -120,7 +116,11 @@ export function ProfileCard({
   return (
     <Card className={`h-full flex flex-col ${className}`} data-testid="profile-card">
       {/* Profile Image Carousel - 30% larger than before */}
-      <div className="relative bg-muted rounded-t-xl flex-[1.3] overflow-hidden">
+      <div 
+        className="relative bg-muted rounded-t-xl flex-[1.3] overflow-hidden"
+        onMouseEnter={() => setIsHovering(true)}
+        onMouseLeave={() => setIsHovering(false)}
+      >
         {profile.profileImages && profile.profileImages.length > 0 ? (
           <>
             {/* Carousel */}
@@ -142,41 +142,21 @@ export function ProfileCard({
               </div>
             </div>
 
-            {/* Navigation Arrows */}
-            {profile.profileImages.length > 1 && (
-              <>
-                {currentImageIndex > 0 && (
-                  <button
-                    onClick={scrollPrev}
-                    className="absolute left-2 top-1/2 -translate-y-1/2 bg-black/50 text-white p-2 rounded-full hover:bg-black/70 transition-colors z-10"
-                    data-testid="button-prev-image"
-                  >
-                    <ChevronLeft className="w-5 h-5" />
-                  </button>
-                )}
-                {currentImageIndex < profile.profileImages.length - 1 && (
-                  <button
-                    onClick={scrollNext}
-                    className="absolute right-2 top-1/2 -translate-y-1/2 bg-black/50 text-white p-2 rounded-full hover:bg-black/70 transition-colors z-10"
-                    data-testid="button-next-image"
-                  >
-                    <ChevronRight className="w-5 h-5" />
-                  </button>
-                )}
-              </>
-            )}
-
-            {/* Swipe Down Hint - Only show if there are more images */}
+            {/* Pull Up Arrow - Bottom Center (shows on hover) */}
             {profile.profileImages.length > 1 && currentImageIndex < profile.profileImages.length - 1 && (
-              <motion.div
-                className="absolute bottom-20 left-1/2 -translate-x-1/2 bg-black/50 backdrop-blur-sm text-white px-4 py-2 rounded-full text-sm flex items-center gap-2 z-10 pointer-events-none"
-                initial={{ opacity: 0, y: -10 }}
-                animate={{ opacity: [0, 1, 1, 0] }}
-                transition={{ duration: 4, times: [0, 0.1, 0.7, 1], delay: 0.5 }}
+              <div
+                className={`absolute bottom-16 left-1/2 -translate-x-1/2 transition-opacity duration-300 z-10 ${
+                  isHovering ? 'opacity-100' : 'opacity-0'
+                }`}
               >
-                <ChevronDown className="w-4 h-4 animate-bounce" />
-                Swipe down for more
-              </motion.div>
+                <button
+                  onClick={scrollNext}
+                  className="bg-black/50 backdrop-blur-sm text-white p-3 rounded-full hover:bg-black/70 transition-colors"
+                  data-testid="button-pull-up"
+                >
+                  <ChevronUp className="w-6 h-6 animate-bounce" />
+                </button>
+              </div>
             )}
 
             {/* Pagination Dots */}
