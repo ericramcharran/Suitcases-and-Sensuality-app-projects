@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { Shield, ChevronLeft, Camera } from "lucide-react";
+import { useState, useRef } from "react";
+import { Shield, ChevronLeft, Camera, CheckCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -9,6 +9,8 @@ import { useLocation } from "wouter";
 export default function AgeVerification() {
   const [, setLocation] = useLocation();
   const [dateOfBirth, setDateOfBirth] = useState("");
+  const [uploadedFile, setUploadedFile] = useState<File | null>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const isOver21 = () => {
     if (!dateOfBirth) return false;
@@ -23,7 +25,18 @@ export default function AgeVerification() {
     return age >= 21;
   };
 
-  const canContinue = isOver21();
+  const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      setUploadedFile(file);
+    }
+  };
+
+  const handleUploadClick = () => {
+    fileInputRef.current?.click();
+  };
+
+  const canContinue = isOver21() && uploadedFile !== null;
 
   return (
     <div className="min-h-screen bg-muted p-6">
@@ -46,18 +59,20 @@ export default function AgeVerification() {
           You must be 21+ to continue
         </p>
         <Card className="p-8 mb-6">
-          <div className="mb-6">
-            <Label htmlFor="dob" className="text-foreground mb-2 block">
+          <div className="mb-6 text-center">
+            <Label htmlFor="dob" className="text-foreground mb-2 block text-center">
               Date of Birth
             </Label>
-            <Input
-              data-testid="input-dob"
-              id="dob"
-              type="date"
-              value={dateOfBirth}
-              onChange={(e) => setDateOfBirth(e.target.value)}
-              className="rounded-xl"
-            />
+            <div className="max-w-xs mx-auto">
+              <Input
+                data-testid="input-dob"
+                id="dob"
+                type="date"
+                value={dateOfBirth}
+                onChange={(e) => setDateOfBirth(e.target.value)}
+                className="rounded-xl text-center"
+              />
+            </div>
             {dateOfBirth && !isOver21() && (
               <p className="text-sm text-destructive mt-2">
                 You must be 21 or older to use this platform
@@ -65,10 +80,41 @@ export default function AgeVerification() {
             )}
           </div>
 
-          <div className="border-2 border-dashed border-border rounded-xl p-8 text-center mb-6 hover:border-red-500 cursor-pointer transition-colors" data-testid="upload-area">
-            <Camera className="w-12 h-12 mx-auto mb-2 text-muted-foreground" />
-            <p className="text-sm text-foreground">Upload ID (Optional)</p>
+          <input
+            ref={fileInputRef}
+            type="file"
+            accept="image/*,.pdf"
+            onChange={handleFileSelect}
+            className="hidden"
+            data-testid="input-file"
+          />
+
+          <div 
+            onClick={handleUploadClick}
+            className={`border-2 border-dashed rounded-xl p-8 text-center mb-2 cursor-pointer transition-colors ${
+              uploadedFile 
+                ? 'border-green-500 bg-green-500/5' 
+                : 'border-border hover:border-red-500'
+            }`}
+            data-testid="upload-area"
+          >
+            {uploadedFile ? (
+              <>
+                <CheckCircle className="w-12 h-12 mx-auto mb-2 text-green-500" />
+                <p className="text-sm text-foreground font-medium">ID Uploaded</p>
+                <p className="text-xs text-muted-foreground mt-1">{uploadedFile.name}</p>
+              </>
+            ) : (
+              <>
+                <Camera className="w-12 h-12 mx-auto mb-2 text-muted-foreground" />
+                <p className="text-sm text-foreground font-medium">Upload Passport or Driver's License</p>
+                <p className="text-xs text-muted-foreground mt-1">Required for verification</p>
+              </>
+            )}
           </div>
+          <p className="text-xs text-muted-foreground text-center mb-6">
+            Accepted formats: JPG, PNG, or PDF
+          </p>
           
           <Button
             data-testid="button-verify"
@@ -77,7 +123,7 @@ export default function AgeVerification() {
             className="w-full rounded-full bg-red-500 hover:bg-black text-white transition-colors"
             size="lg"
           >
-            Verify Identity
+            {!dateOfBirth ? "Enter Date of Birth" : !uploadedFile ? "Upload ID Document" : "Verify Identity"}
           </Button>
         </Card>
       </div>
