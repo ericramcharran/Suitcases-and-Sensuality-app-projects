@@ -148,7 +148,8 @@ export default function Login() {
                     type="checkbox"
                     id="remember"
                     data-testid="checkbox-remember"
-                    className="w-3 h-3 rounded border-border cursor-pointer"
+                    className="w-3 h-3 rounded border-border cursor-pointer scale-75"
+                    style={{ width: '12px', height: '12px' }}
                   />
                   <label
                     htmlFor="remember"
