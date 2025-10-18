@@ -428,19 +428,16 @@ export default function Discover() {
                   {currentProfile.matchPercentage}%
                 </div>
 
-                {/* Verified Badge */}
-                {currentProfile.verified && (
+                {/* Verified & Fully Funded Badge for Dominants (replaces standard verified badge) */}
+                {currentProfile.escrowVerified && currentProfile.fullyFunded ? (
+                  <div className="absolute top-4 left-4 bg-gradient-to-r from-amber-500 to-yellow-500 text-white text-xs px-3 py-1.5 rounded-full flex items-center gap-1 shadow-lg z-10 font-semibold" data-testid="badge-fully-funded">
+                    <Shield className="w-3.5 h-3.5" />
+                    Verified & Fully Funded
+                  </div>
+                ) : currentProfile.verified && (
                   <div className="absolute top-4 left-4 bg-blue-500 text-white text-xs px-3 py-1 rounded-full flex items-center gap-1 z-10" data-testid="badge-verified">
                     <Shield className="w-3 h-3" />
                     Verified {currentProfile.role}
-                  </div>
-                )}
-
-                {/* Verified & Fully Funded Badge for Dominants */}
-                {currentProfile.escrowVerified && currentProfile.fullyFunded && (
-                  <div className="absolute bottom-4 left-4 bg-gradient-to-r from-amber-500 to-yellow-500 text-white text-xs px-3 py-1.5 rounded-full flex items-center gap-1 shadow-lg z-10 font-semibold" data-testid="badge-fully-funded">
-                    <Shield className="w-3.5 h-3.5" />
-                    Verified & Fully Funded
                   </div>
                 )}
                 
