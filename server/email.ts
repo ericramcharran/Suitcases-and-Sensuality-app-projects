@@ -54,13 +54,27 @@ export async function sendMatchNotification(data: MatchNotificationData) {
         <p><strong>Sexual Orientation:</strong> ${user.sexualOrientation || 'N/A'}</p>
         
         ${user.personalityAnswers ? `
-          <h4 style="color: #333; margin-top: 20px;">Personality Assessment Results</h4>
-          <pre style="background: white; padding: 10px; border-radius: 4px; overflow-x: auto; font-size: 12px;">${JSON.stringify(user.personalityAnswers, null, 2)}</pre>
+          <h4 style="color: #333; margin-top: 20px;">Personality Assessment</h4>
+          <div style="background: white; padding: 15px; border-radius: 4px; margin-bottom: 10px;">
+            ${user.personalityAnswers.personalityType ? `<p><strong>Personality Type:</strong> ${user.personalityAnswers.personalityType}</p>` : ''}
+            ${user.personalityAnswers.scores ? `<p><strong>Scores:</strong> ${JSON.stringify(user.personalityAnswers.scores, null, 2)}</p>` : ''}
+            <details>
+              <summary style="cursor: pointer; font-weight: bold; margin-top: 10px;">View All Answers</summary>
+              <pre style="background: #fafafa; padding: 10px; border-radius: 4px; overflow-x: auto; font-size: 12px; margin-top: 10px;">${JSON.stringify(user.personalityAnswers.answers || user.personalityAnswers, null, 2)}</pre>
+            </details>
+          </div>
         ` : ''}
         
         ${user.relationshipAnswers ? `
-          <h4 style="color: #333; margin-top: 20px;">Relationship Assessment Results</h4>
-          <pre style="background: white; padding: 10px; border-radius: 4px; overflow-x: auto; font-size: 12px;">${JSON.stringify(user.relationshipAnswers, null, 2)}</pre>
+          <h4 style="color: #333; margin-top: 20px;">Relationship Assessment</h4>
+          <div style="background: white; padding: 15px; border-radius: 4px;">
+            ${user.relationshipAnswers.relationshipStyle ? `<p><strong>Relationship Style:</strong> ${user.relationshipAnswers.relationshipStyle}</p>` : ''}
+            ${user.relationshipAnswers.scores ? `<p><strong>Scores:</strong> ${JSON.stringify(user.relationshipAnswers.scores, null, 2)}</p>` : ''}
+            <details>
+              <summary style="cursor: pointer; font-weight: bold; margin-top: 10px;">View All Answers</summary>
+              <pre style="background: #fafafa; padding: 10px; border-radius: 4px; overflow-x: auto; font-size: 12px; margin-top: 10px;">${JSON.stringify(user.relationshipAnswers.answers || user.relationshipAnswers, null, 2)}</pre>
+            </details>
+          </div>
         ` : ''}
       </div>
     `;

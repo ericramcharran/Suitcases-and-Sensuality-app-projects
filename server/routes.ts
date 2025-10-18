@@ -498,13 +498,32 @@ export async function registerRoutes(app: Express): Promise<Server> {
       // If it's a mutual match, send email notification
       if (isMutualMatch) {
         try {
-          const user1 = await storage.getUser(userId);
-          const user2 = await storage.getUser(targetUserId);
+          const [user1, user2, personality1, personality2, relationship1, relationship2] = await Promise.all([
+            storage.getUser(userId),
+            storage.getUser(targetUserId),
+            storage.getPersonalityAnswers(userId),
+            storage.getPersonalityAnswers(targetUserId),
+            storage.getRelationshipAnswers(userId),
+            storage.getRelationshipAnswers(targetUserId)
+          ]);
           
           if (user1 && user2) {
+            // Merge user data with complete assessment results
+            const user1Data = {
+              ...user1,
+              personalityAnswers: personality1 || null,
+              relationshipAnswers: relationship1 || null
+            };
+            
+            const user2Data = {
+              ...user2,
+              personalityAnswers: personality2 || null,
+              relationshipAnswers: relationship2 || null
+            };
+            
             await sendMatchNotification({
-              user1: user1 as any,
-              user2: user2 as any,
+              user1: user1Data as any,
+              user2: user2Data as any,
               matchId: match.id
             });
             console.log(`Match notification sent for ${user1.name} & ${user2.name}`);

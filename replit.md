@@ -169,6 +169,19 @@ Preferred communication style: Simple, everyday language.
   - 5-Year: $15/mo
 - **Payment Flow**: Subscription selection → Stripe checkout → Role-based redirect (Dominants to escrow, others to success page)
 
+### Email Notification System
+- **Resend Integration** - Transactional email service for match notifications
+- **Match Notifications** - Automated emails sent when mutual matches occur
+  - Includes complete user profiles for both matched users
+  - Displays personality assessment results (type, scores, answers)
+  - Displays relationship assessment results (style, scores, answers)
+  - Sent to admin email (ADMIN_EMAIL environment variable)
+  - Graceful error handling - match creation succeeds even if email fails
+- **Email Template** - Professional HTML email with brand colors and collapsible sections
+- **Environment Variables Required**:
+  - `RESEND_API_KEY` - API key from resend.com
+  - `ADMIN_EMAIL` - Email address to receive match notifications
+
 ### Future Integration Points
 - **Session Management** - connect-pg-simple configured for PostgreSQL session store (not yet active)
 - **Age Verification Service** - ID verification API integration needed
