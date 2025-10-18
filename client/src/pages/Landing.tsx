@@ -41,31 +41,19 @@ export default function Landing() {
       )}
 
       <div className="w-full max-w-md mx-auto flex flex-col items-center relative z-10">
-        {/* Logo - first centers, then zooms into keyhole */}
+        {/* Logo - rises to center, then zooms into keyhole */}
         <motion.div
-          className="mb-0"
+          className="mb-0 w-full"
           animate={isAnimating ? {
-            position: "fixed",
-            top: "50%",
-            left: "50%",
-            x: "-50%",
-            y: "-50%",
+            y: "calc(50vh - 50%)",
             scale: 10,
           } : {
-            position: "relative",
-            top: "auto",
-            left: "auto",
-            x: 0,
             y: 0,
             scale: 1,
           }}
           transition={{
-            position: { duration: 0 },
-            top: { duration: 0.6, ease: "easeOut" },
-            left: { duration: 0.6, ease: "easeOut" },
-            x: { duration: 0.6, ease: "easeOut" },
-            y: { duration: 0.6, ease: "easeOut" },
-            scale: { duration: 1.8, delay: 0.6, ease: "easeIn" },
+            y: { duration: 0.8, ease: "easeOut" },
+            scale: { duration: 1.6, delay: 0.8, ease: "easeIn" },
           }}
         >
           <div className="flex items-center justify-center">
