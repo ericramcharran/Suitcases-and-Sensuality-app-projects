@@ -53,13 +53,13 @@ export default function Landing() {
         <motion.div
           className="mb-0 w-full"
           style={{
-            transformOrigin: "center 60%"
+            transformOrigin: "center 75%"
           }}
           animate={isAnimating ? {
-            y: "calc(50vh - 60%)",
-            x: [0, -10, 0],
-            scale: 50,
-            rotate: [0, -1, 2],
+            y: "calc(50vh - 75%)",
+            x: [0, -15, 5, 0],
+            scale: 60,
+            rotate: [0, -2, 3, 5],
           } : {
             y: 0,
             x: 0,
@@ -67,10 +67,10 @@ export default function Landing() {
             rotate: 0,
           }}
           transition={{
-            y: { duration: 0.7, ease: [0.25, 0.46, 0.45, 0.94] },
-            x: { duration: 1.8, delay: 0.7, ease: "easeInOut" },
-            scale: { duration: 1.8, delay: 0.7, ease: [0.4, 0.0, 0.2, 1] },
-            rotate: { duration: 1.8, delay: 0.7, ease: "easeInOut" },
+            y: { duration: 0.8, ease: [0.34, 1.56, 0.64, 1] },
+            x: { duration: 2.0, delay: 0.8, ease: "easeInOut" },
+            scale: { duration: 2.0, delay: 0.8, ease: [0.4, 0.0, 0.2, 1] },
+            rotate: { duration: 2.0, delay: 0.8, ease: "easeInOut" },
           }}
         >
           <div className="flex items-center justify-center">
