@@ -204,7 +204,7 @@ export default function ProfileDetails() {
               </div>
 
               <div>
-                <Label htmlFor="weight" className="text-foreground mb-2 block">Weight (optional)</Label>
+                <Label htmlFor="weight" className="text-foreground mb-2 block">Weight</Label>
                 <div className="flex gap-2">
                   <Input
                     data-testid="input-weight"
