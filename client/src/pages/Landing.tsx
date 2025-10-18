@@ -49,14 +49,14 @@ export default function Landing() {
           }}
           animate={isAnimating ? {
             y: "calc(50vh - 35%)",
-            scale: 10,
+            scale: 25,
           } : {
             y: 0,
             scale: 1,
           }}
           transition={{
             y: { duration: 0.8, ease: "easeOut" },
-            scale: { duration: 1.6, delay: 0.8, ease: "easeIn" },
+            scale: { duration: 1.7, delay: 0.8, ease: "easeIn" },
           }}
         >
           <div className="flex items-center justify-center">
