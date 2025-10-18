@@ -599,9 +599,16 @@ export default function Discover() {
                   </p>
                 </Card>
               )}
-              <p className="text-foreground/80 leading-relaxed" data-testid="text-match-bio">
-                {currentProfile.personalityType || 'Profile not yet complete'} • {currentProfile.relationshipStyle || 'Exploring'}
-              </p>
+              {currentProfile.bio && (
+                <p className="text-foreground/80 leading-relaxed mb-3" data-testid="text-match-bio">
+                  {currentProfile.bio}
+                </p>
+              )}
+              <div className="flex flex-wrap gap-2 text-xs text-muted-foreground">
+                {currentProfile.height && <span>• {currentProfile.height}</span>}
+                {currentProfile.eyeColor && <span>• {currentProfile.eyeColor} eyes</span>}
+                {currentProfile.hairColor && <span>• {currentProfile.hairColor} hair</span>}
+              </div>
             </div>
           </Card>
           </motion.div>
