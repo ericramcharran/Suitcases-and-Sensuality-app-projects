@@ -87,21 +87,21 @@ export default function Settings() {
       <div className="max-w-md mx-auto w-full">
         <h2 className="text-2xl sm:text-3xl font-light mb-4 sm:mb-6 text-foreground">Settings</h2>
 
-        <div className="space-y-3 mb-6">
+        <div className="space-y-2 mb-6">
           {settingsOptions.map((option, i) => (
             <Card
               key={i}
               data-testid={`setting-${i}`}
-              className="p-4 hover-elevate active-elevate-2 cursor-pointer"
+              className="p-3 rounded-2xl hover-elevate active-elevate-2 cursor-pointer"
               onClick={() => option.link && setLocation(option.link)}
             >
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center flex-shrink-0">
-                  <option.icon className="w-5 h-5 text-primary" />
+                <div className="w-9 h-9 bg-primary/10 rounded-full flex items-center justify-center flex-shrink-0">
+                  <option.icon className="w-4 h-4 text-primary" />
                 </div>
                 <div className="flex-1 min-w-0">
-                  <h3 className="font-medium text-foreground">{option.title}</h3>
-                  <p className="text-sm text-muted-foreground">{option.description}</p>
+                  <h3 className="font-medium text-sm text-foreground">{option.title}</h3>
+                  <p className="text-xs text-muted-foreground">{option.description}</p>
                 </div>
                 {option.hasSwitch && (
                   <Switch
@@ -114,16 +114,16 @@ export default function Settings() {
           ))}
         </div>
 
-        <Card className="p-4 mb-4 bg-primary/10 border-primary/20">
+        <Card className="p-3 mb-3 rounded-2xl bg-primary/10 border-primary/20">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-primary/20 rounded-full flex items-center justify-center flex-shrink-0">
-              <Info className="w-5 h-5 text-primary" />
+            <div className="w-9 h-9 bg-primary/20 rounded-full flex items-center justify-center flex-shrink-0">
+              <Info className="w-4 h-4 text-primary" />
             </div>
             <div className="flex-1">
-              <h4 className="font-medium text-primary mb-1">
+              <h4 className="font-medium text-sm text-primary">
                 Account Status
               </h4>
-              <p className="text-sm text-primary/80">
+              <p className="text-xs text-primary/80">
                 Free Trial - 28 days remaining
               </p>
             </div>
@@ -138,12 +138,12 @@ export default function Settings() {
             setLocation("/");
           }}
         >
-          <Card className="p-4 hover-elevate active-elevate-2 cursor-pointer">
+          <Card className="p-3 rounded-2xl hover-elevate active-elevate-2 cursor-pointer">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-muted rounded-full flex items-center justify-center flex-shrink-0">
-                <LogOut className="w-5 h-5 text-muted-foreground" />
+              <div className="w-9 h-9 bg-muted rounded-full flex items-center justify-center flex-shrink-0">
+                <LogOut className="w-4 h-4 text-muted-foreground" />
               </div>
-              <h3 className="font-medium text-foreground">Log Out</h3>
+              <h3 className="font-medium text-sm text-foreground">Log Out</h3>
             </div>
           </Card>
         </button>
