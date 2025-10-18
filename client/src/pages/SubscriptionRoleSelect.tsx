@@ -34,13 +34,9 @@ export default function SubscriptionRoleSelect() {
               <h2 className="text-2xl font-medium text-foreground mb-3">
                 Master / Dom / Domme
               </h2>
-              <p className="text-muted-foreground mb-6 leading-relaxed">
+              <p className="text-muted-foreground mb-8 leading-relaxed">
                 Premium membership for leaders in power exchange relationships. Includes escrow verification and exclusive features.
               </p>
-              <div className="space-y-2 mb-6 text-sm text-muted-foreground">
-                <p>Starting at <span className="text-lg font-medium text-red-500">$249</span>/month</p>
-                <p className="text-xs">+ Escrow verification required</p>
-              </div>
               <Button 
                 className="w-full rounded-full bg-red-500 hover:bg-black text-white transition-colors"
                 size="lg"
@@ -63,14 +59,9 @@ export default function SubscriptionRoleSelect() {
               <h2 className="text-2xl font-medium text-foreground mb-3">
                 Submissive
               </h2>
-              <p className="text-muted-foreground mb-6 leading-relaxed">
+              <p className="text-muted-foreground mb-8 leading-relaxed">
                 Premium membership for those seeking authentic power exchange connections. All Doms are verified for your safety.
               </p>
-              <div className="space-y-2 mb-6 text-sm text-muted-foreground">
-                <p><span className="text-lg font-medium text-red-500">3 months free</span></p>
-                <p>Then starting at <span className="font-medium text-foreground">$25</span>/month</p>
-                <p className="text-xs">All Doms financially verified</p>
-              </div>
               <Button 
                 className="w-full rounded-full bg-red-500 hover:bg-black text-white transition-colors"
                 size="lg"
