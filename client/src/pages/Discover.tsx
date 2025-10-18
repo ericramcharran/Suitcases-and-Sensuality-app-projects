@@ -513,6 +513,14 @@ export default function Discover() {
                 <MapPin className="w-4 h-4" />
                 Location hidden for privacy
               </p>
+              
+              {/* Bio - appears directly below location */}
+              {currentProfile.bio && (
+                <p className="text-foreground/80 leading-relaxed mb-3" data-testid="text-match-bio">
+                  {currentProfile.bio}
+                </p>
+              )}
+              
               {currentProfile.escrowBalance > 0 && currentProfile.role === 'Dominant' && (
                 <Card className="p-3 mb-3 bg-blue-500/10 border-blue-500/20" data-testid="card-escrow-info">
                   <p className="text-xs text-blue-600 dark:text-blue-400 font-medium mb-1 flex items-center gap-1">
@@ -523,11 +531,6 @@ export default function Discover() {
                     This Dom has active escrow for your safety
                   </p>
                 </Card>
-              )}
-              {currentProfile.bio && (
-                <p className="text-foreground/80 leading-relaxed mb-3" data-testid="text-match-bio">
-                  {currentProfile.bio}
-                </p>
               )}
               <div className="flex flex-wrap gap-2 text-xs text-muted-foreground">
                 {currentProfile.height && <span>• {currentProfile.height}</span>}
