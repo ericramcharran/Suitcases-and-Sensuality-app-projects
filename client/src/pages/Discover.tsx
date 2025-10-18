@@ -479,7 +479,7 @@ export default function Discover() {
                 </div>
 
                 {/* Floating Action Buttons */}
-                {/* Pass Button - WHITE X - 40% smaller */}
+                {/* Pass Button - WHITE X - FLOATING SHADOW */}
                 <motion.div
                   drag
                   dragMomentum={false}
@@ -503,7 +503,8 @@ export default function Discover() {
                     left: `${passButtonPosition.x}px`,
                     bottom: `${passButtonPosition.y}px`,
                     cursor: 'grab',
-                    zIndex: 999
+                    zIndex: 999,
+                    filter: 'drop-shadow(0 10px 25px rgba(0, 0, 0, 0.4)) drop-shadow(0 6px 12px rgba(0, 0, 0, 0.3))'
                   }}
                   whileTap={{ cursor: 'grabbing' }}
                 >
@@ -517,13 +518,13 @@ export default function Discover() {
                     disabled={passMutation.isPending || likeMutation.isPending}
                     size="icon"
                     variant="secondary"
-                    className="rounded-full h-12 w-12 bg-white border-2 border-white shadow-2xl hover:scale-110 transition-transform"
+                    className="rounded-full h-12 w-12 bg-white border-2 border-white hover:scale-110 transition-transform"
                   >
                     <X className="w-6 h-6 text-red-500 stroke-[2.5]" />
                   </Button>
                 </motion.div>
 
-                {/* Like Button - PINK HEART - 40% smaller - VISIBLE AND DRAGGABLE */}
+                {/* Like Button - PINK HEART - FLOATING SHADOW */}
                 <motion.div
                   drag
                   dragMomentum={false}
@@ -548,7 +549,8 @@ export default function Discover() {
                     bottom: '30px',
                     transform: `translate(calc(-50% + ${likeButtonPosition.x}px), ${-likeButtonPosition.y}px)`,
                     cursor: 'grab',
-                    zIndex: 999
+                    zIndex: 999,
+                    filter: 'drop-shadow(0 10px 25px rgba(236, 72, 153, 0.5)) drop-shadow(0 6px 12px rgba(236, 72, 153, 0.4))'
                   }}
                   whileTap={{ cursor: 'grabbing' }}
                 >
@@ -561,7 +563,7 @@ export default function Discover() {
                     }}
                     disabled={passMutation.isPending || likeMutation.isPending}
                     size="icon"
-                    className="rounded-full h-12 w-12 bg-gradient-to-br from-pink-500 to-rose-600 shadow-2xl hover:scale-110 transition-transform border-2 border-white"
+                    className="rounded-full h-12 w-12 bg-gradient-to-br from-pink-500 to-rose-600 hover:scale-110 transition-transform border-2 border-white"
                   >
                     <Heart className="w-6 h-6 fill-white text-white" />
                   </Button>
