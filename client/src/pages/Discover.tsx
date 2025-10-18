@@ -4,6 +4,7 @@ import HeartTransition from "@/components/HeartTransition";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { useLocation } from "wouter";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { apiRequest } from "@/lib/queryClient";
@@ -491,19 +492,20 @@ export default function Discover() {
                 )}
 
                 {/* Match Percentage Badge */}
-                <button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    toast({
-                      title: `${currentProfile.matchPercentage}% Compatibility`,
-                      description: "This score is based on your personality traits, relationship preferences, role compatibility, and shared important values. Higher percentages indicate stronger overall compatibility."
-                    });
-                  }}
-                  className="absolute top-4 right-4 bg-green-500 hover:bg-green-600 text-white text-xs px-3 py-1.5 rounded-full font-medium z-10 transition-colors cursor-pointer"
-                  data-testid="button-match-percentage"
-                >
-                  {currentProfile.matchPercentage}% ℹ️
-                </button>
+                <Tooltip delayDuration={100}>
+                  <TooltipTrigger asChild>
+                    <div
+                      className="absolute top-4 right-4 bg-green-500 text-white text-[10px] px-2 py-1 rounded-full font-medium z-10 cursor-default"
+                      data-testid="badge-match-percentage"
+                    >
+                      {currentProfile.matchPercentage}%
+                    </div>
+                  </TooltipTrigger>
+                  <TooltipContent className="max-w-xs">
+                    <p className="font-semibold mb-1">{currentProfile.matchPercentage}% Compatibility</p>
+                    <p className="text-sm">This score is based on your personality traits, relationship preferences, role compatibility, and shared important values. Higher percentages indicate stronger overall compatibility.</p>
+                  </TooltipContent>
+                </Tooltip>
 
                 {/* Verified & Fully Funded Badge for Dominants (replaces standard verified badge) */}
                 {currentProfile.escrowVerified && currentProfile.fullyFunded ? (
