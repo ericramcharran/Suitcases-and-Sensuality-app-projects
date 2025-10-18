@@ -42,8 +42,16 @@ export default function BackgroundCheckProcessing() {
       sessionStorage.removeItem('backgroundCheckSubmitted');
       sessionStorage.removeItem('backgroundCheckName');
       
-      // Continue onboarding
-      setLocation('/subscription-role-select');
+      // Get user role to determine which subscription page
+      const userRole = sessionStorage.getItem('userRole') || '';
+      const isDominant = userRole === 'Dominant' || userRole === 'Domme' || userRole === 'Master';
+      
+      // Redirect to appropriate subscription page based on role
+      if (isDominant) {
+        setLocation('/subscription-dom');
+      } else {
+        setLocation('/subscription-sub');
+      }
     }, 17000);
 
     return () => {
