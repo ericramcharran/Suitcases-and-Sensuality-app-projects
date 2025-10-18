@@ -22,7 +22,7 @@ export default function Landing() {
           <Button
             data-testid="button-get-started"
             onClick={() => setLocation("/age-verification")}
-            className="w-full rounded-full bg-black text-white hover:bg-red-500 transition-colors min-h-[48px]"
+            className="w-full rounded-full bg-black text-white hover:bg-primary/20 transition-colors min-h-[48px]"
             size="lg"
           >
             Get Started
@@ -31,7 +31,7 @@ export default function Landing() {
             data-testid="button-view-subscriptions"
             onClick={() => setLocation("/subscription")}
             variant="outline"
-            className="w-full rounded-full border-2 hover:bg-red-500 hover:text-white hover:border-red-500 transition-colors min-h-[48px]"
+            className="w-full rounded-full border-2 hover:bg-primary/20 transition-colors min-h-[48px]"
             size="lg"
           >
             View Subscriptions
@@ -40,7 +40,7 @@ export default function Landing() {
             data-testid="button-sign-in"
             onClick={() => setLocation("/login")}
             variant="outline"
-            className="w-full rounded-full border-2 hover:bg-red-500 hover:text-white hover:border-red-500 transition-colors min-h-[48px]"
+            className="w-full rounded-full border-2 hover:bg-primary/20 transition-colors min-h-[48px]"
             size="lg"
           >
             Sign In
