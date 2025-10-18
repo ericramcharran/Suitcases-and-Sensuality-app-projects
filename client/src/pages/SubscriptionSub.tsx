@@ -7,6 +7,7 @@ import { Check, Heart, Sparkles } from "lucide-react";
 const plans = [
   {
     id: 'trial',
+    billingPeriod: null,
     name: 'Free Trial',
     price: 'Free',
     duration: '3 months',
@@ -21,6 +22,7 @@ const plans = [
   },
   {
     id: 'monthly',
+    billingPeriod: 'monthly',
     name: 'Monthly',
     price: '$25',
     duration: 'per month',
@@ -37,65 +39,15 @@ const plans = [
     popular: false
   },
   {
-    id: '3-month',
-    name: '3 Months',
-    price: '$23',
-    duration: 'per month',
-    totalPrice: '$69',
-    description: 'Save 8%',
-    features: [
-      'All Monthly features',
-      'Save $6 vs monthly',
-      'Quarterly commitment',
-      'Enhanced privacy controls',
-      'Priority customer service'
-    ],
-    popular: false
-  },
-  {
-    id: '6-month',
-    name: '6 Months',
-    price: '$20',
-    duration: 'per month',
-    totalPrice: '$120',
-    description: 'Save 20%',
-    features: [
-      'All Monthly features',
-      'Save $30 vs monthly',
-      'Exclusive community events',
-      'Relationship coaching session',
-      'Featured profile boost',
-      'Educational workshops'
-    ],
-    popular: true
-  },
-  {
-    id: 'yearly',
-    name: '1 Year',
-    price: '$18',
-    duration: 'per month',
-    totalPrice: '$216',
-    description: 'Save 28%',
-    features: [
-      'All 6-Month features',
-      'Save $84 vs monthly',
-      'Quarterly coaching sessions',
-      'Premium profile visibility',
-      'Early access to new features',
-      'Annual retreat invitation',
-      'Dedicated support specialist'
-    ],
-    popular: false
-  },
-  {
     id: '5-year',
+    billingPeriod: '5year',
     name: '5 Years',
     price: '$15',
     duration: 'per month',
-    totalPrice: '$900',
+    totalPrice: '$900 (paid upfront)',
     description: 'Maximum value - Save 40%',
     features: [
-      'All Annual features',
+      'All Monthly features',
       'Save $600 vs monthly',
       'Lifetime price lock guarantee',
       'VIP concierge services',
@@ -104,7 +56,7 @@ const plans = [
       'Free account upgrades',
       'Annual membership gifts'
     ],
-    popular: false
+    popular: true
   }
 ];
 
@@ -112,9 +64,30 @@ export default function SubscriptionSub() {
   const [, setLocation] = useLocation();
   const [selectedPlan, setSelectedPlan] = useState("");
 
-  const handleContinue = () => {
-    sessionStorage.setItem('selectedPlan', selectedPlan);
-    setLocation("/discover");
+  const handleContinue = async () => {
+    const userId = sessionStorage.getItem('userId');
+    if (!userId) {
+      setLocation('/signup');
+      return;
+    }
+
+    const plan = plans.find(p => p.id === selectedPlan);
+    if (!plan) return;
+
+    // For trial, skip payment and go to discover
+    if (plan.id === 'trial') {
+      sessionStorage.setItem('selectedPlan', selectedPlan);
+      setLocation("/discover");
+      return;
+    }
+
+    // Get user role from storage to ensure correct pricing
+    const userRole = sessionStorage.getItem('userRole') || 'Submissive';
+    
+    // For paid plans, store details and go to Stripe checkout
+    sessionStorage.setItem('selectedPlanType', userRole);
+    sessionStorage.setItem('selectedBillingPeriod', plan.billingPeriod || 'monthly');
+    setLocation("/subscribe");
   };
 
   return (

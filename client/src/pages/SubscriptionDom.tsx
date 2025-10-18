@@ -7,6 +7,7 @@ import { Check, Shield, Crown } from "lucide-react";
 const plans = [
   {
     id: 'trial',
+    billingPeriod: null,
     name: 'Free Trial',
     price: 'Free',
     duration: '30 days',
@@ -21,6 +22,7 @@ const plans = [
   },
   {
     id: 'monthly',
+    billingPeriod: 'monthly',
     name: 'Executive Monthly',
     price: '$249',
     duration: 'per month',
@@ -38,51 +40,15 @@ const plans = [
     popular: false
   },
   {
-    id: '6-month',
-    name: 'Executive 6-Month',
-    price: '$199',
-    duration: 'per month',
-    totalPrice: '$1,194',
-    description: 'Save 20% - Committed leadership',
-    features: [
-      'All Monthly features',
-      'Save $300 vs monthly',
-      'Exclusive Dom community events',
-      'Advanced profile analytics',
-      'Relationship coaching session',
-      'Priority matching queue',
-      'VIP customer service'
-    ],
-    popular: true
-  },
-  {
-    id: 'yearly',
-    name: 'Executive Annual',
-    price: '$149',
-    duration: 'per month',
-    totalPrice: '$1,788',
-    description: 'Save 40%',
-    features: [
-      'All 6-Month features',
-      'Save $1,200 vs monthly',
-      'Quarterly coaching sessions',
-      'Premium profile boost',
-      'Early access to new features',
-      'Annual Dom summit invitation',
-      'Dedicated account manager',
-      'Lifestyle concierge services'
-    ],
-    popular: false
-  },
-  {
     id: '5-year',
+    billingPeriod: '5year',
     name: 'Executive 5-Year',
     price: '$119',
     duration: 'per month',
-    totalPrice: '$7,140',
+    totalPrice: '$7,140 (paid upfront)',
     description: 'Ultimate value - Save 52%',
     features: [
-      'All Annual features',
+      'All Monthly features',
       'Save $7,800 vs monthly',
       'Lifetime price lock guarantee',
       'Elite Dom concierge services',
@@ -93,7 +59,7 @@ const plans = [
       'Personal relationship advisor',
       'Annual luxury gifts'
     ],
-    popular: false
+    popular: true
   }
 ];
 
@@ -101,9 +67,30 @@ export default function SubscriptionDom() {
   const [, setLocation] = useLocation();
   const [selectedPlan, setSelectedPlan] = useState("");
 
-  const handleContinue = () => {
-    sessionStorage.setItem('selectedPlan', selectedPlan);
-    setLocation("/escrow");
+  const handleContinue = async () => {
+    const userId = sessionStorage.getItem('userId');
+    if (!userId) {
+      setLocation('/signup');
+      return;
+    }
+
+    const plan = plans.find(p => p.id === selectedPlan);
+    if (!plan) return;
+
+    // For trial, skip payment and go to escrow
+    if (plan.id === 'trial') {
+      sessionStorage.setItem('selectedPlan', selectedPlan);
+      setLocation("/escrow");
+      return;
+    }
+
+    // Get user role from storage to ensure correct pricing
+    const userRole = sessionStorage.getItem('userRole') || 'Domme';
+    
+    // For paid plans, store details and go to Stripe checkout
+    sessionStorage.setItem('selectedPlanType', userRole);
+    sessionStorage.setItem('selectedBillingPeriod', plan.billingPeriod || 'monthly');
+    setLocation("/subscribe");
   };
 
   return (

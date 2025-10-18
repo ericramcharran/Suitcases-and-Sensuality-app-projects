@@ -6,6 +6,15 @@ import { z } from "zod";
 import multer from "multer";
 import path from "path";
 import fs from "fs";
+import Stripe from "stripe";
+
+// Initialize Stripe (from blueprint:javascript_stripe)
+// Guard initialization to allow development without keys
+const stripe = process.env.STRIPE_SECRET_KEY
+  ? new Stripe(process.env.STRIPE_SECRET_KEY, {
+      apiVersion: "2025-09-30.clover",
+    })
+  : null;
 
 // Drizzle ORM automatically converts database snake_case to TypeScript camelCase
 // No transformation needed - just return user objects as-is
@@ -310,6 +319,118 @@ export async function registerRoutes(app: Express): Promise<Server> {
       } else {
         res.status(500).json({ error: "Failed to save relationship test results" });
       }
+    }
+  });
+
+  // Stripe: Create subscription checkout session (from blueprint:javascript_stripe)
+  app.post("/api/create-subscription", async (req, res) => {
+    try {
+      // Validate Stripe is initialized
+      if (!stripe) {
+        res.status(500).json({ error: "Stripe not configured. Please add STRIPE_SECRET_KEY to environment variables." });
+        return;
+      }
+
+      const { userId, planType, billingPeriod } = req.body;
+      
+      if (!userId || !planType || !billingPeriod) {
+        res.status(400).json({ error: "Missing required fields: userId, planType, billingPeriod" });
+        return;
+      }
+
+      // Get user from storage
+      const user = await storage.getUser(userId);
+      if (!user) {
+        res.status(404).json({ error: "User not found" });
+        return;
+      }
+
+      // Define price amounts based on role and billing period
+      const prices: Record<string, Record<string, number>> = {
+        "Dominant": {
+          "monthly": 24900, // $249.00
+          "5year": 11900    // $119.00
+        },
+        "Domme": {
+          "monthly": 24900,
+          "5year": 11900
+        },
+        "Submissive": {
+          "monthly": 2500,  // $25.00
+          "5year": 1500     // $15.00
+        },
+        "submissive": {
+          "monthly": 2500,
+          "5year": 1500
+        },
+        "Switch": {
+          "monthly": 2500,
+          "5year": 1500
+        }
+      };
+
+      const amount = prices[user.role]?.[billingPeriod];
+      if (!amount) {
+        res.status(400).json({ error: "Invalid plan type or billing period" });
+        return;
+      }
+
+      // Create or get Stripe customer
+      let customerId = user.stripeCustomerId;
+      if (!customerId) {
+        const customer = await stripe.customers.create({
+          metadata: {
+            userId: user.id,
+            name: user.name,
+            role: user.role
+          }
+        });
+        customerId = customer.id;
+        
+        // Update user with Stripe customer ID
+        await storage.updateUser(userId, { stripeCustomerId: customerId });
+      }
+
+      // Create subscription
+      const subscription = await stripe.subscriptions.create({
+        customer: customerId,
+        items: [{
+          price_data: {
+            currency: 'usd',
+            product_data: {
+              name: `${user.role} Membership - ${billingPeriod === 'monthly' ? 'Monthly' : '5 Year'}`,
+              description: `The Executive Society ${user.role} subscription`
+            },
+            unit_amount: amount,
+            recurring: {
+              interval: billingPeriod === 'monthly' ? 'month' : 'year',
+              interval_count: billingPeriod === '5year' ? 5 : 1
+            }
+          } as any
+        }],
+        payment_behavior: 'default_incomplete',
+        payment_settings: {
+          save_default_payment_method: 'on_subscription'
+        },
+        expand: ['latest_invoice.payment_intent']
+      });
+
+      // Update user with subscription ID
+      await storage.updateUser(userId, { 
+        stripeSubscriptionId: subscription.id,
+        plan: `${user.role}-${billingPeriod}`
+      });
+
+      const invoice = subscription.latest_invoice as any;
+      const paymentIntent = invoice.payment_intent as Stripe.PaymentIntent;
+
+      res.json({
+        subscriptionId: subscription.id,
+        clientSecret: paymentIntent.client_secret
+      });
+    } catch (error: any) {
+      console.error("Stripe subscription error:", error);
+      res.status(500).json({ error: "Failed to create subscription", message: error.message });
     }
   });
 
