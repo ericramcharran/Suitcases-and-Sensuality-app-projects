@@ -523,15 +523,31 @@ export default function Discover() {
 
                 {/* Verified & Fully Funded Badge for Dominants (replaces standard verified badge) */}
                 {currentProfile.escrowVerified && currentProfile.fullyFunded ? (
-                  <div className="absolute top-4 left-4 bg-gradient-to-r from-amber-500 to-yellow-500 text-white text-xs px-3 py-1.5 rounded-full flex items-center gap-1 shadow-lg z-10 font-semibold" data-testid="badge-fully-funded">
-                    <Shield className="w-3.5 h-3.5" />
-                    Verified & Fully Funded
-                  </div>
+                  <Tooltip delayDuration={100}>
+                    <TooltipTrigger asChild>
+                      <div className="absolute top-4 left-4 bg-gradient-to-r from-amber-500 to-yellow-500 text-white text-xs px-3 py-1.5 rounded-full flex items-center gap-1 shadow-lg z-10 font-semibold cursor-default" data-testid="badge-fully-funded">
+                        <Shield className="w-3.5 h-3.5" />
+                        Verified & Fully Funded
+                      </div>
+                    </TooltipTrigger>
+                    <TooltipContent className="max-w-xs">
+                      <p className="font-semibold mb-1">Premium Verification</p>
+                      <p className="text-sm">This Dominant has completed both identity verification and escrow/mutual fund verification with full funding. This provides maximum trust and safety for all interactions.</p>
+                    </TooltipContent>
+                  </Tooltip>
                 ) : currentProfile.verified && (
-                  <div className="absolute top-4 left-4 bg-blue-500 text-white text-xs px-3 py-1 rounded-full flex items-center gap-1 z-10" data-testid="badge-verified">
-                    <Shield className="w-3 h-3" />
-                    Verified {currentProfile.role}
-                  </div>
+                  <Tooltip delayDuration={100}>
+                    <TooltipTrigger asChild>
+                      <div className="absolute top-4 left-4 bg-blue-500 text-white text-xs px-3 py-1 rounded-full flex items-center gap-1 z-10 cursor-default" data-testid="badge-verified">
+                        <Shield className="w-3 h-3" />
+                        Verified {currentProfile.role}
+                      </div>
+                    </TooltipTrigger>
+                    <TooltipContent className="max-w-xs">
+                      <p className="font-semibold mb-1">Identity Verified</p>
+                      <p className="text-sm">This user has completed identity verification including age verification and background check. Their profile has been authenticated for your safety.</p>
+                    </TooltipContent>
+                  </Tooltip>
                 )}
                 
                 {/* Swipe Hint Overlays */}
