@@ -7,6 +7,7 @@ import { AnimatePresence } from "framer-motion";
 import { PageTransition } from "@/components/PageTransition";
 
 import Landing from "@/pages/Landing";
+import Login from "@/pages/Login";
 import AgeVerification from "@/pages/AgeVerification";
 import Terms from "@/pages/Terms";
 import Consent from "@/pages/Consent";
@@ -49,6 +50,9 @@ function App() {
             <Switch location={location} key={location}>
               <Route path="/">
                 <PageTransition><Landing /></PageTransition>
+              </Route>
+              <Route path="/login">
+                <PageTransition><Login /></PageTransition>
               </Route>
               <Route path="/age-verification">
                 <PageTransition><AgeVerification /></PageTransition>

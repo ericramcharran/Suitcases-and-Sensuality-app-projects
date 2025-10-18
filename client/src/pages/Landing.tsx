@@ -38,7 +38,7 @@ export default function Landing() {
           </Button>
           <Button
             data-testid="button-sign-in"
-            onClick={() => setLocation("/discover")}
+            onClick={() => setLocation("/login")}
             variant="outline"
             className="w-full rounded-full border-2 hover:bg-red-500 hover:text-white hover:border-red-500 transition-colors min-h-[48px]"
             size="lg"
