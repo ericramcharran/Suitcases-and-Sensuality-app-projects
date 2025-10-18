@@ -69,7 +69,7 @@ export function DiscoverFilters({ filters, onFiltersChange, activeFilterCount }:
           )}
         </Button>
       </SheetTrigger>
-      <SheetContent side="right" className="w-full sm:max-w-md overflow-y-auto">
+      <SheetContent side="right" className="w-full sm:max-w-md overflow-y-auto z-[1000]">
         <SheetHeader>
           <SheetTitle className="flex items-center gap-2">
             <Filter className="w-5 h-5 text-primary" />
