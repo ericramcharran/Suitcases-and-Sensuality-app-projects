@@ -27,10 +27,11 @@ export default function Discover() {
   
   const userId = sessionStorage.getItem('userId');
 
-  // Load saved button positions from localStorage (now using bottom positioning)
+  // Load saved button positions from localStorage - CLEARED FOR VISIBILITY
   const [passButtonPosition, setPassButtonPosition] = useState(() => {
-    const saved = localStorage.getItem('passButtonPosition');
-    return saved ? JSON.parse(saved) : { x: 20, y: 20 };
+    // Clear any old positioning and start fresh at bottom-left
+    localStorage.removeItem('passButtonPosition');
+    return { x: 30, y: 30 };
   });
   
   const [likeButtonPosition, setLikeButtonPosition] = useState(() => {
@@ -308,7 +309,7 @@ export default function Discover() {
             <button
               data-testid="button-reset-layout"
               onClick={() => {
-                const defaultPass = { x: 20, y: 20 };
+                const defaultPass = { x: 30, y: 30 };
                 const defaultLike = { x: 0, y: 0 };
                 const defaultCardPosition = { x: 0, y: 0 };
                 setPassButtonPosition(defaultPass);
@@ -321,7 +322,7 @@ export default function Discover() {
                 localStorage.removeItem('profileImageHeight');
                 toast({
                   title: "Layout Reset",
-                  description: "All positions have been restored to default",
+                  description: "All buttons and card positions restored to default",
                 });
               }}
               className="text-foreground/70 hover-elevate active-elevate-2 p-2 rounded-md text-xs font-medium"
@@ -478,7 +479,7 @@ export default function Discover() {
                 </div>
 
                 {/* Floating Action Buttons */}
-                {/* Pass Button - 40% smaller */}
+                {/* Pass Button - WHITE X - 40% smaller */}
                 <motion.div
                   drag
                   dragMomentum={false}
@@ -492,13 +493,17 @@ export default function Discover() {
                     };
                     setPassButtonPosition(newPosition);
                     localStorage.setItem('passButtonPosition', JSON.stringify(newPosition));
+                    toast({
+                      title: "X Button Moved",
+                      description: `Positioned at (${Math.round(newPosition.x)}, ${Math.round(newPosition.y)})`,
+                    });
                   }}
                   style={{
                     position: 'absolute',
                     left: `${passButtonPosition.x}px`,
                     bottom: `${passButtonPosition.y}px`,
                     cursor: 'grab',
-                    zIndex: 50
+                    zIndex: 999
                   }}
                   whileTap={{ cursor: 'grabbing' }}
                 >
