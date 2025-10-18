@@ -32,7 +32,7 @@ export default function TravelMode() {
     if (window.history.length > 1) {
       window.history.back();
     } else {
-      setLocation("/settings");
+      setLocation("/profile");
     }
   }, [setLocation]);
 
@@ -62,7 +62,7 @@ export default function TravelMode() {
       description: `You'll now see matches near ${locationToSave}`
     });
 
-    setLocation("/settings");
+    setLocation("/profile");
   };
 
   const handleDeactivateTravel = () => {
@@ -74,7 +74,7 @@ export default function TravelMode() {
       description: "You'll now see matches in your home location"
     });
 
-    setLocation("/settings");
+    setLocation("/profile");
   };
 
   const currentTravelLocation = sessionStorage.getItem('travelLocation');

@@ -20,13 +20,6 @@ const settingsOptions = [
     link: "/permissions"
   },
   {
-    icon: MapPin,
-    title: "I am traveling",
-    description: "Change your location for matching",
-    hasSwitch: false,
-    link: "/travel-mode"
-  },
-  {
     icon: FileText,
     title: "Legal Documents",
     description: "View signed agreements and signatures",

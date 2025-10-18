@@ -1,4 +1,4 @@
-import { Heart, MessageCircle, User, BookOpen, Settings, Shield, Award, Upload, X, UserCircle, FileText, Pencil, Edit2 } from "lucide-react";
+import { Heart, MessageCircle, User, BookOpen, Settings, Shield, Award, Upload, X, UserCircle, FileText, Pencil, Edit2, MapPin, Plane } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -577,6 +577,49 @@ export default function Profile() {
                 )}
               </div>
             )}
+          </Card>
+
+          {/* Travel Mode */}
+          <Card 
+            className="p-4 mb-4 hover-elevate active-elevate-2 cursor-pointer"
+            onClick={() => setLocation("/travel-mode")}
+            data-testid="card-travel-mode"
+          >
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
+                  <Plane className="w-5 h-5 text-primary" />
+                </div>
+                <div>
+                  <h4 className="font-medium text-foreground">Travel Mode</h4>
+                  {sessionStorage.getItem('isTraveling') === 'true' ? (
+                    <p className="text-sm text-primary flex items-center gap-1">
+                      <MapPin className="w-3 h-3" />
+                      {sessionStorage.getItem('travelLocation')}
+                    </p>
+                  ) : (
+                    <p className="text-sm text-muted-foreground">
+                      Match in other cities
+                    </p>
+                  )}
+                </div>
+              </div>
+              <div>
+                {sessionStorage.getItem('isTraveling') === 'true' ? (
+                  <span className="text-xs px-2 py-1 rounded-full bg-primary/10 text-primary font-medium">
+                    Active
+                  </span>
+                ) : (
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className="text-muted-foreground"
+                  >
+                    Set Location
+                  </Button>
+                )}
+              </div>
+            </div>
           </Card>
 
           {/* Verification Status */}
