@@ -50,6 +50,7 @@ export default function Chat() {
   interface UserData {
     id: string;
     name: string;
+    profileName?: string;
     profileImages: string[];
     role: string;
   }
@@ -163,15 +164,15 @@ export default function Chat() {
             <>
               <Avatar>
                 {otherUser.profileImages && otherUser.profileImages.length > 0 && (
-                  <AvatarImage src={otherUser.profileImages[0]} alt={otherUser.name} />
+                  <AvatarImage src={otherUser.profileImages[0]} alt={otherUser.profileName || otherUser.name} />
                 )}
                 <AvatarFallback>
-                  {otherUser.name.split(' ').map(n => n[0]).join('').slice(0, 2).toUpperCase()}
+                  {(otherUser.profileName || otherUser.name).split(' ').map(n => n[0]).join('').slice(0, 2).toUpperCase()}
                 </AvatarFallback>
               </Avatar>
               <div className="flex-1">
                 <h2 className="font-medium text-foreground">
-                  {otherUser.name}
+                  {otherUser.profileName || otherUser.name}
                 </h2>
                 <p className="text-xs text-muted-foreground">
                   {otherUser.role}

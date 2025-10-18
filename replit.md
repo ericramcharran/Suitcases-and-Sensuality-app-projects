@@ -20,7 +20,7 @@ The backend is built with Express.js and TypeScript, designed with a RESTful API
 
 ### Database Schema (Drizzle ORM)
 
-The `users` table captures identity, role (Dominant/Submissive/Switch), verification status (including `escrowBalance` for Dominants), detailed personality and relationship assessment results, and records for agreed-upon terms, consent, privacy, and guidelines, each with a digital signature and timestamp. It also includes subscription plan details and creation timestamps.
+The `users` table captures identity, role (Dominant/Submissive/Switch), profile name (max 20 characters for display), verification status (including `escrowBalance` for Dominants), detailed personality and relationship assessment results, and records for agreed-upon terms, consent, privacy, and guidelines, each with a digital signature and timestamp. It also includes subscription plan details and creation timestamps.
 
 ### User Onboarding Flow
 
@@ -39,6 +39,7 @@ The platform features a compatibility algorithm based on 5-dimensional personali
 -   **Device Permissions**: A centralized utility (`Permissions Manager`) for managing camera, location, notification, and gallery access, with a user-friendly UI for managing permissions.
 -   **Travel Mode**: Allows users to set a temporary location to match in other cities, accessible from the user profile and managed through a dedicated travel mode page.
 -   **Verified & Fully Funded Badge**: Premium verification system for Dominants with escrow/mutual fund verification (`escrowVerified` and `fullyFunded` database fields). Gold gradient badge (amber-to-yellow) displays at top-left of profile images in Discover, replacing standard blue verification badge. Includes premium status card on profile pages with detailed verification explanation.
+-   **Profile Names**: Users can set a custom profile name (max 20 characters) separate from their real name for privacy. Profile names are displayed throughout the app in Discover, Messages, Chat, and Profile pages. Editable via dedicated Profile Name page accessible from the Profile.
 
 ## External Dependencies
 

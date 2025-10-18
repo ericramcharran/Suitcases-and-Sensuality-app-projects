@@ -38,6 +38,7 @@ import Learn from "@/pages/Learn";
 import Messages from "@/pages/Messages";
 import Chat from "@/pages/Chat";
 import Profile from "@/pages/Profile";
+import ProfileName from "@/pages/ProfileName";
 import ImportantTraits from "@/pages/ImportantTraits";
 import Settings from "@/pages/Settings";
 import LegalDocuments from "@/pages/LegalDocuments";
@@ -154,6 +155,9 @@ function App() {
               </Route>
               <Route path="/profile">
                 <PageTransition><Profile /></PageTransition>
+              </Route>
+              <Route path="/profile-name">
+                <PageTransition><ProfileName /></PageTransition>
               </Route>
               <Route path="/important-traits">
                 <PageTransition><ImportantTraits /></PageTransition>

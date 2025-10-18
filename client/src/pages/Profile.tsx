@@ -372,12 +372,34 @@ export default function Profile() {
               <AvatarFallback className="text-2xl sm:text-3xl">{userName.charAt(0)}</AvatarFallback>
             </Avatar>
             <h3 className="text-xl sm:text-2xl font-light text-foreground" data-testid="text-profile-name">
-              {userName}
+              {userData?.profileName || userName}
             </h3>
             <p className="text-primary font-medium text-sm sm:text-base" data-testid="text-profile-role">
               {userRole}
             </p>
           </div>
+
+          {/* Profile Name Card */}
+          <Card 
+            className="p-4 mb-4 hover-elevate active-elevate-2 cursor-pointer"
+            onClick={() => setLocation("/profile-name")}
+            data-testid="card-profile-name"
+          >
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
+                  <UserCircle className="w-5 h-5 text-primary" />
+                </div>
+                <div>
+                  <h4 className="font-medium text-foreground">Profile Name</h4>
+                  <p className="text-sm text-muted-foreground">
+                    {userData?.profileName || "Set your profile name"}
+                  </p>
+                </div>
+              </div>
+              <Edit2 className="w-5 h-5 text-muted-foreground" />
+            </div>
+          </Card>
 
           {/* Profile Images Section */}
           <Card className="p-4 mb-4">

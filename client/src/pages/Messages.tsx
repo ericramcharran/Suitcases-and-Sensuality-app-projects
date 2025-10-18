@@ -9,6 +9,7 @@ interface Conversation {
   user: {
     id: string;
     name: string;
+    profileName?: string;
     profileImages: string[];
   };
   latestMessage: {
@@ -58,16 +59,16 @@ export default function Messages() {
                 >
                   <Avatar>
                     {conv.user.profileImages && conv.user.profileImages.length > 0 && (
-                      <AvatarImage src={conv.user.profileImages[0]} alt={conv.user.name} />
+                      <AvatarImage src={conv.user.profileImages[0]} alt={conv.user.profileName || conv.user.name} />
                     )}
                     <AvatarFallback>
-                      {conv.user.name.split(' ').map(n => n[0]).join('').slice(0, 2).toUpperCase()}
+                      {(conv.user.profileName || conv.user.name).split(' ').map(n => n[0]).join('').slice(0, 2).toUpperCase()}
                     </AvatarFallback>
                   </Avatar>
                   <div className="flex-1 min-w-0">
                     <div className="flex justify-between items-start mb-1">
                       <h3 className="font-medium text-foreground">
-                        {conv.user.name}
+                        {conv.user.profileName || conv.user.name}
                       </h3>
                       {conv.latestMessage && (
                         <span className="text-xs text-muted-foreground">

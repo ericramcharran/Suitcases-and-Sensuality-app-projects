@@ -8,6 +8,7 @@ export const users = pgTable("users", {
   email: text("email").unique(),
   password: text("password"),
   name: text("name").notNull(),
+  profileName: varchar("profile_name", { length: 20 }), // Display name for profile (max 20 chars)
   role: text("role").notNull(), // 'Dominant', 'Submissive', 'Switch'
   verified: boolean("verified").default(false),
   escrowBalance: integer("escrow_balance").default(0),

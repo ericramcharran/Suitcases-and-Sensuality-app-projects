@@ -363,7 +363,7 @@ export default function Discover() {
                           <div key={idx} className="flex-[0_0_100%] min-w-0 relative h-full">
                             <img
                               src={imageUrl}
-                              alt={`${currentProfile.name} ${idx + 1}`}
+                              alt={`${currentProfile.profileName || currentProfile.name} ${idx + 1}`}
                               className="w-full h-full object-cover"
                               data-testid={`image-profile-${idx}`}
                             />
@@ -417,7 +417,7 @@ export default function Discover() {
                   <div className="bg-gradient-to-br from-primary/60 to-pink-500/60 h-full flex items-center justify-center">
                     <Avatar className="w-32 h-32">
                       <AvatarFallback className="text-5xl bg-primary/20">
-                        {currentProfile.name.charAt(0).toUpperCase()}
+                        {(currentProfile.profileName || currentProfile.name).charAt(0).toUpperCase()}
                       </AvatarFallback>
                     </Avatar>
                   </div>
@@ -509,7 +509,7 @@ export default function Discover() {
             {/* Profile Info - Scrollable with invisible scrollbar */}
             <div className="flex-[0.85] p-4 sm:p-6 overflow-y-auto border-t border-border scrollbar-hide" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
               <h3 className="text-xl sm:text-2xl font-light mb-1 text-foreground" data-testid="text-match-name">
-                {currentProfile.name}
+                {currentProfile.profileName || currentProfile.name}
               </h3>
               <p className="text-primary mb-2 font-medium text-sm sm:text-base" data-testid="text-match-role">
                 {currentProfile.role}
