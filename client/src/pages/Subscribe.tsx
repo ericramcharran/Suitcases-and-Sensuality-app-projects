@@ -35,10 +35,17 @@ const SubscribeForm = ({ onSuccess }: SubscribeFormProps) => {
     setIsProcessing(true);
 
     try {
+      // Determine return URL based on role
+      const planType = sessionStorage.getItem('selectedPlanType');
+      const isDominant = planType === 'Dominant' || planType === 'Domme' || planType === 'Master';
+      const returnUrl = isDominant 
+        ? `${window.location.origin}/escrow`
+        : `${window.location.origin}/subscription-success`;
+      
       const result = await stripe.confirmPayment({
         elements,
         confirmParams: {
-          return_url: `${window.location.origin}/subscription-success`,
+          return_url: returnUrl,
         },
         redirect: 'if_required',
       });
@@ -203,7 +210,15 @@ export default function Subscribe() {
   }, [setLocation, toast]);
 
   const handleSuccess = () => {
-    setLocation('/subscription-success');
+    // For Dominant roles, redirect to financial setup (escrow)
+    const planType = sessionStorage.getItem('selectedPlanType');
+    const isDominant = planType === 'Dominant' || planType === 'Domme' || planType === 'Master';
+    
+    if (isDominant) {
+      setLocation('/escrow');
+    } else {
+      setLocation('/subscription-success');
+    }
   };
 
   if (!clientSecret) {
