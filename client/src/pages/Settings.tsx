@@ -58,18 +58,18 @@ export default function Settings() {
   }, [setLocation]);
 
   return (
-    <div className="min-h-screen bg-muted p-6">
+    <div className="min-h-screen bg-muted p-4 sm:p-6">
       <button
         data-testid="button-back"
         onClick={handleBack}
-        className="mb-6 text-muted-foreground flex items-center gap-1 hover-elevate active-elevate-2 px-2 py-1 rounded-md"
+        className="mb-4 sm:mb-6 text-muted-foreground flex items-center gap-1 hover-elevate active-elevate-2 px-2 py-2 rounded-md min-h-[44px]"
       >
         <ChevronLeft className="w-5 h-5" />
         Back
       </button>
 
-      <div className="max-w-md mx-auto">
-        <h2 className="text-3xl font-light mb-6 text-foreground">Settings</h2>
+      <div className="max-w-md mx-auto w-full">
+        <h2 className="text-2xl sm:text-3xl font-light mb-4 sm:mb-6 text-foreground">Settings</h2>
 
         <div className="space-y-3 mb-6">
           {settingsOptions.map((option, i) => (

@@ -242,28 +242,28 @@ export default function Profile() {
     <div className="min-h-screen bg-background flex flex-col">
       <div className="max-w-md mx-auto w-full flex flex-col pb-20">
         {/* Header */}
-        <div className="p-4 border-b border-border bg-background flex justify-between items-center">
-          <h2 className="text-2xl font-light text-foreground">Profile</h2>
+        <div className="p-3 sm:p-4 border-b border-border bg-background flex justify-between items-center">
+          <h2 className="text-xl sm:text-2xl font-light text-foreground">Profile</h2>
           <button
             data-testid="button-settings"
             onClick={() => setLocation("/settings")}
-            className="text-foreground/70 hover-elevate active-elevate-2 p-2 rounded-md"
+            className="text-foreground/70 hover-elevate active-elevate-2 p-2 rounded-md min-w-[44px] min-h-[44px] flex items-center justify-center"
           >
             <Settings className="w-6 h-6" />
           </button>
         </div>
 
         {/* Content */}
-        <div className="p-4">
+        <div className="p-3 sm:p-4">
           {/* Profile Header */}
-          <div className="text-center mb-6">
-            <Avatar className="w-24 h-24 mx-auto mb-3">
-              <AvatarFallback className="text-3xl">{userName.charAt(0)}</AvatarFallback>
+          <div className="text-center mb-4 sm:mb-6">
+            <Avatar className="w-20 h-20 sm:w-24 sm:h-24 mx-auto mb-3">
+              <AvatarFallback className="text-2xl sm:text-3xl">{userName.charAt(0)}</AvatarFallback>
             </Avatar>
-            <h3 className="text-2xl font-light text-foreground" data-testid="text-profile-name">
+            <h3 className="text-xl sm:text-2xl font-light text-foreground" data-testid="text-profile-name">
               {userName}
             </h3>
-            <p className="text-primary font-medium" data-testid="text-profile-role">
+            <p className="text-primary font-medium text-sm sm:text-base" data-testid="text-profile-role">
               {userRole}
             </p>
           </div>

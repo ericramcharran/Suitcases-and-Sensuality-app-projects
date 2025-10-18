@@ -321,19 +321,19 @@ export default function Discover() {
     <div className="min-h-screen bg-background flex flex-col">
       <div className="max-w-md mx-auto h-screen w-full flex flex-col">
         {/* Header */}
-        <div className="p-4 border-b border-border flex justify-between items-center bg-background">
-          <h2 className="text-2xl font-light text-foreground">Discover</h2>
+        <div className="p-3 sm:p-4 border-b border-border flex justify-between items-center bg-background">
+          <h2 className="text-xl sm:text-2xl font-light text-foreground">Discover</h2>
           <button
             data-testid="button-settings"
             onClick={() => setLocation("/settings")}
-            className="text-foreground/70 hover-elevate active-elevate-2 p-2 rounded-md"
+            className="text-foreground/70 hover-elevate active-elevate-2 p-2 rounded-md min-w-[44px] min-h-[44px] flex items-center justify-center"
           >
             <Settings className="w-6 h-6" />
           </button>
         </div>
 
         {/* Match Card */}
-        <div className="flex-1 p-4 overflow-hidden">
+        <div className="flex-1 p-3 sm:p-4 overflow-hidden">
           <Card className="h-full flex flex-col overflow-hidden" data-testid="match-card">
             {/* Profile Image Placeholder */}
             <div className="bg-gradient-to-br from-primary/60 to-pink-500/60 h-64 flex items-center justify-center relative rounded-t-xl">
@@ -353,14 +353,14 @@ export default function Discover() {
               )}
               
               {/* Floating Action Buttons */}
-              <div className="absolute bottom-4 left-0 right-0 flex justify-center gap-6">
+              <div className="absolute bottom-4 left-0 right-0 flex justify-center gap-4 sm:gap-6">
                 <Button
                   data-testid="button-pass"
                   onClick={handlePass}
                   disabled={passMutation.isPending || likeMutation.isPending}
                   size="icon"
                   variant="secondary"
-                  className="rounded-full h-14 w-14 bg-background/90 backdrop-blur-sm border-2 border-border/50 shadow-lg hover:scale-110 transition-transform"
+                  className="rounded-full h-14 w-14 sm:h-16 sm:w-16 bg-background/90 backdrop-blur-sm border-2 border-border/50 shadow-lg hover:scale-110 transition-transform min-h-[56px] min-w-[56px]"
                 >
                   <X className="w-6 h-6" />
                 </Button>
@@ -369,7 +369,7 @@ export default function Discover() {
                   onClick={handleLike}
                   disabled={passMutation.isPending || likeMutation.isPending}
                   size="icon"
-                  className="rounded-full h-14 w-14 bg-primary shadow-lg hover:scale-110 transition-transform"
+                  className="rounded-full h-14 w-14 sm:h-16 sm:w-16 bg-primary shadow-lg hover:scale-110 transition-transform min-h-[56px] min-w-[56px]"
                 >
                   <Heart className="w-6 h-6" />
                 </Button>
@@ -377,11 +377,11 @@ export default function Discover() {
             </div>
 
             {/* Profile Info */}
-            <div className="flex-1 p-6 overflow-y-auto">
-              <h3 className="text-2xl font-light mb-1 text-foreground" data-testid="text-match-name">
+            <div className="flex-1 p-4 sm:p-6 overflow-y-auto">
+              <h3 className="text-xl sm:text-2xl font-light mb-1 text-foreground" data-testid="text-match-name">
                 {currentProfile.name}
               </h3>
-              <p className="text-primary mb-2 font-medium" data-testid="text-match-role">
+              <p className="text-primary mb-2 font-medium text-sm sm:text-base" data-testid="text-match-role">
                 {currentProfile.role}
               </p>
               <p className="text-muted-foreground text-sm mb-3 flex items-center gap-1" data-testid="text-match-distance">
@@ -407,31 +407,31 @@ export default function Discover() {
         </div>
 
         {/* Bottom Navigation */}
-        <nav className="bg-background p-4 flex justify-around border-t border-border">
+        <nav className="bg-background p-3 sm:p-4 flex justify-around border-t border-border">
           <button
             data-testid="nav-discover"
-            className="text-primary p-2 hover-elevate active-elevate-2 rounded-md"
+            className="text-primary p-2 hover-elevate active-elevate-2 rounded-md min-w-[44px] min-h-[44px] flex items-center justify-center"
           >
             <Heart className="w-6 h-6" />
           </button>
           <button
             data-testid="nav-education"
             onClick={() => setLocation("/learn")}
-            className="text-muted-foreground p-2 hover-elevate active-elevate-2 rounded-md"
+            className="text-muted-foreground p-2 hover-elevate active-elevate-2 rounded-md min-w-[44px] min-h-[44px] flex items-center justify-center"
           >
             <BookOpen className="w-6 h-6" />
           </button>
           <button
             data-testid="nav-messages"
             onClick={() => setLocation("/messages")}
-            className="text-muted-foreground p-2 hover-elevate active-elevate-2 rounded-md"
+            className="text-muted-foreground p-2 hover-elevate active-elevate-2 rounded-md min-w-[44px] min-h-[44px] flex items-center justify-center"
           >
             <MessageCircle className="w-6 h-6" />
           </button>
           <button
             data-testid="nav-profile"
             onClick={() => setLocation("/profile")}
-            className="text-muted-foreground p-2 hover-elevate active-elevate-2 rounded-md"
+            className="text-muted-foreground p-2 hover-elevate active-elevate-2 rounded-md min-w-[44px] min-h-[44px] flex items-center justify-center"
           >
             <User className="w-6 h-6" />
           </button>
