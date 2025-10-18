@@ -44,8 +44,11 @@ export default function Landing() {
         {/* Logo - rises to center, then zooms into keyhole */}
         <motion.div
           className="mb-0 w-full"
+          style={{
+            transformOrigin: "center 35%"
+          }}
           animate={isAnimating ? {
-            y: "calc(50vh - 70%)",
+            y: "calc(50vh - 35%)",
             scale: 10,
           } : {
             y: 0,
