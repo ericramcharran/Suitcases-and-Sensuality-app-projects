@@ -216,7 +216,7 @@ export default function ImportantTraits() {
               data-testid="button-save"
               onClick={handleSave}
               disabled={saveMutation.isPending || selectedTraits.length === 0}
-              className="flex-1 rounded-full bg-red-500 hover:bg-black text-white transition-colors"
+              className="flex-1 rounded-full bg-primary hover:bg-primary/20 text-white transition-colors"
               size="lg"
             >
               <Heart className="w-4 h-4 mr-2" />

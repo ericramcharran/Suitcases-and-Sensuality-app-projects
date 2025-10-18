@@ -248,7 +248,7 @@ export default function Escrow() {
               // Mark as initiated
               sessionStorage.setItem('escrowInitiated', 'true');
             }}
-            className="rounded-full bg-red-500 hover:bg-black text-white transition-colors px-12 flex items-center gap-2"
+            className="rounded-full bg-primary hover:bg-primary/20 text-white transition-colors px-12 flex items-center gap-2"
             size="lg"
           >
             Create Account with Escrow.com

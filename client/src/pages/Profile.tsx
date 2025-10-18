@@ -547,7 +547,7 @@ export default function Profile() {
                     data-testid="button-save-bio"
                     onClick={handleSaveBio}
                     disabled={updateBioMutation.isPending}
-                    className="flex-1 rounded-full bg-red-500 hover:bg-black text-white transition-colors"
+                    className="flex-1 rounded-full bg-primary hover:bg-primary/20 text-white transition-colors"
                   >
                     {updateBioMutation.isPending ? 'Saving...' : 'Save'}
                   </Button>
@@ -841,7 +841,7 @@ export default function Profile() {
                     data-testid="button-save-attributes"
                     onClick={handleSaveAttributes}
                     disabled={updateAttributesMutation.isPending}
-                    className="flex-1 rounded-full bg-red-500 hover:bg-black text-white transition-colors"
+                    className="flex-1 rounded-full bg-primary hover:bg-primary/20 text-white transition-colors"
                   >
                     {updateAttributesMutation.isPending ? 'Saving...' : 'Save'}
                   </Button>

@@ -276,7 +276,7 @@ export default function Discover() {
             <Button
               data-testid="button-view-profile"
               onClick={() => setLocation("/profile")}
-              className="rounded-full bg-red-500 hover:bg-black text-white transition-colors px-12"
+              className="rounded-full bg-primary hover:bg-primary/20 text-white transition-colors px-12"
               size="lg"
             >
               My Profile
@@ -380,7 +380,7 @@ export default function Discover() {
                         {currentImageIndex > 0 && (
                           <button
                             onClick={scrollPrev}
-                            className="absolute left-2 top-1/2 -translate-y-1/2 bg-black/50 text-white p-2 rounded-full hover:bg-black/70 transition-colors z-10"
+                            className="absolute left-2 top-1/2 -translate-y-1/2 bg-black/50 text-white p-2 rounded-full hover:bg-primary/30 transition-colors z-10"
                             data-testid="button-prev-image"
                           >
                             <ChevronLeft className="w-5 h-5" />
@@ -389,7 +389,7 @@ export default function Discover() {
                         {currentImageIndex < currentProfile.profileImages.length - 1 && (
                           <button
                             onClick={scrollNext}
-                            className="absolute right-2 top-1/2 -translate-y-1/2 bg-black/50 text-white p-2 rounded-full hover:bg-black/70 transition-colors z-10"
+                            className="absolute right-2 top-1/2 -translate-y-1/2 bg-black/50 text-white p-2 rounded-full hover:bg-primary/30 transition-colors z-10"
                             data-testid="button-next-image"
                           >
                             <ChevronRight className="w-5 h-5" />

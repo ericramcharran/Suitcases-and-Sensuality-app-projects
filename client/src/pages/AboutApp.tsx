@@ -257,7 +257,7 @@ export default function AboutApp() {
           <Button
             data-testid="button-get-started"
             onClick={() => setLocation("/")}
-            className="rounded-full bg-red-500 hover:bg-black text-white transition-colors px-8"
+            className="rounded-full bg-primary hover:bg-primary/20 text-white transition-colors px-8"
             size="lg"
           >
             Get Started

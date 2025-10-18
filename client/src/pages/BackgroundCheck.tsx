@@ -344,7 +344,7 @@ export default function BackgroundCheck() {
           data-testid="button-submit"
           onClick={handleSubmit}
           disabled={!canContinue}
-          className="w-full rounded-full bg-red-500 hover:bg-black text-white transition-colors min-h-[48px]"
+          className="w-full rounded-full bg-primary hover:bg-primary/20 text-white transition-colors min-h-[48px]"
           size="lg"
         >
           Authorize Background Check

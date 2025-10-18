@@ -332,7 +332,7 @@ export default function AgreementTimeline() {
           <Button
             data-testid="button-continue"
             onClick={handleContinue}
-            className="rounded-full bg-red-500 hover:bg-black text-white transition-colors px-12"
+            className="rounded-full bg-primary hover:bg-primary/20 text-white transition-colors px-12"
             size="lg"
             disabled={isSigning}
           >

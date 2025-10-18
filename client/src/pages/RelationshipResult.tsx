@@ -140,7 +140,7 @@ export default function RelationshipResult() {
               setLocation("/subscription-dom");
             }
           }}
-          className="w-full rounded-full bg-red-500 hover:bg-black text-white transition-colors"
+          className="w-full rounded-full bg-primary hover:bg-primary/20 text-white transition-colors"
         >
           Continue to Subscription
         </Button>

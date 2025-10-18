@@ -234,7 +234,7 @@ export default function AgeVerification() {
               setLocation("/verification-processing");
             }}
             disabled={!canContinue}
-            className="w-full rounded-full bg-red-500 hover:bg-black text-white transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full rounded-full bg-primary hover:bg-primary/20 text-white transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             size="lg"
           >
             {!month || !day || !year 

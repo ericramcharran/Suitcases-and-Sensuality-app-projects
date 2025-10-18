@@ -38,7 +38,7 @@ export default function SubscriptionRoleSelect() {
                 Premium membership for leaders in power exchange relationships. Includes escrow verification and exclusive features.
               </p>
               <Button 
-                className="w-full rounded-full bg-red-500 hover:bg-black text-white transition-colors"
+                className="w-full rounded-full bg-primary hover:bg-primary/20 text-white transition-colors"
                 size="lg"
               >
                 View Dominant plans
@@ -63,7 +63,7 @@ export default function SubscriptionRoleSelect() {
                 Premium membership for those seeking authentic power exchange connections. All Doms are verified for your safety.
               </p>
               <Button 
-                className="w-full rounded-full bg-red-500 hover:bg-black text-white transition-colors"
+                className="w-full rounded-full bg-primary hover:bg-primary/20 text-white transition-colors"
                 size="lg"
               >
                 View submissive plans
