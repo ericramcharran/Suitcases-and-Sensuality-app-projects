@@ -40,12 +40,6 @@ export default function Discover() {
 
   const [isDraggingButtons, setIsDraggingButtons] = useState(false);
 
-  // Wave position control (0 = top, 1 = bottom)
-  const [wavePosition, setWavePosition] = useState(() => {
-    const saved = localStorage.getItem('wavePosition');
-    return saved ? parseFloat(saved) : 0.88;
-  });
-
   // Ensure beating heart shows for at least 10 seconds
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -307,16 +301,14 @@ export default function Discover() {
               onClick={() => {
                 const defaultPass = { x: 50, y: 10 };
                 const defaultLike = { x: 250, y: 10 };
-                const defaultWave = 0.88;
                 setPassButtonPosition(defaultPass);
                 setLikeButtonPosition(defaultLike);
-                setWavePosition(defaultWave);
                 localStorage.setItem('passButtonPosition', JSON.stringify(defaultPass));
                 localStorage.setItem('likeButtonPosition', JSON.stringify(defaultLike));
-                localStorage.setItem('wavePosition', defaultWave.toString());
+                localStorage.removeItem('wavePosition');
                 toast({
                   title: "Layout Reset",
-                  description: "All positions have been restored to default",
+                  description: "Button positions have been restored to default",
                 });
               }}
               className="text-foreground/70 hover-elevate active-elevate-2 p-2 rounded-md text-xs font-medium"
@@ -343,51 +335,8 @@ export default function Discover() {
             className="h-full"
           >
             <Card className="h-full flex flex-col" data-testid="match-card">
-              {/* SVG Clip Path Definition */}
-              <svg width="0" height="0" style={{ position: 'absolute' }}>
-                <defs>
-                  <clipPath id="wave-clip" clipPathUnits="objectBoundingBox">
-                    <path d={`M 0,0 L 0,${wavePosition} Q 0.25,${wavePosition + 0.12} 0.5,${wavePosition} T 1,${wavePosition} L 1,0 Z`} />
-                  </clipPath>
-                </defs>
-              </svg>
-              
-              {/* Wave Position Dragger */}
-              <motion.div
-                drag="y"
-                dragMomentum={false}
-                dragElastic={0}
-                dragConstraints={{ top: -300, bottom: 100 }}
-                onDrag={(e, info) => {
-                  // Calculate new wave position based on drag (more sensitive)
-                  const newPosition = Math.max(0.4, Math.min(1.0, wavePosition + (info.offset.y / 800)));
-                  setWavePosition(newPosition);
-                }}
-                onDragEnd={() => {
-                  localStorage.setItem('wavePosition', wavePosition.toString());
-                  toast({
-                    title: "Wave Position Saved",
-                    description: `Wave set to ${Math.round(wavePosition * 100)}%`,
-                  });
-                }}
-                style={{
-                  position: 'absolute',
-                  left: '50%',
-                  top: `${wavePosition * 590}px`,
-                  transform: 'translateX(-50%)',
-                  cursor: 'ns-resize',
-                  zIndex: 30
-                }}
-                className="bg-primary/90 border-2 border-white rounded-full px-4 py-2 shadow-xl"
-              >
-                <div className="flex items-center gap-2">
-                  <div className="w-12 h-2 bg-white rounded-full" />
-                  <span className="text-white text-xs font-medium">Drag Wave</span>
-                </div>
-              </motion.div>
-              
               {/* Profile Image Carousel */}
-              <div className="relative h-[590px] bg-muted rounded-t-xl z-10" style={{ clipPath: 'url(#wave-clip)' }}>
+              <div className="relative h-[590px] bg-muted rounded-t-xl z-10">
                 {currentProfile.profileImages && currentProfile.profileImages.length > 0 ? (
                   <>
                     {/* Carousel */}
