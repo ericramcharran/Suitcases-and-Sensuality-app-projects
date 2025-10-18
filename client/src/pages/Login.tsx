@@ -54,7 +54,7 @@ export default function Login() {
       localStorage.setItem('userRole', data.user.role);
       
       toast({
-        title: "Welcome Back, " + data.user.name,
+        title: "Welcome Back, " + (data.user.profileName || data.user.name),
         description: "Login successful!"
       });
       setLocation("/discover");
