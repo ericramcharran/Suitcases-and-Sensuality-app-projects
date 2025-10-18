@@ -595,25 +595,66 @@ export default function Profile() {
               <div className="space-y-3">
                 <div>
                   <Label htmlFor="height" className="text-sm text-muted-foreground">Height</Label>
-                  <Input
-                    id="height"
-                    data-testid="input-height"
-                    value={height}
-                    onChange={(e) => setHeight(e.target.value)}
-                    placeholder="e.g., 5'10&quot; or 178cm"
-                    className="rounded-xl"
-                  />
+                  <Select value={height} onValueChange={setHeight}>
+                    <SelectTrigger className="rounded-xl" data-testid="select-height">
+                      <SelectValue placeholder="Select height" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="4'10&quot; (147cm)">4'10" (147cm)</SelectItem>
+                      <SelectItem value="4'11&quot; (150cm)">4'11" (150cm)</SelectItem>
+                      <SelectItem value="5'0&quot; (152cm)">5'0" (152cm)</SelectItem>
+                      <SelectItem value="5'1&quot; (155cm)">5'1" (155cm)</SelectItem>
+                      <SelectItem value="5'2&quot; (157cm)">5'2" (157cm)</SelectItem>
+                      <SelectItem value="5'3&quot; (160cm)">5'3" (160cm)</SelectItem>
+                      <SelectItem value="5'4&quot; (163cm)">5'4" (163cm)</SelectItem>
+                      <SelectItem value="5'5&quot; (165cm)">5'5" (165cm)</SelectItem>
+                      <SelectItem value="5'6&quot; (168cm)">5'6" (168cm)</SelectItem>
+                      <SelectItem value="5'7&quot; (170cm)">5'7" (170cm)</SelectItem>
+                      <SelectItem value="5'8&quot; (173cm)">5'8" (173cm)</SelectItem>
+                      <SelectItem value="5'9&quot; (175cm)">5'9" (175cm)</SelectItem>
+                      <SelectItem value="5'10&quot; (178cm)">5'10" (178cm)</SelectItem>
+                      <SelectItem value="5'11&quot; (180cm)">5'11" (180cm)</SelectItem>
+                      <SelectItem value="6'0&quot; (183cm)">6'0" (183cm)</SelectItem>
+                      <SelectItem value="6'1&quot; (185cm)">6'1" (185cm)</SelectItem>
+                      <SelectItem value="6'2&quot; (188cm)">6'2" (188cm)</SelectItem>
+                      <SelectItem value="6'3&quot; (191cm)">6'3" (191cm)</SelectItem>
+                      <SelectItem value="6'4&quot; (193cm)">6'4" (193cm)</SelectItem>
+                      <SelectItem value="6'5&quot; (196cm)">6'5" (196cm)</SelectItem>
+                      <SelectItem value="6'6&quot; (198cm)">6'6" (198cm)</SelectItem>
+                      <SelectItem value="6'7&quot; (201cm)">6'7" (201cm)</SelectItem>
+                      <SelectItem value="6'8&quot; (203cm)">6'8" (203cm)</SelectItem>
+                    </SelectContent>
+                  </Select>
                 </div>
                 <div>
                   <Label htmlFor="weight" className="text-sm text-muted-foreground">Weight</Label>
-                  <Input
-                    id="weight"
-                    data-testid="input-weight"
-                    value={weight}
-                    onChange={(e) => setWeight(e.target.value)}
-                    placeholder="e.g., 170 lbs or 77 kg"
-                    className="rounded-xl"
-                  />
+                  <Select value={weight} onValueChange={setWeight}>
+                    <SelectTrigger className="rounded-xl" data-testid="select-weight">
+                      <SelectValue placeholder="Select weight" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="90-100 lbs (41-45 kg)">90-100 lbs (41-45 kg)</SelectItem>
+                      <SelectItem value="100-110 lbs (45-50 kg)">100-110 lbs (45-50 kg)</SelectItem>
+                      <SelectItem value="110-120 lbs (50-54 kg)">110-120 lbs (50-54 kg)</SelectItem>
+                      <SelectItem value="120-130 lbs (54-59 kg)">120-130 lbs (54-59 kg)</SelectItem>
+                      <SelectItem value="130-140 lbs (59-64 kg)">130-140 lbs (59-64 kg)</SelectItem>
+                      <SelectItem value="140-150 lbs (64-68 kg)">140-150 lbs (64-68 kg)</SelectItem>
+                      <SelectItem value="150-160 lbs (68-73 kg)">150-160 lbs (68-73 kg)</SelectItem>
+                      <SelectItem value="160-170 lbs (73-77 kg)">160-170 lbs (73-77 kg)</SelectItem>
+                      <SelectItem value="170-180 lbs (77-82 kg)">170-180 lbs (77-82 kg)</SelectItem>
+                      <SelectItem value="180-190 lbs (82-86 kg)">180-190 lbs (82-86 kg)</SelectItem>
+                      <SelectItem value="190-200 lbs (86-91 kg)">190-200 lbs (86-91 kg)</SelectItem>
+                      <SelectItem value="200-210 lbs (91-95 kg)">200-210 lbs (91-95 kg)</SelectItem>
+                      <SelectItem value="210-220 lbs (95-100 kg)">210-220 lbs (95-100 kg)</SelectItem>
+                      <SelectItem value="220-230 lbs (100-104 kg)">220-230 lbs (100-104 kg)</SelectItem>
+                      <SelectItem value="230-240 lbs (104-109 kg)">230-240 lbs (104-109 kg)</SelectItem>
+                      <SelectItem value="240-250 lbs (109-113 kg)">240-250 lbs (109-113 kg)</SelectItem>
+                      <SelectItem value="250-260 lbs (113-118 kg)">250-260 lbs (113-118 kg)</SelectItem>
+                      <SelectItem value="260-270 lbs (118-122 kg)">260-270 lbs (118-122 kg)</SelectItem>
+                      <SelectItem value="270-280 lbs (122-127 kg)">270-280 lbs (122-127 kg)</SelectItem>
+                      <SelectItem value="280+ lbs (127+ kg)">280+ lbs (127+ kg)</SelectItem>
+                    </SelectContent>
+                  </Select>
                 </div>
                 <div>
                   <Label htmlFor="bodyShape" className="text-sm text-muted-foreground">Body Shape</Label>
@@ -671,14 +712,63 @@ export default function Profile() {
                 </div>
                 <div>
                   <Label htmlFor="nationality" className="text-sm text-muted-foreground">Nationality</Label>
-                  <Input
-                    id="nationality"
-                    data-testid="input-nationality"
-                    value={nationality}
-                    onChange={(e) => setNationality(e.target.value)}
-                    placeholder="e.g., American, British"
-                    className="rounded-xl"
-                  />
+                  <Select value={nationality} onValueChange={setNationality}>
+                    <SelectTrigger className="rounded-xl" data-testid="select-nationality">
+                      <SelectValue placeholder="Select nationality" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="American">American</SelectItem>
+                      <SelectItem value="British">British</SelectItem>
+                      <SelectItem value="Canadian">Canadian</SelectItem>
+                      <SelectItem value="Australian">Australian</SelectItem>
+                      <SelectItem value="Irish">Irish</SelectItem>
+                      <SelectItem value="Scottish">Scottish</SelectItem>
+                      <SelectItem value="Welsh">Welsh</SelectItem>
+                      <SelectItem value="German">German</SelectItem>
+                      <SelectItem value="French">French</SelectItem>
+                      <SelectItem value="Italian">Italian</SelectItem>
+                      <SelectItem value="Spanish">Spanish</SelectItem>
+                      <SelectItem value="Portuguese">Portuguese</SelectItem>
+                      <SelectItem value="Dutch">Dutch</SelectItem>
+                      <SelectItem value="Belgian">Belgian</SelectItem>
+                      <SelectItem value="Swiss">Swiss</SelectItem>
+                      <SelectItem value="Austrian">Austrian</SelectItem>
+                      <SelectItem value="Swedish">Swedish</SelectItem>
+                      <SelectItem value="Norwegian">Norwegian</SelectItem>
+                      <SelectItem value="Danish">Danish</SelectItem>
+                      <SelectItem value="Finnish">Finnish</SelectItem>
+                      <SelectItem value="Polish">Polish</SelectItem>
+                      <SelectItem value="Russian">Russian</SelectItem>
+                      <SelectItem value="Ukrainian">Ukrainian</SelectItem>
+                      <SelectItem value="Greek">Greek</SelectItem>
+                      <SelectItem value="Turkish">Turkish</SelectItem>
+                      <SelectItem value="Israeli">Israeli</SelectItem>
+                      <SelectItem value="Indian">Indian</SelectItem>
+                      <SelectItem value="Pakistani">Pakistani</SelectItem>
+                      <SelectItem value="Bangladeshi">Bangladeshi</SelectItem>
+                      <SelectItem value="Chinese">Chinese</SelectItem>
+                      <SelectItem value="Japanese">Japanese</SelectItem>
+                      <SelectItem value="Korean">Korean</SelectItem>
+                      <SelectItem value="Vietnamese">Vietnamese</SelectItem>
+                      <SelectItem value="Thai">Thai</SelectItem>
+                      <SelectItem value="Filipino">Filipino</SelectItem>
+                      <SelectItem value="Indonesian">Indonesian</SelectItem>
+                      <SelectItem value="Malaysian">Malaysian</SelectItem>
+                      <SelectItem value="Singaporean">Singaporean</SelectItem>
+                      <SelectItem value="New Zealander">New Zealander</SelectItem>
+                      <SelectItem value="South African">South African</SelectItem>
+                      <SelectItem value="Nigerian">Nigerian</SelectItem>
+                      <SelectItem value="Egyptian">Egyptian</SelectItem>
+                      <SelectItem value="Kenyan">Kenyan</SelectItem>
+                      <SelectItem value="Mexican">Mexican</SelectItem>
+                      <SelectItem value="Brazilian">Brazilian</SelectItem>
+                      <SelectItem value="Argentinian">Argentinian</SelectItem>
+                      <SelectItem value="Chilean">Chilean</SelectItem>
+                      <SelectItem value="Colombian">Colombian</SelectItem>
+                      <SelectItem value="Venezuelan">Venezuelan</SelectItem>
+                      <SelectItem value="Other">Other</SelectItem>
+                    </SelectContent>
+                  </Select>
                 </div>
                 <div className="flex gap-2 pt-2">
                   <Button
