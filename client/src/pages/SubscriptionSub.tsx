@@ -9,10 +9,10 @@ const plans = [
     id: 'trial',
     name: 'Free Trial',
     price: 'Free',
-    duration: '30 days',
-    description: 'Explore the platform',
+    duration: '3 months',
+    description: 'Extended trial period',
     features: [
-      'Full platform access',
+      'Full platform access for 3 months',
       'Advanced matching algorithm',
       'Unlimited messages',
       'Profile verification',
@@ -21,16 +21,15 @@ const plans = [
   },
   {
     id: 'monthly',
-    name: 'Premium Monthly',
-    price: '$99',
+    name: 'Monthly',
+    price: '$25',
     duration: 'per month',
-    description: 'Flexible monthly access',
+    description: 'Flexible month-to-month',
     features: [
       'Full platform access',
       'Advanced compatibility matching',
       'Unlimited messages',
       'Profile verification badge',
-      'Priority support',
       'Match with verified Doms only',
       'Safety tools & resources',
       'Community support groups'
@@ -38,40 +37,72 @@ const plans = [
     popular: false
   },
   {
-    id: '6-month',
-    name: 'Premium 6-Month',
-    price: '$79',
+    id: '3-month',
+    name: '3 Months',
+    price: '$23',
     duration: 'per month',
-    totalPrice: '$474',
-    description: 'Save 20% - Best for serious seekers',
+    totalPrice: '$69',
+    description: 'Save 8%',
     features: [
       'All Monthly features',
-      'Save $120 vs monthly',
-      'Exclusive sub community events',
-      'Relationship coaching session',
+      'Save $6 vs monthly',
+      'Quarterly commitment',
       'Enhanced privacy controls',
+      'Priority customer service'
+    ],
+    popular: false
+  },
+  {
+    id: '6-month',
+    name: '6 Months',
+    price: '$20',
+    duration: 'per month',
+    totalPrice: '$120',
+    description: 'Save 20%',
+    features: [
+      'All Monthly features',
+      'Save $30 vs monthly',
+      'Exclusive community events',
+      'Relationship coaching session',
       'Featured profile boost',
-      'VIP customer service',
       'Educational workshops'
     ],
     popular: true
   },
   {
     id: 'yearly',
-    name: 'Premium Annual',
-    price: '$59',
+    name: '1 Year',
+    price: '$18',
     duration: 'per month',
-    totalPrice: '$708',
-    description: 'Maximum value - Save 40%',
+    totalPrice: '$216',
+    description: 'Save 28%',
     features: [
       'All 6-Month features',
-      'Save $480 vs monthly',
+      'Save $84 vs monthly',
       'Quarterly coaching sessions',
       'Premium profile visibility',
       'Early access to new features',
       'Annual retreat invitation',
-      'Dedicated support specialist',
-      'Monthly educational webinars'
+      'Dedicated support specialist'
+    ],
+    popular: false
+  },
+  {
+    id: '5-year',
+    name: '5 Years',
+    price: '$15',
+    duration: 'per month',
+    totalPrice: '$900',
+    description: 'Maximum value - Save 40%',
+    features: [
+      'All Annual features',
+      'Save $600 vs monthly',
+      'Lifetime price lock guarantee',
+      'VIP concierge services',
+      'Priority matching forever',
+      'Exclusive 5-year member benefits',
+      'Free account upgrades',
+      'Annual membership gifts'
     ],
     popular: false
   }
@@ -124,7 +155,7 @@ export default function SubscriptionSub() {
         </Card>
 
         {/* Plans */}
-        <div className="grid md:grid-cols-2 gap-4 mb-6">
+        <div className="grid md:grid-cols-3 gap-4 mb-6">
           {plans.map((plan) => (
             <Card
               key={plan.id}
@@ -182,7 +213,7 @@ export default function SubscriptionSub() {
           </Button>
           <p className="text-xs text-muted-foreground text-center">
             {selectedPlan === 'trial' 
-              ? 'Start your trial today. All Doms are verified for your safety.'
+              ? 'Enjoy 3 months free. All Doms are verified for your safety.'
               : 'Next: Discover verified Dominant members who match your preferences'}
           </p>
         </div>

@@ -67,7 +67,8 @@ export default function SubscriptionRoleSelect() {
                 Premium membership for those seeking authentic power exchange connections. All Doms are verified for your safety.
               </p>
               <div className="space-y-2 mb-6 text-sm text-muted-foreground">
-                <p>Starting at <span className="text-lg font-medium text-red-500">$99</span>/month</p>
+                <p><span className="text-lg font-medium text-red-500">3 months free</span></p>
+                <p>Then starting at <span className="font-medium text-foreground">$25</span>/month</p>
                 <p className="text-xs">All Doms financially verified</p>
               </div>
               <Button 
@@ -83,7 +84,8 @@ export default function SubscriptionRoleSelect() {
         {/* Additional Info */}
         <div className="mt-8 text-center">
           <p className="text-sm text-muted-foreground">
-            All memberships include a <span className="font-medium text-foreground">30-day free trial</span>
+            Submissives get <span className="font-medium text-foreground">3 months free</span> · 
+            Doms get <span className="font-medium text-foreground">30 days free</span>
           </p>
           <p className="text-xs text-muted-foreground mt-2">
             Cancel anytime. No commitments.
