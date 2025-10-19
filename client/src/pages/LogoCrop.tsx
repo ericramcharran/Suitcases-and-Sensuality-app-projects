@@ -11,13 +11,11 @@ export default function LogoCrop() {
   const [croppedAreaPixels, setCroppedAreaPixels] = useState<any>(null);
 
   const onCropComplete = useCallback((croppedArea: any, croppedAreaPixels: any) => {
-    console.log('Crop area (pixels):', croppedAreaPixels);
     setCroppedAreaPixels(croppedAreaPixels);
   }, []);
 
   const applyCrop = () => {
     if (croppedAreaPixels) {
-      console.log('Applying crop:', croppedAreaPixels);
       alert(`Crop values:\nX: ${Math.round(croppedAreaPixels.x)}\nY: ${Math.round(croppedAreaPixels.y)}\nWidth: ${Math.round(croppedAreaPixels.width)}\nHeight: ${Math.round(croppedAreaPixels.height)}`);
     }
   };

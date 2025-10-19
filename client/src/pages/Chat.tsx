@@ -117,7 +117,7 @@ export default function Chat() {
     wsRef.current = ws;
 
     ws.onopen = () => {
-      console.log('WebSocket connected');
+      // WebSocket connected
     };
 
     ws.onmessage = (event) => {

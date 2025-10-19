@@ -98,9 +98,7 @@ export default function UserSelect() {
   const [, setLocation] = useLocation();
 
   const handleSelectUser = (userId: string, userName: string) => {
-    console.log('Selecting user:', userName, 'with ID:', userId);
     localStorage.setItem('userId', userId);
-    console.log('Stored userId:', localStorage.getItem('userId'));
     setLocation('/discover');
   };
 
