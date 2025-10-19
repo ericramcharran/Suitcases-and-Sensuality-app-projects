@@ -78,7 +78,8 @@ export default function Landing() {
             className="flex items-center justify-center overflow-hidden border-2 border-primary rounded-md" 
             style={{ 
               width: '380px',
-              height: '240px'
+              height: '240px',
+              padding: '0.5cm'
             }}
           >
             <video 

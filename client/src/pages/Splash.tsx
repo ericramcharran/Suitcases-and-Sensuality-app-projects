@@ -20,7 +20,8 @@ export default function Splash() {
         style={{ 
           marginTop: '2cm',
           width: '380px',
-          height: '240px'
+          height: '240px',
+          padding: '0.5cm'
         }}
       >
         <video 
