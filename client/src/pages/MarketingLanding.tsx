@@ -102,6 +102,16 @@ export default function MarketingLanding() {
                 >
                   FAQ
                 </button>
+                <button
+                  data-testid="nav-download"
+                  className="text-left py-2 px-3 text-sm text-foreground hover-elevate active-elevate-2 rounded-md"
+                  onClick={() => {
+                    setIsMenuOpen(false);
+                    setLocation("/download");
+                  }}
+                >
+                  Download App
+                </button>
                 <div className="mt-4">
                   <Button
                     data-testid="button-menu-get-started"
@@ -793,6 +803,15 @@ export default function MarketingLanding() {
                     data-testid="link-footer-pricing"
                   >
                     Pricing
+                  </button>
+                </li>
+                <li>
+                  <button
+                    onClick={() => setLocation("/download")}
+                    className="hover-elevate"
+                    data-testid="link-footer-download"
+                  >
+                    Download App
                   </button>
                 </li>
               </ul>

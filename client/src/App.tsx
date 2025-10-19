@@ -59,6 +59,7 @@ import HelpBilling from "@/pages/HelpBilling";
 import PermissionsSettings from "@/pages/PermissionsSettings";
 import SubscriptionManagement from "@/pages/SubscriptionManagement";
 import UserData from "@/pages/UserData";
+import Download from "@/pages/Download";
 import TermsProcessing from "@/pages/TermsProcessing";
 import ConsentProcessing from "@/pages/ConsentProcessing";
 import PrivacyProcessing from "@/pages/PrivacyProcessing";
@@ -257,6 +258,9 @@ function App() {
               </Route>
               <Route path="/user-data">
                 <PageTransition><UserData /></PageTransition>
+              </Route>
+              <Route path="/download">
+                <PageTransition><Download /></PageTransition>
               </Route>
               <Route>
                 <PageTransition><Splash /></PageTransition>

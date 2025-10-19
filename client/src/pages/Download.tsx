@@ -1,0 +1,166 @@
+import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
+import { useLocation } from "wouter";
+import { ArrowLeft, Smartphone, CheckCircle } from "lucide-react";
+import { SiApple, SiGoogleplay } from "react-icons/si";
+
+export default function Download() {
+  const [, setLocation] = useLocation();
+
+  return (
+    <div className="min-h-screen bg-background">
+      {/* Header */}
+      <header className="fixed top-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-sm border-b border-border">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center">
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={() => setLocation("/")}
+            data-testid="button-back"
+          >
+            <ArrowLeft className="w-5 h-5" />
+          </Button>
+        </div>
+      </header>
+
+      <div className="pt-24 pb-12 px-4 sm:px-6">
+        <div className="max-w-4xl mx-auto">
+          {/* Hero Section */}
+          <div className="text-center mb-12">
+            <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-primary/10 mb-6">
+              <Smartphone className="w-10 h-10 text-primary" />
+            </div>
+            <h1 className="text-4xl sm:text-5xl font-light text-foreground mb-4">
+              Download The Executive Society
+            </h1>
+            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+              Get the app on your mobile device for the best experience. Available on iOS and Android.
+            </p>
+          </div>
+
+          {/* Download Buttons */}
+          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12">
+            {/* App Store Button */}
+            <a
+              href="https://apps.apple.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group"
+              data-testid="link-app-store"
+            >
+              <Card className="p-6 hover-elevate active-elevate-2 cursor-pointer transition-all w-full sm:w-64">
+                <div className="flex items-center gap-4">
+                  <div className="flex-shrink-0 w-12 h-12 rounded-xl bg-black dark:bg-white flex items-center justify-center">
+                    <SiApple className="w-8 h-8 text-white dark:text-black" />
+                  </div>
+                  <div className="text-left">
+                    <div className="text-xs text-muted-foreground">Download on the</div>
+                    <div className="text-lg font-medium text-foreground">App Store</div>
+                  </div>
+                </div>
+              </Card>
+            </a>
+
+            {/* Google Play Button */}
+            <a
+              href="https://play.google.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group"
+              data-testid="link-google-play"
+            >
+              <Card className="p-6 hover-elevate active-elevate-2 cursor-pointer transition-all w-full sm:w-64">
+                <div className="flex items-center gap-4">
+                  <div className="flex-shrink-0 w-12 h-12 rounded-xl bg-gradient-to-br from-green-400 via-blue-500 to-purple-600 flex items-center justify-center">
+                    <SiGoogleplay className="w-7 h-7 text-white" />
+                  </div>
+                  <div className="text-left">
+                    <div className="text-xs text-muted-foreground">Get it on</div>
+                    <div className="text-lg font-medium text-foreground">Google Play</div>
+                  </div>
+                </div>
+              </Card>
+            </a>
+          </div>
+
+          {/* Progressive Web App Option */}
+          <Card className="p-8 mb-12 bg-gradient-to-r from-primary/5 to-pink-500/5 border-primary/20">
+            <div className="text-center">
+              <h2 className="text-2xl font-medium text-foreground mb-4">
+                Or Use as a Web App
+              </h2>
+              <p className="text-muted-foreground mb-6 max-w-2xl mx-auto">
+                The Executive Society is a Progressive Web App (PWA). You can add it to your home screen directly from your browser for a native app-like experience without downloading from the store.
+              </p>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-left">
+                <div className="flex items-start gap-3">
+                  <CheckCircle className="w-5 h-5 text-primary flex-shrink-0 mt-0.5" />
+                  <div>
+                    <h3 className="font-medium text-foreground mb-1">iOS (Safari)</h3>
+                    <p className="text-sm text-muted-foreground">
+                      Tap the Share button, then "Add to Home Screen"
+                    </p>
+                  </div>
+                </div>
+                <div className="flex items-start gap-3">
+                  <CheckCircle className="w-5 h-5 text-primary flex-shrink-0 mt-0.5" />
+                  <div>
+                    <h3 className="font-medium text-foreground mb-1">Android (Chrome)</h3>
+                    <p className="text-sm text-muted-foreground">
+                      Tap the menu (⋮), then "Add to Home screen"
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </Card>
+
+          {/* Features */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <Card className="p-6 text-center">
+              <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-primary/10 mb-4">
+                <CheckCircle className="w-6 h-6 text-primary" />
+              </div>
+              <h3 className="font-medium text-foreground mb-2">Optimized for Mobile</h3>
+              <p className="text-sm text-muted-foreground">
+                Touch gestures, swipe interactions, and mobile-first design
+              </p>
+            </Card>
+
+            <Card className="p-6 text-center">
+              <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-primary/10 mb-4">
+                <CheckCircle className="w-6 h-6 text-primary" />
+              </div>
+              <h3 className="font-medium text-foreground mb-2">Push Notifications</h3>
+              <p className="text-sm text-muted-foreground">
+                Get notified instantly about matches and messages
+              </p>
+            </Card>
+
+            <Card className="p-6 text-center">
+              <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-primary/10 mb-4">
+                <CheckCircle className="w-6 h-6 text-primary" />
+              </div>
+              <h3 className="font-medium text-foreground mb-2">Works Offline</h3>
+              <p className="text-sm text-muted-foreground">
+                Access your profile and browse while offline
+              </p>
+            </Card>
+          </div>
+
+          {/* CTA */}
+          <div className="text-center mt-12">
+            <Button
+              onClick={() => setLocation("/landing")}
+              size="lg"
+              className="rounded-full"
+              data-testid="button-get-started"
+            >
+              Get Started Now
+            </Button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
