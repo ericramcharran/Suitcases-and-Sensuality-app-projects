@@ -34,7 +34,7 @@ export default function Download() {
                 autoPlay
                 muted
                 playsInline
-                className="w-20 h-20"
+                className="w-32 h-32"
               />
             </div>
             <div className="mb-4">
