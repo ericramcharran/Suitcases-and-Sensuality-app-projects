@@ -6,6 +6,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { AnimatePresence } from "framer-motion";
 import { PageTransition } from "@/components/PageTransition";
 
+import Splash from "@/pages/Splash";
 import Landing from "@/pages/Landing";
 import Login from "@/pages/Login";
 import AgeVerification from "@/pages/AgeVerification";
@@ -73,6 +74,9 @@ function App() {
           <AnimatePresence mode="wait">
             <Switch location={location} key={location}>
               <Route path="/">
+                <PageTransition><Splash /></PageTransition>
+              </Route>
+              <Route path="/landing">
                 <PageTransition><Landing /></PageTransition>
               </Route>
               <Route path="/login">
@@ -241,7 +245,7 @@ function App() {
                 <PageTransition><UserData /></PageTransition>
               </Route>
               <Route>
-                <PageTransition><Landing /></PageTransition>
+                <PageTransition><Splash /></PageTransition>
               </Route>
             </Switch>
           </AnimatePresence>
