@@ -1,4 +1,4 @@
-import animatedLogo from "@assets/animate-logo_1760885812763.mp4";
+import animatedLogo from "@assets/animated-logo2_1760887393286.mp4";
 
 export function Logo() {
   return (
