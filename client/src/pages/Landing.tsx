@@ -91,6 +91,7 @@ export default function Landing() {
                 height: '120%',
                 objectFit: 'cover',
                 objectPosition: 'center center',
+                filter: 'brightness(1.3) saturate(0.3) contrast(1.1)',
                 WebkitBackfaceVisibility: 'hidden',
                 backfaceVisibility: 'hidden',
                 willChange: 'transform',
