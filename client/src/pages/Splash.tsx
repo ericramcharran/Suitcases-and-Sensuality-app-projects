@@ -15,15 +15,22 @@ export default function Splash() {
 
   return (
     <div className="min-h-screen bg-background flex items-center justify-center">
-      <div className="flex items-center justify-center" style={{ marginTop: '2cm' }}>
+      <div 
+        className="flex items-center justify-center overflow-hidden border-2 border-primary rounded-md" 
+        style={{ 
+          marginTop: '2cm',
+          width: '380px',
+          height: '240px'
+        }}
+      >
         <video 
           src={animatedLogo} 
           autoPlay
           muted
           playsInline
-          className="w-96 sm:w-[480px] h-auto object-contain border-2 border-primary rounded-md"
+          className="w-full h-full"
           style={{
-            maxHeight: '240px',
+            objectFit: 'cover',
             objectPosition: 'center'
           }}
         />

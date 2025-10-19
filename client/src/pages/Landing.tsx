@@ -74,15 +74,21 @@ export default function Landing() {
             rotate: { duration: 2.0, delay: 0.8, ease: "easeInOut" },
           }}
         >
-          <div className="flex items-center justify-center">
+          <div 
+            className="flex items-center justify-center overflow-hidden border-2 border-primary rounded-md" 
+            style={{ 
+              width: '380px',
+              height: '240px'
+            }}
+          >
             <video 
               src={animatedLogo}
               autoPlay
               muted
               playsInline
-              className="w-96 sm:w-[480px] h-auto object-contain border-2 border-primary rounded-md"
+              className="w-full h-full"
               style={{
-                maxHeight: '240px',
+                objectFit: 'cover',
                 objectPosition: 'center',
                 WebkitBackfaceVisibility: 'hidden',
                 backfaceVisibility: 'hidden',
