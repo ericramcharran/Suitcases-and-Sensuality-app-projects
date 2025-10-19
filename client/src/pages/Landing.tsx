@@ -78,8 +78,7 @@ export default function Landing() {
             className="flex items-center justify-center overflow-hidden border-2 border-primary rounded-md" 
             style={{ 
               width: '380px',
-              height: '240px',
-              padding: '0.5cm'
+              height: '240px'
             }}
           >
             <video 
@@ -87,13 +86,14 @@ export default function Landing() {
               autoPlay
               muted
               playsInline
-              className="w-full h-full"
               style={{
+                width: 'calc(100% + 1cm)',
+                height: 'calc(100% + 1cm)',
                 objectFit: 'cover',
                 objectPosition: 'center',
+                transform: 'scale(1.2)',
                 WebkitBackfaceVisibility: 'hidden',
                 backfaceVisibility: 'hidden',
-                transform: 'translateZ(0)',
                 willChange: 'transform',
               } as React.CSSProperties}
             />

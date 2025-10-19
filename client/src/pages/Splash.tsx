@@ -20,8 +20,7 @@ export default function Splash() {
         style={{ 
           marginTop: '2cm',
           width: '380px',
-          height: '240px',
-          padding: '0.5cm'
+          height: '240px'
         }}
       >
         <video 
@@ -29,10 +28,12 @@ export default function Splash() {
           autoPlay
           muted
           playsInline
-          className="w-full h-full"
           style={{
+            width: 'calc(100% + 1cm)',
+            height: 'calc(100% + 1cm)',
             objectFit: 'cover',
-            objectPosition: 'center'
+            objectPosition: 'center',
+            transform: 'scale(1.2)'
           }}
         />
       </div>
