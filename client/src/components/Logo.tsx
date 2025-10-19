@@ -19,8 +19,7 @@ export function Logo() {
             width: '120%',
             height: '120%',
             objectFit: 'cover',
-            objectPosition: 'center center',
-            filter: 'brightness(1.3) saturate(0.3) contrast(1.1)'
+            objectPosition: 'center center'
           }}
         />
       </div>
