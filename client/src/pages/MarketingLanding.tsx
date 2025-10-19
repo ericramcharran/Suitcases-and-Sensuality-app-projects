@@ -502,12 +502,12 @@ export default function MarketingLanding() {
           </p>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {/* Submissive */}
+            {/* submissive */}
             <Card className="hover-elevate" data-testid="card-pricing-submissive">
               <CardContent className="p-8">
                 <div className="text-center mb-6">
-                  <h3 className="text-2xl font-medium mb-2">Submissive</h3>
-                  <p className="text-muted-foreground text-sm mb-4">For Submissives & Switches</p>
+                  <h3 className="text-2xl font-medium mb-2">submissive</h3>
+                  <p className="text-muted-foreground text-sm mb-4">For submissives & Switches</p>
                   <div className="flex items-baseline justify-center gap-2 mb-2">
                     <span className="text-4xl font-light">$29</span>
                     <span className="text-muted-foreground">/month</span>
@@ -559,7 +559,7 @@ export default function MarketingLanding() {
                 <ul className="space-y-3 mb-8">
                   <li className="flex items-start gap-2">
                     <CheckCircle className="w-5 h-5 text-primary flex-shrink-0 mt-0.5" />
-                    <span className="text-sm">All Submissive plan features</span>
+                    <span className="text-sm">All submissive plan features</span>
                   </li>
                   <li className="flex items-start gap-2">
                     <CheckCircle className="w-5 h-5 text-primary flex-shrink-0 mt-0.5" />
@@ -677,7 +677,7 @@ export default function MarketingLanding() {
                 How does the matching algorithm work?
               </AccordionTrigger>
               <AccordionContent className="text-muted-foreground">
-                Our algorithm analyzes 5-dimensional personality test results, relationship style preferences, role compatibility (Dominant/Submissive/Switch), important traits you select, and approximate location. Each potential match receives a compatibility percentage to help you make informed decisions.
+                Our algorithm analyzes 5-dimensional personality test results, relationship style preferences, role compatibility (Dominant/submissive/Switch), important traits you select, and approximate location. Each potential match receives a compatibility percentage to help you make informed decisions.
               </AccordionContent>
             </AccordionItem>
 
@@ -695,7 +695,7 @@ export default function MarketingLanding() {
                 What if I identify as a Switch?
               </AccordionTrigger>
               <AccordionContent className="text-muted-foreground">
-                Switches can choose either the Submissive or Dominant subscription plan based on their primary preference. Your profile clearly indicates your Switch role, and our matching algorithm accounts for this flexibility when calculating compatibility.
+                Switches can choose either the submissive or Dominant subscription plan based on their primary preference. Your profile clearly indicates your Switch role, and our matching algorithm accounts for this flexibility when calculating compatibility.
               </AccordionContent>
             </AccordionItem>
 

@@ -451,19 +451,12 @@ export async function registerRoutes(app: Express): Promise<Server> {
           "1year": 14900,
           "5year": 11900
         },
-        "Submissive": {
+        "submissive": {
           "monthly": 2500,   // $25.00/mo
           "3month": 2300,    // $23.00/mo ($69 total)
           "6month": 2000,    // $20.00/mo ($120 total)
           "1year": 1800,     // $18.00/mo ($216 total)
           "5year": 1500      // $15.00/mo ($900 total)
-        },
-        "submissive": {
-          "monthly": 2500,
-          "3month": 2300,
-          "6month": 2000,
-          "1year": 1800,
-          "5year": 1500
         },
         "Switch": {
           "monthly": 2500,
@@ -699,9 +692,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
           }
 
           // Role compatibility bonus
-          if (currentUser.role === 'Dominant' && user.role === 'Submissive') {
+          if (currentUser.role === 'Dominant' && user.role === 'submissive') {
             compatibility += 15;
-          } else if (currentUser.role === 'Submissive' && user.role === 'Dominant') {
+          } else if (currentUser.role === 'submissive' && user.role === 'Dominant') {
             compatibility += 15;
           } else if (currentUser.role === 'Switch' || user.role === 'Switch') {
             compatibility += 10;

@@ -151,7 +151,7 @@ export function DiscoverFilters({ filters, onFiltersChange, activeFilterCount }:
                 <SelectItem value="all">Any</SelectItem>
                 <SelectItem value="Dominant">Dominant</SelectItem>
                 <SelectItem value="Domme">Domme</SelectItem>
-                <SelectItem value="Submissive">Submissive</SelectItem>
+                <SelectItem value="submissive">submissive</SelectItem>
                 <SelectItem value="Switch">Switch</SelectItem>
               </SelectContent>
             </Select>

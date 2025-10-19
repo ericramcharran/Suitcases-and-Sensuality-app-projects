@@ -48,13 +48,6 @@ export default function PaymentDemo() {
         "1year": "$149/mo", 
         "5year": "$119/mo" 
       },
-      "Submissive": { 
-        "monthly": "$25/mo", 
-        "3month": "$23/mo", 
-        "6month": "$20/mo", 
-        "1year": "$18/mo", 
-        "5year": "$15/mo" 
-      },
       "submissive": { 
         "monthly": "$25/mo", 
         "3month": "$23/mo", 

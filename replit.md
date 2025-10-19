@@ -2,7 +2,7 @@
 
 ## Overview
 
-The Executive Society is a premium BDSM dating platform for professionals, focusing on authentic power exchange relationships. It emphasizes trust, safety, consent, and sophisticated matching through detailed personality and relationship assessments. The platform provides role-specific features for Dominant and Submissive users, including escrow account verification for Dominants. Its business vision is to become the leading platform for discerning individuals seeking serious power exchange dynamics, offering significant market potential in a niche yet growing segment.
+The Executive Society is a premium BDSM dating platform for professionals, focusing on authentic power exchange relationships. It emphasizes trust, safety, consent, and sophisticated matching through detailed personality and relationship assessments. The platform provides role-specific features for Dominant and submissive users, including escrow account verification for Dominants. Its business vision is to become the leading platform for discerning individuals seeking serious power exchange dynamics, offering significant market potential in a niche yet growing segment.
 
 ## User Preferences
 
@@ -22,7 +22,7 @@ The backend is built with Express.js and TypeScript, designed with a RESTful API
 
 ### Database Schema (Drizzle ORM)
 
-The `users` table captures identity, role (Dominant/Submissive/Switch), profile name (max 20 characters for display), verification status (including `escrowBalance` for Dominants), detailed personality and relationship assessment results, and records for agreed-upon terms, consent, privacy, and guidelines, each with a digital signature and timestamp. It also includes subscription plan details and creation timestamps.
+The `users` table captures identity, role (Dominant/submissive/Switch), profile name (max 20 characters for display), verification status (including `escrowBalance` for Dominants), detailed personality and relationship assessment results, and records for agreed-upon terms, consent, privacy, and guidelines, each with a digital signature and timestamp. It also includes subscription plan details and creation timestamps.
 
 ### User Onboarding Flow
 
@@ -68,7 +68,7 @@ The chat feature requires mutual matches to function. Here's how to test it:
   - Profile Name: MarcusS
   - User ID: 38ad30cf-f254-4ebb-ab47-c2260e2a2faa
 
-- **Sarah** (Submissive)
+- **Sarah** (submissive)
   - Email: sarah@test.com
   - Profile Name: Sarah_T
   - User ID: d939ab1d-b9dc-4d93-a699-a4192f9a4086

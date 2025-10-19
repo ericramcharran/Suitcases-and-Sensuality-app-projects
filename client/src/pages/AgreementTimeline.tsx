@@ -257,7 +257,7 @@ export default function AgreementTimeline() {
             <div className="p-4 bg-muted/50 rounded-lg border border-border">
               <p className="font-medium text-foreground mb-2">Scenario 1: Ending After 2 Years</p>
               <p className="text-sm text-muted-foreground">
-                Submissive has completed 2 years and is 40% vested. They receive approximately $20,000 
+                submissive has completed 2 years and is 40% vested. They receive approximately $20,000 
                 (or 40% of the total account value if invested). The remaining $30,000 returns to the Dominant.
               </p>
             </div>
@@ -265,7 +265,7 @@ export default function AgreementTimeline() {
             <div className="p-4 bg-muted/50 rounded-lg border border-border">
               <p className="font-medium text-foreground mb-2">Scenario 2: Ending After 4 Years</p>
               <p className="text-sm text-muted-foreground">
-                Submissive has completed 4 years and is 80% vested. They receive approximately $40,000 
+                submissive has completed 4 years and is 80% vested. They receive approximately $40,000 
                 (or 80% of the total account value). The remaining $10,000 returns to the Dominant.
               </p>
             </div>

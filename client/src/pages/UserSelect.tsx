@@ -15,7 +15,7 @@ const testUsers: TestUser[] = [
   {
     id: 'fd98f1e3-5ae3-4ef8-9c47-963530b78b06',
     name: 'Sarah Bennett',
-    role: 'Submissive',
+    role: 'submissive',
     age: 25,
     city: 'Portland',
     state: 'OR'
@@ -39,7 +39,7 @@ const testUsers: TestUser[] = [
   {
     id: '1b37865d-22fd-46b5-ab61-3d10b54745d1',
     name: 'Marcus Chen',
-    role: 'Submissive',
+    role: 'submissive',
     age: 28,
     city: 'Seattle',
     state: 'WA'
@@ -55,7 +55,7 @@ const testUsers: TestUser[] = [
   {
     id: '41ea0351-f316-4f09-95f0-6cd9fbed48e6',
     name: 'David Thompson',
-    role: 'Submissive',
+    role: 'submissive',
     age: 28,
     city: 'Seattle',
     state: 'WA'
@@ -79,7 +79,7 @@ const testUsers: TestUser[] = [
   {
     id: '1e6c1d1c-9f26-4203-8161-e0a2ac560933',
     name: 'Sophie Chen',
-    role: 'Submissive',
+    role: 'submissive',
     age: 26,
     city: 'San Francisco',
     state: 'CA'

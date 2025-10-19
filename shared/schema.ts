@@ -9,7 +9,7 @@ export const users = pgTable("users", {
   password: text("password"),
   name: text("name").notNull(),
   profileName: varchar("profile_name", { length: 20 }), // Display name for profile (max 20 chars)
-  role: text("role").notNull(), // 'Dominant', 'Submissive', 'Switch'
+  role: text("role").notNull(), // 'Dominant', 'submissive', 'Switch'
   verified: boolean("verified").default(false),
   escrowBalance: integer("escrow_balance").default(0),
   escrowVerified: boolean("escrow_verified").default(false), // For Dominants with escrow/mutual fund verification

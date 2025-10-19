@@ -67,7 +67,7 @@ export default function HelpBilling() {
               </div>
 
               <div>
-                <h4 className="font-medium text-foreground mb-2">Submissive / Switch Plans</h4>
+                <h4 className="font-medium text-foreground mb-2">submissive / Switch Plans</h4>
                 <ul className="space-y-2 ml-4">
                   <li className="flex items-start gap-2">
                     <span className="text-primary mt-1">•</span>

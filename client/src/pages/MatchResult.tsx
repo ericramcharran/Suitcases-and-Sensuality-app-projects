@@ -29,7 +29,7 @@ export default function MatchResult() {
               <h3 className="text-xl font-light text-foreground" data-testid="text-match-name">
                 Alex, 28
               </h3>
-              <p className="text-primary font-medium">Submissive</p>
+              <p className="text-primary font-medium">submissive</p>
             </div>
             <div className="text-center">
               <div className="text-2xl font-light text-primary mb-1">95%</div>

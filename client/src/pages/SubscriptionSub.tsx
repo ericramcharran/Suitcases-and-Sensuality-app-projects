@@ -134,7 +134,7 @@ export default function SubscriptionSub() {
     }
 
     // Get user role from storage to ensure correct pricing
-    const userRole = localStorage.getItem('userRole') || 'Submissive';
+    const userRole = localStorage.getItem('userRole') || 'submissive';
     
     // For paid plans, store details and go to demo payment page
     localStorage.setItem('selectedPlanType', userRole);
@@ -149,7 +149,7 @@ export default function SubscriptionSub() {
 
     localStorage.setItem('selectedPlan', selectedPlan);
     localStorage.setItem('subscriptionActive', 'true');
-    localStorage.setItem('subscriptionPlan', `Submissive-${plan.billingPeriod || 'trial'}`);
+    localStorage.setItem('subscriptionPlan', `submissive-${plan.billingPeriod || 'trial'}`);
     setLocation("/subscription-success");
   };
 
@@ -160,7 +160,7 @@ export default function SubscriptionSub() {
         <div className="text-center mb-6">
           <div className="inline-flex items-center gap-2 mb-4">
             <Heart className="w-8 h-8 text-primary" />
-            <h2 className="text-4xl font-light text-foreground">Submissive Membership</h2>
+            <h2 className="text-4xl font-light text-foreground">submissive Membership</h2>
           </div>
           <p className="text-muted-foreground text-lg">
             Premium plans designed for authentic power exchange connections

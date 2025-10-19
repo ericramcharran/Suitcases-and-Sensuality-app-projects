@@ -57,7 +57,7 @@ export default function SubscriptionRoleSelect() {
                 <Heart className="w-10 h-10 text-primary" />
               </div>
               <h2 className="text-2xl font-medium text-foreground mb-3">
-                Submissive
+                submissive
               </h2>
               <p className="text-muted-foreground mb-8 leading-relaxed">
                 Premium membership for those seeking authentic power exchange connections. All Doms are verified for your safety.
@@ -75,7 +75,7 @@ export default function SubscriptionRoleSelect() {
         {/* Additional Info */}
         <div className="mt-8 text-center">
           <p className="text-sm text-muted-foreground">
-            Submissives get <span className="font-medium text-foreground">3 months free</span> · 
+            submissives get <span className="font-medium text-foreground">3 months free</span> · 
             Doms get <span className="font-medium text-foreground">30 days free</span>
           </p>
           <p className="text-xs text-muted-foreground mt-2">

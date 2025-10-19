@@ -31,7 +31,7 @@ const educationTopics = [
           heading: "Common Terminology",
           points: [
             "Dominant/Dom: The person who takes control in a scene or relationship",
-            "Submissive/Sub: The person who surrenders control",
+            "submissive/sub: The person who surrenders control",
             "Switch: Someone who enjoys both dominant and submissive roles",
             "Scene: A specific period of BDSM activity",
             "Safeword: A pre-agreed word that immediately stops all activity",
