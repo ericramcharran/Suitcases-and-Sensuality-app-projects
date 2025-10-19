@@ -4,7 +4,7 @@ export function Logo() {
   return (
     <div className="flex items-center justify-center">
       <div 
-        className="overflow-hidden border-2 border-primary rounded-md" 
+        className="overflow-hidden rounded-md" 
         style={{ 
           width: '380px',
           height: '240px'

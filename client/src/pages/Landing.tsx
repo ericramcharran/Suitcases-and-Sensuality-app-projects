@@ -75,7 +75,7 @@ export default function Landing() {
           }}
         >
           <div 
-            className="flex items-center justify-center overflow-hidden border-2 border-primary rounded-md mx-auto" 
+            className="flex items-center justify-center overflow-hidden rounded-md mx-auto" 
             style={{ 
               width: '380px',
               height: '240px'
