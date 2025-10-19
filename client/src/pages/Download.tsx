@@ -40,9 +40,10 @@ export default function Download() {
                 <div className="text-muted-foreground">App</div>
               </h1>
             </div>
-            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              Get the app on your mobile device for the best experience. Available on iOS and Android.
-            </p>
+            <div className="text-xl text-muted-foreground max-w-2xl mx-auto">
+              <p>Get the app on your mobile device for the best experience.</p>
+              <p>Available on iOS and Android.</p>
+            </div>
           </div>
 
           {/* Download Buttons */}
