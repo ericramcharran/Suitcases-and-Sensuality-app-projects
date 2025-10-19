@@ -30,12 +30,16 @@ export default function Download() {
             <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-primary/10 mb-6">
               <Smartphone className="w-10 h-10 text-primary" />
             </div>
-            <h1 className="text-xl sm:text-2xl font-light text-muted-foreground mb-4">
-              Download{" "}
-              <span className="text-foreground">The Executive</span>{" "}
-              <span className="text-primary">Society</span>{" "}
-              App
-            </h1>
+            <div className="mb-4">
+              <div className="text-lg sm:text-xl font-light text-muted-foreground mb-2">
+                Download
+              </div>
+              <h1 className="text-3xl sm:text-4xl md:text-5xl font-light">
+                <span className="text-foreground">The Executive</span>{" "}
+                <span className="text-primary">Society</span>{" "}
+                <span className="text-muted-foreground">App</span>
+              </h1>
+            </div>
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
               Get the app on your mobile device for the best experience. Available on iOS and Android.
             </p>
