@@ -46,7 +46,7 @@ export default function Download() {
           </div>
 
           {/* Download Buttons */}
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12">
+          <div className="flex flex-col sm:flex-row gap-3 justify-center items-center mb-12">
             {/* App Store Button */}
             <a
               href="https://apps.apple.com"
@@ -55,17 +55,17 @@ export default function Download() {
               className="group"
               data-testid="link-app-store"
             >
-              <Card className="p-6 hover-elevate active-elevate-2 cursor-pointer transition-all w-full sm:w-64">
-                <div className="flex items-center gap-4">
-                  <div className="flex-shrink-0 w-12 h-12 rounded-xl bg-black dark:bg-white flex items-center justify-center">
-                    <SiApple className="w-8 h-8 text-white dark:text-black" />
+              <div className="bg-black hover-elevate active-elevate-2 cursor-pointer transition-all rounded-lg p-3 w-full sm:w-48">
+                <div className="flex items-center gap-3">
+                  <div className="flex-shrink-0">
+                    <SiApple className="w-8 h-8 text-white" />
                   </div>
                   <div className="text-left">
-                    <div className="text-xs text-muted-foreground">Download on the</div>
-                    <div className="text-lg font-medium text-foreground">App Store</div>
+                    <div className="text-xs text-white/70">Download on the</div>
+                    <div className="text-base font-medium text-white">App Store</div>
                   </div>
                 </div>
-              </Card>
+              </div>
             </a>
 
             {/* Google Play Button */}
@@ -76,17 +76,17 @@ export default function Download() {
               className="group"
               data-testid="link-google-play"
             >
-              <Card className="p-6 hover-elevate active-elevate-2 cursor-pointer transition-all w-full sm:w-64">
-                <div className="flex items-center gap-4">
-                  <div className="flex-shrink-0 w-12 h-12 rounded-xl bg-gradient-to-br from-green-400 via-blue-500 to-purple-600 flex items-center justify-center">
+              <div className="bg-black hover-elevate active-elevate-2 cursor-pointer transition-all rounded-lg p-3 w-full sm:w-48">
+                <div className="flex items-center gap-3">
+                  <div className="flex-shrink-0">
                     <SiGoogleplay className="w-7 h-7 text-white" />
                   </div>
                   <div className="text-left">
-                    <div className="text-xs text-muted-foreground">Get it on</div>
-                    <div className="text-lg font-medium text-foreground">Google Play</div>
+                    <div className="text-xs text-white/70">Get it on</div>
+                    <div className="text-base font-medium text-white">Google Play</div>
                   </div>
                 </div>
-              </Card>
+              </div>
             </a>
           </div>
 
