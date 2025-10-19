@@ -78,7 +78,6 @@ export default function Landing() {
             <video 
               src={animatedLogo}
               autoPlay
-              loop
               muted
               playsInline
               className="w-96 sm:w-[480px] h-auto object-contain"
