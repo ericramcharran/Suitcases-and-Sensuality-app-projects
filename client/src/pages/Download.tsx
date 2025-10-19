@@ -1,8 +1,9 @@
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { useLocation } from "wouter";
-import { ArrowLeft, Smartphone, CheckCircle } from "lucide-react";
+import { ArrowLeft, CheckCircle } from "lucide-react";
 import { SiApple, SiGoogleplay } from "react-icons/si";
+import heartLogo from "@assets/logo.png";
 
 export default function Download() {
   const [, setLocation] = useLocation();
@@ -27,8 +28,8 @@ export default function Download() {
         <div className="max-w-4xl mx-auto">
           {/* Hero Section */}
           <div className="text-center mb-12">
-            <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-primary/10 mb-6">
-              <Smartphone className="w-10 h-10 text-primary" />
+            <div className="inline-flex items-center justify-center mb-6">
+              <img src={heartLogo} alt="Heart Logo" className="w-20 h-20" />
             </div>
             <div className="mb-4">
               <div className="text-lg sm:text-xl font-light text-muted-foreground mb-2">
