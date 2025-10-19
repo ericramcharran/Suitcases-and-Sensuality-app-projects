@@ -46,7 +46,7 @@ export default function MarketingLanding() {
             <img 
               src={heartLogo} 
               alt="Heart Logo" 
-              className="w-10 h-10 object-contain"
+              className="w-20 h-20 object-contain"
             />
             <h1 className="text-2xl font-medium">
               <span className="text-black dark:text-white">The Executive </span>
