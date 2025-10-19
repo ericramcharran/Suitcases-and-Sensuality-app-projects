@@ -76,7 +76,17 @@ export default function Download() {
             >
               <div className="bg-black hover-elevate active-elevate-2 cursor-pointer transition-all rounded-md px-3 py-2 h-11 flex items-center">
                 <div className="flex items-center gap-2">
-                  <SiGoogleplay className="w-5 h-5 text-white flex-shrink-0" />
+                  <div className="w-5 h-5 flex-shrink-0 relative">
+                    <SiGoogleplay 
+                      className="w-5 h-5 absolute inset-0"
+                      style={{
+                        background: 'linear-gradient(135deg, #4285f4 0%, #34a853 33%, #fbbc04 66%, #ea4335 100%)',
+                        WebkitBackgroundClip: 'text',
+                        WebkitTextFillColor: 'transparent',
+                        backgroundClip: 'text'
+                      }}
+                    />
+                  </div>
                   <div className="text-left">
                     <div className="text-[10px] leading-tight text-white/70">Get it on</div>
                     <div className="text-sm font-medium leading-tight text-white">Google Play</div>
