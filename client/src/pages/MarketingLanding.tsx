@@ -37,7 +37,15 @@ export default function MarketingLanding() {
       <header className="fixed top-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-sm border-b border-border">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
           <div className="flex items-center">
-            <h1 className="text-xl font-light text-foreground">The Executive Society</h1>
+            <motion.h1 
+              className="text-xl font-light"
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8, ease: "easeOut" }}
+            >
+              <span className="text-black dark:text-white">The Executive </span>
+              <span className="text-red-600">Society</span>
+            </motion.h1>
           </div>
           
           <Sheet open={isMenuOpen} onOpenChange={setIsMenuOpen}>
