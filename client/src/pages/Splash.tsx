@@ -19,8 +19,8 @@ export default function Splash() {
         className="flex items-center justify-center overflow-hidden border-2 border-primary rounded-md" 
         style={{ 
           marginTop: '2cm',
-          width: '380px',
-          height: '240px'
+          width: '760px',
+          height: '480px'
         }}
       >
         <video 
