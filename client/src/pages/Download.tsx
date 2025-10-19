@@ -46,7 +46,7 @@ export default function Download() {
           </div>
 
           {/* Download Buttons */}
-          <div className="flex flex-col sm:flex-row gap-3 justify-center items-center mb-12">
+          <div className="flex flex-col sm:flex-row gap-2 justify-center items-center mb-12">
             {/* App Store Button */}
             <a
               href="https://apps.apple.com"
@@ -55,14 +55,12 @@ export default function Download() {
               className="group"
               data-testid="link-app-store"
             >
-              <div className="bg-black hover-elevate active-elevate-2 cursor-pointer transition-all rounded-lg p-3 w-full sm:w-48">
-                <div className="flex items-center gap-3">
-                  <div className="flex-shrink-0">
-                    <SiApple className="w-8 h-8 text-white" />
-                  </div>
+              <div className="bg-black hover-elevate active-elevate-2 cursor-pointer transition-all rounded-md px-3 py-2 h-11 flex items-center">
+                <div className="flex items-center gap-2">
+                  <SiApple className="w-6 h-6 text-white flex-shrink-0" />
                   <div className="text-left">
-                    <div className="text-xs text-white/70">Download on the</div>
-                    <div className="text-base font-medium text-white">App Store</div>
+                    <div className="text-[10px] leading-tight text-white/70">Download on the</div>
+                    <div className="text-sm font-medium leading-tight text-white">App Store</div>
                   </div>
                 </div>
               </div>
@@ -76,14 +74,12 @@ export default function Download() {
               className="group"
               data-testid="link-google-play"
             >
-              <div className="bg-black hover-elevate active-elevate-2 cursor-pointer transition-all rounded-lg p-3 w-full sm:w-48">
-                <div className="flex items-center gap-3">
-                  <div className="flex-shrink-0">
-                    <SiGoogleplay className="w-7 h-7 text-white" />
-                  </div>
+              <div className="bg-black hover-elevate active-elevate-2 cursor-pointer transition-all rounded-md px-3 py-2 h-11 flex items-center">
+                <div className="flex items-center gap-2">
+                  <SiGoogleplay className="w-5 h-5 text-white flex-shrink-0" />
                   <div className="text-left">
-                    <div className="text-xs text-white/70">Get it on</div>
-                    <div className="text-base font-medium text-white">Google Play</div>
+                    <div className="text-[10px] leading-tight text-white/70">Get it on</div>
+                    <div className="text-sm font-medium leading-tight text-white">Google Play</div>
                   </div>
                 </div>
               </div>
