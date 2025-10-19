@@ -96,9 +96,6 @@ export default function Landing() {
         {/* Text and Buttons - fade out on animation */}
         <motion.div
           className="w-full"
-          style={{
-            marginTop: '-2cm'
-          }}
           animate={isAnimating ? { opacity: 0 } : { opacity: 1 }}
           transition={{ duration: 0.5, ease: "easeOut" }}
         >
