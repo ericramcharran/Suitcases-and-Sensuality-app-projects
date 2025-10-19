@@ -80,7 +80,7 @@ export default function Landing() {
               autoPlay
               muted
               playsInline
-              className="w-96 sm:w-[480px] h-auto object-contain"
+              className="w-96 sm:w-[480px] h-auto object-contain border-2 border-primary rounded-md"
               style={{
                 maxHeight: '240px',
                 objectPosition: 'center',
