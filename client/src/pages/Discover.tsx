@@ -1,5 +1,5 @@
 import { useState, useEffect, useMemo } from "react";
-import { Heart, MessageCircle, Settings, User, BookOpen, X, MapPin, Shield, ChevronLeft, ChevronRight } from "lucide-react";
+import { Heart, MessageCircle, Settings, User, BookOpen, X, MapPin, Shield } from "lucide-react";
 
 // Helper function to format last active time
 const formatLastActive = (lastActive: string) => {
@@ -47,7 +47,7 @@ export default function Discover() {
   const rotate = useTransform(x, [-200, 200], [-25, 25]);
   const opacity = useTransform(x, [-200, -100, 0, 100, 200], [0, 1, 1, 1, 0]);
   
-  const [emblaRef, emblaApi] = useEmblaCarousel({ loop: false });
+  const [emblaRef, emblaApi] = useEmblaCarousel({ loop: false, axis: 'y' });
   
   const userId = localStorage.getItem('userId');
 
@@ -267,13 +267,6 @@ export default function Discover() {
     }
   };
 
-  const scrollPrev = () => {
-    if (emblaApi) emblaApi.scrollPrev();
-  };
-
-  const scrollNext = () => {
-    if (emblaApi) emblaApi.scrollNext();
-  };
 
   useEffect(() => {
     if (!emblaApi) return;
@@ -438,11 +431,11 @@ export default function Discover() {
               <div className="relative bg-muted rounded-t-xl flex-[1.3] overflow-hidden">
                 {currentProfile.profileImages && currentProfile.profileImages.length > 0 ? (
                   <>
-                    {/* Carousel */}
+                    {/* Carousel - Vertical Scroll */}
                     <div className="overflow-hidden h-full" ref={emblaRef}>
-                      <div className="flex h-full">
+                      <div className="flex flex-col h-full">
                         {currentProfile.profileImages.map((imageUrl: string, idx: number) => (
-                          <div key={idx} className="flex-[0_0_100%] min-w-0 relative h-full">
+                          <div key={idx} className="flex-[0_0_100%] min-h-0 relative h-full">
                             <img
                               src={imageUrl}
                               alt={`${currentProfile.profileName || currentProfile.name} ${idx + 1}`}
@@ -456,43 +449,21 @@ export default function Discover() {
                       </div>
                     </div>
 
-                    {/* Navigation Arrows */}
+                    {/* Image Indicators */}
                     {currentProfile.profileImages.length > 1 && (
-                      <>
-                        {currentImageIndex > 0 && (
-                          <button
-                            onClick={scrollPrev}
-                            className="absolute left-2 top-1/2 -translate-y-1/2 bg-black/50 text-white p-2 rounded-full hover:bg-primary/30 transition-colors z-10"
-                            data-testid="button-prev-image"
-                          >
-                            <ChevronLeft className="w-5 h-5" />
-                          </button>
-                        )}
-                        {currentImageIndex < currentProfile.profileImages.length - 1 && (
-                          <button
-                            onClick={scrollNext}
-                            className="absolute right-2 top-1/2 -translate-y-1/2 bg-black/50 text-white p-2 rounded-full hover:bg-primary/30 transition-colors z-10"
-                            data-testid="button-next-image"
-                          >
-                            <ChevronRight className="w-5 h-5" />
-                          </button>
-                        )}
-
-                        {/* Image Indicators */}
-                        <div className="absolute bottom-4 left-0 right-0 flex justify-center gap-1 z-10">
-                          {currentProfile.profileImages.map((_: any, idx: number) => (
-                            <div
-                              key={idx}
-                              className={`h-1 rounded-full transition-all ${
-                                idx === currentImageIndex
-                                  ? 'w-8 bg-white'
-                                  : 'w-1 bg-white/50'
-                              }`}
-                              data-testid={`indicator-${idx}`}
-                            />
-                          ))}
-                        </div>
-                      </>
+                      <div className="absolute bottom-4 left-0 right-0 flex justify-center gap-1 z-10">
+                        {currentProfile.profileImages.map((_: any, idx: number) => (
+                          <div
+                            key={idx}
+                            className={`h-1 rounded-full transition-all ${
+                              idx === currentImageIndex
+                                ? 'w-8 bg-white'
+                                : 'w-1 bg-white/50'
+                            }`}
+                            data-testid={`indicator-${idx}`}
+                          />
+                        ))}
+                      </div>
                     )}
                   </>
                 ) : (
