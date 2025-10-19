@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { Shield, Heart, Users, Lock, CheckCircle, Sparkles, Phone, MessageCircle, Award } from "lucide-react";
+import { Shield, Heart, Users, Lock, CheckCircle, Sparkles, Phone, MessageCircle, Award, Menu } from "lucide-react";
 import { useLocation } from "wouter";
 import { useState } from "react";
 import animatedLogo from "@assets/crop animate logo_1760889514164.mp4";
@@ -10,15 +10,111 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
 
 export default function MarketingLanding() {
   const [, setLocation] = useLocation();
   const [videoEnded, setVideoEnded] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const scrollToSection = (sectionId: string) => {
+    setIsMenuOpen(false);
+    setTimeout(() => {
+      document.getElementById(sectionId)?.scrollIntoView({ behavior: "smooth" });
+    }, 100);
+  };
 
   return (
     <div className="min-h-screen bg-background">
+      {/* Header with Hamburger Menu */}
+      <header className="fixed top-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-sm border-b border-border">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
+          <div className="flex items-center">
+            <h1 className="text-xl font-light text-foreground">The Executive Society</h1>
+          </div>
+          
+          <Sheet open={isMenuOpen} onOpenChange={setIsMenuOpen}>
+            <SheetTrigger asChild>
+              <Button 
+                data-testid="button-menu-toggle"
+                variant="ghost" 
+                size="icon"
+                className="hover-elevate active-elevate-2"
+              >
+                <Menu className="h-6 w-6" />
+              </Button>
+            </SheetTrigger>
+            <SheetContent side="right">
+              <SheetHeader>
+                <SheetTitle>Menu</SheetTitle>
+              </SheetHeader>
+              <nav className="flex flex-col gap-4 mt-8">
+                <Button
+                  data-testid="nav-about"
+                  variant="ghost"
+                  className="justify-start text-base"
+                  onClick={() => scrollToSection("about")}
+                >
+                  About
+                </Button>
+                <Button
+                  data-testid="nav-features"
+                  variant="ghost"
+                  className="justify-start text-base"
+                  onClick={() => scrollToSection("features")}
+                >
+                  Features
+                </Button>
+                <Button
+                  data-testid="nav-how-it-works"
+                  variant="ghost"
+                  className="justify-start text-base"
+                  onClick={() => scrollToSection("how-it-works")}
+                >
+                  How It Works
+                </Button>
+                <Button
+                  data-testid="nav-pricing"
+                  variant="ghost"
+                  className="justify-start text-base"
+                  onClick={() => scrollToSection("pricing")}
+                >
+                  Pricing
+                </Button>
+                <Button
+                  data-testid="nav-faq"
+                  variant="ghost"
+                  className="justify-start text-base"
+                  onClick={() => scrollToSection("faq")}
+                >
+                  FAQ
+                </Button>
+                <div className="pt-4 border-t border-border mt-4">
+                  <Button
+                    data-testid="button-menu-get-started"
+                    className="w-full"
+                    onClick={() => {
+                      setIsMenuOpen(false);
+                      setLocation("/landing");
+                    }}
+                  >
+                    Get Started
+                  </Button>
+                </div>
+              </nav>
+            </SheetContent>
+          </Sheet>
+        </div>
+      </header>
+
       {/* Hero Section */}
-      <section className="relative min-h-screen flex flex-col items-center justify-center px-4 sm:px-6 py-12 overflow-hidden">
+      <section className="relative min-h-screen flex flex-col items-center justify-center px-4 sm:px-6 py-12 overflow-hidden pt-24">
         <div className="w-full max-w-4xl mx-auto text-center">
           {/* Animated Logo */}
           <div className="mb-8 flex items-center justify-center">
