@@ -61,7 +61,7 @@ export default function MarketingLanding() {
               data-testid="button-hero-get-started"
               onClick={() => setLocation("/landing")}
               size="lg"
-              className="w-full sm:w-auto min-w-[200px] rounded-full min-h-[48px]"
+              className="w-full sm:w-auto rounded-full"
             >
               Get Started
             </Button>
@@ -72,7 +72,7 @@ export default function MarketingLanding() {
               }}
               variant="outline"
               size="lg"
-              className="w-full sm:w-auto min-w-[200px] rounded-full min-h-[48px]"
+              className="w-full sm:w-auto rounded-full"
             >
               Learn More
             </Button>
@@ -96,29 +96,29 @@ export default function MarketingLanding() {
       </section>
 
       {/* About Section */}
-      <section id="about" className="py-12 sm:py-20 px-4 sm:px-6 bg-card">
+      <section id="about" className="py-12 sm:py-20 px-4 sm:px-6 bg-card" data-testid="section-about">
         <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-3xl sm:text-4xl font-light text-foreground mb-6">
+          <h2 className="text-3xl sm:text-4xl font-light text-foreground mb-6" data-testid="heading-about">
             Welcome to The Executive Society
           </h2>
-          <p className="text-base sm:text-lg text-muted-foreground leading-relaxed mb-6">
+          <p className="text-base sm:text-lg text-muted-foreground leading-relaxed mb-6" data-testid="text-about-intro">
             We've created a premium space for professionals exploring BDSM and power exchange dynamics. Unlike typical dating apps, we prioritize trust, safety, and compatibility through comprehensive verification and sophisticated matching algorithms.
           </p>
-          <p className="text-base sm:text-lg text-muted-foreground leading-relaxed">
+          <p className="text-base sm:text-lg text-muted-foreground leading-relaxed" data-testid="text-about-details">
             Every member is verified, background-checked, and committed to ethical, consensual relationships. Our platform combines advanced personality assessments with role-specific features to help you find truly compatible partners.
           </p>
         </div>
       </section>
 
       {/* Features Section */}
-      <section id="features" className="py-12 sm:py-20 px-4 sm:px-6">
+      <section id="features" className="py-12 sm:py-20 px-4 sm:px-6" data-testid="section-features">
         <div className="max-w-6xl mx-auto">
-          <h2 className="text-3xl sm:text-4xl font-light text-foreground mb-12 text-center">
+          <h2 className="text-3xl sm:text-4xl font-light text-foreground mb-12 text-center" data-testid="heading-features">
             Premium Features
           </h2>
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <Card className="hover-elevate">
+            <Card className="hover-elevate" data-testid="card-feature-verification">
               <CardContent className="p-6">
                 <div className="flex flex-col items-center text-center">
                   <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mb-4">
@@ -132,7 +132,7 @@ export default function MarketingLanding() {
               </CardContent>
             </Card>
 
-            <Card className="hover-elevate">
+            <Card className="hover-elevate" data-testid="card-feature-matching">
               <CardContent className="p-6">
                 <div className="flex flex-col items-center text-center">
                   <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mb-4">
@@ -146,7 +146,7 @@ export default function MarketingLanding() {
               </CardContent>
             </Card>
 
-            <Card className="hover-elevate">
+            <Card className="hover-elevate" data-testid="card-feature-roles">
               <CardContent className="p-6">
                 <div className="flex flex-col items-center text-center">
                   <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mb-4">
@@ -160,7 +160,7 @@ export default function MarketingLanding() {
               </CardContent>
             </Card>
 
-            <Card className="hover-elevate">
+            <Card className="hover-elevate" data-testid="card-feature-messaging">
               <CardContent className="p-6">
                 <div className="flex flex-col items-center text-center">
                   <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mb-4">
@@ -174,7 +174,7 @@ export default function MarketingLanding() {
               </CardContent>
             </Card>
 
-            <Card className="hover-elevate">
+            <Card className="hover-elevate" data-testid="card-feature-privacy">
               <CardContent className="p-6">
                 <div className="flex flex-col items-center text-center">
                   <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mb-4">
@@ -188,7 +188,7 @@ export default function MarketingLanding() {
               </CardContent>
             </Card>
 
-            <Card className="hover-elevate">
+            <Card className="hover-elevate" data-testid="card-feature-mobile">
               <CardContent className="p-6">
                 <div className="flex flex-col items-center text-center">
                   <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mb-4">
@@ -206,14 +206,14 @@ export default function MarketingLanding() {
       </section>
 
       {/* How It Works */}
-      <section id="how-it-works" className="py-12 sm:py-20 px-4 sm:px-6 bg-card">
+      <section id="how-it-works" className="py-12 sm:py-20 px-4 sm:px-6 bg-card" data-testid="section-how-it-works">
         <div className="max-w-4xl mx-auto">
-          <h2 className="text-3xl sm:text-4xl font-light text-foreground mb-12 text-center">
+          <h2 className="text-3xl sm:text-4xl font-light text-foreground mb-12 text-center" data-testid="heading-how-it-works">
             How It Works
           </h2>
 
           <div className="space-y-8">
-            <div className="flex gap-6">
+            <div className="flex gap-6" data-testid="step-verify">
               <div className="flex-shrink-0">
                 <div className="w-12 h-12 rounded-full bg-primary text-primary-foreground flex items-center justify-center font-medium text-lg">
                   1
@@ -227,7 +227,7 @@ export default function MarketingLanding() {
               </div>
             </div>
 
-            <div className="flex gap-6">
+            <div className="flex gap-6" data-testid="step-profile">
               <div className="flex-shrink-0">
                 <div className="w-12 h-12 rounded-full bg-primary text-primary-foreground flex items-center justify-center font-medium text-lg">
                   2
@@ -241,7 +241,7 @@ export default function MarketingLanding() {
               </div>
             </div>
 
-            <div className="flex gap-6">
+            <div className="flex gap-6" data-testid="step-discover">
               <div className="flex-shrink-0">
                 <div className="w-12 h-12 rounded-full bg-primary text-primary-foreground flex items-center justify-center font-medium text-lg">
                   3
@@ -255,7 +255,7 @@ export default function MarketingLanding() {
               </div>
             </div>
 
-            <div className="flex gap-6">
+            <div className="flex gap-6" data-testid="step-connect">
               <div className="flex-shrink-0">
                 <div className="w-12 h-12 rounded-full bg-primary text-primary-foreground flex items-center justify-center font-medium text-lg">
                   4
@@ -273,18 +273,18 @@ export default function MarketingLanding() {
       </section>
 
       {/* Pricing Section */}
-      <section id="pricing" className="py-12 sm:py-20 px-4 sm:px-6">
+      <section id="pricing" className="py-12 sm:py-20 px-4 sm:px-6" data-testid="section-pricing">
         <div className="max-w-6xl mx-auto">
-          <h2 className="text-3xl sm:text-4xl font-light text-foreground mb-4 text-center">
+          <h2 className="text-3xl sm:text-4xl font-light text-foreground mb-4 text-center" data-testid="heading-pricing">
             Subscription Plans
           </h2>
-          <p className="text-muted-foreground text-center mb-12 max-w-2xl mx-auto">
+          <p className="text-muted-foreground text-center mb-12 max-w-2xl mx-auto" data-testid="text-pricing-intro">
             Choose the plan that fits your role and commitment level. All plans include verification, matching, and messaging.
           </p>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {/* Submissive */}
-            <Card className="hover-elevate">
+            <Card className="hover-elevate" data-testid="card-pricing-submissive">
               <CardContent className="p-8">
                 <div className="text-center mb-6">
                   <h3 className="text-2xl font-medium mb-2">Submissive</h3>
@@ -324,7 +324,7 @@ export default function MarketingLanding() {
             </Card>
 
             {/* Dominant */}
-            <Card className="hover-elevate border-primary">
+            <Card className="hover-elevate border-primary" data-testid="card-pricing-dominant">
               <CardContent className="p-8">
                 <div className="text-center mb-6">
                   <div className="inline-block bg-primary text-primary-foreground px-3 py-1 rounded-full text-xs font-medium mb-3">
@@ -366,7 +366,7 @@ export default function MarketingLanding() {
             </Card>
 
             {/* Fully Funded */}
-            <Card className="hover-elevate">
+            <Card className="hover-elevate" data-testid="card-pricing-fully-funded">
               <CardContent className="p-8">
                 <div className="text-center mb-6">
                   <Award className="w-8 h-8 text-primary mx-auto mb-3" />
@@ -410,13 +410,13 @@ export default function MarketingLanding() {
       </section>
 
       {/* FAQ Section */}
-      <section id="faq" className="py-12 sm:py-20 px-4 sm:px-6 bg-card">
+      <section id="faq" className="py-12 sm:py-20 px-4 sm:px-6 bg-card" data-testid="section-faq">
         <div className="max-w-3xl mx-auto">
-          <h2 className="text-3xl sm:text-4xl font-light text-foreground mb-12 text-center">
+          <h2 className="text-3xl sm:text-4xl font-light text-foreground mb-12 text-center" data-testid="heading-faq">
             Frequently Asked Questions
           </h2>
 
-          <Accordion type="single" collapsible className="w-full">
+          <Accordion type="single" collapsible className="w-full" data-testid="accordion-faq">
             <AccordionItem value="item-1">
               <AccordionTrigger className="text-left">
                 What makes The Executive Society different from other dating apps?
@@ -493,12 +493,12 @@ export default function MarketingLanding() {
       </section>
 
       {/* Download CTA Section */}
-      <section className="py-12 sm:py-20 px-4 sm:px-6">
+      <section className="py-12 sm:py-20 px-4 sm:px-6" data-testid="section-cta">
         <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-3xl sm:text-4xl font-light text-foreground mb-6">
+          <h2 className="text-3xl sm:text-4xl font-light text-foreground mb-6" data-testid="heading-cta">
             Ready to Begin Your Journey?
           </h2>
-          <p className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto">
+          <p className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto" data-testid="text-cta-intro">
             Join The Executive Society today and discover authentic, compatible power exchange relationships with verified professionals.
           </p>
           
@@ -507,7 +507,7 @@ export default function MarketingLanding() {
               data-testid="button-cta-get-started"
               onClick={() => setLocation("/landing")}
               size="lg"
-              className="w-full sm:w-auto min-w-[240px] rounded-full min-h-[48px]"
+              className="w-full sm:w-auto rounded-full"
             >
               Get Started Now
             </Button>
@@ -516,7 +516,7 @@ export default function MarketingLanding() {
               onClick={() => setLocation("/login")}
               variant="outline"
               size="lg"
-              className="w-full sm:w-auto min-w-[240px] rounded-full min-h-[48px]"
+              className="w-full sm:w-auto rounded-full"
             >
               Already a Member? Sign In
             </Button>
@@ -539,7 +539,7 @@ export default function MarketingLanding() {
       </section>
 
       {/* Footer */}
-      <footer className="border-t bg-card py-8 px-4 sm:px-6">
+      <footer className="border-t bg-card py-8 px-4 sm:px-6" data-testid="section-footer">
         <div className="max-w-6xl mx-auto">
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 mb-8">
             <div>
