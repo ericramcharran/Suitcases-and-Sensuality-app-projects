@@ -98,7 +98,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
           name: user.name,
           email: user.email,
           role: user.role,
-          verified: user.verified
+          verified: user.verified,
+          profileName: user.profileName
         }
       });
     } catch (error) {
