@@ -59,7 +59,7 @@ export default function Download() {
                 <div className="flex items-center gap-2">
                   <SiApple className="w-6 h-6 text-white flex-shrink-0" />
                   <div className="text-left">
-                    <div className="text-sm font-medium leading-tight text-white/70">DOWNLOAD ON THE</div>
+                    <div className="text-sm font-medium leading-tight text-white/70">Download on the</div>
                     <div className="text-sm font-medium leading-tight text-white">App Store</div>
                   </div>
                 </div>
