@@ -55,3 +55,41 @@ The platform features a compatibility algorithm based on 5-dimensional personali
 -   **Email Service**: Resend for transactional emails.
 -   **Push Notifications**: web-push (Node.js library) and ws (WebSocket library).
 -   **Digital Signatures**: react-signature-canvas.
+
+## Testing Guide
+
+### Testing Chat Functionality
+
+The chat feature requires mutual matches to function. Here's how to test it:
+
+**Test Accounts Available:**
+- **Marcus Sterling** (Dominant)
+  - Email: dom_funded@test.com
+  - Profile Name: MarcusS
+  - User ID: 38ad30cf-f254-4ebb-ab47-c2260e2a2faa
+
+- **Sarah** (Submissive)
+  - Email: sarah@test.com
+  - Profile Name: Sarah_T
+  - User ID: d939ab1d-b9dc-4d93-a699-a4192f9a4086
+
+**Steps to Test Chat:**
+
+1. **Login as Marcus**: Navigate to `/user-select` and select Marcus Sterling
+2. **Navigate to Messages**: Click the Messages icon in the bottom navigation
+3. **View Conversation**: You should see a conversation with Sarah (they have a mutual match)
+4. **Open Chat**: Click on Sarah's conversation to open the chat
+5. **Send Messages**: Type a message and press Enter or click Send
+6. **Test Real-Time**: Open a second browser window/tab, login as Sarah, and both users can chat in real-time via WebSocket
+
+**How Mutual Matches Work:**
+- Users can only message each other if both have liked each other in Discover
+- The database has a `matches` table with `mutualMatch` boolean flag
+- When both users like each other, `mutualMatch` is set to `true` for both match records
+- The Messages page shows all mutual matches with their latest message
+- Chat requires a valid `matchId` from a mutual match
+
+**Recent Optimizations:**
+- Optimized mark-as-read logic to avoid redundant API calls
+- Added Error Boundary to gracefully handle rendering errors
+- Fixed TypeScript type errors in storage operations

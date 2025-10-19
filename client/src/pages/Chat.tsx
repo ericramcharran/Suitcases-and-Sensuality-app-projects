@@ -87,14 +87,24 @@ export default function Chat() {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
+  // Track which messages we've already marked as read to avoid redundant API calls
+  const markedAsReadRef = useRef<Set<string>>(new Set());
+
   // Mark unread messages as read
   useEffect(() => {
     const unreadMessages = messages.filter(
-      msg => msg.receiverId === currentUserId && !msg.read
+      msg => msg.receiverId === currentUserId && !msg.read && !markedAsReadRef.current.has(msg.id)
     );
 
-    unreadMessages.forEach(msg => {
-      apiRequest('PATCH', `/api/messages/${msg.id}/read`);
+    unreadMessages.forEach(async (msg) => {
+      try {
+        await apiRequest('PATCH', `/api/messages/${msg.id}/read`);
+        // Only add to Set after successful API call
+        markedAsReadRef.current.add(msg.id);
+      } catch (error) {
+        console.error('Failed to mark message as read:', error);
+        // Don't add to Set on failure, allowing retry on next render
+      }
     });
   }, [messages, currentUserId]);
 

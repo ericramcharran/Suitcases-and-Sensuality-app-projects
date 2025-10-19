@@ -5,6 +5,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { AnimatePresence } from "framer-motion";
 import { PageTransition } from "@/components/PageTransition";
+import { ErrorBoundary } from "@/components/ErrorBoundary";
 
 import Splash from "@/pages/Splash";
 import Landing from "@/pages/Landing";
@@ -72,10 +73,11 @@ function App() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <TooltipProvider>
-        <div className="min-h-screen">
-          <AnimatePresence mode="wait">
-            <Switch location={location} key={location}>
+      <ErrorBoundary>
+        <TooltipProvider>
+          <div className="min-h-screen">
+            <AnimatePresence mode="wait">
+              <Switch location={location} key={location}>
               <Route path="/">
                 <PageTransition><MarketingLanding /></PageTransition>
               </Route>
@@ -259,11 +261,12 @@ function App() {
               <Route>
                 <PageTransition><Splash /></PageTransition>
               </Route>
-            </Switch>
-          </AnimatePresence>
-        </div>
-        <Toaster />
-      </TooltipProvider>
+              </Switch>
+            </AnimatePresence>
+          </div>
+          <Toaster />
+        </TooltipProvider>
+      </ErrorBoundary>
     </QueryClientProvider>
   );
 }
