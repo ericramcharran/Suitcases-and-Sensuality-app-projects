@@ -34,10 +34,10 @@ export default function Download() {
               <div className="text-lg sm:text-xl font-light text-muted-foreground mb-2">
                 Download
               </div>
-              <h1 className="text-3xl sm:text-4xl md:text-5xl font-light">
-                <span className="text-foreground">The Executive</span>{" "}
-                <span className="text-primary">Society</span>{" "}
-                <span className="text-muted-foreground">App</span>
+              <h1 className="text-3xl sm:text-4xl md:text-5xl font-light leading-tight">
+                <div className="text-foreground">The Executive</div>
+                <div className="text-primary">Society</div>
+                <div className="text-muted-foreground">App</div>
               </h1>
             </div>
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
