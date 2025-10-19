@@ -51,54 +51,47 @@ export default function MarketingLanding() {
                 <Menu className="h-6 w-6" />
               </Button>
             </SheetTrigger>
-            <SheetContent side="right">
-              <SheetHeader>
-                <SheetTitle>Menu</SheetTitle>
-              </SheetHeader>
-              <nav className="flex flex-col gap-4 mt-8">
-                <Button
+            <SheetContent side="right" className="w-64">
+              <nav className="flex flex-col gap-2 mt-6">
+                <button
                   data-testid="nav-about"
-                  variant="ghost"
-                  className="justify-start text-base"
+                  className="text-left py-2 px-3 text-sm text-foreground hover-elevate active-elevate-2 rounded-md"
                   onClick={() => scrollToSection("about")}
                 >
                   About
-                </Button>
-                <Button
+                </button>
+                <button
                   data-testid="nav-features"
-                  variant="ghost"
-                  className="justify-start text-base"
+                  className="text-left py-2 px-3 text-sm text-foreground hover-elevate active-elevate-2 rounded-md"
                   onClick={() => scrollToSection("features")}
                 >
                   Features
-                </Button>
-                <Button
+                </button>
+                <button
                   data-testid="nav-how-it-works"
-                  variant="ghost"
-                  className="justify-start text-base"
+                  className="text-left py-2 px-3 text-sm text-foreground hover-elevate active-elevate-2 rounded-md"
                   onClick={() => scrollToSection("how-it-works")}
                 >
                   How It Works
-                </Button>
-                <Button
+                </button>
+                <button
                   data-testid="nav-pricing"
-                  variant="ghost"
-                  className="justify-start text-base"
+                  className="text-left py-2 px-3 text-sm text-foreground hover-elevate active-elevate-2 rounded-md"
                   onClick={() => scrollToSection("pricing")}
                 >
                   Pricing
-                </Button>
-                <Button
+                </button>
+                <button
                   data-testid="nav-faq"
-                  variant="ghost"
-                  className="justify-start text-base"
+                  className="text-left py-2 px-3 text-sm text-foreground hover-elevate active-elevate-2 rounded-md"
                   onClick={() => scrollToSection("faq")}
                 >
                   FAQ
-                </Button>
-                <div className="pt-4 border-t border-border mt-4">
+                </button>
+                <div className="mt-4">
                   <Button
                     data-testid="button-menu-get-started"
+                    size="sm"
                     className="w-full"
                     onClick={() => {
                       setIsMenuOpen(false);
