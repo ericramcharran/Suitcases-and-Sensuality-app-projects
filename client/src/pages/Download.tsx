@@ -29,13 +29,29 @@ export default function Download() {
           {/* Hero Section */}
           <div className="text-center mb-12">
             <div className="inline-flex items-center justify-center mb-6">
-              <video 
-                src={animatedLogo}
-                autoPlay
-                muted
-                playsInline
-                className="w-40 h-40"
-              />
+              <div 
+                className="overflow-hidden rounded-md" 
+                style={{ 
+                  width: '380px',
+                  height: '240px'
+                }}
+              >
+                <video 
+                  src={animatedLogo}
+                  autoPlay
+                  muted
+                  playsInline
+                  style={{
+                    width: '120%',
+                    height: '120%',
+                    objectFit: 'cover',
+                    objectPosition: 'center center',
+                    WebkitBackfaceVisibility: 'hidden',
+                    backfaceVisibility: 'hidden',
+                    willChange: 'transform',
+                  } as React.CSSProperties}
+                />
+              </div>
             </div>
             <div className="mb-4">
               <div className="text-lg sm:text-xl font-light text-muted-foreground mb-2">
