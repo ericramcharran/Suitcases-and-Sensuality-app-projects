@@ -16,10 +16,10 @@ export function Logo() {
           muted
           playsInline
           style={{
-            width: '130%',
-            height: '120%',
+            width: '160%',
+            height: '130%',
             objectFit: 'cover',
-            objectPosition: 'center 20%'
+            objectPosition: 'center 15%'
           }}
         />
       </div>
