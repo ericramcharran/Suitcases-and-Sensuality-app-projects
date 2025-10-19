@@ -119,7 +119,7 @@ export default function MarketingLanding() {
                     className="w-full"
                     onClick={() => {
                       setIsMenuOpen(false);
-                      setLocation("/landing");
+                      setLocation("/download");
                     }}
                   >
                     Get Started
@@ -193,7 +193,7 @@ export default function MarketingLanding() {
           >
             <Button
               data-testid="button-hero-get-started"
-              onClick={() => setLocation("/landing")}
+              onClick={() => setLocation("/download")}
               size="lg"
               className="w-full sm:w-auto rounded-full"
             >
@@ -543,7 +543,7 @@ export default function MarketingLanding() {
                 </ul>
                 <Button
                   data-testid="button-pricing-submissive"
-                  onClick={() => setLocation("/landing")}
+                  onClick={() => setLocation("/download")}
                   variant="outline"
                   className="w-full rounded-full"
                 >
@@ -586,7 +586,7 @@ export default function MarketingLanding() {
                 </ul>
                 <Button
                   data-testid="button-pricing-dominant"
-                  onClick={() => setLocation("/landing")}
+                  onClick={() => setLocation("/download")}
                   className="w-full rounded-full"
                 >
                   Get Started
@@ -626,7 +626,7 @@ export default function MarketingLanding() {
                 </ul>
                 <Button
                   data-testid="button-pricing-fully-funded"
-                  onClick={() => setLocation("/landing")}
+                  onClick={() => setLocation("/download")}
                   variant="outline"
                   className="w-full rounded-full"
                 >
@@ -734,7 +734,7 @@ export default function MarketingLanding() {
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-8">
             <Button
               data-testid="button-cta-get-started"
-              onClick={() => setLocation("/landing")}
+              onClick={() => setLocation("/download")}
               size="lg"
               className="w-full sm:w-auto rounded-full"
             >
