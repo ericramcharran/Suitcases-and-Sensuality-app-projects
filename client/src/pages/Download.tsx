@@ -76,17 +76,12 @@ export default function Download() {
             >
               <div className="bg-black hover-elevate active-elevate-2 cursor-pointer transition-all rounded-md px-3 py-2 h-11 flex items-center">
                 <div className="flex items-center gap-2">
-                  <div className="w-5 h-5 flex-shrink-0 relative">
-                    <SiGoogleplay 
-                      className="w-5 h-5 absolute inset-0"
-                      style={{
-                        background: 'linear-gradient(135deg, #4285f4 0%, #34a853 33%, #fbbc04 66%, #ea4335 100%)',
-                        WebkitBackgroundClip: 'text',
-                        WebkitTextFillColor: 'transparent',
-                        backgroundClip: 'text'
-                      }}
-                    />
-                  </div>
+                  <svg className="w-5 h-5 flex-shrink-0" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M3 20.5v-17c0-.59.34-1.11.84-1.35L13.69 12 3.84 21.85c-.5-.24-.84-.76-.84-1.35z" fill="#4285f4"/>
+                    <path d="M16.81 15.12l-3.12-3.12-10.85 9.85c.24.12.5.18.77.18.26 0 .53-.06.77-.18l12.43-6.73z" fill="#34a853"/>
+                    <path d="M3.77 2.13c-.27 0-.53.06-.77.18L13.69 12l3.12-3.12L4.54 2.13c-.24-.11-.5-.18-.77-.18z" fill="#ea4335"/>
+                    <path d="M13.69 12L3.84 2.15C3.34 2.39 3 2.91 3 3.5v17c0 .59.34 1.11.84 1.35L13.69 12z" fill="#fbbc04"/>
+                  </svg>
                   <div className="text-left">
                     <div className="text-[10px] leading-tight text-white/70">Get it on</div>
                     <div className="text-sm font-medium leading-tight text-white">Google Play</div>
