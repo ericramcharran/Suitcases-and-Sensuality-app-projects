@@ -14,6 +14,8 @@ Preferred communication style: Simple, everyday language.
 
 The frontend uses React 18+ with TypeScript, Vite for building, and Wouter for routing. It features a design system based on shadcn/ui and Radix UI, styled with Tailwind CSS for dark/light mode theming. The application is designed as a mobile-first Progressive Web App (PWA) with extensive mobile and touch optimizations for both Android and iOS. State management primarily uses TanStack Query for server state, avoiding a global state library. UI/UX is inspired by premium dating apps, prioritizing a professional, clean aesthetic with a rose accent color and Inter typography.
 
+**Marketing Landing Page**: The home route ("/") displays a comprehensive marketing page describing The Executive Society, featuring sections for hero content, about, features, how it works, pricing tiers, FAQ, and download CTAs. This page directs users to "/landing" to begin app registration. The marketing page is designed to attract and educate potential users before they enter the application flow.
+
 ### Backend Architecture
 
 The backend is built with Express.js and TypeScript, designed with a RESTful API structure. It currently uses an in-memory storage abstraction (`MemStorage`) but is configured to migrate to PostgreSQL using Drizzle ORM. The Drizzle schema defines a comprehensive user model, including identity, verification status, assessment results, legal agreement details with digital signatures, and subscription information. Zod is used for request/response schema validation.
