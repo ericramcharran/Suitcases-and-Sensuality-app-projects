@@ -87,11 +87,10 @@ export default function Landing() {
               muted
               playsInline
               style={{
-                width: 'calc(100% + 1cm)',
-                height: 'calc(100% + 1cm)',
+                width: '110%',
+                height: '110%',
                 objectFit: 'cover',
                 objectPosition: 'center',
-                transform: 'scale(1.2)',
                 WebkitBackfaceVisibility: 'hidden',
                 backfaceVisibility: 'hidden',
                 willChange: 'transform',
