@@ -3,7 +3,7 @@ import { Shield } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useLocation } from "wouter";
 import { motion } from "framer-motion";
-import animatedLogo from "@assets/animated-logo2_1760887393286.mp4";
+import animatedLogo from "@assets/crop animate logo_1760889514164.mp4";
 
 export default function Landing() {
   const [, setLocation] = useLocation();
@@ -87,10 +87,10 @@ export default function Landing() {
               muted
               playsInline
               style={{
-                width: '160%',
-                height: '130%',
+                width: '100%',
+                height: '100%',
                 objectFit: 'cover',
-                objectPosition: 'center 15%',
+                objectPosition: 'center center',
                 WebkitBackfaceVisibility: 'hidden',
                 backfaceVisibility: 'hidden',
                 willChange: 'transform',

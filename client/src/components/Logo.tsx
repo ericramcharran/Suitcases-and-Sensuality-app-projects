@@ -1,4 +1,4 @@
-import animatedLogo from "@assets/animated-logo2_1760887393286.mp4";
+import animatedLogo from "@assets/crop animate logo_1760889514164.mp4";
 
 export function Logo() {
   return (
@@ -16,10 +16,10 @@ export function Logo() {
           muted
           playsInline
           style={{
-            width: '160%',
-            height: '130%',
+            width: '100%',
+            height: '100%',
             objectFit: 'cover',
-            objectPosition: 'center 15%'
+            objectPosition: 'center center'
           }}
         />
       </div>

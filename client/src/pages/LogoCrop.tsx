@@ -3,7 +3,7 @@ import Cropper from "react-easy-crop";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Slider } from "@/components/ui/slider";
-import animatedLogo from "@assets/animated-logo2_1760887393286.mp4";
+import animatedLogo from "@assets/crop animate logo_1760889514164.mp4";
 
 export default function LogoCrop() {
   const [crop, setCrop] = useState({ x: 0, y: 0 });

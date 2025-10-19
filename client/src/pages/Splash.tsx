@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useLocation } from "wouter";
-import animatedLogo from "@assets/animated-logo2_1760887393286.mp4";
+import animatedLogo from "@assets/crop animate logo_1760889514164.mp4";
 
 export default function Splash() {
   const [, setLocation] = useLocation();
@@ -29,10 +29,10 @@ export default function Splash() {
           muted
           playsInline
           style={{
-            width: '160%',
-            height: '130%',
+            width: '100%',
+            height: '100%',
             objectFit: 'cover',
-            objectPosition: 'center 15%'
+            objectPosition: 'center center'
           }}
         />
       </div>
