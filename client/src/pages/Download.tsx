@@ -3,7 +3,7 @@ import { Card } from "@/components/ui/card";
 import { useLocation } from "wouter";
 import { ArrowLeft, CheckCircle } from "lucide-react";
 import { SiApple, SiGoogleplay } from "react-icons/si";
-import heartLogo from "@assets/logo.png";
+import animatedLogo from "@assets/crop animate logo_1760889514164.mp4";
 
 export default function Download() {
   const [, setLocation] = useLocation();
@@ -29,7 +29,13 @@ export default function Download() {
           {/* Hero Section */}
           <div className="text-center mb-12">
             <div className="inline-flex items-center justify-center mb-6">
-              <img src={heartLogo} alt="Heart Logo" className="w-20 h-20" />
+              <video 
+                src={animatedLogo}
+                autoPlay
+                muted
+                playsInline
+                className="w-20 h-20"
+              />
             </div>
             <div className="mb-4">
               <div className="text-lg sm:text-xl font-light text-muted-foreground mb-2">
