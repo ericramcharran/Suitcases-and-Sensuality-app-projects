@@ -9,6 +9,7 @@ import { PageTransition } from "@/components/PageTransition";
 import Splash from "@/pages/Splash";
 import Landing from "@/pages/Landing";
 import LogoCrop from "@/pages/LogoCrop";
+import LogoCropLive from "@/pages/LogoCropLive";
 import Login from "@/pages/Login";
 import AgeVerification from "@/pages/AgeVerification";
 import Terms from "@/pages/Terms";
@@ -82,6 +83,9 @@ function App() {
               </Route>
               <Route path="/logo-crop">
                 <PageTransition><LogoCrop /></PageTransition>
+              </Route>
+              <Route path="/logo-crop-live">
+                <PageTransition><LogoCropLive /></PageTransition>
               </Route>
               <Route path="/login">
                 <PageTransition><Login /></PageTransition>
