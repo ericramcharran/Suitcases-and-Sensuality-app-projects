@@ -449,16 +449,16 @@ export default function Discover() {
                       </div>
                     </div>
 
-                    {/* Image Indicators */}
+                    {/* Image Indicators - Vertical Left */}
                     {currentProfile.profileImages.length > 1 && (
-                      <div className="absolute bottom-4 left-0 right-0 flex justify-center gap-1 z-10">
+                      <div className="absolute left-4 top-0 bottom-0 flex flex-col justify-center gap-1 z-10">
                         {currentProfile.profileImages.map((_: any, idx: number) => (
                           <div
                             key={idx}
-                            className={`h-1 rounded-full transition-all ${
+                            className={`w-1 rounded-full transition-all ${
                               idx === currentImageIndex
-                                ? 'w-8 bg-white'
-                                : 'w-1 bg-white/50'
+                                ? 'h-8 bg-white'
+                                : 'h-1 bg-white/50'
                             }`}
                             data-testid={`indicator-${idx}`}
                           />
