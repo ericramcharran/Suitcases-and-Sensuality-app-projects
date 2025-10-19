@@ -3,6 +3,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Shield, Heart, Users, Lock, CheckCircle, Sparkles, Phone, MessageCircle, Award, Menu } from "lucide-react";
 import { useLocation } from "wouter";
 import { useState } from "react";
+import { motion } from "framer-motion";
 import animatedLogo from "@assets/crop animate logo_1760889514164.mp4";
 import {
   Accordion,
@@ -117,7 +118,12 @@ export default function MarketingLanding() {
       <section className="relative min-h-screen flex flex-col items-center justify-center px-4 sm:px-6 py-12 overflow-hidden pt-24">
         <div className="w-full max-w-4xl mx-auto text-center">
           {/* Animated Logo */}
-          <div className="mb-8 flex items-center justify-center">
+          <motion.div 
+            className="mb-8 flex items-center justify-center"
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.6, ease: "easeOut" }}
+          >
             <div 
               className="overflow-hidden rounded-md" 
               style={{ 
@@ -142,17 +148,32 @@ export default function MarketingLanding() {
                 } as React.CSSProperties}
               />
             </div>
-          </div>
+          </motion.div>
 
-          <h1 className="text-4xl sm:text-5xl md:text-6xl font-light text-foreground mb-4">
+          <motion.h1 
+            className="text-4xl sm:text-5xl md:text-6xl font-light text-foreground mb-4"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+          >
             Where Power Meets Passion
-          </h1>
+          </motion.h1>
           
-          <p className="text-lg sm:text-xl text-muted-foreground mb-8 max-w-2xl mx-auto font-light">
+          <motion.p 
+            className="text-lg sm:text-xl text-muted-foreground mb-8 max-w-2xl mx-auto font-light"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.4 }}
+          >
             The premier platform for sophisticated individuals seeking authentic power exchange relationships. Verified, safe, and built for discerning professionals.
-          </p>
+          </motion.p>
 
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-8">
+          <motion.div 
+            className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-8"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.6 }}
+          >
             <Button
               data-testid="button-hero-get-started"
               onClick={() => setLocation("/landing")}
@@ -172,9 +193,14 @@ export default function MarketingLanding() {
             >
               Learn More
             </Button>
-          </div>
+          </motion.div>
 
-          <div className="flex items-center justify-center gap-6 text-sm text-muted-foreground flex-wrap">
+          <motion.div 
+            className="flex items-center justify-center gap-6 text-sm text-muted-foreground flex-wrap"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.6, delay: 0.8 }}
+          >
             <div className="flex items-center gap-2">
               <Shield className="w-4 h-4 text-primary" />
               <span>21+ Only</span>
@@ -187,13 +213,19 @@ export default function MarketingLanding() {
               <CheckCircle className="w-4 h-4 text-primary" />
               <span>Safe & Consensual</span>
             </div>
-          </div>
+          </motion.div>
         </div>
       </section>
 
       {/* About Section */}
       <section id="about" className="py-12 sm:py-20 px-4 sm:px-6 bg-card" data-testid="section-about">
-        <div className="max-w-4xl mx-auto text-center">
+        <motion.div 
+          className="max-w-4xl mx-auto text-center"
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.6 }}
+        >
           <h2 className="text-3xl sm:text-4xl font-light text-foreground mb-6" data-testid="heading-about">
             Welcome to The Executive Society
           </h2>
@@ -203,100 +235,149 @@ export default function MarketingLanding() {
           <p className="text-base sm:text-lg text-muted-foreground leading-relaxed" data-testid="text-about-details">
             Every member is verified, background-checked, and committed to ethical, consensual relationships. Our platform combines advanced personality assessments with role-specific features to help you find truly compatible partners.
           </p>
-        </div>
+        </motion.div>
       </section>
 
       {/* Features Section */}
       <section id="features" className="py-12 sm:py-20 px-4 sm:px-6" data-testid="section-features">
         <div className="max-w-6xl mx-auto">
-          <h2 className="text-3xl sm:text-4xl font-light text-foreground mb-12 text-center" data-testid="heading-features">
+          <motion.h2 
+            className="text-3xl sm:text-4xl font-light text-foreground mb-12 text-center" 
+            data-testid="heading-features"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.6 }}
+          >
             Premium Features
-          </h2>
+          </motion.h2>
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <Card className="hover-elevate" data-testid="card-feature-verification">
-              <CardContent className="p-6">
-                <div className="flex flex-col items-center text-center">
-                  <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mb-4">
-                    <Shield className="w-6 h-6 text-primary" />
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-50px" }}
+              transition={{ duration: 0.5, delay: 0.1 }}
+            >
+              <Card className="hover-elevate h-full" data-testid="card-feature-verification">
+                <CardContent className="p-6">
+                  <div className="flex flex-col items-center text-center">
+                    <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mb-4">
+                      <Shield className="w-6 h-6 text-primary" />
+                    </div>
+                    <h3 className="text-xl font-medium mb-2">Verified Profiles</h3>
+                    <p className="text-muted-foreground">
+                      Age verification, background checks, and optional financial verification for Dominants ensure authentic, trustworthy connections.
+                    </p>
                   </div>
-                  <h3 className="text-xl font-medium mb-2">Verified Profiles</h3>
-                  <p className="text-muted-foreground">
-                    Age verification, background checks, and optional financial verification for Dominants ensure authentic, trustworthy connections.
-                  </p>
-                </div>
-              </CardContent>
-            </Card>
+                </CardContent>
+              </Card>
+            </motion.div>
 
-            <Card className="hover-elevate" data-testid="card-feature-matching">
-              <CardContent className="p-6">
-                <div className="flex flex-col items-center text-center">
-                  <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mb-4">
-                    <Sparkles className="w-6 h-6 text-primary" />
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-50px" }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+            >
+              <Card className="hover-elevate h-full" data-testid="card-feature-matching">
+                <CardContent className="p-6">
+                  <div className="flex flex-col items-center text-center">
+                    <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mb-4">
+                      <Sparkles className="w-6 h-6 text-primary" />
+                    </div>
+                    <h3 className="text-xl font-medium mb-2">Smart Matching</h3>
+                    <p className="text-muted-foreground">
+                      Advanced compatibility algorithm based on personality tests, relationship preferences, and important traits.
+                    </p>
                   </div>
-                  <h3 className="text-xl font-medium mb-2">Smart Matching</h3>
-                  <p className="text-muted-foreground">
-                    Advanced compatibility algorithm based on personality tests, relationship preferences, and important traits.
-                  </p>
-                </div>
-              </CardContent>
-            </Card>
+                </CardContent>
+              </Card>
+            </motion.div>
 
-            <Card className="hover-elevate" data-testid="card-feature-roles">
-              <CardContent className="p-6">
-                <div className="flex flex-col items-center text-center">
-                  <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mb-4">
-                    <Heart className="w-6 h-6 text-primary" />
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-50px" }}
+              transition={{ duration: 0.5, delay: 0.3 }}
+            >
+              <Card className="hover-elevate h-full" data-testid="card-feature-roles">
+                <CardContent className="p-6">
+                  <div className="flex flex-col items-center text-center">
+                    <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mb-4">
+                      <Heart className="w-6 h-6 text-primary" />
+                    </div>
+                    <h3 className="text-xl font-medium mb-2">Role-Specific Experience</h3>
+                    <p className="text-muted-foreground">
+                      Tailored features for Dominants, Submissives, and Switches with appropriate subscription tiers and verification.
+                    </p>
                   </div>
-                  <h3 className="text-xl font-medium mb-2">Role-Specific Experience</h3>
-                  <p className="text-muted-foreground">
-                    Tailored features for Dominants, Submissives, and Switches with appropriate subscription tiers and verification.
-                  </p>
-                </div>
-              </CardContent>
-            </Card>
+                </CardContent>
+              </Card>
+            </motion.div>
 
-            <Card className="hover-elevate" data-testid="card-feature-messaging">
-              <CardContent className="p-6">
-                <div className="flex flex-col items-center text-center">
-                  <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mb-4">
-                    <MessageCircle className="w-6 h-6 text-primary" />
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-50px" }}
+              transition={{ duration: 0.5, delay: 0.4 }}
+            >
+              <Card className="hover-elevate h-full" data-testid="card-feature-messaging">
+                <CardContent className="p-6">
+                  <div className="flex flex-col items-center text-center">
+                    <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mb-4">
+                      <MessageCircle className="w-6 h-6 text-primary" />
+                    </div>
+                    <h3 className="text-xl font-medium mb-2">Real-Time Messaging</h3>
+                    <p className="text-muted-foreground">
+                      Instant messaging with read receipts and push notifications. Only connect with verified mutual matches.
+                    </p>
                   </div>
-                  <h3 className="text-xl font-medium mb-2">Real-Time Messaging</h3>
-                  <p className="text-muted-foreground">
-                    Instant messaging with read receipts and push notifications. Only connect with verified mutual matches.
-                  </p>
-                </div>
-              </CardContent>
-            </Card>
+                </CardContent>
+              </Card>
+            </motion.div>
 
-            <Card className="hover-elevate" data-testid="card-feature-privacy">
-              <CardContent className="p-6">
-                <div className="flex flex-col items-center text-center">
-                  <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mb-4">
-                    <Lock className="w-6 h-6 text-primary" />
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-50px" }}
+              transition={{ duration: 0.5, delay: 0.5 }}
+            >
+              <Card className="hover-elevate h-full" data-testid="card-feature-privacy">
+                <CardContent className="p-6">
+                  <div className="flex flex-col items-center text-center">
+                    <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mb-4">
+                      <Lock className="w-6 h-6 text-primary" />
+                    </div>
+                    <h3 className="text-xl font-medium mb-2">Privacy First</h3>
+                    <p className="text-muted-foreground">
+                      Display names separate from real identities, secure data handling, and complete control over your information.
+                    </p>
                   </div>
-                  <h3 className="text-xl font-medium mb-2">Privacy First</h3>
-                  <p className="text-muted-foreground">
-                    Display names separate from real identities, secure data handling, and complete control over your information.
-                  </p>
-                </div>
-              </CardContent>
-            </Card>
+                </CardContent>
+              </Card>
+            </motion.div>
 
-            <Card className="hover-elevate" data-testid="card-feature-mobile">
-              <CardContent className="p-6">
-                <div className="flex flex-col items-center text-center">
-                  <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mb-4">
-                    <Phone className="w-6 h-6 text-primary" />
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-50px" }}
+              transition={{ duration: 0.5, delay: 0.6 }}
+            >
+              <Card className="hover-elevate h-full" data-testid="card-feature-mobile">
+                <CardContent className="p-6">
+                  <div className="flex flex-col items-center text-center">
+                    <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mb-4">
+                      <Phone className="w-6 h-6 text-primary" />
+                    </div>
+                    <h3 className="text-xl font-medium mb-2">Mobile Optimized</h3>
+                    <p className="text-muted-foreground">
+                      Progressive Web App technology provides a native app experience on any device. Add to your home screen.
+                    </p>
                   </div>
-                  <h3 className="text-xl font-medium mb-2">Mobile Optimized</h3>
-                  <p className="text-muted-foreground">
-                    Progressive Web App technology provides a native app experience on any device. Add to your home screen.
-                  </p>
-                </div>
-              </CardContent>
-            </Card>
+                </CardContent>
+              </Card>
+            </motion.div>
           </div>
         </div>
       </section>
@@ -304,12 +385,26 @@ export default function MarketingLanding() {
       {/* How It Works */}
       <section id="how-it-works" className="py-12 sm:py-20 px-4 sm:px-6 bg-card" data-testid="section-how-it-works">
         <div className="max-w-4xl mx-auto">
-          <h2 className="text-3xl sm:text-4xl font-light text-foreground mb-12 text-center" data-testid="heading-how-it-works">
+          <motion.h2 
+            className="text-3xl sm:text-4xl font-light text-foreground mb-12 text-center" 
+            data-testid="heading-how-it-works"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.6 }}
+          >
             How It Works
-          </h2>
+          </motion.h2>
 
           <div className="space-y-8">
-            <div className="flex gap-6" data-testid="step-verify">
+            <motion.div 
+              className="flex gap-6" 
+              data-testid="step-verify"
+              initial={{ opacity: 0, x: -30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true, margin: "-50px" }}
+              transition={{ duration: 0.5, delay: 0.1 }}
+            >
               <div className="flex-shrink-0">
                 <div className="w-12 h-12 rounded-full bg-primary text-primary-foreground flex items-center justify-center font-medium text-lg">
                   1
@@ -321,9 +416,16 @@ export default function MarketingLanding() {
                   Complete age verification (21+), background check, and agree to our community guidelines. We take safety seriously.
                 </p>
               </div>
-            </div>
+            </motion.div>
 
-            <div className="flex gap-6" data-testid="step-profile">
+            <motion.div 
+              className="flex gap-6" 
+              data-testid="step-profile"
+              initial={{ opacity: 0, x: -30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true, margin: "-50px" }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+            >
               <div className="flex-shrink-0">
                 <div className="w-12 h-12 rounded-full bg-primary text-primary-foreground flex items-center justify-center font-medium text-lg">
                   2
@@ -335,9 +437,16 @@ export default function MarketingLanding() {
                   Take our personality and relationship assessments, select your role, add photos, and share what matters most to you.
                 </p>
               </div>
-            </div>
+            </motion.div>
 
-            <div className="flex gap-6" data-testid="step-discover">
+            <motion.div 
+              className="flex gap-6" 
+              data-testid="step-discover"
+              initial={{ opacity: 0, x: -30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true, margin: "-50px" }}
+              transition={{ duration: 0.5, delay: 0.3 }}
+            >
               <div className="flex-shrink-0">
                 <div className="w-12 h-12 rounded-full bg-primary text-primary-foreground flex items-center justify-center font-medium text-lg">
                   3
@@ -349,9 +458,16 @@ export default function MarketingLanding() {
                   Swipe through compatible profiles with detailed compatibility scores. Filter by preferences and see who's verified.
                 </p>
               </div>
-            </div>
+            </motion.div>
 
-            <div className="flex gap-6" data-testid="step-connect">
+            <motion.div 
+              className="flex gap-6" 
+              data-testid="step-connect"
+              initial={{ opacity: 0, x: -30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true, margin: "-50px" }}
+              transition={{ duration: 0.5, delay: 0.4 }}
+            >
               <div className="flex-shrink-0">
                 <div className="w-12 h-12 rounded-full bg-primary text-primary-foreground flex items-center justify-center font-medium text-lg">
                   4
@@ -363,7 +479,7 @@ export default function MarketingLanding() {
                   Message your mutual matches, learn from educational resources, and build meaningful power exchange relationships.
                 </p>
               </div>
-            </div>
+            </motion.div>
           </div>
         </div>
       </section>
