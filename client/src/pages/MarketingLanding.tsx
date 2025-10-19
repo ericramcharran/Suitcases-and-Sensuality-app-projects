@@ -1,0 +1,661 @@
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { Shield, Heart, Users, Lock, CheckCircle, Sparkles, Phone, MessageCircle, Award } from "lucide-react";
+import { useLocation } from "wouter";
+import { useState } from "react";
+import animatedLogo from "@assets/crop animate logo_1760889514164.mp4";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
+
+export default function MarketingLanding() {
+  const [, setLocation] = useLocation();
+  const [videoEnded, setVideoEnded] = useState(false);
+
+  return (
+    <div className="min-h-screen bg-background">
+      {/* Hero Section */}
+      <section className="relative min-h-screen flex flex-col items-center justify-center px-4 sm:px-6 py-12 overflow-hidden">
+        <div className="w-full max-w-4xl mx-auto text-center">
+          {/* Animated Logo */}
+          <div className="mb-8 flex items-center justify-center">
+            <div 
+              className="overflow-hidden rounded-md" 
+              style={{ 
+                width: '380px',
+                height: '240px'
+              }}
+            >
+              <video 
+                src={animatedLogo}
+                autoPlay
+                muted
+                playsInline
+                onEnded={() => setVideoEnded(true)}
+                style={{
+                  width: '120%',
+                  height: '120%',
+                  objectFit: 'cover',
+                  objectPosition: 'center center',
+                  WebkitBackfaceVisibility: 'hidden',
+                  backfaceVisibility: 'hidden',
+                  willChange: 'transform',
+                } as React.CSSProperties}
+              />
+            </div>
+          </div>
+
+          <h1 className="text-4xl sm:text-5xl md:text-6xl font-light text-foreground mb-4">
+            Where Power Meets Passion
+          </h1>
+          
+          <p className="text-lg sm:text-xl text-muted-foreground mb-8 max-w-2xl mx-auto font-light">
+            The premier platform for sophisticated individuals seeking authentic power exchange relationships. Verified, safe, and built for discerning professionals.
+          </p>
+
+          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-8">
+            <Button
+              data-testid="button-hero-get-started"
+              onClick={() => setLocation("/landing")}
+              size="lg"
+              className="w-full sm:w-auto min-w-[200px] rounded-full min-h-[48px]"
+            >
+              Get Started
+            </Button>
+            <Button
+              data-testid="button-hero-learn-more"
+              onClick={() => {
+                document.getElementById("features")?.scrollIntoView({ behavior: "smooth" });
+              }}
+              variant="outline"
+              size="lg"
+              className="w-full sm:w-auto min-w-[200px] rounded-full min-h-[48px]"
+            >
+              Learn More
+            </Button>
+          </div>
+
+          <div className="flex items-center justify-center gap-6 text-sm text-muted-foreground flex-wrap">
+            <div className="flex items-center gap-2">
+              <Shield className="w-4 h-4 text-primary" />
+              <span>21+ Only</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <Lock className="w-4 h-4 text-primary" />
+              <span>Verified Users</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <CheckCircle className="w-4 h-4 text-primary" />
+              <span>Safe & Consensual</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* About Section */}
+      <section id="about" className="py-12 sm:py-20 px-4 sm:px-6 bg-card">
+        <div className="max-w-4xl mx-auto text-center">
+          <h2 className="text-3xl sm:text-4xl font-light text-foreground mb-6">
+            Welcome to The Executive Society
+          </h2>
+          <p className="text-base sm:text-lg text-muted-foreground leading-relaxed mb-6">
+            We've created a premium space for professionals exploring BDSM and power exchange dynamics. Unlike typical dating apps, we prioritize trust, safety, and compatibility through comprehensive verification and sophisticated matching algorithms.
+          </p>
+          <p className="text-base sm:text-lg text-muted-foreground leading-relaxed">
+            Every member is verified, background-checked, and committed to ethical, consensual relationships. Our platform combines advanced personality assessments with role-specific features to help you find truly compatible partners.
+          </p>
+        </div>
+      </section>
+
+      {/* Features Section */}
+      <section id="features" className="py-12 sm:py-20 px-4 sm:px-6">
+        <div className="max-w-6xl mx-auto">
+          <h2 className="text-3xl sm:text-4xl font-light text-foreground mb-12 text-center">
+            Premium Features
+          </h2>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <Card className="hover-elevate">
+              <CardContent className="p-6">
+                <div className="flex flex-col items-center text-center">
+                  <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mb-4">
+                    <Shield className="w-6 h-6 text-primary" />
+                  </div>
+                  <h3 className="text-xl font-medium mb-2">Verified Profiles</h3>
+                  <p className="text-muted-foreground">
+                    Age verification, background checks, and optional financial verification for Dominants ensure authentic, trustworthy connections.
+                  </p>
+                </div>
+              </CardContent>
+            </Card>
+
+            <Card className="hover-elevate">
+              <CardContent className="p-6">
+                <div className="flex flex-col items-center text-center">
+                  <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mb-4">
+                    <Sparkles className="w-6 h-6 text-primary" />
+                  </div>
+                  <h3 className="text-xl font-medium mb-2">Smart Matching</h3>
+                  <p className="text-muted-foreground">
+                    Advanced compatibility algorithm based on personality tests, relationship preferences, and important traits.
+                  </p>
+                </div>
+              </CardContent>
+            </Card>
+
+            <Card className="hover-elevate">
+              <CardContent className="p-6">
+                <div className="flex flex-col items-center text-center">
+                  <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mb-4">
+                    <Heart className="w-6 h-6 text-primary" />
+                  </div>
+                  <h3 className="text-xl font-medium mb-2">Role-Specific Experience</h3>
+                  <p className="text-muted-foreground">
+                    Tailored features for Dominants, Submissives, and Switches with appropriate subscription tiers and verification.
+                  </p>
+                </div>
+              </CardContent>
+            </Card>
+
+            <Card className="hover-elevate">
+              <CardContent className="p-6">
+                <div className="flex flex-col items-center text-center">
+                  <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mb-4">
+                    <MessageCircle className="w-6 h-6 text-primary" />
+                  </div>
+                  <h3 className="text-xl font-medium mb-2">Real-Time Messaging</h3>
+                  <p className="text-muted-foreground">
+                    Instant messaging with read receipts and push notifications. Only connect with verified mutual matches.
+                  </p>
+                </div>
+              </CardContent>
+            </Card>
+
+            <Card className="hover-elevate">
+              <CardContent className="p-6">
+                <div className="flex flex-col items-center text-center">
+                  <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mb-4">
+                    <Lock className="w-6 h-6 text-primary" />
+                  </div>
+                  <h3 className="text-xl font-medium mb-2">Privacy First</h3>
+                  <p className="text-muted-foreground">
+                    Display names separate from real identities, secure data handling, and complete control over your information.
+                  </p>
+                </div>
+              </CardContent>
+            </Card>
+
+            <Card className="hover-elevate">
+              <CardContent className="p-6">
+                <div className="flex flex-col items-center text-center">
+                  <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mb-4">
+                    <Phone className="w-6 h-6 text-primary" />
+                  </div>
+                  <h3 className="text-xl font-medium mb-2">Mobile Optimized</h3>
+                  <p className="text-muted-foreground">
+                    Progressive Web App technology provides a native app experience on any device. Add to your home screen.
+                  </p>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+      </section>
+
+      {/* How It Works */}
+      <section id="how-it-works" className="py-12 sm:py-20 px-4 sm:px-6 bg-card">
+        <div className="max-w-4xl mx-auto">
+          <h2 className="text-3xl sm:text-4xl font-light text-foreground mb-12 text-center">
+            How It Works
+          </h2>
+
+          <div className="space-y-8">
+            <div className="flex gap-6">
+              <div className="flex-shrink-0">
+                <div className="w-12 h-12 rounded-full bg-primary text-primary-foreground flex items-center justify-center font-medium text-lg">
+                  1
+                </div>
+              </div>
+              <div>
+                <h3 className="text-xl font-medium mb-2">Verify & Sign Up</h3>
+                <p className="text-muted-foreground">
+                  Complete age verification (21+), background check, and agree to our community guidelines. We take safety seriously.
+                </p>
+              </div>
+            </div>
+
+            <div className="flex gap-6">
+              <div className="flex-shrink-0">
+                <div className="w-12 h-12 rounded-full bg-primary text-primary-foreground flex items-center justify-center font-medium text-lg">
+                  2
+                </div>
+              </div>
+              <div>
+                <h3 className="text-xl font-medium mb-2">Build Your Profile</h3>
+                <p className="text-muted-foreground">
+                  Take our personality and relationship assessments, select your role, add photos, and share what matters most to you.
+                </p>
+              </div>
+            </div>
+
+            <div className="flex gap-6">
+              <div className="flex-shrink-0">
+                <div className="w-12 h-12 rounded-full bg-primary text-primary-foreground flex items-center justify-center font-medium text-lg">
+                  3
+                </div>
+              </div>
+              <div>
+                <h3 className="text-xl font-medium mb-2">Discover & Match</h3>
+                <p className="text-muted-foreground">
+                  Swipe through compatible profiles with detailed compatibility scores. Filter by preferences and see who's verified.
+                </p>
+              </div>
+            </div>
+
+            <div className="flex gap-6">
+              <div className="flex-shrink-0">
+                <div className="w-12 h-12 rounded-full bg-primary text-primary-foreground flex items-center justify-center font-medium text-lg">
+                  4
+                </div>
+              </div>
+              <div>
+                <h3 className="text-xl font-medium mb-2">Connect & Grow</h3>
+                <p className="text-muted-foreground">
+                  Message your mutual matches, learn from educational resources, and build meaningful power exchange relationships.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Pricing Section */}
+      <section id="pricing" className="py-12 sm:py-20 px-4 sm:px-6">
+        <div className="max-w-6xl mx-auto">
+          <h2 className="text-3xl sm:text-4xl font-light text-foreground mb-4 text-center">
+            Subscription Plans
+          </h2>
+          <p className="text-muted-foreground text-center mb-12 max-w-2xl mx-auto">
+            Choose the plan that fits your role and commitment level. All plans include verification, matching, and messaging.
+          </p>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {/* Submissive */}
+            <Card className="hover-elevate">
+              <CardContent className="p-8">
+                <div className="text-center mb-6">
+                  <h3 className="text-2xl font-medium mb-2">Submissive</h3>
+                  <p className="text-muted-foreground text-sm mb-4">For Submissives & Switches</p>
+                  <div className="flex items-baseline justify-center gap-2 mb-2">
+                    <span className="text-4xl font-light">$29</span>
+                    <span className="text-muted-foreground">/month</span>
+                  </div>
+                </div>
+                <ul className="space-y-3 mb-8">
+                  <li className="flex items-start gap-2">
+                    <CheckCircle className="w-5 h-5 text-primary flex-shrink-0 mt-0.5" />
+                    <span className="text-sm">Complete verification & background check</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <CheckCircle className="w-5 h-5 text-primary flex-shrink-0 mt-0.5" />
+                    <span className="text-sm">Unlimited matching & messaging</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <CheckCircle className="w-5 h-5 text-primary flex-shrink-0 mt-0.5" />
+                    <span className="text-sm">Personality & relationship assessments</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <CheckCircle className="w-5 h-5 text-primary flex-shrink-0 mt-0.5" />
+                    <span className="text-sm">Advanced filtering & search</span>
+                  </li>
+                </ul>
+                <Button
+                  data-testid="button-pricing-submissive"
+                  onClick={() => setLocation("/landing")}
+                  variant="outline"
+                  className="w-full rounded-full"
+                >
+                  Get Started
+                </Button>
+              </CardContent>
+            </Card>
+
+            {/* Dominant */}
+            <Card className="hover-elevate border-primary">
+              <CardContent className="p-8">
+                <div className="text-center mb-6">
+                  <div className="inline-block bg-primary text-primary-foreground px-3 py-1 rounded-full text-xs font-medium mb-3">
+                    MOST POPULAR
+                  </div>
+                  <h3 className="text-2xl font-medium mb-2">Dominant</h3>
+                  <p className="text-muted-foreground text-sm mb-4">For Dominants & Switches</p>
+                  <div className="flex items-baseline justify-center gap-2 mb-2">
+                    <span className="text-4xl font-light">$79</span>
+                    <span className="text-muted-foreground">/month</span>
+                  </div>
+                </div>
+                <ul className="space-y-3 mb-8">
+                  <li className="flex items-start gap-2">
+                    <CheckCircle className="w-5 h-5 text-primary flex-shrink-0 mt-0.5" />
+                    <span className="text-sm">All Submissive plan features</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <CheckCircle className="w-5 h-5 text-primary flex-shrink-0 mt-0.5" />
+                    <span className="text-sm">Priority in discovery feed</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <CheckCircle className="w-5 h-5 text-primary flex-shrink-0 mt-0.5" />
+                    <span className="text-sm">Optional escrow verification</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <CheckCircle className="w-5 h-5 text-primary flex-shrink-0 mt-0.5" />
+                    <span className="text-sm">Enhanced profile visibility</span>
+                  </li>
+                </ul>
+                <Button
+                  data-testid="button-pricing-dominant"
+                  onClick={() => setLocation("/landing")}
+                  className="w-full rounded-full"
+                >
+                  Get Started
+                </Button>
+              </CardContent>
+            </Card>
+
+            {/* Fully Funded */}
+            <Card className="hover-elevate">
+              <CardContent className="p-8">
+                <div className="text-center mb-6">
+                  <Award className="w-8 h-8 text-primary mx-auto mb-3" />
+                  <h3 className="text-2xl font-medium mb-2">Fully Funded</h3>
+                  <p className="text-muted-foreground text-sm mb-4">Premium Verification</p>
+                  <div className="flex items-baseline justify-center gap-2 mb-2">
+                    <span className="text-4xl font-light">$199</span>
+                    <span className="text-muted-foreground">/month</span>
+                  </div>
+                </div>
+                <ul className="space-y-3 mb-8">
+                  <li className="flex items-start gap-2">
+                    <CheckCircle className="w-5 h-5 text-primary flex-shrink-0 mt-0.5" />
+                    <span className="text-sm">All Dominant plan features</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <CheckCircle className="w-5 h-5 text-primary flex-shrink-0 mt-0.5" />
+                    <span className="text-sm">Premium "Fully Funded" gold badge</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <CheckCircle className="w-5 h-5 text-primary flex-shrink-0 mt-0.5" />
+                    <span className="text-sm">Financial verification included</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <CheckCircle className="w-5 h-5 text-primary flex-shrink-0 mt-0.5" />
+                    <span className="text-sm">Maximum trust & credibility</span>
+                  </li>
+                </ul>
+                <Button
+                  data-testid="button-pricing-fully-funded"
+                  onClick={() => setLocation("/landing")}
+                  variant="outline"
+                  className="w-full rounded-full"
+                >
+                  Get Started
+                </Button>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+      </section>
+
+      {/* FAQ Section */}
+      <section id="faq" className="py-12 sm:py-20 px-4 sm:px-6 bg-card">
+        <div className="max-w-3xl mx-auto">
+          <h2 className="text-3xl sm:text-4xl font-light text-foreground mb-12 text-center">
+            Frequently Asked Questions
+          </h2>
+
+          <Accordion type="single" collapsible className="w-full">
+            <AccordionItem value="item-1">
+              <AccordionTrigger className="text-left">
+                What makes The Executive Society different from other dating apps?
+              </AccordionTrigger>
+              <AccordionContent className="text-muted-foreground">
+                We're specifically designed for BDSM and power exchange relationships. Every user is verified and background-checked. Our sophisticated matching algorithm considers personality traits, relationship preferences, and role compatibility. We prioritize safety, consent, and authentic connections over casual encounters.
+              </AccordionContent>
+            </AccordionItem>
+
+            <AccordionItem value="item-2">
+              <AccordionTrigger className="text-left">
+                How does the verification process work?
+              </AccordionTrigger>
+              <AccordionContent className="text-muted-foreground">
+                All members must complete age verification (21+), agree to our terms and community guidelines with digital signatures, and pass a background check. Dominants can optionally complete financial verification through escrow or mutual fund services to receive enhanced badges.
+              </AccordionContent>
+            </AccordionItem>
+
+            <AccordionItem value="item-3">
+              <AccordionTrigger className="text-left">
+                What is the "Fully Funded" verification badge?
+              </AccordionTrigger>
+              <AccordionContent className="text-muted-foreground">
+                The Fully Funded badge is a premium verification option for Dominants who complete financial verification. This gold gradient badge shows commitment and financial stability, appearing prominently on profiles to build additional trust with potential matches.
+              </AccordionContent>
+            </AccordionItem>
+
+            <AccordionItem value="item-4">
+              <AccordionTrigger className="text-left">
+                Is my privacy protected?
+              </AccordionTrigger>
+              <AccordionContent className="text-muted-foreground">
+                Absolutely. You create a profile name separate from your real identity. Your real name is never shown publicly. We use industry-standard encryption, secure data storage, and strict privacy policies. You control what information you share and with whom.
+              </AccordionContent>
+            </AccordionItem>
+
+            <AccordionItem value="item-5">
+              <AccordionTrigger className="text-left">
+                How does the matching algorithm work?
+              </AccordionTrigger>
+              <AccordionContent className="text-muted-foreground">
+                Our algorithm analyzes 5-dimensional personality test results, relationship style preferences, role compatibility (Dominant/Submissive/Switch), important traits you select, and approximate location. Each potential match receives a compatibility percentage to help you make informed decisions.
+              </AccordionContent>
+            </AccordionItem>
+
+            <AccordionItem value="item-6">
+              <AccordionTrigger className="text-left">
+                Can I use this on my phone?
+              </AccordionTrigger>
+              <AccordionContent className="text-muted-foreground">
+                Yes! The Executive Society is a Progressive Web App (PWA) that works beautifully on all devices. You can add it to your home screen for a native app-like experience. We're optimized for mobile with touch gestures, swipe interactions, and full offline support.
+              </AccordionContent>
+            </AccordionItem>
+
+            <AccordionItem value="item-7">
+              <AccordionTrigger className="text-left">
+                What if I identify as a Switch?
+              </AccordionTrigger>
+              <AccordionContent className="text-muted-foreground">
+                Switches can choose either the Submissive or Dominant subscription plan based on their primary preference. Your profile clearly indicates your Switch role, and our matching algorithm accounts for this flexibility when calculating compatibility.
+              </AccordionContent>
+            </AccordionItem>
+
+            <AccordionItem value="item-8">
+              <AccordionTrigger className="text-left">
+                How do I cancel my subscription?
+              </AccordionTrigger>
+              <AccordionContent className="text-muted-foreground">
+                You can manage or cancel your subscription at any time from your Settings page. Navigate to Subscription Management to view your current plan, billing details, and cancellation options. No long-term commitments required.
+              </AccordionContent>
+            </AccordionItem>
+          </Accordion>
+        </div>
+      </section>
+
+      {/* Download CTA Section */}
+      <section className="py-12 sm:py-20 px-4 sm:px-6">
+        <div className="max-w-4xl mx-auto text-center">
+          <h2 className="text-3xl sm:text-4xl font-light text-foreground mb-6">
+            Ready to Begin Your Journey?
+          </h2>
+          <p className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto">
+            Join The Executive Society today and discover authentic, compatible power exchange relationships with verified professionals.
+          </p>
+          
+          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-8">
+            <Button
+              data-testid="button-cta-get-started"
+              onClick={() => setLocation("/landing")}
+              size="lg"
+              className="w-full sm:w-auto min-w-[240px] rounded-full min-h-[48px]"
+            >
+              Get Started Now
+            </Button>
+            <Button
+              data-testid="button-cta-sign-in"
+              onClick={() => setLocation("/login")}
+              variant="outline"
+              size="lg"
+              className="w-full sm:w-auto min-w-[240px] rounded-full min-h-[48px]"
+            >
+              Already a Member? Sign In
+            </Button>
+          </div>
+
+          <div className="text-sm text-muted-foreground">
+            Questions? Visit our{" "}
+            <button
+              onClick={() => {
+                document.getElementById("faq")?.scrollIntoView({ behavior: "smooth" });
+              }}
+              className="text-primary hover-elevate underline"
+              data-testid="link-faq"
+            >
+              FAQ
+            </button>
+            {" "}or contact support.
+          </div>
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer className="border-t bg-card py-8 px-4 sm:px-6">
+        <div className="max-w-6xl mx-auto">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 mb-8">
+            <div>
+              <h3 className="font-medium mb-4">Platform</h3>
+              <ul className="space-y-2 text-sm text-muted-foreground">
+                <li>
+                  <button
+                    onClick={() => setLocation("/landing")}
+                    className="hover-elevate"
+                    data-testid="link-footer-home"
+                  >
+                    Get Started
+                  </button>
+                </li>
+                <li>
+                  <button
+                    onClick={() => {
+                      document.getElementById("features")?.scrollIntoView({ behavior: "smooth" });
+                    }}
+                    className="hover-elevate"
+                    data-testid="link-footer-features"
+                  >
+                    Features
+                  </button>
+                </li>
+                <li>
+                  <button
+                    onClick={() => {
+                      document.getElementById("pricing")?.scrollIntoView({ behavior: "smooth" });
+                    }}
+                    className="hover-elevate"
+                    data-testid="link-footer-pricing"
+                  >
+                    Pricing
+                  </button>
+                </li>
+              </ul>
+            </div>
+
+            <div>
+              <h3 className="font-medium mb-4">Support</h3>
+              <ul className="space-y-2 text-sm text-muted-foreground">
+                <li>
+                  <button
+                    onClick={() => {
+                      document.getElementById("faq")?.scrollIntoView({ behavior: "smooth" });
+                    }}
+                    className="hover-elevate"
+                    data-testid="link-footer-faq"
+                  >
+                    FAQ
+                  </button>
+                </li>
+                <li>
+                  <button
+                    onClick={() => setLocation("/help-support")}
+                    className="hover-elevate"
+                    data-testid="link-footer-help"
+                  >
+                    Help Center
+                  </button>
+                </li>
+              </ul>
+            </div>
+
+            <div>
+              <h3 className="font-medium mb-4">Legal</h3>
+              <ul className="space-y-2 text-sm text-muted-foreground">
+                <li>
+                  <button
+                    onClick={() => setLocation("/privacy-policy")}
+                    className="hover-elevate"
+                    data-testid="link-footer-privacy"
+                  >
+                    Privacy Policy
+                  </button>
+                </li>
+                <li>
+                  <button
+                    onClick={() => setLocation("/terms")}
+                    className="hover-elevate"
+                    data-testid="link-footer-terms"
+                  >
+                    Terms of Service
+                  </button>
+                </li>
+              </ul>
+            </div>
+
+            <div>
+              <h3 className="font-medium mb-4">About</h3>
+              <ul className="space-y-2 text-sm text-muted-foreground">
+                <li>
+                  <button
+                    onClick={() => setLocation("/about")}
+                    className="hover-elevate"
+                    data-testid="link-footer-about"
+                  >
+                    About Us
+                  </button>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <div className="border-t pt-6 flex flex-col sm:flex-row justify-between items-center gap-4">
+            <p className="text-sm text-muted-foreground text-center sm:text-left">
+              © 2025 The Executive Society. All rights reserved.
+            </p>
+            <div className="flex items-center gap-2 text-sm text-muted-foreground">
+              <Shield className="w-4 h-4 text-primary" />
+              <span>21+ Only · Safe · Consensual · Private</span>
+            </div>
+          </div>
+        </div>
+      </footer>
+    </div>
+  );
+}
