@@ -83,7 +83,7 @@ export default function Download() {
                     <path d="M13.69 12L3.84 2.15C3.34 2.39 3 2.91 3 3.5v17c0 .59.34 1.11.84 1.35L13.69 12z" fill="#fbbc04"/>
                   </svg>
                   <div className="text-left">
-                    <div className="text-[10px] leading-tight text-white/70">Get it on</div>
+                    <div className="text-sm font-medium leading-tight text-white/70">GET IT ON</div>
                     <div className="text-sm font-medium leading-tight text-white">Google Play</div>
                   </div>
                 </div>
