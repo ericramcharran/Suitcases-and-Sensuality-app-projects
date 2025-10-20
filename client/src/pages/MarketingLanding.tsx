@@ -578,7 +578,6 @@ export default function MarketingLanding() {
                 <Button
                   data-testid="button-pricing-submissive"
                   onClick={() => setLocation("/download")}
-                  variant="outline"
                   className="w-full rounded-full"
                 >
                   Get Started
@@ -677,7 +676,6 @@ export default function MarketingLanding() {
                 <Button
                   data-testid="button-pricing-switch"
                   onClick={() => setLocation("/download")}
-                  variant="outline"
                   className="w-full rounded-full"
                 >
                   Get Started
@@ -718,7 +716,6 @@ export default function MarketingLanding() {
                 <Button
                   data-testid="button-pricing-fully-funded"
                   onClick={() => setLocation("/download")}
-                  variant="outline"
                   className="w-full rounded-full"
                 >
                   Get Started
