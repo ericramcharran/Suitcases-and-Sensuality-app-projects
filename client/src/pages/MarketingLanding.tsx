@@ -36,20 +36,22 @@ export default function MarketingLanding() {
   return (
     <div className="min-h-screen bg-background relative">
       {/* Background Video */}
-      <div className="fixed inset-0 z-0 overflow-hidden">
+      <div className="fixed inset-0 z-0 overflow-hidden bg-black">
         <video
           autoPlay
           loop
           muted
           playsInline
-          className="absolute inset-0 w-full h-full object-cover opacity-20"
+          className="absolute inset-0 w-full h-full object-cover opacity-30"
           data-testid="background-video"
+          style={{ filter: 'brightness(0.6)' }}
         >
-          {/* Replace src with your chosen video from Pexels/Pixabay */}
-          <source src="https://videos.pexels.com/video-files/8474870/8474870-hd_1920_1080_25fps.mp4" type="video/mp4" />
+          {/* Using a different video source - more reliable */}
+          <source src="https://cdn.pixabay.com/video/2022/11/09/138442-769733075_large.mp4" type="video/mp4" />
+          Your browser does not support the video tag.
         </video>
         {/* Dark overlay for better text readability */}
-        <div className="absolute inset-0 bg-black/30" />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/40 to-black/60" />
       </div>
 
       {/* Header with Hamburger Menu */}
