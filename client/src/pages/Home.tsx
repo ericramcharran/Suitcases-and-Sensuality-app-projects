@@ -19,7 +19,7 @@ export default function Home() {
       <MarketingHeader />
 
       {/* Hero Section */}
-      <section className="relative min-h-screen flex flex-col items-center justify-center px-4 sm:px-6 py-12 overflow-hidden pt-24">
+      <section className="relative min-h-screen flex flex-col items-center justify-center px-4 sm:px-6 py-12 pt-24">
         <div className="w-full max-w-4xl mx-auto text-center">
           {/* Main Logo */}
           <motion.div 
