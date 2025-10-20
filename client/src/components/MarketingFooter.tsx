@@ -8,7 +8,7 @@ export function MarketingFooter() {
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 sm:gap-4 mb-8">
           <div>
             <h3 className="font-medium mb-3">Platform</h3>
-            <ul className="space-y-0.5 text-sm text-muted-foreground leading-tight">
+            <ul className="space-y-2 text-sm text-muted-foreground">
               <li>
                 <Link 
                   href="/"
@@ -50,7 +50,7 @@ export function MarketingFooter() {
 
           <div>
             <h3 className="font-medium mb-3">Support</h3>
-            <ul className="space-y-0.5 text-sm text-muted-foreground leading-tight">
+            <ul className="space-y-2 text-sm text-muted-foreground">
               <li>
                 <Link 
                   href="/faq"
@@ -74,7 +74,7 @@ export function MarketingFooter() {
 
           <div>
             <h3 className="font-medium mb-3">Legal</h3>
-            <ul className="space-y-0.5 text-sm text-muted-foreground leading-tight">
+            <ul className="space-y-2 text-sm text-muted-foreground">
               <li>
                 <Link 
                   href="/privacy-policy"
@@ -98,7 +98,7 @@ export function MarketingFooter() {
 
           <div>
             <h3 className="font-medium mb-3">About</h3>
-            <ul className="space-y-0.5 text-sm text-muted-foreground leading-tight">
+            <ul className="space-y-2 text-sm text-muted-foreground">
               <li>
                 <Link 
                   href="/about"
