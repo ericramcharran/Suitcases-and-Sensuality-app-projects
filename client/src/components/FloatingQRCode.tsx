@@ -1,13 +1,13 @@
 import { QRCodeSVG } from "qrcode.react";
 import { X, Smartphone } from "lucide-react";
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { Button } from "@/components/ui/button";
 
 export function FloatingQRCode() {
   const [isOpen, setIsOpen] = useState(false);
   
-  // Get the full URL for the download page
-  const downloadUrl = `${window.location.origin}/download`;
+  // Get the full URL for the download page - memoized
+  const downloadUrl = useMemo(() => `${window.location.origin}/download`, []);
 
   return (
     <>

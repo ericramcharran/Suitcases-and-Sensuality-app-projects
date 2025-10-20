@@ -8,6 +8,8 @@ import {
   Sheet,
   SheetContent,
   SheetTrigger,
+  SheetTitle,
+  SheetDescription,
 } from "@/components/ui/sheet";
 import { Link } from "wouter";
 
@@ -64,6 +66,10 @@ export function MarketingHeader() {
             </Button>
           </SheetTrigger>
           <SheetContent side="right" className="w-64 border-l-2 border-primary/40">
+            <SheetTitle>Navigation Menu</SheetTitle>
+            <SheetDescription className="sr-only">
+              Navigate through The Executive Society marketing pages
+            </SheetDescription>
             <nav className="flex flex-col gap-2 mt-6">
               <Link 
                 href="/about"
