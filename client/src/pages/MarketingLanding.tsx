@@ -44,14 +44,14 @@ export default function MarketingLanding() {
               className="w-20 h-20 object-contain"
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.6, ease: "easeOut" }}
+              transition={{ duration: 0.8, ease: "easeOut" }}
             />
             <h1 className="text-2xl font-medium">
               <motion.span 
                 className="text-black dark:text-white"
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.6, delay: 0.2, ease: "easeOut" }}
+                transition={{ duration: 0.8, delay: 0.3, ease: "easeOut" }}
               >
                 The Executive{" "}
               </motion.span>
@@ -59,7 +59,7 @@ export default function MarketingLanding() {
                 className="text-red-600 font-semibold"
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.6, delay: 0.4, ease: "easeOut" }}
+                transition={{ duration: 0.8, delay: 0.6, ease: "easeOut" }}
               >
                 Society
               </motion.span>
