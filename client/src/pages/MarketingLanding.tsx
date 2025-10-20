@@ -839,7 +839,7 @@ export default function MarketingLanding() {
                 <li>
                   <button
                     onClick={() => setLocation("/landing")}
-                    className="hover-elevate py-0.5"
+                    className="hover-elevate py-0.5 min-h-0"
                     data-testid="link-footer-home"
                   >
                     Get Started
@@ -850,7 +850,7 @@ export default function MarketingLanding() {
                     onClick={() => {
                       document.getElementById("features")?.scrollIntoView({ behavior: "smooth" });
                     }}
-                    className="hover-elevate py-0.5"
+                    className="hover-elevate py-0.5 min-h-0"
                     data-testid="link-footer-features"
                   >
                     Features
@@ -861,7 +861,7 @@ export default function MarketingLanding() {
                     onClick={() => {
                       document.getElementById("pricing")?.scrollIntoView({ behavior: "smooth" });
                     }}
-                    className="hover-elevate py-0.5"
+                    className="hover-elevate py-0.5 min-h-0"
                     data-testid="link-footer-pricing"
                   >
                     Pricing
@@ -870,7 +870,7 @@ export default function MarketingLanding() {
                 <li>
                   <button
                     onClick={() => setLocation("/download")}
-                    className="hover-elevate py-0.5"
+                    className="hover-elevate py-0.5 min-h-0"
                     data-testid="link-footer-download"
                   >
                     Download App
@@ -887,7 +887,7 @@ export default function MarketingLanding() {
                     onClick={() => {
                       document.getElementById("faq")?.scrollIntoView({ behavior: "smooth" });
                     }}
-                    className="hover-elevate py-0.5"
+                    className="hover-elevate py-0.5 min-h-0"
                     data-testid="link-footer-faq"
                   >
                     FAQ
@@ -896,7 +896,7 @@ export default function MarketingLanding() {
                 <li>
                   <button
                     onClick={() => setLocation("/help-support")}
-                    className="hover-elevate py-0.5"
+                    className="hover-elevate py-0.5 min-h-0"
                     data-testid="link-footer-help"
                   >
                     Help Center
@@ -911,7 +911,7 @@ export default function MarketingLanding() {
                 <li>
                   <button
                     onClick={() => setLocation("/privacy-policy")}
-                    className="hover-elevate py-0.5"
+                    className="hover-elevate py-0.5 min-h-0"
                     data-testid="link-footer-privacy"
                   >
                     Privacy Policy
@@ -920,7 +920,7 @@ export default function MarketingLanding() {
                 <li>
                   <button
                     onClick={() => setLocation("/terms")}
-                    className="hover-elevate py-0.5"
+                    className="hover-elevate py-0.5 min-h-0"
                     data-testid="link-footer-terms"
                   >
                     Terms of Service
@@ -935,7 +935,7 @@ export default function MarketingLanding() {
                 <li>
                   <button
                     onClick={() => setLocation("/about")}
-                    className="hover-elevate py-0.5"
+                    className="hover-elevate py-0.5 min-h-0"
                     data-testid="link-footer-about"
                   >
                     About Us
