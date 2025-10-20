@@ -5,7 +5,7 @@ import { useLocation } from "wouter";
 import { useState } from "react";
 import { motion } from "framer-motion";
 import animatedLogo from "@assets/crop animate logo_1760889514164.mp4";
-import heartLogo from "@assets/logo.png";
+import heartLogo from "@assets/logo transparent no name_1760959575281.png";
 import {
   Accordion,
   AccordionContent,
