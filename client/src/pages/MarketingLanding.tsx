@@ -83,8 +83,8 @@ export default function MarketingLanding() {
               </Button>
             </SheetTrigger>
             <SheetPortal>
-              <SheetOverlay className="!bg-transparent pointer-events-none" />
-              <SheetContent side="right" className="w-64 bg-background/70 backdrop-blur-lg border-l-2 border-primary/30">
+              <SheetOverlay className="!bg-transparent !opacity-0" />
+              <SheetContent side="right" className="w-64 !bg-white/60 dark:!bg-black/60 backdrop-blur-md border-l-2 border-primary/40">
                 <nav className="flex flex-col gap-2 mt-6">
                   <button
                     data-testid="nav-about"
