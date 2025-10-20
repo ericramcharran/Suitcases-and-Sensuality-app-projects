@@ -231,7 +231,7 @@ export default function MarketingLanding() {
       </section>
 
       {/* About Section */}
-      <section id="about" className="py-12 sm:py-20 px-4 sm:px-6 bg-card" data-testid="section-about">
+      <section id="about" className="py-8 sm:py-12 px-4 sm:px-6 bg-card" data-testid="section-about">
         <motion.div 
           className="max-w-4xl mx-auto text-center"
           initial={{ opacity: 0, y: 40 }}
@@ -252,10 +252,10 @@ export default function MarketingLanding() {
       </section>
 
       {/* Features Section */}
-      <section id="features" className="py-12 sm:py-20 px-4 sm:px-6" data-testid="section-features">
+      <section id="features" className="py-8 sm:py-12 px-4 sm:px-6" data-testid="section-features">
         <div className="max-w-6xl mx-auto">
           <motion.h2 
-            className="text-3xl sm:text-4xl font-light text-foreground mb-12 text-center" 
+            className="text-3xl sm:text-4xl font-light text-foreground mb-8 text-center" 
             data-testid="heading-features"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -396,10 +396,10 @@ export default function MarketingLanding() {
       </section>
 
       {/* How It Works */}
-      <section id="how-it-works" className="py-12 sm:py-20 px-4 sm:px-6 bg-card" data-testid="section-how-it-works">
+      <section id="how-it-works" className="py-8 sm:py-12 px-4 sm:px-6 bg-card" data-testid="section-how-it-works">
         <div className="max-w-4xl mx-auto">
           <motion.h2 
-            className="text-3xl sm:text-4xl font-light text-foreground mb-12 text-center" 
+            className="text-3xl sm:text-4xl font-light text-foreground mb-8 text-center" 
             data-testid="heading-how-it-works"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -498,12 +498,12 @@ export default function MarketingLanding() {
       </section>
 
       {/* Pricing Section */}
-      <section id="pricing" className="py-12 sm:py-20 px-4 sm:px-6" data-testid="section-pricing">
+      <section id="pricing" className="py-8 sm:py-12 px-4 sm:px-6" data-testid="section-pricing">
         <div className="max-w-6xl mx-auto">
           <h2 className="text-3xl sm:text-4xl font-light text-foreground mb-4 text-center" data-testid="heading-pricing">
             Subscription Plans
           </h2>
-          <p className="text-muted-foreground text-center mb-12 max-w-2xl mx-auto" data-testid="text-pricing-intro">
+          <p className="text-muted-foreground text-center mb-8 max-w-2xl mx-auto" data-testid="text-pricing-intro">
             Choose the plan that fits your role and commitment level. All plans include verification, matching, and messaging.
           </p>
 
@@ -701,9 +701,9 @@ export default function MarketingLanding() {
       </section>
 
       {/* FAQ Section */}
-      <section id="faq" className="py-12 sm:py-20 px-4 sm:px-6 bg-card" data-testid="section-faq">
+      <section id="faq" className="py-8 sm:py-12 px-4 sm:px-6 bg-card" data-testid="section-faq">
         <div className="max-w-3xl mx-auto">
-          <h2 className="text-3xl sm:text-4xl font-light text-foreground mb-12 text-center" data-testid="heading-faq">
+          <h2 className="text-3xl sm:text-4xl font-light text-foreground mb-8 text-center" data-testid="heading-faq">
             Frequently Asked Questions
           </h2>
 
@@ -784,7 +784,7 @@ export default function MarketingLanding() {
       </section>
 
       {/* Download CTA Section */}
-      <section className="py-12 sm:py-20 px-4 sm:px-6" data-testid="section-cta">
+      <section className="py-8 sm:py-12 px-4 sm:px-6" data-testid="section-cta">
         <div className="max-w-4xl mx-auto text-center">
           <h2 className="text-3xl sm:text-4xl font-light text-foreground mb-6" data-testid="heading-cta">
             Ready to Begin Your Journey?
