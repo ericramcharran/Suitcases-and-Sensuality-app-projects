@@ -34,28 +34,9 @@ export default function MarketingLanding() {
   };
 
   return (
-    <div className="min-h-screen bg-background relative">
-      {/* Background Video */}
-      <div className="fixed inset-0 z-0 overflow-hidden bg-black">
-        <video
-          autoPlay
-          loop
-          muted
-          playsInline
-          className="absolute inset-0 w-full h-full object-cover opacity-30"
-          data-testid="background-video"
-          style={{ filter: 'brightness(0.6)' }}
-        >
-          {/* Using a different video source - more reliable */}
-          <source src="https://cdn.pixabay.com/video/2022/11/09/138442-769733075_large.mp4" type="video/mp4" />
-          Your browser does not support the video tag.
-        </video>
-        {/* Dark overlay for better text readability */}
-        <div className="absolute inset-0 bg-gradient-to-b from-black/40 to-black/60" />
-      </div>
-
+    <div className="min-h-screen bg-background">
       {/* Header with Hamburger Menu */}
-      <header className="fixed top-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-sm border-b border-border relative">
+      <header className="fixed top-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-sm border-b border-border">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
           <div 
             className="flex items-center gap-3 cursor-pointer"
@@ -168,7 +149,7 @@ export default function MarketingLanding() {
       </header>
 
       {/* Hero Section */}
-      <section className="relative z-10 min-h-screen flex flex-col items-center justify-center px-4 sm:px-6 py-12 overflow-hidden pt-24">
+      <section className="relative min-h-screen flex flex-col items-center justify-center px-4 sm:px-6 py-12 overflow-hidden pt-24">
         <div className="w-full max-w-4xl mx-auto text-center">
           {/* Main Logo */}
           <motion.div 
@@ -252,7 +233,7 @@ export default function MarketingLanding() {
       </section>
 
       {/* About Section */}
-      <section id="about" className="relative z-10 py-8 sm:py-12 px-4 sm:px-6 bg-card" data-testid="section-about">
+      <section id="about" className="py-8 sm:py-12 px-4 sm:px-6 bg-card" data-testid="section-about">
         <motion.div 
           className="max-w-4xl mx-auto text-center"
           initial={{ opacity: 0, y: 40 }}
@@ -273,7 +254,7 @@ export default function MarketingLanding() {
       </section>
 
       {/* Features Section */}
-      <section id="features" className="relative z-10 py-8 sm:py-12 px-4 sm:px-6" data-testid="section-features">
+      <section id="features" className="py-8 sm:py-12 px-4 sm:px-6" data-testid="section-features">
         <div className="max-w-6xl mx-auto">
           <motion.h2 
             className="text-3xl sm:text-4xl font-light text-foreground mb-8 text-center" 
@@ -417,7 +398,7 @@ export default function MarketingLanding() {
       </section>
 
       {/* How It Works */}
-      <section id="how-it-works" className="relative z-10 py-8 sm:py-12 px-4 sm:px-6 bg-card" data-testid="section-how-it-works">
+      <section id="how-it-works" className="py-8 sm:py-12 px-4 sm:px-6 bg-card" data-testid="section-how-it-works">
         <div className="max-w-4xl mx-auto">
           <motion.h2 
             className="text-3xl sm:text-4xl font-light text-foreground mb-8 text-center" 
@@ -519,7 +500,7 @@ export default function MarketingLanding() {
       </section>
 
       {/* Pricing Section */}
-      <section id="pricing" className="relative z-10 py-8 sm:py-12 px-4 sm:px-6" data-testid="section-pricing">
+      <section id="pricing" className="py-8 sm:py-12 px-4 sm:px-6" data-testid="section-pricing">
         <div className="max-w-6xl mx-auto">
           <h2 className="text-3xl sm:text-4xl font-light text-foreground mb-4 text-center" data-testid="heading-pricing">
             Subscription Plans
@@ -722,7 +703,7 @@ export default function MarketingLanding() {
       </section>
 
       {/* FAQ Section */}
-      <section id="faq" className="relative z-10 py-8 sm:py-12 px-4 sm:px-6 bg-card" data-testid="section-faq">
+      <section id="faq" className="py-8 sm:py-12 px-4 sm:px-6 bg-card" data-testid="section-faq">
         <div className="max-w-3xl mx-auto">
           <h2 className="text-3xl sm:text-4xl font-light text-foreground mb-8 text-center" data-testid="heading-faq">
             Frequently Asked Questions
@@ -805,7 +786,7 @@ export default function MarketingLanding() {
       </section>
 
       {/* Download CTA Section */}
-      <section className="relative z-10 py-8 sm:py-12 px-4 sm:px-6" data-testid="section-cta">
+      <section className="py-8 sm:py-12 px-4 sm:px-6" data-testid="section-cta">
         <div className="max-w-4xl mx-auto text-center">
           <h2 className="text-3xl sm:text-4xl font-light text-foreground mb-6" data-testid="heading-cta">
             Ready to Begin Your Journey?
@@ -849,7 +830,7 @@ export default function MarketingLanding() {
       </section>
 
       {/* Footer */}
-      <footer className="relative z-10 border-t bg-card py-8 px-4 sm:px-6" data-testid="section-footer">
+      <footer className="border-t bg-card py-8 px-4 sm:px-6" data-testid="section-footer">
         <div className="max-w-4xl mx-auto">
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 sm:gap-4 mb-8">
             <div>
