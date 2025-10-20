@@ -51,7 +51,7 @@ export default function Landing() {
       <div className="w-full max-w-md mx-auto flex flex-col items-center relative z-10">
         {/* Logo - rises to center with curve, then zooms into keyhole */}
         <motion.div
-          className="mb-0 w-full"
+          className="mb-0 w-full px-4"
           style={{
             transformOrigin: "center 75%",
             marginTop: '2cm'
@@ -75,26 +75,21 @@ export default function Landing() {
           }}
         >
           <div 
-            className="flex items-center justify-center overflow-hidden rounded-md mx-auto" 
+            className="flex items-center justify-center overflow-hidden rounded-md mx-auto w-full max-w-md" 
             style={{ 
-              width: '380px',
-              height: '240px'
+              aspectRatio: '19 / 12'
             }}
           >
             <video 
               src={animatedLogo}
               autoPlay
               muted
+              loop
               playsInline
+              className="w-full h-full object-cover"
               style={{
-                width: '120%',
-                height: '120%',
-                objectFit: 'cover',
-                objectPosition: 'center center',
-                WebkitBackfaceVisibility: 'hidden',
-                backfaceVisibility: 'hidden',
-                willChange: 'transform',
-              } as React.CSSProperties}
+                objectPosition: 'center center'
+              }}
             />
           </div>
         </motion.div>

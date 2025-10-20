@@ -41,12 +41,11 @@ export default function DownloadPage() {
         <div className="max-w-4xl mx-auto">
           {/* Hero Section */}
           <div className="text-center mb-12">
-            <div className="inline-flex items-center justify-center mb-6">
+            <div className="flex items-center justify-center mb-6 w-full px-4">
               <div 
-                className="overflow-hidden rounded-md" 
+                className="overflow-hidden rounded-md w-full max-w-md" 
                 style={{ 
-                  width: '380px',
-                  height: '240px'
+                  aspectRatio: '19 / 12'
                 }}
               >
                 <video 
@@ -55,15 +54,10 @@ export default function DownloadPage() {
                   muted
                   loop
                   playsInline
+                  className="w-full h-full object-cover"
                   style={{
-                    width: '120%',
-                    height: '120%',
-                    objectFit: 'cover',
-                    objectPosition: 'center center',
-                    WebkitBackfaceVisibility: 'hidden',
-                    backfaceVisibility: 'hidden',
-                    willChange: 'transform',
-                  } as React.CSSProperties}
+                    objectPosition: 'center center'
+                  }}
                 />
               </div>
             </div>
