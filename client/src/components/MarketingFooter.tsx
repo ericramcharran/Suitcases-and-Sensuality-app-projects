@@ -12,7 +12,7 @@ export function MarketingFooter() {
               <li>
                 <Link 
                   href="/"
-                  className="hover-elevate py-0.5 block cursor-pointer"
+                  className="py-0.5 block cursor-pointer hover:underline underline-offset-4"
                   data-testid="link-footer-home"
                 >
                   Home
@@ -21,7 +21,7 @@ export function MarketingFooter() {
               <li>
                 <Link 
                   href="/features"
-                  className="hover-elevate py-0.5 block cursor-pointer"
+                  className="py-0.5 block cursor-pointer hover:underline underline-offset-4"
                   data-testid="link-footer-features"
                 >
                   Features
@@ -30,7 +30,7 @@ export function MarketingFooter() {
               <li>
                 <Link 
                   href="/pricing"
-                  className="hover-elevate py-0.5 block cursor-pointer"
+                  className="py-0.5 block cursor-pointer hover:underline underline-offset-4"
                   data-testid="link-footer-pricing"
                 >
                   Pricing
@@ -39,7 +39,7 @@ export function MarketingFooter() {
               <li>
                 <Link 
                   href="/download"
-                  className="hover-elevate py-0.5 block cursor-pointer"
+                  className="py-0.5 block cursor-pointer hover:underline underline-offset-4"
                   data-testid="link-footer-download"
                 >
                   Download App
@@ -54,7 +54,7 @@ export function MarketingFooter() {
               <li>
                 <Link 
                   href="/faq"
-                  className="hover-elevate py-0.5 block cursor-pointer"
+                  className="py-0.5 block cursor-pointer hover:underline underline-offset-4"
                   data-testid="link-footer-faq"
                 >
                   FAQ
@@ -63,7 +63,7 @@ export function MarketingFooter() {
               <li>
                 <Link 
                   href="/help-support"
-                  className="hover-elevate py-0.5 block cursor-pointer"
+                  className="py-0.5 block cursor-pointer hover:underline underline-offset-4"
                   data-testid="link-footer-help"
                 >
                   Help Center
@@ -78,7 +78,7 @@ export function MarketingFooter() {
               <li>
                 <Link 
                   href="/privacy-policy"
-                  className="hover-elevate py-0.5 block cursor-pointer"
+                  className="py-0.5 block cursor-pointer hover:underline underline-offset-4"
                   data-testid="link-footer-privacy"
                 >
                   Privacy Policy
@@ -87,7 +87,7 @@ export function MarketingFooter() {
               <li>
                 <Link 
                   href="/terms"
-                  className="hover-elevate py-0.5 block cursor-pointer"
+                  className="py-0.5 block cursor-pointer hover:underline underline-offset-4"
                   data-testid="link-footer-terms"
                 >
                   Terms of Service
@@ -102,7 +102,7 @@ export function MarketingFooter() {
               <li>
                 <Link 
                   href="/about"
-                  className="hover-elevate py-0.5 block cursor-pointer"
+                  className="py-0.5 block cursor-pointer hover:underline underline-offset-4"
                   data-testid="link-footer-about"
                 >
                   About Us
@@ -111,7 +111,7 @@ export function MarketingFooter() {
               <li>
                 <Link 
                   href="/how-it-works"
-                  className="hover-elevate py-0.5 block cursor-pointer"
+                  className="py-0.5 block cursor-pointer hover:underline underline-offset-4"
                   data-testid="link-footer-how-it-works"
                 >
                   How It Works
