@@ -8,6 +8,7 @@ import { PageTransition } from "@/components/PageTransition";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 
 import Splash from "@/pages/Splash";
+import SplashScreen from "@/pages/SplashScreen";
 import Landing from "@/pages/Landing";
 import MarketingLanding from "@/pages/MarketingLanding";
 import LogoCrop from "@/pages/LogoCrop";
@@ -80,6 +81,9 @@ function App() {
             <AnimatePresence mode="wait">
               <Switch location={location} key={location}>
               <Route path="/">
+                <PageTransition><SplashScreen /></PageTransition>
+              </Route>
+              <Route path="/home">
                 <PageTransition><MarketingLanding /></PageTransition>
               </Route>
               <Route path="/landing">
