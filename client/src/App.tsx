@@ -61,6 +61,7 @@ import PermissionsSettings from "@/pages/PermissionsSettings";
 import SubscriptionManagement from "@/pages/SubscriptionManagement";
 import UserData from "@/pages/UserData";
 import Download from "@/pages/Download";
+import SwitchesPage from "@/pages/SwitchesPage";
 import TermsProcessing from "@/pages/TermsProcessing";
 import ConsentProcessing from "@/pages/ConsentProcessing";
 import PrivacyProcessing from "@/pages/PrivacyProcessing";
@@ -265,6 +266,9 @@ function App() {
               </Route>
               <Route path="/download">
                 <PageTransition><Download /></PageTransition>
+              </Route>
+              <Route path="/switches">
+                <PageTransition><SwitchesPage /></PageTransition>
               </Route>
               <Route>
                 <PageTransition><Splash /></PageTransition>
