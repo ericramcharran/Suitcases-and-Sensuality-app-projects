@@ -14,7 +14,15 @@ Preferred communication style: Simple, everyday language.
 
 The frontend uses React 18+ with TypeScript, Vite for building, and Wouter for routing. It features a design system based on shadcn/ui and Radix UI, styled with Tailwind CSS for dark/light mode theming. The application is designed as a mobile-first Progressive Web App (PWA) with extensive mobile and touch optimizations for both Android and iOS. State management primarily uses TanStack Query for server state, avoiding a global state library. UI/UX is inspired by premium dating apps, prioritizing a professional, clean aesthetic with a rose accent color and Inter typography.
 
-**Marketing Landing Page**: The home route ("/") displays a comprehensive marketing page describing The Executive Society, featuring sections for hero content, about, features, how it works, pricing tiers, FAQ, and download CTAs. This page directs users to "/landing" to begin app registration. The marketing page is designed to attract and educate potential users before they enter the application flow.
+**Marketing Site Architecture**: The marketing site uses a multi-page structure instead of a single scrolling page:
+- **Home (/)**: Hero page with Feeld-style looping video background featuring The Executive Society logo, tagline, and CTA buttons. Uses lazy-loaded video transitions with gradient fallback.
+- **About (/about)**: Information about The Executive Society platform and mission
+- **Features (/features)**: Card-based showcase of platform features
+- **How It Works (/how-it-works)**: Step-by-step onboarding process explanation
+- **Pricing (/pricing)**: Four subscription tiers (submissive, Dominant, Switch, Fully Funded) with special introductory offers
+- **FAQ (/faq)**: Accordion-style frequently asked questions
+
+All marketing pages share consistent MarketingHeader (with hamburger menu navigation) and MarketingFooter components for a cohesive user experience. The marketing site is designed to attract and educate potential users before they enter the application flow at "/landing".
 
 ### Backend Architecture
 

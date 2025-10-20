@@ -66,58 +66,58 @@ export function MarketingHeader() {
           <SheetContent side="right" className="w-64 border-l-2 border-primary/40">
             <nav className="flex flex-col gap-2 mt-6">
               <Link href="/about">
-                <button
+                <a
                   data-testid="nav-about"
-                  className="w-full text-left py-2 px-3 text-sm text-foreground hover:bg-primary/10 hover:text-primary active-elevate-2 rounded-md transition-colors"
+                  className="block w-full text-left py-2 px-3 text-sm text-foreground hover:bg-primary/10 hover:text-primary active-elevate-2 rounded-md transition-colors cursor-pointer"
                   onClick={() => setIsMenuOpen(false)}
                 >
                   About
-                </button>
+                </a>
               </Link>
               <Link href="/features">
-                <button
+                <a
                   data-testid="nav-features"
-                  className="w-full text-left py-2 px-3 text-sm text-foreground hover:bg-primary/10 hover:text-primary active-elevate-2 rounded-md transition-colors"
+                  className="block w-full text-left py-2 px-3 text-sm text-foreground hover:bg-primary/10 hover:text-primary active-elevate-2 rounded-md transition-colors cursor-pointer"
                   onClick={() => setIsMenuOpen(false)}
                 >
                   Features
-                </button>
+                </a>
               </Link>
               <Link href="/how-it-works">
-                <button
+                <a
                   data-testid="nav-how-it-works"
-                  className="w-full text-left py-2 px-3 text-sm text-foreground hover:bg-primary/10 hover:text-primary active-elevate-2 rounded-md transition-colors"
+                  className="block w-full text-left py-2 px-3 text-sm text-foreground hover:bg-primary/10 hover:text-primary active-elevate-2 rounded-md transition-colors cursor-pointer"
                   onClick={() => setIsMenuOpen(false)}
                 >
                   How It Works
-                </button>
+                </a>
               </Link>
               <Link href="/pricing">
-                <button
+                <a
                   data-testid="nav-pricing"
-                  className="w-full text-left py-2 px-3 text-sm text-foreground hover:bg-primary/10 hover:text-primary active-elevate-2 rounded-md transition-colors"
+                  className="block w-full text-left py-2 px-3 text-sm text-foreground hover:bg-primary/10 hover:text-primary active-elevate-2 rounded-md transition-colors cursor-pointer"
                   onClick={() => setIsMenuOpen(false)}
                 >
                   Pricing
-                </button>
+                </a>
               </Link>
               <Link href="/faq">
-                <button
+                <a
                   data-testid="nav-faq"
-                  className="w-full text-left py-2 px-3 text-sm text-foreground hover:bg-primary/10 hover:text-primary active-elevate-2 rounded-md transition-colors"
+                  className="block w-full text-left py-2 px-3 text-sm text-foreground hover:bg-primary/10 hover:text-primary active-elevate-2 rounded-md transition-colors cursor-pointer"
                   onClick={() => setIsMenuOpen(false)}
                 >
                   FAQ
-                </button>
+                </a>
               </Link>
               <Link href="/download">
-                <button
+                <a
                   data-testid="nav-download"
-                  className="w-full text-left py-2 px-3 text-sm text-foreground hover:bg-primary/10 hover:text-primary active-elevate-2 rounded-md transition-colors"
+                  className="block w-full text-left py-2 px-3 text-sm text-foreground hover:bg-primary/10 hover:text-primary active-elevate-2 rounded-md transition-colors cursor-pointer"
                   onClick={() => setIsMenuOpen(false)}
                 >
                   Download App
-                </button>
+                </a>
               </Link>
               <div className="mt-4">
                 <Button

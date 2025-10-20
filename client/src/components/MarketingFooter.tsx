@@ -11,42 +11,42 @@ export function MarketingFooter() {
             <ul className="space-y-0.5 text-sm text-muted-foreground leading-tight">
               <li>
                 <Link href="/">
-                  <button
-                    className="hover-elevate py-0.5 min-h-0 text-left"
+                  <a
+                    className="hover-elevate py-0.5 block cursor-pointer"
                     data-testid="link-footer-home"
                   >
                     Home
-                  </button>
+                  </a>
                 </Link>
               </li>
               <li>
                 <Link href="/features">
-                  <button
-                    className="hover-elevate py-0.5 min-h-0 text-left"
+                  <a
+                    className="hover-elevate py-0.5 block cursor-pointer"
                     data-testid="link-footer-features"
                   >
                     Features
-                  </button>
+                  </a>
                 </Link>
               </li>
               <li>
                 <Link href="/pricing">
-                  <button
-                    className="hover-elevate py-0.5 min-h-0 text-left"
+                  <a
+                    className="hover-elevate py-0.5 block cursor-pointer"
                     data-testid="link-footer-pricing"
                   >
                     Pricing
-                  </button>
+                  </a>
                 </Link>
               </li>
               <li>
                 <Link href="/download">
-                  <button
-                    className="hover-elevate py-0.5 min-h-0 text-left"
+                  <a
+                    className="hover-elevate py-0.5 block cursor-pointer"
                     data-testid="link-footer-download"
                   >
                     Download App
-                  </button>
+                  </a>
                 </Link>
               </li>
             </ul>
@@ -57,22 +57,22 @@ export function MarketingFooter() {
             <ul className="space-y-0.5 text-sm text-muted-foreground leading-tight">
               <li>
                 <Link href="/faq">
-                  <button
-                    className="hover-elevate py-0.5 min-h-0 text-left"
+                  <a
+                    className="hover-elevate py-0.5 block cursor-pointer"
                     data-testid="link-footer-faq"
                   >
                     FAQ
-                  </button>
+                  </a>
                 </Link>
               </li>
               <li>
                 <Link href="/help-support">
-                  <button
-                    className="hover-elevate py-0.5 min-h-0 text-left"
+                  <a
+                    className="hover-elevate py-0.5 block cursor-pointer"
                     data-testid="link-footer-help"
                   >
                     Help Center
-                  </button>
+                  </a>
                 </Link>
               </li>
             </ul>
@@ -83,22 +83,22 @@ export function MarketingFooter() {
             <ul className="space-y-0.5 text-sm text-muted-foreground leading-tight">
               <li>
                 <Link href="/privacy-policy">
-                  <button
-                    className="hover-elevate py-0.5 min-h-0 text-left"
+                  <a
+                    className="hover-elevate py-0.5 block cursor-pointer"
                     data-testid="link-footer-privacy"
                   >
                     Privacy Policy
-                  </button>
+                  </a>
                 </Link>
               </li>
               <li>
                 <Link href="/terms">
-                  <button
-                    className="hover-elevate py-0.5 min-h-0 text-left"
+                  <a
+                    className="hover-elevate py-0.5 block cursor-pointer"
                     data-testid="link-footer-terms"
                   >
                     Terms of Service
-                  </button>
+                  </a>
                 </Link>
               </li>
             </ul>
@@ -109,22 +109,22 @@ export function MarketingFooter() {
             <ul className="space-y-0.5 text-sm text-muted-foreground leading-tight">
               <li>
                 <Link href="/about">
-                  <button
-                    className="hover-elevate py-0.5 min-h-0 text-left"
+                  <a
+                    className="hover-elevate py-0.5 block cursor-pointer"
                     data-testid="link-footer-about"
                   >
                     About Us
-                  </button>
+                  </a>
                 </Link>
               </li>
               <li>
                 <Link href="/how-it-works">
-                  <button
-                    className="hover-elevate py-0.5 min-h-0 text-left"
+                  <a
+                    className="hover-elevate py-0.5 block cursor-pointer"
                     data-testid="link-footer-how-it-works"
                   >
                     How It Works
-                  </button>
+                  </a>
                 </Link>
               </li>
             </ul>
