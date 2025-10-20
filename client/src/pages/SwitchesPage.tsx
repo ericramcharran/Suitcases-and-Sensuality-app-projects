@@ -51,14 +51,17 @@ export default function SwitchesPage() {
                   </div>
                   <h3 className="text-2xl font-medium mb-2">Switch Flexibility Plan</h3>
                   <p className="text-muted-foreground text-sm mb-4">Full flexibility for Switches</p>
+                  
+                  {/* Special Offer Badge */}
+                  <div className="inline-flex items-center justify-center bg-gradient-to-r from-red-600 to-rose-600 text-white px-6 py-3 rounded-full mb-4 shadow-lg">
+                    <span className="text-2xl font-bold">FREE for 1 Month</span>
+                  </div>
+                  
                   <div className="flex flex-col items-center justify-center gap-1 mb-2">
+                    <p className="text-sm text-muted-foreground mb-1">Special Introductory Offer</p>
                     <div className="flex items-baseline gap-2">
-                      <span className="text-4xl font-light">Free</span>
-                    </div>
-                    <span className="text-sm text-muted-foreground">for 1 month</span>
-                    <div className="flex items-baseline gap-2 mt-2">
                       <span className="text-2xl font-light">$79</span>
-                      <span className="text-muted-foreground text-sm">/month after</span>
+                      <span className="text-muted-foreground text-sm">/month after trial</span>
                     </div>
                   </div>
                 </div>
