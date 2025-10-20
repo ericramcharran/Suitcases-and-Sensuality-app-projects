@@ -45,12 +45,12 @@ export default function MarketingLanding() {
             <motion.img 
               src={heartLogo} 
               alt="Heart Logo" 
-              className="w-24 h-24 object-contain"
+              className="w-20 h-20 object-contain"
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.8, ease: "easeOut" }}
             />
-            <h1 className="text-3xl font-medium" style={{ marginLeft: '-0.6cm' }}>
+            <h1 className="text-2xl font-medium" style={{ marginLeft: '-0.6cm' }}>
               <motion.span 
                 className="text-black dark:text-white"
                 initial={{ opacity: 0, x: -20 }}
