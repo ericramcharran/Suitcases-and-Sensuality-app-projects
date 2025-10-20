@@ -65,59 +65,53 @@ export function MarketingHeader() {
           </SheetTrigger>
           <SheetContent side="right" className="w-64 border-l-2 border-primary/40">
             <nav className="flex flex-col gap-2 mt-6">
-              <Link href="/about">
-                <a
-                  data-testid="nav-about"
-                  className="block w-full text-left py-2 px-3 text-sm text-foreground hover:bg-primary/10 hover:text-primary active-elevate-2 rounded-md transition-colors cursor-pointer"
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  About
-                </a>
+              <Link 
+                href="/about"
+                data-testid="nav-about"
+                className="block w-full text-left py-2 px-3 text-sm text-foreground hover-elevate active-elevate-2 rounded-md cursor-pointer"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                About
               </Link>
-              <Link href="/features">
-                <a
-                  data-testid="nav-features"
-                  className="block w-full text-left py-2 px-3 text-sm text-foreground hover:bg-primary/10 hover:text-primary active-elevate-2 rounded-md transition-colors cursor-pointer"
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  Features
-                </a>
+              <Link 
+                href="/features"
+                data-testid="nav-features"
+                className="block w-full text-left py-2 px-3 text-sm text-foreground hover-elevate active-elevate-2 rounded-md cursor-pointer"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                Features
               </Link>
-              <Link href="/how-it-works">
-                <a
-                  data-testid="nav-how-it-works"
-                  className="block w-full text-left py-2 px-3 text-sm text-foreground hover:bg-primary/10 hover:text-primary active-elevate-2 rounded-md transition-colors cursor-pointer"
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  How It Works
-                </a>
+              <Link 
+                href="/how-it-works"
+                data-testid="nav-how-it-works"
+                className="block w-full text-left py-2 px-3 text-sm text-foreground hover-elevate active-elevate-2 rounded-md cursor-pointer"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                How It Works
               </Link>
-              <Link href="/pricing">
-                <a
-                  data-testid="nav-pricing"
-                  className="block w-full text-left py-2 px-3 text-sm text-foreground hover:bg-primary/10 hover:text-primary active-elevate-2 rounded-md transition-colors cursor-pointer"
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  Pricing
-                </a>
+              <Link 
+                href="/pricing"
+                data-testid="nav-pricing"
+                className="block w-full text-left py-2 px-3 text-sm text-foreground hover-elevate active-elevate-2 rounded-md cursor-pointer"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                Pricing
               </Link>
-              <Link href="/faq">
-                <a
-                  data-testid="nav-faq"
-                  className="block w-full text-left py-2 px-3 text-sm text-foreground hover:bg-primary/10 hover:text-primary active-elevate-2 rounded-md transition-colors cursor-pointer"
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  FAQ
-                </a>
+              <Link 
+                href="/faq"
+                data-testid="nav-faq"
+                className="block w-full text-left py-2 px-3 text-sm text-foreground hover-elevate active-elevate-2 rounded-md cursor-pointer"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                FAQ
               </Link>
-              <Link href="/download">
-                <a
-                  data-testid="nav-download"
-                  className="block w-full text-left py-2 px-3 text-sm text-foreground hover:bg-primary/10 hover:text-primary active-elevate-2 rounded-md transition-colors cursor-pointer"
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  Download App
-                </a>
+              <Link 
+                href="/download"
+                data-testid="nav-download"
+                className="block w-full text-left py-2 px-3 text-sm text-foreground hover-elevate active-elevate-2 rounded-md cursor-pointer"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                Download App
               </Link>
               <div className="mt-4">
                 <Button

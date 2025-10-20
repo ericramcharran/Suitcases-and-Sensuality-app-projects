@@ -10,43 +10,39 @@ export function MarketingFooter() {
             <h3 className="font-medium mb-3">Platform</h3>
             <ul className="space-y-0.5 text-sm text-muted-foreground leading-tight">
               <li>
-                <Link href="/">
-                  <a
-                    className="hover-elevate py-0.5 block cursor-pointer"
-                    data-testid="link-footer-home"
-                  >
-                    Home
-                  </a>
+                <Link 
+                  href="/"
+                  className="hover-elevate py-0.5 block cursor-pointer"
+                  data-testid="link-footer-home"
+                >
+                  Home
                 </Link>
               </li>
               <li>
-                <Link href="/features">
-                  <a
-                    className="hover-elevate py-0.5 block cursor-pointer"
-                    data-testid="link-footer-features"
-                  >
-                    Features
-                  </a>
+                <Link 
+                  href="/features"
+                  className="hover-elevate py-0.5 block cursor-pointer"
+                  data-testid="link-footer-features"
+                >
+                  Features
                 </Link>
               </li>
               <li>
-                <Link href="/pricing">
-                  <a
-                    className="hover-elevate py-0.5 block cursor-pointer"
-                    data-testid="link-footer-pricing"
-                  >
-                    Pricing
-                  </a>
+                <Link 
+                  href="/pricing"
+                  className="hover-elevate py-0.5 block cursor-pointer"
+                  data-testid="link-footer-pricing"
+                >
+                  Pricing
                 </Link>
               </li>
               <li>
-                <Link href="/download">
-                  <a
-                    className="hover-elevate py-0.5 block cursor-pointer"
-                    data-testid="link-footer-download"
-                  >
-                    Download App
-                  </a>
+                <Link 
+                  href="/download"
+                  className="hover-elevate py-0.5 block cursor-pointer"
+                  data-testid="link-footer-download"
+                >
+                  Download App
                 </Link>
               </li>
             </ul>
@@ -56,23 +52,21 @@ export function MarketingFooter() {
             <h3 className="font-medium mb-3">Support</h3>
             <ul className="space-y-0.5 text-sm text-muted-foreground leading-tight">
               <li>
-                <Link href="/faq">
-                  <a
-                    className="hover-elevate py-0.5 block cursor-pointer"
-                    data-testid="link-footer-faq"
-                  >
-                    FAQ
-                  </a>
+                <Link 
+                  href="/faq"
+                  className="hover-elevate py-0.5 block cursor-pointer"
+                  data-testid="link-footer-faq"
+                >
+                  FAQ
                 </Link>
               </li>
               <li>
-                <Link href="/help-support">
-                  <a
-                    className="hover-elevate py-0.5 block cursor-pointer"
-                    data-testid="link-footer-help"
-                  >
-                    Help Center
-                  </a>
+                <Link 
+                  href="/help-support"
+                  className="hover-elevate py-0.5 block cursor-pointer"
+                  data-testid="link-footer-help"
+                >
+                  Help Center
                 </Link>
               </li>
             </ul>
@@ -82,23 +76,21 @@ export function MarketingFooter() {
             <h3 className="font-medium mb-3">Legal</h3>
             <ul className="space-y-0.5 text-sm text-muted-foreground leading-tight">
               <li>
-                <Link href="/privacy-policy">
-                  <a
-                    className="hover-elevate py-0.5 block cursor-pointer"
-                    data-testid="link-footer-privacy"
-                  >
-                    Privacy Policy
-                  </a>
+                <Link 
+                  href="/privacy-policy"
+                  className="hover-elevate py-0.5 block cursor-pointer"
+                  data-testid="link-footer-privacy"
+                >
+                  Privacy Policy
                 </Link>
               </li>
               <li>
-                <Link href="/terms">
-                  <a
-                    className="hover-elevate py-0.5 block cursor-pointer"
-                    data-testid="link-footer-terms"
-                  >
-                    Terms of Service
-                  </a>
+                <Link 
+                  href="/terms"
+                  className="hover-elevate py-0.5 block cursor-pointer"
+                  data-testid="link-footer-terms"
+                >
+                  Terms of Service
                 </Link>
               </li>
             </ul>
@@ -108,23 +100,21 @@ export function MarketingFooter() {
             <h3 className="font-medium mb-3">About</h3>
             <ul className="space-y-0.5 text-sm text-muted-foreground leading-tight">
               <li>
-                <Link href="/about">
-                  <a
-                    className="hover-elevate py-0.5 block cursor-pointer"
-                    data-testid="link-footer-about"
-                  >
-                    About Us
-                  </a>
+                <Link 
+                  href="/about"
+                  className="hover-elevate py-0.5 block cursor-pointer"
+                  data-testid="link-footer-about"
+                >
+                  About Us
                 </Link>
               </li>
               <li>
-                <Link href="/how-it-works">
-                  <a
-                    className="hover-elevate py-0.5 block cursor-pointer"
-                    data-testid="link-footer-how-it-works"
-                  >
-                    How It Works
-                  </a>
+                <Link 
+                  href="/how-it-works"
+                  className="hover-elevate py-0.5 block cursor-pointer"
+                  data-testid="link-footer-how-it-works"
+                >
+                  How It Works
                 </Link>
               </li>
             </ul>
