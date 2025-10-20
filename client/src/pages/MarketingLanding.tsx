@@ -507,7 +507,7 @@ export default function MarketingLanding() {
             Choose the plan that fits your role and commitment level. All plans include verification, matching, and messaging.
           </p>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {/* submissive */}
             <Card className="hover-elevate" data-testid="card-pricing-submissive">
               <CardContent className="p-8">
@@ -602,6 +602,56 @@ export default function MarketingLanding() {
                 <Button
                   data-testid="button-pricing-dominant"
                   onClick={() => setLocation("/download")}
+                  className="w-full rounded-full"
+                >
+                  Get Started
+                </Button>
+              </CardContent>
+            </Card>
+
+            {/* Switch Flexibility Plan */}
+            <Card className="hover-elevate" data-testid="card-pricing-switch">
+              <CardContent className="p-8">
+                <div className="text-center mb-6">
+                  <h3 className="text-2xl font-medium mb-2">Switch</h3>
+                  <p className="text-muted-foreground text-sm mb-4">For Switches</p>
+                  
+                  {/* Special Offer Badge */}
+                  <div className="inline-flex items-center justify-center bg-gradient-to-r from-red-600 to-rose-600 text-white px-6 py-3 rounded-full mb-4 shadow-lg">
+                    <span className="text-2xl font-bold">FREE for 1 Month</span>
+                  </div>
+                  
+                  <div className="flex flex-col items-center justify-center gap-1 mb-2">
+                    <p className="text-sm text-muted-foreground mb-1">Special Introductory Offer</p>
+                    <div className="flex items-baseline gap-2">
+                      <span className="text-2xl font-light">$79</span>
+                      <span className="text-muted-foreground text-sm">/month after trial</span>
+                    </div>
+                    <p className="text-xs text-muted-foreground mt-3">Plans: 3, 6, 12 month & 5 year</p>
+                  </div>
+                </div>
+                <ul className="space-y-3 mb-8">
+                  <li className="flex items-start gap-2">
+                    <CheckCircle className="w-5 h-5 text-primary flex-shrink-0 mt-0.5" />
+                    <span className="text-sm">All submissive plan features</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <CheckCircle className="w-5 h-5 text-primary flex-shrink-0 mt-0.5" />
+                    <span className="text-sm">Priority in discovery feed</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <CheckCircle className="w-5 h-5 text-primary flex-shrink-0 mt-0.5" />
+                    <span className="text-sm">Enhanced profile visibility</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <CheckCircle className="w-5 h-5 text-primary flex-shrink-0 mt-0.5" />
+                    <span className="text-sm">Switch role clearly displayed</span>
+                  </li>
+                </ul>
+                <Button
+                  data-testid="button-pricing-switch"
+                  onClick={() => setLocation("/download")}
+                  variant="outline"
                   className="w-full rounded-full"
                 >
                   Get Started
