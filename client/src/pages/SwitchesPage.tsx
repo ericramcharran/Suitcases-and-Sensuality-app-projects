@@ -49,11 +49,17 @@ export default function SwitchesPage() {
                   <div className="inline-block bg-primary text-primary-foreground px-3 py-1 rounded-full text-xs font-medium mb-3">
                     SWITCH PLAN
                   </div>
-                  <h3 className="text-2xl font-medium mb-2">Dominant Tier</h3>
+                  <h3 className="text-2xl font-medium mb-2">Switch Flexibility Plan</h3>
                   <p className="text-muted-foreground text-sm mb-4">Full flexibility for Switches</p>
-                  <div className="flex items-baseline justify-center gap-2 mb-2">
-                    <span className="text-4xl font-light">$79</span>
-                    <span className="text-muted-foreground">/month</span>
+                  <div className="flex flex-col items-center justify-center gap-1 mb-2">
+                    <div className="flex items-baseline gap-2">
+                      <span className="text-4xl font-light">Free</span>
+                    </div>
+                    <span className="text-sm text-muted-foreground">for 1 month</span>
+                    <div className="flex items-baseline gap-2 mt-2">
+                      <span className="text-2xl font-light">$79</span>
+                      <span className="text-muted-foreground text-sm">/month after</span>
+                    </div>
                   </div>
                 </div>
                 <ul className="space-y-3 mb-8">
