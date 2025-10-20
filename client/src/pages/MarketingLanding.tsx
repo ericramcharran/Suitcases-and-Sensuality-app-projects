@@ -80,7 +80,7 @@ export default function MarketingLanding() {
                 <Menu className="h-6 w-6" />
               </Button>
             </SheetTrigger>
-            <SheetContent side="right" className="w-64">
+            <SheetContent side="right" className="w-64 bg-background/80 backdrop-blur-xl border-l border-primary/20">
               <nav className="flex flex-col gap-2 mt-6">
                 <button
                   data-testid="nav-about"
