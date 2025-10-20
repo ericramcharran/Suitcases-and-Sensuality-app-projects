@@ -322,7 +322,7 @@ export default function MarketingLanding() {
                     </div>
                     <h3 className="text-xl font-medium mb-2">Role-Specific Experience</h3>
                     <p className="text-muted-foreground">
-                      Tailored features for Dominants, Submissives, and Switches with appropriate subscription tiers and verification.
+                      Tailored features for Dominants and submissives with appropriate subscription tiers and verification.
                     </p>
                   </div>
                 </CardContent>
@@ -513,7 +513,7 @@ export default function MarketingLanding() {
               <CardContent className="p-8">
                 <div className="text-center mb-6">
                   <h3 className="text-2xl font-medium mb-2">submissive</h3>
-                  <p className="text-muted-foreground text-sm mb-4">For submissives & Switches</p>
+                  <p className="text-muted-foreground text-sm mb-4">For submissives</p>
                   <div className="flex flex-col items-center justify-center gap-1 mb-2">
                     <div className="flex items-baseline gap-2">
                       <span className="text-4xl font-light">Free</span>
@@ -563,7 +563,7 @@ export default function MarketingLanding() {
                     MOST POPULAR
                   </div>
                   <h3 className="text-2xl font-medium mb-2">Dominant</h3>
-                  <p className="text-muted-foreground text-sm mb-4">For Dominants & Switches</p>
+                  <p className="text-muted-foreground text-sm mb-4">For Dominants</p>
                   <div className="flex items-baseline justify-center gap-2 mb-2">
                     <span className="text-4xl font-light">$79</span>
                     <span className="text-muted-foreground">/month</span>
@@ -708,7 +708,7 @@ export default function MarketingLanding() {
                 What if I identify as a Switch?
               </AccordionTrigger>
               <AccordionContent className="text-muted-foreground">
-                Switches can choose either the submissive or Dominant subscription plan based on their primary preference. Your profile clearly indicates your Switch role, and our matching algorithm accounts for this flexibility when calculating compatibility.
+                You can choose either the submissive or Dominant subscription plan based on your primary preference. Your profile clearly indicates your Switch role, and our matching algorithm accounts for this flexibility when calculating compatibility.
               </AccordionContent>
             </AccordionItem>
 
