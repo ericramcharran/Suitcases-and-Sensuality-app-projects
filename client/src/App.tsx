@@ -6,6 +6,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { AnimatePresence } from "framer-motion";
 import { PageTransition } from "@/components/PageTransition";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
+import { ScrollToTop } from "@/components/ScrollToTop";
 
 import Splash from "@/pages/Splash";
 import SplashScreen from "@/pages/SplashScreen";
@@ -83,6 +84,7 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <ErrorBoundary>
         <TooltipProvider>
+          <ScrollToTop />
           <div className="min-h-screen">
             <AnimatePresence mode="wait">
               <Switch location={location} key={location}>
