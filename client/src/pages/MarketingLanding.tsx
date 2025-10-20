@@ -34,9 +34,26 @@ export default function MarketingLanding() {
   };
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background relative">
+      {/* Background Video - Feeld Style */}
+      <div className="fixed inset-0 w-full h-full overflow-hidden -z-10">
+        <video
+          autoPlay
+          loop
+          muted
+          playsInline
+          className="absolute top-1/2 left-1/2 min-w-full min-h-full w-auto h-auto -translate-x-1/2 -translate-y-1/2 object-cover"
+          style={{ opacity: 0.15 }}
+          data-testid="background-video"
+        >
+          <source src="https://cdn.pixabay.com/video/2022/11/09/138442-769733075_large.mp4" type="video/mp4" />
+        </video>
+        {/* Subtle overlay for text readability */}
+        <div className="absolute inset-0 bg-gradient-to-b from-background/80 via-background/50 to-background/80" />
+      </div>
+
       {/* Header with Hamburger Menu */}
-      <header className="fixed top-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-sm border-b border-border">
+      <header className="fixed top-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-sm border-b border-border relative">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
           <div 
             className="flex items-center gap-3 cursor-pointer"
