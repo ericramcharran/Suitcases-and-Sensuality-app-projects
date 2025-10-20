@@ -4,7 +4,7 @@ import { Shield, Heart, Users, Lock, CheckCircle, Sparkles, Phone, MessageCircle
 import { useLocation } from "wouter";
 import { useState } from "react";
 import { motion } from "framer-motion";
-import animatedLogo from "@assets/crop animate logo_1760889514164.mp4";
+import mainLogo from "@assets/logo transparent_1760961066655.png";
 import heartLogo from "@assets/logo transparent no name_1760959575281.png";
 import {
   Accordion,
@@ -22,7 +22,6 @@ import {
 
 export default function MarketingLanding() {
   const [, setLocation] = useLocation();
-  const [videoEnded, setVideoEnded] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const scrollToSection = (sectionId: string) => {
@@ -150,37 +149,18 @@ export default function MarketingLanding() {
       {/* Hero Section */}
       <section className="relative min-h-screen flex flex-col items-center justify-center px-4 sm:px-6 py-12 overflow-hidden pt-24">
         <div className="w-full max-w-4xl mx-auto text-center">
-          {/* Animated Logo */}
+          {/* Main Logo */}
           <motion.div 
             className="mb-8 flex items-center justify-center"
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.6, ease: "easeOut" }}
           >
-            <div 
-              className="overflow-hidden rounded-md" 
-              style={{ 
-                width: '380px',
-                height: '240px'
-              }}
-            >
-              <video 
-                src={animatedLogo}
-                autoPlay
-                muted
-                playsInline
-                onEnded={() => setVideoEnded(true)}
-                style={{
-                  width: '120%',
-                  height: '120%',
-                  objectFit: 'cover',
-                  objectPosition: 'center center',
-                  WebkitBackfaceVisibility: 'hidden',
-                  backfaceVisibility: 'hidden',
-                  willChange: 'transform',
-                } as React.CSSProperties}
-              />
-            </div>
+            <img 
+              src={mainLogo}
+              alt="The Executive Society"
+              className="w-96 h-auto object-contain"
+            />
           </motion.div>
 
           <motion.h1 
