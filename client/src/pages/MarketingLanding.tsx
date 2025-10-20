@@ -35,26 +35,31 @@ export default function MarketingLanding() {
 
   return (
     <div className="min-h-screen bg-background relative">
-      {/* Background Video - Feeld Style */}
+      {/* Animated Background - Sophisticated Dark Movement */}
       <div className="fixed inset-0 w-full h-full overflow-hidden z-0">
-        <video
-          autoPlay
-          loop
-          muted
-          playsInline
-          preload="auto"
-          className="absolute top-1/2 left-1/2 min-w-full min-h-full w-auto h-auto -translate-x-1/2 -translate-y-1/2 object-cover"
-          style={{ opacity: 0.25 }}
-          data-testid="background-video"
-          onLoadedData={() => console.log("✅ Video loaded and ready")}
-          onPlay={() => console.log("▶️ Video is playing")}
-          onError={(e) => console.error("❌ Video error:", e)}
-        >
-          <source src="https://assets.mixkit.co/videos/preview/mixkit-black-ink-in-water-creating-abstract-patterns-28456-large.mp4" type="video/mp4" />
-          <source src="https://player.vimeo.com/external/416062631.sd.mp4?s=e7c5f98b2e13e81a0f0c1e7d4e5b1c8d1a2a3a4a&profile_id=165" type="video/mp4" />
-        </video>
-        {/* Subtle overlay for text readability */}
-        <div className="absolute inset-0 bg-gradient-to-b from-background/70 via-background/40 to-background/70" />
+        <div 
+          className="absolute inset-0 opacity-20"
+          style={{
+            background: 'radial-gradient(ellipse at 20% 30%, rgba(139, 0, 0, 0.4) 0%, transparent 50%), radial-gradient(ellipse at 80% 70%, rgba(75, 0, 130, 0.3) 0%, transparent 50%), radial-gradient(ellipse at 50% 50%, rgba(0, 0, 0, 0.8) 0%, transparent 100%)',
+            animation: 'gradientShift 20s ease infinite',
+          }}
+        />
+        <style>{`
+          @keyframes gradientShift {
+            0%, 100% {
+              transform: translate(0, 0) scale(1);
+              opacity: 0.2;
+            }
+            33% {
+              transform: translate(-5%, 5%) scale(1.1);
+              opacity: 0.25;
+            }
+            66% {
+              transform: translate(5%, -5%) scale(1.05);
+              opacity: 0.15;
+            }
+          }
+        `}</style>
       </div>
 
       {/* Header with Hamburger Menu */}
