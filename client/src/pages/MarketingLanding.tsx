@@ -562,7 +562,7 @@ export default function MarketingLanding() {
               <CardContent className="p-8">
                 <div className="text-center mb-6">
                   <h3 className="text-2xl font-medium mb-2">Dominant</h3>
-                  <p className="text-muted-foreground text-sm mb-4">For Dominants</p>
+                  <p className="text-muted-foreground text-sm mb-4">For Masters, Dommes & Dominants</p>
                   
                   {/* Special Offer Badge */}
                   <div className="inline-flex items-center justify-center bg-gradient-to-r from-red-600 to-rose-600 text-white px-6 py-3 rounded-full mb-4 shadow-lg">
