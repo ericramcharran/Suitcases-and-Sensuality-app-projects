@@ -18,6 +18,8 @@ import {
   SheetHeader,
   SheetTitle,
   SheetTrigger,
+  SheetOverlay,
+  SheetPortal,
 } from "@/components/ui/sheet";
 
 export default function MarketingLanding() {
@@ -80,68 +82,71 @@ export default function MarketingLanding() {
                 <Menu className="h-6 w-6" />
               </Button>
             </SheetTrigger>
-            <SheetContent side="right" className="w-64 bg-background/80 backdrop-blur-xl border-l border-primary/20">
-              <nav className="flex flex-col gap-2 mt-6">
-                <button
-                  data-testid="nav-about"
-                  className="text-left py-2 px-3 text-sm text-foreground hover-elevate active-elevate-2 rounded-md"
-                  onClick={() => scrollToSection("about")}
-                >
-                  About
-                </button>
-                <button
-                  data-testid="nav-features"
-                  className="text-left py-2 px-3 text-sm text-foreground hover-elevate active-elevate-2 rounded-md"
-                  onClick={() => scrollToSection("features")}
-                >
-                  Features
-                </button>
-                <button
-                  data-testid="nav-how-it-works"
-                  className="text-left py-2 px-3 text-sm text-foreground hover-elevate active-elevate-2 rounded-md"
-                  onClick={() => scrollToSection("how-it-works")}
-                >
-                  How It Works
-                </button>
-                <button
-                  data-testid="nav-pricing"
-                  className="text-left py-2 px-3 text-sm text-foreground hover-elevate active-elevate-2 rounded-md"
-                  onClick={() => scrollToSection("pricing")}
-                >
-                  Pricing
-                </button>
-                <button
-                  data-testid="nav-faq"
-                  className="text-left py-2 px-3 text-sm text-foreground hover-elevate active-elevate-2 rounded-md"
-                  onClick={() => scrollToSection("faq")}
-                >
-                  FAQ
-                </button>
-                <button
-                  data-testid="nav-download"
-                  className="text-left py-2 px-3 text-sm text-foreground hover-elevate active-elevate-2 rounded-md"
-                  onClick={() => {
-                    setIsMenuOpen(false);
-                    setLocation("/download");
-                  }}
-                >
-                  Download App
-                </button>
-                <div className="mt-4">
-                  <Button
-                    data-testid="button-menu-get-started"
-                    size="sm"
-                    className="w-full"
+            <SheetPortal>
+              <SheetOverlay className="bg-transparent" />
+              <SheetContent side="right" className="w-64 bg-background/95 backdrop-blur-xl border-l-2 border-primary/30">
+                <nav className="flex flex-col gap-2 mt-6">
+                  <button
+                    data-testid="nav-about"
+                    className="text-left py-2 px-3 text-sm text-foreground hover:bg-primary/10 hover:text-primary active-elevate-2 rounded-md transition-colors"
+                    onClick={() => scrollToSection("about")}
+                  >
+                    About
+                  </button>
+                  <button
+                    data-testid="nav-features"
+                    className="text-left py-2 px-3 text-sm text-foreground hover:bg-primary/10 hover:text-primary active-elevate-2 rounded-md transition-colors"
+                    onClick={() => scrollToSection("features")}
+                  >
+                    Features
+                  </button>
+                  <button
+                    data-testid="nav-how-it-works"
+                    className="text-left py-2 px-3 text-sm text-foreground hover:bg-primary/10 hover:text-primary active-elevate-2 rounded-md transition-colors"
+                    onClick={() => scrollToSection("how-it-works")}
+                  >
+                    How It Works
+                  </button>
+                  <button
+                    data-testid="nav-pricing"
+                    className="text-left py-2 px-3 text-sm text-foreground hover:bg-primary/10 hover:text-primary active-elevate-2 rounded-md transition-colors"
+                    onClick={() => scrollToSection("pricing")}
+                  >
+                    Pricing
+                  </button>
+                  <button
+                    data-testid="nav-faq"
+                    className="text-left py-2 px-3 text-sm text-foreground hover:bg-primary/10 hover:text-primary active-elevate-2 rounded-md transition-colors"
+                    onClick={() => scrollToSection("faq")}
+                  >
+                    FAQ
+                  </button>
+                  <button
+                    data-testid="nav-download"
+                    className="text-left py-2 px-3 text-sm text-foreground hover:bg-primary/10 hover:text-primary active-elevate-2 rounded-md transition-colors"
                     onClick={() => {
                       setIsMenuOpen(false);
                       setLocation("/download");
                     }}
                   >
-                    Get Started
-                  </Button>
-                </div>
-              </nav>
-            </SheetContent>
+                    Download App
+                  </button>
+                  <div className="mt-4">
+                    <Button
+                      data-testid="button-menu-get-started"
+                      size="sm"
+                      className="w-full"
+                      onClick={() => {
+                        setIsMenuOpen(false);
+                        setLocation("/download");
+                      }}
+                    >
+                      Get Started
+                    </Button>
+                  </div>
+                </nav>
+              </SheetContent>
+            </SheetPortal>
           </Sheet>
         </div>
       </header>
