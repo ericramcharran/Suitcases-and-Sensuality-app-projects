@@ -14,9 +14,11 @@ Preferred communication style: Simple, everyday language.
 
 ### PWA Manifest Configuration
 - **File:** `client/public/manifest.json`
-- **REQUIRED:** `"start_url": "/landing"` (NOT "/" - that redirects to marketing pages)
+- **REQUIRED:** `"start_url": "/"` (shows splash screen, then redirects to app)
+- **File:** `client/src/pages/SplashScreen.tsx`
+- **REQUIRED:** Must redirect to `"/landing"` (NOT "/home" which is marketing)
 - **Issue History:** User had to request this fix multiple times. The PWA was opening to the marketing home page instead of the app login/interface.
-- **Why:** Route "/" shows SplashScreen which redirects to "/home" (marketing). The actual app starts at "/landing".
+- **Why:** Route "/" shows SplashScreen (2 second logo animation), then must redirect to "/landing" (app login) not "/home" (marketing site).
 
 ### Favicon Requirements
 - **Files:** `client/public/favicon-16x16.png`, `client/public/favicon-32x32.png`
