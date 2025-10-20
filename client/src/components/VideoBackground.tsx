@@ -8,6 +8,7 @@ export function VideoBackground() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [nextIndex, setNextIndex] = useState(1);
   const [isTransitioning, setIsTransitioning] = useState(false);
+  const [isLoaded, setIsLoaded] = useState(false);
   
   const currentVideoRef = useRef<HTMLVideoElement>(null);
   const nextVideoRef = useRef<HTMLVideoElement>(null);
@@ -16,17 +17,22 @@ export function VideoBackground() {
     const currentVideo = currentVideoRef.current;
     if (!currentVideo) return;
 
+    const handleCanPlay = () => {
+      setIsLoaded(true);
+    };
+
     const handleTimeUpdate = () => {
-      // Start crossfade 1 second before video ends
+      // Start crossfade 1.5 seconds before video ends
       if (currentVideo.duration - currentVideo.currentTime < 1.5 && !isTransitioning) {
         setIsTransitioning(true);
         
-        // Start playing next video
+        // Preload and play next video
         if (nextVideoRef.current) {
+          nextVideoRef.current.load();
           nextVideoRef.current.play();
         }
 
-        // After 1 second, swap videos
+        // After 1.5 seconds, swap videos
         setTimeout(() => {
           setCurrentIndex(nextIndex);
           setNextIndex((nextIndex + 1) % videos.length);
@@ -35,25 +41,37 @@ export function VideoBackground() {
       }
     };
 
+    currentVideo.addEventListener("canplay", handleCanPlay);
     currentVideo.addEventListener("timeupdate", handleTimeUpdate);
 
     return () => {
+      currentVideo.removeEventListener("canplay", handleCanPlay);
       currentVideo.removeEventListener("timeupdate", handleTimeUpdate);
     };
   }, [currentIndex, nextIndex, isTransitioning, videos.length]);
 
   return (
     <div className="fixed inset-0 w-full h-full overflow-hidden z-0">
-      {/* Current Video */}
+      {/* Gradient fallback (shows while video loads) */}
+      <div 
+        className="absolute inset-0 transition-opacity duration-1000"
+        style={{
+          opacity: isLoaded ? 0 : 0.2,
+          background: 'radial-gradient(ellipse at 20% 30%, rgba(139, 0, 0, 0.4) 0%, transparent 50%), radial-gradient(ellipse at 80% 70%, rgba(75, 0, 130, 0.3) 0%, transparent 50%), radial-gradient(ellipse at 50% 50%, rgba(0, 0, 0, 0.8) 0%, transparent 100%)',
+        }}
+      />
+
+      {/* Current Video - Priority load */}
       <video
         ref={currentVideoRef}
         autoPlay
         loop
         muted
         playsInline
+        preload="auto"
         className="absolute top-1/2 left-1/2 min-w-full min-h-full w-auto h-auto -translate-x-1/2 -translate-y-1/2 object-cover transition-opacity duration-1000"
         style={{ 
-          opacity: isTransitioning ? 0 : 0.2,
+          opacity: isTransitioning ? 0 : (isLoaded ? 0.2 : 0),
           zIndex: 1
         }}
         data-testid="background-video-current"
@@ -61,11 +79,12 @@ export function VideoBackground() {
         <source src={videos[currentIndex]} type="video/mp4" />
       </video>
 
-      {/* Next Video (for crossfade) */}
+      {/* Next Video - Lazy load */}
       <video
         ref={nextVideoRef}
         muted
         playsInline
+        preload="none"
         className="absolute top-1/2 left-1/2 min-w-full min-h-full w-auto h-auto -translate-x-1/2 -translate-y-1/2 object-cover transition-opacity duration-1000"
         style={{ 
           opacity: isTransitioning ? 0.2 : 0,
