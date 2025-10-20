@@ -832,7 +832,7 @@ export default function MarketingLanding() {
       {/* Footer */}
       <footer className="border-t bg-card py-8 px-4 sm:px-6" data-testid="section-footer">
         <div className="max-w-4xl mx-auto">
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 sm:gap-8 mb-8">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 sm:gap-4 mb-8">
             <div>
               <h3 className="font-medium mb-4">Platform</h3>
               <ul className="space-y-2 text-sm text-muted-foreground">
