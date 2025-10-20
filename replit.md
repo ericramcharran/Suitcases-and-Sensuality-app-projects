@@ -96,15 +96,20 @@ The platform features a compatibility algorithm based on 5-dimensional personali
 The chat feature requires mutual matches to function. Here's how to test it:
 
 **Test Accounts Available:**
-- **Marcus Sterling** (Dominant)
+- **Marcus Sterling** (Dominant - Verified & Fully Funded)
   - Email: dom_funded@test.com
+  - Password: password123
   - Profile Name: MarcusS
   - User ID: 38ad30cf-f254-4ebb-ab47-c2260e2a2faa
 
-- **Sarah** (submissive)
+- **Sarah** (submissive - Verified)
   - Email: sarah@test.com
+  - Password: password123
   - Profile Name: Sarah_T
   - User ID: d939ab1d-b9dc-4d93-a699-a4192f9a4086
+
+**Quick Login (No Password Required):**
+- Navigate to `/user-select` to instantly login as any test user
 
 **Steps to Test Chat:**
 
