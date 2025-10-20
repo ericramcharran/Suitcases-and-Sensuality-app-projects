@@ -834,12 +834,12 @@ export default function MarketingLanding() {
         <div className="max-w-4xl mx-auto">
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 sm:gap-4 mb-8">
             <div>
-              <h3 className="font-medium mb-4">Platform</h3>
-              <ul className="space-y-1.5 text-sm text-muted-foreground">
+              <h3 className="font-medium mb-3">Platform</h3>
+              <ul className="space-y-1 text-sm text-muted-foreground leading-relaxed">
                 <li>
                   <button
                     onClick={() => setLocation("/landing")}
-                    className="hover-elevate"
+                    className="hover-elevate py-0.5"
                     data-testid="link-footer-home"
                   >
                     Get Started
@@ -850,7 +850,7 @@ export default function MarketingLanding() {
                     onClick={() => {
                       document.getElementById("features")?.scrollIntoView({ behavior: "smooth" });
                     }}
-                    className="hover-elevate"
+                    className="hover-elevate py-0.5"
                     data-testid="link-footer-features"
                   >
                     Features
@@ -861,7 +861,7 @@ export default function MarketingLanding() {
                     onClick={() => {
                       document.getElementById("pricing")?.scrollIntoView({ behavior: "smooth" });
                     }}
-                    className="hover-elevate"
+                    className="hover-elevate py-0.5"
                     data-testid="link-footer-pricing"
                   >
                     Pricing
@@ -870,7 +870,7 @@ export default function MarketingLanding() {
                 <li>
                   <button
                     onClick={() => setLocation("/download")}
-                    className="hover-elevate"
+                    className="hover-elevate py-0.5"
                     data-testid="link-footer-download"
                   >
                     Download App
@@ -880,14 +880,14 @@ export default function MarketingLanding() {
             </div>
 
             <div>
-              <h3 className="font-medium mb-4">Support</h3>
-              <ul className="space-y-1.5 text-sm text-muted-foreground">
+              <h3 className="font-medium mb-3">Support</h3>
+              <ul className="space-y-1 text-sm text-muted-foreground leading-relaxed">
                 <li>
                   <button
                     onClick={() => {
                       document.getElementById("faq")?.scrollIntoView({ behavior: "smooth" });
                     }}
-                    className="hover-elevate"
+                    className="hover-elevate py-0.5"
                     data-testid="link-footer-faq"
                   >
                     FAQ
@@ -896,7 +896,7 @@ export default function MarketingLanding() {
                 <li>
                   <button
                     onClick={() => setLocation("/help-support")}
-                    className="hover-elevate"
+                    className="hover-elevate py-0.5"
                     data-testid="link-footer-help"
                   >
                     Help Center
@@ -906,12 +906,12 @@ export default function MarketingLanding() {
             </div>
 
             <div>
-              <h3 className="font-medium mb-4">Legal</h3>
-              <ul className="space-y-1.5 text-sm text-muted-foreground">
+              <h3 className="font-medium mb-3">Legal</h3>
+              <ul className="space-y-1 text-sm text-muted-foreground leading-relaxed">
                 <li>
                   <button
                     onClick={() => setLocation("/privacy-policy")}
-                    className="hover-elevate"
+                    className="hover-elevate py-0.5"
                     data-testid="link-footer-privacy"
                   >
                     Privacy Policy
@@ -920,7 +920,7 @@ export default function MarketingLanding() {
                 <li>
                   <button
                     onClick={() => setLocation("/terms")}
-                    className="hover-elevate"
+                    className="hover-elevate py-0.5"
                     data-testid="link-footer-terms"
                   >
                     Terms of Service
@@ -930,12 +930,12 @@ export default function MarketingLanding() {
             </div>
 
             <div>
-              <h3 className="font-medium mb-4">About</h3>
-              <ul className="space-y-1.5 text-sm text-muted-foreground">
+              <h3 className="font-medium mb-3">About</h3>
+              <ul className="space-y-1 text-sm text-muted-foreground leading-relaxed">
                 <li>
                   <button
                     onClick={() => setLocation("/about")}
-                    className="hover-elevate"
+                    className="hover-elevate py-0.5"
                     data-testid="link-footer-about"
                   >
                     About Us
