@@ -1,38 +1,44 @@
 {
-  "name": "The Executive Society",
+  "name": "The Executive Society - BDSM Dating",
   "short_name": "Executive Society",
-  "description": "A safe space for authentic BDSM connections. Match, learn, and grow together with compatible partners who share your values.",
+  "description": "Premium BDSM dating for professionals. Match with compatible partners based on personality, relationship style, and authentic power exchange dynamics. Safe, consensual, and private.",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#0a0a0a",
   "theme_color": "#e21d4b",
   "orientation": "portrait",
-  "categories": ["lifestyle", "social"],
+  "categories": ["lifestyle", "social", "dating"],
   "icons": [
     {
       "src": "/icon-192.png",
       "sizes": "192x192",
       "type": "image/png",
-      "purpose": "any maskable"
+      "purpose": "any"
+    },
+    {
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
     },
     {
       "src": "/icon-512.png",
       "sizes": "512x512",
       "type": "image/png",
-      "purpose": "any maskable"
-    }
-  ],
-  "screenshots": [
+      "purpose": "any"
+    },
     {
-      "src": "/screenshot-mobile.png",
-      "sizes": "390x844",
+      "src": "/icon-512.png",
+      "sizes": "512x512",
       "type": "image/png",
-      "form_factor": "narrow"
+      "purpose": "maskable"
     }
   ],
+  "screenshots": [],
   "prefer_related_applications": false,
   "related_applications": [],
   "scope": "/",
   "dir": "ltr",
-  "lang": "en-US"
+  "lang": "en-US",
+  "iarc_rating_id": "e84b072d-71b3-4d3e-86ae-31a8ce4e53b7"
 }
