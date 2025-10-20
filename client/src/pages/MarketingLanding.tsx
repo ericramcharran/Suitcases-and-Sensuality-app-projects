@@ -46,7 +46,7 @@ export default function MarketingLanding() {
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.8, ease: "easeOut" }}
             />
-            <h1 className="text-2xl font-medium" style={{ marginLeft: '-0.8cm' }}>
+            <h1 className="text-2xl font-medium" style={{ marginLeft: '-0.6cm' }}>
               <motion.span 
                 className="text-black dark:text-white"
                 initial={{ opacity: 0, x: -20 }}
