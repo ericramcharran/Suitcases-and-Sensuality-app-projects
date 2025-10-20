@@ -82,10 +82,8 @@ export default function MarketingLanding() {
                 <Menu className="h-6 w-6" />
               </Button>
             </SheetTrigger>
-            <SheetPortal>
-              <SheetOverlay className="!bg-transparent !opacity-0" />
-              <SheetContent side="right" className="w-64 !bg-white/60 dark:!bg-black/60 backdrop-blur-md border-l-2 border-primary/40">
-                <nav className="flex flex-col gap-2 mt-6">
+            <SheetContent side="right" className="w-64 border-l-2 border-primary/40">
+              <nav className="flex flex-col gap-2 mt-6">
                   <button
                     data-testid="nav-about"
                     className="text-left py-2 px-3 text-sm text-foreground hover:bg-primary/10 hover:text-primary active-elevate-2 rounded-md transition-colors"
@@ -145,8 +143,7 @@ export default function MarketingLanding() {
                     </Button>
                   </div>
                 </nav>
-              </SheetContent>
-            </SheetPortal>
+            </SheetContent>
           </Sheet>
         </div>
       </header>
