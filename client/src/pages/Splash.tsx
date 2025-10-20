@@ -14,24 +14,21 @@ export default function Splash() {
   }, [setLocation]);
 
   return (
-    <div className="min-h-screen bg-background flex items-center justify-center">
+    <div className="min-h-screen bg-background flex items-center justify-center px-4">
       <div 
-        className="flex items-center justify-center overflow-hidden rounded-md" 
+        className="flex items-center justify-center overflow-hidden rounded-md w-full max-w-2xl" 
         style={{ 
-          marginTop: '2cm',
-          width: '760px',
-          height: '480px'
+          aspectRatio: '19 / 12'
         }}
       >
         <video 
           src={animatedLogo} 
           autoPlay
           muted
+          loop
           playsInline
+          className="w-full h-full object-cover"
           style={{
-            width: '120%',
-            height: '120%',
-            objectFit: 'cover',
             objectPosition: 'center center'
           }}
         />
