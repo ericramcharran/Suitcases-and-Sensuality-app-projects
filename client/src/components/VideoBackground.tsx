@@ -51,7 +51,7 @@ export function VideoBackground() {
   }, [currentIndex, nextIndex, isTransitioning, videos.length]);
 
   return (
-    <div className="fixed inset-0 w-full h-full overflow-hidden z-0">
+    <div className="fixed inset-0 w-full h-full overflow-hidden z-0 pointer-events-none">
       {/* Gradient fallback (shows while video loads) */}
       <div 
         className="absolute inset-0 transition-opacity duration-1000"
