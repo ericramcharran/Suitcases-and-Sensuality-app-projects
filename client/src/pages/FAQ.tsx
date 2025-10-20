@@ -98,7 +98,7 @@ export default function FAQ() {
                   What if I identify as a Switch?
                 </AccordionTrigger>
                 <AccordionContent className="text-muted-foreground">
-                  You can choose the Switch pricing structure. Your profile clearly indicates your Switch role, and our matching algorithm accounts for this flexibility when calculating compatibility.
+                  We want to be inclusive of all alternative lifestyles. We love that you found your way here and we have developed a pricing structure for you. You can choose the Switch pricing structure. Your profile clearly indicates your Switch role, and our matching algorithm accounts for this flexibility when calculating compatibility.
                 </AccordionContent>
               </AccordionItem>
 
