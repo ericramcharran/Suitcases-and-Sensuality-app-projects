@@ -13,84 +13,20 @@ interface TestUser {
 
 const testUsers: TestUser[] = [
   {
-    id: 'fd98f1e3-5ae3-4ef8-9c47-963530b78b06',
-    name: 'Sarah Bennett',
-    role: 'submissive',
-    age: 25,
-    city: 'Portland',
-    state: 'OR'
-  },
-  {
-    id: 'b4f14b16-41dc-46bd-adc2-914b228748cc',
-    name: 'Victoria Monroe',
-    role: 'Domme',
-    age: 50,
-    city: 'Miami',
-    state: 'FL'
-  },
-  {
-    id: '258e8b5a-161e-4f8a-84ac-a4bc29d3cd97',
-    name: 'Alexander Stone',
+    id: '38ad30cf-f254-4ebb-ab47-c2260e2a2faa',
+    name: 'Marcus Sterling (MarcusS)',
     role: 'Dominant',
     age: 42,
-    city: 'San Diego',
-    state: 'CA'
-  },
-  {
-    id: '1b37865d-22fd-46b5-ab61-3d10b54745d1',
-    name: 'Marcus Chen',
-    role: 'submissive',
-    age: 28,
-    city: 'Seattle',
-    state: 'WA'
-  },
-  {
-    id: '779dbef8-09d4-47ea-b7ca-8a9eb600ccf0',
-    name: 'Isabella Martinez',
-    role: 'Dominant',
-    age: 32,
-    city: 'Miami',
-    state: 'FL'
-  },
-  {
-    id: '41ea0351-f316-4f09-95f0-6cd9fbed48e6',
-    name: 'David Thompson',
-    role: 'submissive',
-    age: 28,
-    city: 'Seattle',
-    state: 'WA'
-  },
-  {
-    id: 'fe11972a-7c98-4718-9f8c-e843a00f97c0',
-    name: 'Jasmine Williams',
-    role: 'Switch',
-    age: 30,
-    city: 'Atlanta',
-    state: 'GA'
-  },
-  {
-    id: 'f11939a1-3dc2-464e-9d12-b322a68a34d8',
-    name: 'Ryan O\'Connor',
-    role: 'Dominant',
-    age: 35,
-    city: 'Boston',
-    state: 'MA'
-  },
-  {
-    id: '1e6c1d1c-9f26-4203-8161-e0a2ac560933',
-    name: 'Sophie Chen',
-    role: 'submissive',
-    age: 26,
-    city: 'San Francisco',
-    state: 'CA'
-  },
-  {
-    id: 'fad4084f-20af-4e8e-bfcf-784c3da4f59d',
-    name: 'Alex',
-    role: 'Dominant',
-    age: 34,
     city: 'New York',
     state: 'NY'
+  },
+  {
+    id: 'd939ab1d-b9dc-4d93-a699-a4192f9a4086',
+    name: 'Sarah (Sarah_T)',
+    role: 'Submissive',
+    age: 28,
+    city: 'Los Angeles',
+    state: 'CA'
   }
 ];
 
