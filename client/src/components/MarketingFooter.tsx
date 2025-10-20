@@ -3,7 +3,7 @@ import { Link } from "wouter";
 
 export function MarketingFooter() {
   return (
-    <footer className="border-t bg-card py-8 px-4 sm:px-6" data-testid="section-footer">
+    <footer className="relative border-t bg-card py-8 px-4 sm:px-6 z-20" data-testid="section-footer" style={{ backgroundColor: 'hsl(var(--card))' }}>
       <div className="max-w-4xl mx-auto">
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 sm:gap-4 mb-8">
           <div>
