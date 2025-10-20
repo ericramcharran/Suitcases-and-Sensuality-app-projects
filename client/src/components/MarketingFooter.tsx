@@ -11,7 +11,7 @@ export function MarketingFooter() {
             <ul className="space-y-0 text-sm text-muted-foreground leading-tight">
               <li>
                 <Link 
-                  href="/"
+                  href="/home"
                   className="min-h-0 py-0.5 block cursor-pointer hover:underline underline-offset-4"
                   data-testid="link-footer-home"
                 >

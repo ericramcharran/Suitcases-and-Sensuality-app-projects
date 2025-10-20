@@ -84,11 +84,14 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <ErrorBoundary>
         <TooltipProvider>
-          <ScrollToTop />
           <div className="min-h-screen">
+            <ScrollToTop />
             <AnimatePresence mode="wait">
               <Switch location={location} key={location}>
               <Route path="/">
+                <PageTransition><SplashScreen /></PageTransition>
+              </Route>
+              <Route path="/home">
                 <PageTransition><Home /></PageTransition>
               </Route>
               <Route path="/splash-screen">

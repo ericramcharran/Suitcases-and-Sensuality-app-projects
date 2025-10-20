@@ -8,8 +8,8 @@ export default function SplashScreen() {
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      setLocation("/home");
-    }, 3000);
+      setLocation("/landing");
+    }, 2000);
 
     return () => clearTimeout(timer);
   }, [setLocation]);
