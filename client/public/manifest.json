@@ -2,7 +2,7 @@
   "name": "The Executive Society - BDSM Dating",
   "short_name": "Executive Society",
   "description": "Premium BDSM dating for professionals. Match with compatible partners based on personality, relationship style, and authentic power exchange dynamics. Safe, consensual, and private.",
-  "start_url": "/",
+  "start_url": "/landing",
   "display": "standalone",
   "background_color": "#0a0a0a",
   "theme_color": "#e21d4b",
