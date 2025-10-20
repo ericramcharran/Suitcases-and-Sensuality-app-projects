@@ -63,6 +63,7 @@ export default function SwitchesPage() {
                       <span className="text-2xl font-light">$79</span>
                       <span className="text-muted-foreground text-sm">/month after trial</span>
                     </div>
+                    <p className="text-xs text-muted-foreground mt-3">Plans: 3, 6, 12 month & 5 year</p>
                   </div>
                 </div>
                 <ul className="space-y-3 mb-8">

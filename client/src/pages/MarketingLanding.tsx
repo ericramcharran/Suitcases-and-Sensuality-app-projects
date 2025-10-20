@@ -568,6 +568,7 @@ export default function MarketingLanding() {
                     <span className="text-4xl font-light">$79</span>
                     <span className="text-muted-foreground">/month</span>
                   </div>
+                  <p className="text-xs text-muted-foreground mt-3">Plans: 3, 6, 12 month & 5 year</p>
                 </div>
                 <ul className="space-y-3 mb-8">
                   <li className="flex items-start gap-2">
