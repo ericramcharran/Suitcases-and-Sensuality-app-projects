@@ -3,12 +3,15 @@ import { Shield, Sparkles, Heart, MessageCircle, Lock, Phone } from "lucide-reac
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { useLocation } from "wouter";
+import { MarketingHeader } from "@/components/MarketingHeader";
+import { MarketingFooter } from "@/components/MarketingFooter";
 
 export default function Features() {
   const [, setLocation] = useLocation();
 
   return (
     <div className="min-h-screen bg-background">
+      <MarketingHeader />
       <section className="py-16 sm:py-24 px-4 sm:px-6" data-testid="section-features">
         <div className="max-w-6xl mx-auto">
           <motion.h1 
@@ -164,6 +167,8 @@ export default function Features() {
           </div>
         </div>
       </section>
+
+      <MarketingFooter />
     </div>
   );
 }

@@ -3,12 +3,15 @@ import { Card, CardContent } from "@/components/ui/card";
 import { CheckCircle, Award } from "lucide-react";
 import { useLocation } from "wouter";
 import { motion } from "framer-motion";
+import { MarketingHeader } from "@/components/MarketingHeader";
+import { MarketingFooter } from "@/components/MarketingFooter";
 
 export default function Pricing() {
   const [, setLocation] = useLocation();
 
   return (
     <div className="min-h-screen bg-background">
+      <MarketingHeader />
       <section className="py-16 sm:py-24 px-4 sm:px-6" data-testid="section-pricing">
         <div className="max-w-6xl mx-auto">
           <motion.h1 
@@ -240,6 +243,8 @@ export default function Pricing() {
           </div>
         </div>
       </section>
+
+      <MarketingFooter />
     </div>
   );
 }

@@ -1,12 +1,15 @@
 import { Button } from "@/components/ui/button";
 import { useLocation } from "wouter";
 import { motion } from "framer-motion";
+import { MarketingHeader } from "@/components/MarketingHeader";
+import { MarketingFooter } from "@/components/MarketingFooter";
 
 export default function About() {
   const [, setLocation] = useLocation();
 
   return (
     <div className="min-h-screen bg-background">
+      <MarketingHeader />
       <section className="py-16 sm:py-24 px-4 sm:px-6 bg-card" data-testid="section-about">
         <motion.div 
           className="max-w-4xl mx-auto"
@@ -48,6 +51,8 @@ export default function About() {
           </div>
         </motion.div>
       </section>
+
+      <MarketingFooter />
     </div>
   );
 }
