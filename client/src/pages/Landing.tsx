@@ -53,8 +53,7 @@ export default function Landing() {
         <motion.div
           className="mb-0 w-full px-4"
           style={{
-            transformOrigin: "center 75%",
-            marginTop: '2cm'
+            transformOrigin: "center 75%"
           }}
           animate={isAnimating ? {
             y: "calc(50vh - 75%)",

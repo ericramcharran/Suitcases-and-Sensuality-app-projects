@@ -15,16 +15,17 @@ export default function SplashScreen() {
   }, [setLocation]);
 
   return (
-    <div className="min-h-screen bg-background flex items-center justify-center">
+    <div className="min-h-screen bg-background flex items-center justify-center px-4">
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 1.5, ease: "easeInOut" }}
+        className="w-full max-w-md"
       >
         <img 
           src={mainLogo}
           alt="The Executive Society"
-          className="w-96 h-auto object-contain"
+          className="w-full h-auto object-contain"
         />
       </motion.div>
     </div>
