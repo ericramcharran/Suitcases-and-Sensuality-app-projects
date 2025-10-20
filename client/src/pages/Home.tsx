@@ -7,6 +7,7 @@ import { VideoBackground } from "@/components/VideoBackground";
 import { MarketingHeader } from "@/components/MarketingHeader";
 import { MarketingFooter } from "@/components/MarketingFooter";
 import { FloatingQRCode } from "@/components/FloatingQRCode";
+import { InstallBanner } from "@/components/InstallBanner";
 
 export default function Home() {
   const [, setLocation] = useLocation();
@@ -106,6 +107,9 @@ export default function Home() {
       
       {/* Floating QR Code */}
       <FloatingQRCode />
+      
+      {/* Install App Banner */}
+      <InstallBanner />
     </div>
   );
 }
