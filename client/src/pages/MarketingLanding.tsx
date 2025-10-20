@@ -159,7 +159,7 @@ export default function MarketingLanding() {
             <img 
               src={mainLogo}
               alt="The Executive Society"
-              className="w-96 h-auto object-contain"
+              className="w-72 h-auto object-contain"
             />
           </motion.div>
 
