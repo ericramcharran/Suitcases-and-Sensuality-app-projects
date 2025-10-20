@@ -98,7 +98,7 @@ export default function FAQ() {
                   What if I identify as a Switch?
                 </AccordionTrigger>
                 <AccordionContent className="text-muted-foreground">
-                  You can choose either the submissive or Dominant subscription plan based on your primary preference. Your profile clearly indicates your Switch role, and our matching algorithm accounts for this flexibility when calculating compatibility.
+                  You can choose the Switch pricing structure. Your profile clearly indicates your Switch role, and our matching algorithm accounts for this flexibility when calculating compatibility.
                 </AccordionContent>
               </AccordionItem>
 
