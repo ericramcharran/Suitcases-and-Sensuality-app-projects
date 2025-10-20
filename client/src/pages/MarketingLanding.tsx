@@ -561,9 +561,6 @@ export default function MarketingLanding() {
             <Card className="hover-elevate border-primary" data-testid="card-pricing-dominant">
               <CardContent className="p-8">
                 <div className="text-center mb-6">
-                  <div className="inline-block bg-primary text-primary-foreground px-3 py-1 rounded-full text-xs font-medium mb-3">
-                    MOST POPULAR
-                  </div>
                   <h3 className="text-2xl font-medium mb-2">Dominant</h3>
                   <p className="text-muted-foreground text-sm mb-4">For Dominants</p>
                   
