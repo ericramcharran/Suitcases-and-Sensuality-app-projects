@@ -21,6 +21,7 @@ import {
   SheetOverlay,
   SheetPortal,
 } from "@/components/ui/sheet";
+import { VideoBackground } from "@/components/VideoBackground";
 
 export default function MarketingLanding() {
   const [, setLocation] = useLocation();
@@ -35,32 +36,8 @@ export default function MarketingLanding() {
 
   return (
     <div className="min-h-screen bg-background relative">
-      {/* Animated Background - Sophisticated Dark Movement */}
-      <div className="fixed inset-0 w-full h-full overflow-hidden z-0">
-        <div 
-          className="absolute inset-0 opacity-20"
-          style={{
-            background: 'radial-gradient(ellipse at 20% 30%, rgba(139, 0, 0, 0.4) 0%, transparent 50%), radial-gradient(ellipse at 80% 70%, rgba(75, 0, 130, 0.3) 0%, transparent 50%), radial-gradient(ellipse at 50% 50%, rgba(0, 0, 0, 0.8) 0%, transparent 100%)',
-            animation: 'gradientShift 20s ease infinite',
-          }}
-        />
-        <style>{`
-          @keyframes gradientShift {
-            0%, 100% {
-              transform: translate(0, 0) scale(1);
-              opacity: 0.2;
-            }
-            33% {
-              transform: translate(-5%, 5%) scale(1.1);
-              opacity: 0.25;
-            }
-            66% {
-              transform: translate(5%, -5%) scale(1.05);
-              opacity: 0.15;
-            }
-          }
-        `}</style>
-      </div>
+      {/* Video Background - Feeld Style with Crossfade */}
+      <VideoBackground />
 
       {/* Header with Hamburger Menu */}
       <header className="fixed top-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-sm border-b border-border relative">
