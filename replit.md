@@ -8,6 +8,29 @@ The Executive Society is a premium BDSM dating platform for professionals, focus
 
 Preferred communication style: Simple, everyday language.
 
+## Critical Configuration Requirements
+
+**⚠️ THESE MUST BE CORRECT - DO NOT BREAK THESE AGAIN:**
+
+### PWA Manifest Configuration
+- **File:** `client/public/manifest.json`
+- **REQUIRED:** `"start_url": "/landing"` (NOT "/" - that redirects to marketing pages)
+- **Issue History:** User had to request this fix multiple times. The PWA was opening to the marketing home page instead of the app login/interface.
+- **Why:** Route "/" shows SplashScreen which redirects to "/home" (marketing). The actual app starts at "/landing".
+
+### Favicon Requirements
+- **Files:** `client/public/favicon-16x16.png`, `client/public/favicon-32x32.png`
+- **REQUIRED:** Must be 1:1 square aspect ratio (crop the user's logo to square using ImageMagick)
+- **Command:** `convert "attached_assets/logo transparent no name_1760959575281.png" -gravity center -crop 1:1 +repage client/public/favicon-32x32.png`
+- **Issue History:** Generated AI images instead of using actual logo, causing repeated requests.
+- **Why:** Non-square favicons appear squeezed in browser tabs.
+
+### Mobile Responsiveness
+- **NEVER use hardcoded pixel dimensions** (like `w-[380px]` or `h-[240px]`) for logos or images
+- **ALWAYS use responsive classes** (like `w-full max-w-md`, `w-72 h-auto`)
+- **Issue History:** Hardcoded dimensions broke mobile layouts across Splash, Landing, Home, Download pages
+- **Critical:** Test mobile responsiveness before claiming fixes are complete
+
 ## System Architecture
 
 ### Frontend Architecture
