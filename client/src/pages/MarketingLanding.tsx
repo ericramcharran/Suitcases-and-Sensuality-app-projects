@@ -784,16 +784,16 @@ export default function MarketingLanding() {
       </section>
 
       {/* Download CTA Section */}
-      <section className="py-12 px-4 sm:px-6 bg-gradient-to-b from-background to-card" data-testid="section-cta">
+      <section className="py-8 sm:py-12 px-4 sm:px-6" data-testid="section-cta">
         <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-3xl sm:text-4xl font-light text-foreground mb-4" data-testid="heading-cta">
+          <h2 className="text-3xl sm:text-4xl font-light text-foreground mb-6" data-testid="heading-cta">
             Ready to Begin Your Journey?
           </h2>
           <p className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto" data-testid="text-cta-intro">
             Join The Executive Society today and discover authentic, compatible power exchange relationships with verified professionals.
           </p>
           
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-8">
             <Button
               data-testid="button-cta-get-started"
               onClick={() => setLocation("/download")}
@@ -812,44 +812,45 @@ export default function MarketingLanding() {
               Already a Member? Sign In
             </Button>
           </div>
+
+          <div className="text-sm text-muted-foreground">
+            Questions? Visit our{" "}
+            <button
+              onClick={() => {
+                document.getElementById("faq")?.scrollIntoView({ behavior: "smooth" });
+              }}
+              className="text-primary hover-elevate underline"
+              data-testid="link-faq"
+            >
+              FAQ
+            </button>
+            {" "}or contact support.
+          </div>
         </div>
       </section>
 
       {/* Footer */}
-      <footer className="border-t bg-card py-12 px-4 sm:px-6" data-testid="section-footer">
-        <div className="max-w-6xl mx-auto">
-          {/* Top Section with Logo and Links */}
-          <div className="grid grid-cols-1 md:grid-cols-5 gap-8 mb-8">
-            {/* Brand Column */}
-            <div className="md:col-span-2">
-              <div className="flex items-center gap-2 mb-4">
-                <img 
-                  src={heartLogo} 
-                  alt="The Executive Society" 
-                  className="w-12 h-12 object-contain"
-                />
-                <div>
-                  <h3 className="font-medium text-base">The Executive</h3>
-                  <h3 className="font-semibold text-base text-primary">Society</h3>
-                </div>
-              </div>
-              <p className="text-sm text-muted-foreground mb-4">
-                Where power meets passion. The premier platform for sophisticated individuals seeking authentic power exchange relationships.
-              </p>
-              <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                <Shield className="w-4 h-4 text-primary" />
-                <span>21+ Only · Verified · Safe · Consensual</span>
-              </div>
-            </div>
-
-            {/* Platform Links */}
+      <footer className="border-t bg-card py-8 px-4 sm:px-6" data-testid="section-footer">
+        <div className="max-w-4xl mx-auto">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 sm:gap-8 mb-8">
             <div>
-              <h3 className="font-medium mb-4 text-sm">Platform</h3>
-              <ul className="space-y-3 text-sm text-muted-foreground">
+              <h3 className="font-medium mb-4">Platform</h3>
+              <ul className="space-y-2 text-sm text-muted-foreground">
                 <li>
                   <button
-                    onClick={() => scrollToSection("features")}
-                    className="hover-elevate hover:text-foreground transition-colors"
+                    onClick={() => setLocation("/landing")}
+                    className="hover-elevate"
+                    data-testid="link-footer-home"
+                  >
+                    Get Started
+                  </button>
+                </li>
+                <li>
+                  <button
+                    onClick={() => {
+                      document.getElementById("features")?.scrollIntoView({ behavior: "smooth" });
+                    }}
+                    className="hover-elevate"
                     data-testid="link-footer-features"
                   >
                     Features
@@ -857,8 +858,10 @@ export default function MarketingLanding() {
                 </li>
                 <li>
                   <button
-                    onClick={() => scrollToSection("pricing")}
-                    className="hover-elevate hover:text-foreground transition-colors"
+                    onClick={() => {
+                      document.getElementById("pricing")?.scrollIntoView({ behavior: "smooth" });
+                    }}
+                    className="hover-elevate"
                     data-testid="link-footer-pricing"
                   >
                     Pricing
@@ -867,7 +870,7 @@ export default function MarketingLanding() {
                 <li>
                   <button
                     onClick={() => setLocation("/download")}
-                    className="hover-elevate hover:text-foreground transition-colors"
+                    className="hover-elevate"
                     data-testid="link-footer-download"
                   >
                     Download App
@@ -876,14 +879,15 @@ export default function MarketingLanding() {
               </ul>
             </div>
 
-            {/* Support Links */}
             <div>
-              <h3 className="font-medium mb-4 text-sm">Support</h3>
-              <ul className="space-y-3 text-sm text-muted-foreground">
+              <h3 className="font-medium mb-4">Support</h3>
+              <ul className="space-y-2 text-sm text-muted-foreground">
                 <li>
                   <button
-                    onClick={() => scrollToSection("faq")}
-                    className="hover-elevate hover:text-foreground transition-colors"
+                    onClick={() => {
+                      document.getElementById("faq")?.scrollIntoView({ behavior: "smooth" });
+                    }}
+                    className="hover-elevate"
                     data-testid="link-footer-faq"
                   >
                     FAQ
@@ -892,32 +896,22 @@ export default function MarketingLanding() {
                 <li>
                   <button
                     onClick={() => setLocation("/help-support")}
-                    className="hover-elevate hover:text-foreground transition-colors"
+                    className="hover-elevate"
                     data-testid="link-footer-help"
                   >
                     Help Center
                   </button>
                 </li>
-                <li>
-                  <button
-                    onClick={() => setLocation("/about")}
-                    className="hover-elevate hover:text-foreground transition-colors"
-                    data-testid="link-footer-about"
-                  >
-                    About Us
-                  </button>
-                </li>
               </ul>
             </div>
 
-            {/* Legal Links */}
             <div>
-              <h3 className="font-medium mb-4 text-sm">Legal</h3>
-              <ul className="space-y-3 text-sm text-muted-foreground">
+              <h3 className="font-medium mb-4">Legal</h3>
+              <ul className="space-y-2 text-sm text-muted-foreground">
                 <li>
                   <button
                     onClick={() => setLocation("/privacy-policy")}
-                    className="hover-elevate hover:text-foreground transition-colors"
+                    className="hover-elevate"
                     data-testid="link-footer-privacy"
                   >
                     Privacy Policy
@@ -926,7 +920,7 @@ export default function MarketingLanding() {
                 <li>
                   <button
                     onClick={() => setLocation("/terms")}
-                    className="hover-elevate hover:text-foreground transition-colors"
+                    className="hover-elevate"
                     data-testid="link-footer-terms"
                   >
                     Terms of Service
@@ -934,13 +928,31 @@ export default function MarketingLanding() {
                 </li>
               </ul>
             </div>
+
+            <div>
+              <h3 className="font-medium mb-4">About</h3>
+              <ul className="space-y-2 text-sm text-muted-foreground">
+                <li>
+                  <button
+                    onClick={() => setLocation("/about")}
+                    className="hover-elevate"
+                    data-testid="link-footer-about"
+                  >
+                    About Us
+                  </button>
+                </li>
+              </ul>
+            </div>
           </div>
 
-          {/* Bottom Bar */}
-          <div className="border-t pt-6">
-            <p className="text-sm text-muted-foreground text-center">
+          <div className="border-t pt-6 flex flex-col sm:flex-row justify-between items-center gap-4">
+            <p className="text-sm text-muted-foreground text-center sm:text-left">
               © 2025 The Executive Society. All rights reserved.
             </p>
+            <div className="flex items-center gap-2 text-sm text-muted-foreground">
+              <Shield className="w-4 h-4 text-primary" />
+              <span>21+ Only · Safe · Consensual · Private</span>
+            </div>
           </div>
         </div>
       </footer>
