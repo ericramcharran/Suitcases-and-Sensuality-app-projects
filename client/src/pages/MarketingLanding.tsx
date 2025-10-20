@@ -814,8 +814,7 @@ export default function MarketingLanding() {
           </div>
 
           <div className="text-sm text-muted-foreground">
-            Questions? Visit our{" "}
-            <button
+            Questions? Visit our <button
               onClick={() => {
                 document.getElementById("faq")?.scrollIntoView({ behavior: "smooth" });
               }}
@@ -823,8 +822,7 @@ export default function MarketingLanding() {
               data-testid="link-faq"
             >
               FAQ
-            </button>
-            {" "}or contact support.
+            </button> or contact support.
           </div>
         </div>
       </section>
