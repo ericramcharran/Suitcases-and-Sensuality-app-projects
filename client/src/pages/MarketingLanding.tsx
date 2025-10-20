@@ -37,22 +37,34 @@ export default function MarketingLanding() {
       {/* Header with Hamburger Menu */}
       <header className="fixed top-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-sm border-b border-border">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
-          <motion.div 
-            className="flex items-center gap-3"
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8, ease: "easeOut" }}
-          >
-            <img 
+          <div className="flex items-center gap-3">
+            <motion.img 
               src={heartLogo} 
               alt="Heart Logo" 
               className="w-20 h-20 object-contain"
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.6, ease: "easeOut" }}
             />
             <h1 className="text-2xl font-medium">
-              <span className="text-black dark:text-white">The Executive </span>
-              <span className="text-red-600 font-semibold">Society</span>
+              <motion.span 
+                className="text-black dark:text-white"
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.6, delay: 0.2, ease: "easeOut" }}
+              >
+                The Executive{" "}
+              </motion.span>
+              <motion.span 
+                className="text-red-600 font-semibold"
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.6, delay: 0.4, ease: "easeOut" }}
+              >
+                Society
+              </motion.span>
             </h1>
-          </motion.div>
+          </div>
           
           <Sheet open={isMenuOpen} onOpenChange={setIsMenuOpen}>
             <SheetTrigger asChild>
