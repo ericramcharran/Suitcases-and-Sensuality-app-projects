@@ -835,7 +835,7 @@ export default function MarketingLanding() {
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 sm:gap-4 mb-8">
             <div>
               <h3 className="font-medium mb-4">Platform</h3>
-              <ul className="space-y-2 text-sm text-muted-foreground">
+              <ul className="space-y-3 text-sm text-muted-foreground">
                 <li>
                   <button
                     onClick={() => setLocation("/landing")}
@@ -881,7 +881,7 @@ export default function MarketingLanding() {
 
             <div>
               <h3 className="font-medium mb-4">Support</h3>
-              <ul className="space-y-2 text-sm text-muted-foreground">
+              <ul className="space-y-3 text-sm text-muted-foreground">
                 <li>
                   <button
                     onClick={() => {
@@ -907,7 +907,7 @@ export default function MarketingLanding() {
 
             <div>
               <h3 className="font-medium mb-4">Legal</h3>
-              <ul className="space-y-2 text-sm text-muted-foreground">
+              <ul className="space-y-3 text-sm text-muted-foreground">
                 <li>
                   <button
                     onClick={() => setLocation("/privacy-policy")}
@@ -931,7 +931,7 @@ export default function MarketingLanding() {
 
             <div>
               <h3 className="font-medium mb-4">About</h3>
-              <ul className="space-y-2 text-sm text-muted-foreground">
+              <ul className="space-y-3 text-sm text-muted-foreground">
                 <li>
                   <button
                     onClick={() => setLocation("/about")}
