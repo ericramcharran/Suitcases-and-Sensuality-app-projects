@@ -63,7 +63,16 @@ The onboarding is a multi-step process for all users, including age and ID verif
 
 ### Matching & Discovery System
 
-The platform features a compatibility algorithm based on 5-dimensional personality test results, relationship style preferences, role compatibility, important traits overlap (weighted heavily in scoring), and approximate location. The discovery interface is a Tinder-style card swiping system displaying compatibility percentages with hover tooltips, verification status, role badges, and distance. Users can filter potential matches by age range, compatibility score, role, experience level, relationship preferences, body type, drinking/smoking habits, and fitness level.
+The platform features a comprehensive compatibility algorithm based on multiple factors:
+- **Personality Assessment** (5 dimensions): Emotional Intelligence, Ethics, Sensuality, Stability, D/s Dynamics
+- **Relationship Style**: Compatibility based on relationship preferences and commitment levels
+- **Role Compatibility**: Dominant/submissive/Switch matching with complementary pairing bonuses
+- **Important Traits**: User-selected values and characteristics weighted heavily in scoring
+- **Kink Compatibility** (NEW): BDSM test results integration providing up to 30 points based on complementary kink preferences and shared interests
+
+The discovery interface is a Tinder-style card swiping system displaying compatibility percentages with detailed hover tooltips explaining the score breakdown. Users can filter potential matches by age range, compatibility score, role, experience level, relationship preferences, body type, drinking/smoking habits, and fitness level.
+
+**BDSM Test Integration**: Users can upload screenshots of external BDSM test results (e.g., from BDSMtest.org) during onboarding. The system captures kink preferences and percentages, then uses complementary pairing logic (e.g., sadist/masochist, rigger/rope bottom) to calculate enhanced compatibility scores.
 
 ### Core Features
 

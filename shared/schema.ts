@@ -109,6 +109,16 @@ export const pushSubscriptions = pgTable("push_subscriptions", {
   createdAt: timestamp("created_at").defaultNow(),
 });
 
+export const bdsmTestResults = pgTable("bdsm_test_results", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  userId: varchar("user_id").notNull().references(() => users.id),
+  testImageUrl: text("test_image_url"), // URL of uploaded test result screenshot/PDF
+  kinkPreferences: jsonb("kink_preferences").$type<Record<string, number>>().default(sql`'{}'::jsonb`), // Key-value pairs of kink categories and percentages
+  topRole: text("top_role"), // Primary role from test (e.g., "Rope Top", "Sadist")
+  rolePercentages: jsonb("role_percentages").$type<Record<string, number>>().default(sql`'{}'::jsonb`), // Role breakdown with percentages
+  createdAt: timestamp("created_at").defaultNow(),
+});
+
 export const insertUserSchema = createInsertSchema(users).omit({
   id: true,
   createdAt: true,
@@ -139,6 +149,11 @@ export const insertPushSubscriptionSchema = createInsertSchema(pushSubscriptions
   createdAt: true,
 });
 
+export const insertBdsmTestResultsSchema = createInsertSchema(bdsmTestResults).omit({
+  id: true,
+  createdAt: true,
+});
+
 export type InsertUser = z.infer<typeof insertUserSchema>;
 export type User = typeof users.$inferSelect;
 export type InsertMatch = z.infer<typeof insertMatchSchema>;
@@ -151,3 +166,5 @@ export type InsertMessage = z.infer<typeof insertMessageSchema>;
 export type Message = typeof messages.$inferSelect;
 export type InsertPushSubscription = z.infer<typeof insertPushSubscriptionSchema>;
 export type PushSubscription = typeof pushSubscriptions.$inferSelect;
+export type InsertBdsmTestResults = z.infer<typeof insertBdsmTestResultsSchema>;
+export type BdsmTestResults = typeof bdsmTestResults.$inferSelect;

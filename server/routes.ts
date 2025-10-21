@@ -405,6 +405,61 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Submit BDSM test results
+  app.post("/api/bdsm-test-results", async (req, res) => {
+    try {
+      const { userId, kinkPreferences, testImageUrl } = req.body;
+      
+      if (!userId || !kinkPreferences) {
+        res.status(400).json({ error: "Missing required fields: userId, kinkPreferences" });
+        return;
+      }
+
+      // Determine top role based on highest percentage
+      let topRole = "Balanced";
+      let highestPercentage = 0;
+      
+      const rolePercentages = kinkPreferences as Record<string, number>;
+      Object.entries(rolePercentages).forEach(([role, percentage]) => {
+        if (percentage > highestPercentage) {
+          highestPercentage = percentage;
+          topRole = role;
+        }
+      });
+
+      // Check if user already has results
+      const existingResults = await storage.getBdsmTestResults(userId);
+      
+      let result;
+      if (existingResults) {
+        // Update existing results
+        result = await storage.updateBdsmTestResults(userId, {
+          kinkPreferences,
+          testImageUrl,
+          topRole,
+          rolePercentages
+        });
+      } else {
+        // Create new results
+        result = await storage.createBdsmTestResults({
+          userId,
+          kinkPreferences,
+          testImageUrl,
+          topRole,
+          rolePercentages
+        });
+      }
+      
+      res.json(result);
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        res.status(400).json({ error: "Validation failed", details: error.errors });
+      } else {
+        res.status(500).json({ error: "Failed to save BDSM test results" });
+      }
+    }
+  });
+
   // Stripe: Create subscription checkout session (from blueprint:javascript_stripe)
   app.post("/api/create-subscription", async (req, res) => {
     try {
@@ -703,8 +758,62 @@ export async function registerRoutes(app: Express): Promise<Server> {
           // Relationship style compatibility
           if (userRelationship && targetRelationship) {
             if (userRelationship.relationshipStyle === targetRelationship.relationshipStyle) {
-              compatibility += 8;
+              compatibility += 5;
             }
+          }
+
+          // BDSM test kink compatibility (NEW - up to 30 points)
+          const userBdsmResults = await storage.getBdsmTestResults(userId);
+          const targetBdsmResults = await storage.getBdsmTestResults(user.id);
+          
+          if (userBdsmResults && targetBdsmResults) {
+            const userKinks = userBdsmResults.kinkPreferences as Record<string, number>;
+            const targetKinks = targetBdsmResults.kinkPreferences as Record<string, number>;
+            
+            // Calculate complementary kink compatibility
+            // Look for complementary pairings (e.g., dominant/submissive, sadist/masochist, rigger/ropeBottom)
+            const complementaryPairs: Record<string, string[]> = {
+              'dominant': ['submissive', 'slave'],
+              'submissive': ['dominant', 'master'],
+              'master': ['slave', 'submissive'],
+              'slave': ['master', 'dominant'],
+              'sadist': ['masochist'],
+              'masochist': ['sadist'],
+              'degrader': ['degradee'],
+              'degradee': ['degrader'],
+              'rigger': ['ropeBottom'],
+              'ropeBottom': ['rigger'],
+              'bratTamer': ['brat'],
+              'brat': ['bratTamer']
+            };
+            
+            let kinkScore = 0;
+            let totalPairings = 0;
+            
+            // Check complementary pairings
+            Object.entries(userKinks).forEach(([userKink, userPercentage]) => {
+              const complementaryKinks = complementaryPairs[userKink] || [];
+              complementaryKinks.forEach(compKink => {
+                if (targetKinks[compKink]) {
+                  totalPairings++;
+                  // Higher score for well-matched percentages (both high)
+                  const avgPercentage = (userPercentage + targetKinks[compKink]) / 2;
+                  kinkScore += (avgPercentage / 100) * 5; // Max 5 points per pairing
+                }
+              });
+            });
+            
+            // Also check for matching interests (same kinks, both enjoy)
+            Object.entries(userKinks).forEach(([kink, userPercentage]) => {
+              if (targetKinks[kink]) {
+                // Similarity bonus for shared interests
+                const similarity = 1 - Math.abs(userPercentage - targetKinks[kink]) / 100;
+                kinkScore += similarity * 2; // Max 2 points per shared kink
+              }
+            });
+            
+            // Cap kink compatibility at 30 points
+            compatibility += Math.min(30, Math.round(kinkScore));
           }
 
           // Important traits compatibility (new)

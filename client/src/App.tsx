@@ -76,6 +76,9 @@ import ProfileDetailsProcessing from "@/pages/ProfileDetailsProcessing";
 import PersonalityTestProcessing from "@/pages/PersonalityTestProcessing";
 import RelationshipTestProcessing from "@/pages/RelationshipTestProcessing";
 import ImportantTraitsProcessing from "@/pages/ImportantTraitsProcessing";
+import BDSMTestUpload from "@/pages/BDSMTestUpload";
+import BDSMTestInput from "@/pages/BDSMTestInput";
+import BDSMTestProcessing from "@/pages/BDSMTestProcessing";
 
 function App() {
   const [location] = useLocation();
@@ -195,6 +198,15 @@ function App() {
               </Route>
               <Route path="/relationship-result">
                 <PageTransition><RelationshipResult /></PageTransition>
+              </Route>
+              <Route path="/bdsm-test-upload">
+                <PageTransition><BDSMTestUpload /></PageTransition>
+              </Route>
+              <Route path="/bdsm-test-input">
+                <PageTransition><BDSMTestInput /></PageTransition>
+              </Route>
+              <Route path="/bdsm-test-processing">
+                <PageTransition><BDSMTestProcessing /></PageTransition>
               </Route>
               <Route path="/important-traits">
                 <PageTransition><ImportantTraits /></PageTransition>

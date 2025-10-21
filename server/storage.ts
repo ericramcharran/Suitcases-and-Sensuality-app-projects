@@ -11,12 +11,15 @@ import {
   type InsertMessage,
   type PushSubscription,
   type InsertPushSubscription,
+  type BdsmTestResults,
+  type InsertBdsmTestResults,
   users, 
   matches,
   personalityAnswers,
   relationshipAnswers,
   messages,
-  pushSubscriptions
+  pushSubscriptions,
+  bdsmTestResults
 } from "@shared/schema";
 import { db } from "./db";
 import { eq, and } from "drizzle-orm";
@@ -53,6 +56,11 @@ export interface IStorage {
   createPushSubscription(subscription: InsertPushSubscription): Promise<PushSubscription>;
   getPushSubscriptions(userId: string): Promise<PushSubscription[]>;
   deletePushSubscription(endpoint: string): Promise<void>;
+  
+  // BDSM test results operations
+  createBdsmTestResults(results: InsertBdsmTestResults): Promise<BdsmTestResults>;
+  getBdsmTestResults(userId: string): Promise<BdsmTestResults | undefined>;
+  updateBdsmTestResults(userId: string, updates: Partial<InsertBdsmTestResults>): Promise<BdsmTestResults | undefined>;
 }
 
 export class DatabaseStorage implements IStorage {
@@ -188,6 +196,26 @@ export class DatabaseStorage implements IStorage {
 
   async deletePushSubscription(endpoint: string): Promise<void> {
     await db.delete(pushSubscriptions).where(eq(pushSubscriptions.endpoint, endpoint));
+  }
+
+  // BDSM test results operations
+  async createBdsmTestResults(insertResults: InsertBdsmTestResults): Promise<BdsmTestResults> {
+    const result = await db.insert(bdsmTestResults).values(insertResults).returning();
+    return result[0];
+  }
+
+  async getBdsmTestResults(userId: string): Promise<BdsmTestResults | undefined> {
+    const result = await db.select().from(bdsmTestResults).where(eq(bdsmTestResults.userId, userId));
+    return result[0];
+  }
+
+  async updateBdsmTestResults(userId: string, updates: Partial<InsertBdsmTestResults>): Promise<BdsmTestResults | undefined> {
+    const result = await db
+      .update(bdsmTestResults)
+      .set(updates as any)
+      .where(eq(bdsmTestResults.userId, userId))
+      .returning();
+    return result[0];
   }
 }
 

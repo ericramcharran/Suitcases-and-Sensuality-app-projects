@@ -123,7 +123,7 @@ export default function RelationshipResult() {
           <p className="text-sm text-blue-600 dark:text-blue-400 flex items-start gap-2">
             <Check className="w-4 h-4 flex-shrink-0 mt-0.5" />
             <span>
-              Next, let's identify what's most important to you in a partner. This will help us find your best matches.
+              Next, you can optionally upload your BDSM test results to improve matching accuracy.
             </span>
           </p>
         </Card>
@@ -131,11 +131,11 @@ export default function RelationshipResult() {
         <Button
           data-testid="button-continue"
           onClick={() => {
-            setLocation("/important-traits");
+            setLocation("/bdsm-test-upload");
           }}
           className="w-full rounded-full bg-primary hover:bg-primary/20 text-white transition-colors"
         >
-          Continue to Important Traits
+          Continue
         </Button>
       </div>
     </div>

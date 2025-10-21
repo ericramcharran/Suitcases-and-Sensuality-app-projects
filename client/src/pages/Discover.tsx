@@ -488,7 +488,15 @@ export default function Discover() {
                   </TooltipTrigger>
                   <TooltipContent className="max-w-xs">
                     <p className="font-semibold mb-1">{currentProfile.matchPercentage}% Compatibility</p>
-                    <p className="text-sm">This score is based on your personality traits, relationship preferences, role compatibility, and shared important values. Higher percentages indicate stronger overall compatibility.</p>
+                    <p className="text-sm mb-2">This score is based on multiple compatibility factors:</p>
+                    <ul className="text-xs space-y-1 mb-2">
+                      <li>• Personality traits & values</li>
+                      <li>• Relationship preferences & style</li>
+                      <li>• Role compatibility ({currentProfile.role})</li>
+                      <li>• Important traits overlap</li>
+                      <li>• Kink preferences (BDSM test results)*</li>
+                    </ul>
+                    <p className="text-xs text-muted-foreground">*When both users have uploaded test results, kink compatibility significantly enhances matching accuracy</p>
                   </TooltipContent>
                 </Tooltip>
 
