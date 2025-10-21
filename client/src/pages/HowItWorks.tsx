@@ -10,7 +10,7 @@ export default function HowItWorks() {
   return (
     <div className="min-h-screen bg-background">
       <MarketingHeader />
-      <section className="py-16 sm:py-24 px-4 sm:px-6 bg-card" data-testid="section-how-it-works">
+      <section className="pt-24 pb-16 sm:pt-32 sm:pb-24 px-4 sm:px-6 bg-card" data-testid="section-how-it-works">
         <div className="max-w-4xl mx-auto">
           <motion.h1 
             className="text-4xl sm:text-5xl font-light text-foreground mb-4 text-center" 

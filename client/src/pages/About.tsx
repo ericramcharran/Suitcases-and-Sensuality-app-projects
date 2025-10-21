@@ -10,7 +10,7 @@ export default function About() {
   return (
     <div className="min-h-screen bg-background">
       <MarketingHeader />
-      <section className="py-16 sm:py-24 px-4 sm:px-6 bg-card" data-testid="section-about">
+      <section className="pt-24 pb-16 sm:pt-32 sm:pb-24 px-4 sm:px-6 bg-card" data-testid="section-about">
         <motion.div 
           className="max-w-4xl mx-auto"
           initial={{ opacity: 0, y: 40 }}

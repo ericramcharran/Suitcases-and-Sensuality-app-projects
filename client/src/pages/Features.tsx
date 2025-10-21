@@ -12,7 +12,7 @@ export default function Features() {
   return (
     <div className="min-h-screen bg-background">
       <MarketingHeader />
-      <section className="py-16 sm:py-24 px-4 sm:px-6" data-testid="section-features">
+      <section className="pt-24 pb-16 sm:pt-32 sm:pb-24 px-4 sm:px-6" data-testid="section-features">
         <div className="max-w-6xl mx-auto">
           <motion.h1 
             className="text-4xl sm:text-5xl font-light text-foreground mb-4 text-center" 
