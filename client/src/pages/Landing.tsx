@@ -1,14 +1,17 @@
 import { useState, useEffect } from "react";
 import { Shield } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
 import { useLocation } from "wouter";
 import { motion } from "framer-motion";
+import { Link } from "wouter";
 import animatedLogo from "@assets/crop animate logo_1760889514164.mp4";
 
 export default function Landing() {
   const [, setLocation] = useLocation();
   const [isAnimating, setIsAnimating] = useState(false);
   const [destination, setDestination] = useState<string | null>(null);
+  const [agreedToTerms, setAgreedToTerms] = useState(false);
 
   const handleNavigation = (path: string) => {
     setDestination(path);
@@ -102,15 +105,51 @@ export default function Landing() {
           <p className="text-muted-foreground text-lg sm:text-xl mb-2 text-center font-light">
             Where Power Meets Passion
           </p>
-          <p className="text-foreground/80 text-base mb-8 sm:mb-12 max-w-md text-center leading-relaxed px-2">
+          <p className="text-foreground/80 text-base mb-6 sm:mb-8 max-w-md text-center leading-relaxed px-2">
             A safe space for authentic BDSM connections. Match, learn, and grow together.
           </p>
+
+          {/* Terms Agreement Checkbox */}
+          <div className="mb-6 sm:mb-8 px-2">
+            <div className="flex items-start gap-3 p-4 rounded-lg bg-card border">
+              <Checkbox
+                id="terms-agreement"
+                checked={agreedToTerms}
+                onCheckedChange={(checked) => setAgreedToTerms(checked === true)}
+                data-testid="checkbox-terms-agreement"
+                className="mt-0.5"
+              />
+              <label
+                htmlFor="terms-agreement"
+                className="text-sm text-foreground leading-relaxed cursor-pointer select-none"
+              >
+                I am 21 years of age or older and agree to the{" "}
+                <Link 
+                  href="/terms" 
+                  className="text-primary hover:underline font-medium"
+                  data-testid="link-terms"
+                >
+                  Terms of Service
+                </Link>
+                {" "}and{" "}
+                <Link 
+                  href="/privacy-policy" 
+                  className="text-primary hover:underline font-medium"
+                  data-testid="link-privacy"
+                >
+                  Privacy Policy
+                </Link>
+                . I understand this platform contains adult content and BDSM-related material.
+              </label>
+            </div>
+          </div>
+
           <div className="space-y-3 w-full">
             <Button
               data-testid="button-get-started"
               onClick={() => handleNavigation("/age-verification")}
-              disabled={isAnimating}
-              className="w-full rounded-full bg-black text-white hover:bg-primary/20 transition-colors min-h-[48px]"
+              disabled={isAnimating || !agreedToTerms}
+              className="w-full rounded-full bg-black text-white hover:bg-primary/20 transition-colors min-h-[48px] disabled:opacity-50 disabled:cursor-not-allowed"
               size="lg"
             >
               Get Started
@@ -118,9 +157,9 @@ export default function Landing() {
             <Button
               data-testid="button-view-subscriptions"
               onClick={() => handleNavigation("/subscription")}
-              disabled={isAnimating}
+              disabled={isAnimating || !agreedToTerms}
               variant="outline"
-              className="w-full rounded-full border-2 hover:bg-primary/20 transition-colors min-h-[48px]"
+              className="w-full rounded-full border-2 hover:bg-primary/20 transition-colors min-h-[48px] disabled:opacity-50 disabled:cursor-not-allowed"
               size="lg"
             >
               View Subscriptions
@@ -128,9 +167,9 @@ export default function Landing() {
             <Button
               data-testid="button-sign-in"
               onClick={() => handleNavigation("/login")}
-              disabled={isAnimating}
+              disabled={isAnimating || !agreedToTerms}
               variant="outline"
-              className="w-full rounded-full border-2 hover:bg-primary/20 transition-colors min-h-[48px]"
+              className="w-full rounded-full border-2 hover:bg-primary/20 transition-colors min-h-[48px] disabled:opacity-50 disabled:cursor-not-allowed"
               size="lg"
             >
               Sign In
