@@ -55,7 +55,9 @@ The `users` table stores comprehensive user data including identity, D/s role, p
 
 ### User Onboarding
 
-The onboarding process is multi-step, covering age and ID verification, acceptance of legal policies (Terms, Consent, Privacy, Guidelines) with digital signatures, and a background check. Users then proceed to role-specific flows for subscription selection, profile creation, and personality/relationship assessments. Dominants also undergo escrow/financial verification. A required checkbox on the `/landing` page ensures users are 21+ and agree to terms before accessing the app content.
+The onboarding process is multi-step, covering age and ID verification, acceptance of legal policies (Terms, Consent, Privacy, Guidelines) with digital signatures, and a background check. Users then proceed to role-specific flows for subscription selection, profile creation, **email and phone verification** (for account security and recovery), and personality/relationship assessments. Dominants also undergo escrow/financial verification. A required checkbox on the `/landing` page ensures users are 21+ and agree to terms before accessing the app content.
+
+**Verification Flow**: After signup, users must verify their email address (6-digit code sent via Resend) and can optionally verify their phone number (6-digit SMS code via Twilio, when configured). Email verification is required; phone verification can be skipped and completed later in settings.
 
 ### Matching & Discovery
 
@@ -69,8 +71,9 @@ The discovery interface is a Tinder-style card swiping system displaying compati
 
 ### Core Features
 
+-   **Email & Phone Verification**: Multi-factor account security using 6-digit verification codes. Email verification via Resend (required during signup). Phone verification via Twilio SMS (optional, can be completed later in settings). Codes expire after 10 minutes and include resend functionality with rate limiting.
 -   **Digital Signatures**: For legal agreements using `react-signature-canvas`.
--   **Email Notifications**: Transactional emails via Resend, including mutual match notifications.
+-   **Email Notifications**: Transactional emails via Resend, including mutual match notifications and verification codes.
 -   **Push Notifications**: Web Push Notifications using VAPID and a service worker.
 -   **Real-Time Messaging**: Complete system with mutual match requirement, WebSocket-enabled chat, read receipts, and unread counts.
 -   **Device Permissions**: A `Permissions Manager` utility for camera, location, notification, and gallery access.
