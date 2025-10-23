@@ -2,141 +2,75 @@
 
 ## Overview
 
-The Executive Society is a premium BDSM dating platform for professionals, focusing on authentic power exchange relationships. It emphasizes trust, safety, consent, and sophisticated matching through detailed personality and relationship assessments. The platform provides role-specific features for Dominant and submissive users, including escrow account verification for Dominants. Its business vision is to become the leading platform for discerning individuals seeking serious power exchange dynamics, offering significant market potential in a niche yet growing segment.
+The Executive Society is a premium BDSM dating platform designed for professionals, focusing on authentic power exchange relationships. It prioritizes trust, safety, consent, and sophisticated user matching through detailed personality and relationship assessments. The platform offers role-specific features for Dominant and submissive users, including escrow account verification for Dominants. The project aims to become the leading platform for discerning individuals seeking serious power exchange dynamics, targeting a niche yet growing market segment.
 
 ## User Preferences
 
 Preferred communication style: Simple, everyday language.
 
-## Critical Configuration Requirements
-
-**⚠️ THESE MUST BE CORRECT - DO NOT BREAK THESE AGAIN:**
-
-### PWA Manifest Configuration
-- **File:** `client/public/manifest.json`
-- **REQUIRED:** `"start_url": "/splash"` (shows animated splash screen, then redirects to app)
-- **File:** `client/src/pages/Splash.tsx`
-- **REQUIRED:** Must redirect to `"/landing"` (NOT "/home" which is marketing)
-- **Issue History:** User had to request this fix multiple times. The PWA was opening to the marketing home page instead of the app login/interface.
-- **Why:** Route "/splash" shows animated video logo (4 seconds), then redirects to "/landing" (app login) not "/home" (marketing site).
-
-### Favicon Requirements
-- **Files:** `client/public/favicon-16x16.png`, `client/public/favicon-32x32.png`
-- **REQUIRED:** Must be 1:1 square aspect ratio (crop the user's logo to square using ImageMagick)
-- **Command:** `convert "attached_assets/logo transparent no name_1760959575281.png" -gravity center -crop 1:1 +repage client/public/favicon-32x32.png`
-- **Issue History:** Generated AI images instead of using actual logo, causing repeated requests.
-- **Why:** Non-square favicons appear squeezed in browser tabs.
-
-### Mobile Responsiveness
-- **NEVER use hardcoded pixel dimensions** (like `w-[380px]` or `h-[240px]`) for logos or images
-- **ALWAYS use responsive classes** (like `w-full max-w-md`, `w-72 h-auto`)
-- **Issue History:** Hardcoded dimensions broke mobile layouts across Splash, Landing, Home, Download pages
-- **Critical:** Test mobile responsiveness before claiming fixes are complete
-
 ## System Architecture
 
-### Frontend Architecture
+### Frontend
 
-The frontend uses React 18+ with TypeScript, Vite for building, and Wouter for routing. It features a design system based on shadcn/ui and Radix UI, styled with Tailwind CSS for dark/light mode theming. The application is designed as a mobile-first Progressive Web App (PWA) with extensive mobile and touch optimizations for both Android and iOS. State management primarily uses TanStack Query for server state, avoiding a global state library. UI/UX is inspired by premium dating apps, prioritizing a professional, clean aesthetic with a rose accent color and Inter typography.
+The frontend is built with React 18+ and TypeScript, using Vite for bundling and Wouter for routing. It incorporates a design system leveraging shadcn/ui and Radix UI, styled with Tailwind CSS for dark/light mode theming. The application is a mobile-first Progressive Web App (PWA) with extensive mobile and touch optimizations. State management relies on TanStack Query for server state. The UI/UX features a professional, clean aesthetic with a rose accent color and Inter typography, inspired by premium dating apps.
 
-**Marketing Site Architecture**: The marketing site uses a multi-page structure instead of a single scrolling page:
-- **Home (/)**: Hero page with Feeld-style looping video background featuring The Executive Society logo, tagline, and CTA buttons. Uses lazy-loaded video transitions with gradient fallback.
-- **About (/about)**: Information about The Executive Society platform and mission
-- **Features (/features)**: Card-based showcase of platform features
-- **How It Works (/how-it-works)**: Step-by-step onboarding process explanation
-- **Pricing (/pricing)**: Four subscription tiers (submissive, Dominant, Switch, Fully Funded) with special introductory offers
-- **FAQ (/faq)**: Accordion-style frequently asked questions
+The marketing site is a multi-page application with dedicated sections for Home, About, Features, How It Works, Pricing, and FAQ. It includes consistent headers and footers for a cohesive user experience.
 
-All marketing pages share consistent MarketingHeader (with hamburger menu navigation) and MarketingFooter components for a cohesive user experience. The marketing site is designed to attract and educate potential users before they enter the application flow at "/landing".
+**Critical PWA Configuration:**
+- `client/public/manifest.json`: `"start_url": "/splash"`
+- `client/src/pages/Splash.tsx`: Must redirect to `"/landing"` (not "/home") after splash animation.
 
-### Backend Architecture
+**Favicon Requirements:**
+- Favicons (`favicon-16x16.png`, `favicon-32x32.png`) must be a 1:1 square aspect ratio, cropped from the provided logo.
 
-The backend is built with Express.js and TypeScript, designed with a RESTful API structure. It currently uses an in-memory storage abstraction (`MemStorage`) but is configured to migrate to PostgreSQL using Drizzle ORM. The Drizzle schema defines a comprehensive user model, including identity, verification status, assessment results, legal agreement details with digital signatures, and subscription information. Zod is used for request/response schema validation.
+**Mobile Responsiveness:**
+- Avoid hardcoded pixel dimensions for images; always use responsive Tailwind CSS classes (e.g., `w-full max-w-md`, `w-72 h-auto`).
+
+### Backend
+
+The backend is developed with Express.js and TypeScript, following a RESTful API design. It uses an in-memory storage abstraction (`MemStorage`) but is designed for migration to PostgreSQL with Drizzle ORM. Zod is employed for request/response schema validation.
 
 ### Database Schema (Drizzle ORM)
 
-The `users` table captures identity, role (Dominant/submissive/Switch), profile name (max 20 characters for display), verification status (including `escrowBalance` for Dominants), detailed personality and relationship assessment results, and records for agreed-upon terms, consent, privacy, and guidelines, each with a digital signature and timestamp. It also includes subscription plan details and creation timestamps.
+The `users` table stores comprehensive user data including identity, D/s role, profile name, verification status (with `escrowBalance` for Dominants), detailed personality and relationship assessment results, legal agreement records with digital signatures, and subscription plan details.
 
-### User Onboarding Flow
+### User Onboarding
 
-The onboarding is a multi-step process for all users, including age and ID verification, agreement to various legal policies (Terms, Consent, Privacy, Guidelines) with digital signatures, and a background check. Users then proceed to role-specific flows involving subscription plan selection, profile detailing, personality assessment, relationship assessment, and important traits selection (which is used in the compatibility algorithm). Dominants also complete escrow/financial verification after subscription selection.
+The onboarding process is multi-step, covering age and ID verification, acceptance of legal policies (Terms, Consent, Privacy, Guidelines) with digital signatures, and a background check. Users then proceed to role-specific flows for subscription selection, profile creation, and personality/relationship assessments. Dominants also undergo escrow/financial verification. A required checkbox on the `/landing` page ensures users are 21+ and agree to terms before accessing the app content.
 
-### Matching & Discovery System
+### Matching & Discovery
 
-The platform features a comprehensive compatibility algorithm based on multiple factors:
-- **Personality Assessment** (5 dimensions): Emotional Intelligence, Ethics, Sensuality, Stability, D/s Dynamics
-- **Relationship Style**: Compatibility based on relationship preferences and commitment levels
-- **Role Compatibility**: Dominant/submissive/Switch matching with complementary pairing bonuses
-- **Important Traits**: User-selected values and characteristics weighted heavily in scoring
-- **Kink Compatibility** (NEW): BDSM test results integration providing up to 30 points based on complementary kink preferences and shared interests
+The platform features a sophisticated compatibility algorithm based on:
+- **Personality Assessment**: Emotional Intelligence, Ethics, Sensuality, Stability, D/s Dynamics.
+- **Relationship Style & Role Compatibility**.
+- **Important Traits**: User-selected values.
+- **Kink Compatibility**: Integration of external BDSM test results for enhanced scoring.
 
-The discovery interface is a Tinder-style card swiping system displaying compatibility percentages with detailed hover tooltips explaining the score breakdown. Users can filter potential matches by age range, compatibility score, role, experience level, relationship preferences, body type, drinking/smoking habits, and fitness level.
-
-**BDSM Test Integration**: Users can upload screenshots of external BDSM test results (e.g., from BDSMtest.org) during onboarding. The system captures kink preferences and percentages, then uses complementary pairing logic (e.g., sadist/masochist, rigger/rope bottom) to calculate enhanced compatibility scores.
+The discovery interface is a Tinder-style card swiping system displaying compatibility percentages with detailed breakdowns. Users can filter matches by various criteria including age, compatibility score, role, and lifestyle preferences.
 
 ### Core Features
 
--   **Digital Signatures**: Legal agreement tracking using `react-signature-canvas`.
--   **Email Notifications**: Resend integration for transactional emails, including mutual match notifications with detailed user profiles.
--   **Push Notifications**: Web Push Notifications using VAPID authentication and a service worker, with a backend API for managing subscriptions and sending notifications.
--   **Real-Time Messaging**: Complete messaging system with conversation list showing mutual matches, individual chat pages with real-time delivery via WebSocket, message read receipts, unread counts, and timestamps. Users can only message mutual matches.
--   **Device Permissions**: A centralized utility (`Permissions Manager`) for managing camera, location, notification, and gallery access, with a user-friendly UI for managing permissions.
--   **Travel Mode**: Allows users to set a temporary location to match in other cities, accessible from the user profile and managed through a dedicated travel mode page.
--   **Verified & Fully Funded Badge**: Premium verification system for Dominants with escrow/mutual fund verification (`escrowVerified` and `fullyFunded` database fields). Gold gradient badge (amber-to-yellow) displays at top-left of profile images in Discover, replacing standard blue verification badge. Includes premium status card on profile pages with detailed verification explanation.
--   **Profile Names**: Users can set a custom profile name (max 20 characters) separate from their real name for privacy. Profile names are displayed throughout the app in Discover, Messages, Chat, and Profile pages. Editable via dedicated Profile Name page accessible from the Profile.
+-   **Digital Signatures**: For legal agreements using `react-signature-canvas`.
+-   **Email Notifications**: Transactional emails via Resend, including mutual match notifications.
+-   **Push Notifications**: Web Push Notifications using VAPID and a service worker.
+-   **Real-Time Messaging**: Complete system with mutual match requirement, WebSocket-enabled chat, read receipts, and unread counts.
+-   **Device Permissions**: A `Permissions Manager` utility for camera, location, notification, and gallery access.
+-   **Travel Mode**: Allows users to set temporary locations for matching in other cities.
+-   **Verified & Fully Funded Badge**: Premium verification for Dominants with escrow/mutual fund verification.
+-   **Profile Names**: Custom, privacy-focused profile names (max 20 characters) displayed throughout the app.
+
+### Future Roadmap: Native Standalone Apps
+
+The project plans to transition from a PWA to true native iOS and Android applications. This can be achieved either by wrapping the existing web app in a WebView (faster launch) or by building native UIs (recommended long-term for optimal performance and platform-specific features). Native apps will adapt existing features like push notifications and payments to platform-specific APIs and will implement native onboarding screens for terms agreement.
 
 ## External Dependencies
 
--   **UI Component Libraries**: Radix UI (headless primitives), shadcn/ui (customizable components), Lucide React (icons), cmdk (command menu), Embla Carousel, Vaul (drawer).
+-   **UI Component Libraries**: Radix UI, shadcn/ui, Lucide React, cmdk, Embla Carousel, Vaul.
 -   **Form & Validation**: React Hook Form, Zod, @hookform/resolvers.
 -   **Styling**: Tailwind CSS, class-variance-authority, tailwind-merge, clsx.
 -   **Data Fetching**: TanStack Query (v5) and @tanstack/react-query.
--   **Database & ORM**: Drizzle ORM, Drizzle Zod, @neondatabase/serverless (Neon PostgreSQL driver), drizzle-kit.
--   **Development Tools**: Replit Plugins, Vite, TypeScript, ESBuild.
--   **Payment & Subscription**: Stripe Integration for tiered subscription payment processing.
--   **Email Service**: Resend for transactional emails.
--   **Push Notifications**: web-push (Node.js library) and ws (WebSocket library).
+-   **Database & ORM**: Drizzle ORM, Drizzle Zod, @neondatabase/serverless, drizzle-kit.
+-   **Payment & Subscription**: Stripe Integration.
+-   **Email Service**: Resend.
+-   **Push Notifications**: web-push, ws.
 -   **Digital Signatures**: react-signature-canvas.
-
-## Testing Guide
-
-### Testing Chat Functionality
-
-The chat feature requires mutual matches to function. Here's how to test it:
-
-**Test Accounts Available:**
-- **Marcus Sterling** (Dominant - Verified & Fully Funded)
-  - Email: dom_funded@test.com
-  - Password: password123
-  - Profile Name: MarcusS
-  - User ID: 38ad30cf-f254-4ebb-ab47-c2260e2a2faa
-
-- **Sarah** (submissive - Verified)
-  - Email: sarah@test.com
-  - Password: password123
-  - Profile Name: Sarah_T
-  - User ID: d939ab1d-b9dc-4d93-a699-a4192f9a4086
-
-**Quick Login (No Password Required):**
-- Navigate to `/user-select` to instantly login as any test user
-
-**Steps to Test Chat:**
-
-1. **Login as Marcus**: Navigate to `/user-select` and select Marcus Sterling
-2. **Navigate to Messages**: Click the Messages icon in the bottom navigation
-3. **View Conversation**: You should see a conversation with Sarah (they have a mutual match)
-4. **Open Chat**: Click on Sarah's conversation to open the chat
-5. **Send Messages**: Type a message and press Enter or click Send
-6. **Test Real-Time**: Open a second browser window/tab, login as Sarah, and both users can chat in real-time via WebSocket
-
-**How Mutual Matches Work:**
-- Users can only message each other if both have liked each other in Discover
-- The database has a `matches` table with `mutualMatch` boolean flag
-- When both users like each other, `mutualMatch` is set to `true` for both match records
-- The Messages page shows all mutual matches with their latest message
-- Chat requires a valid `matchId` from a mutual match
-
-**Recent Optimizations:**
-- Optimized mark-as-read logic to avoid redundant API calls
-- Added Error Boundary to gracefully handle rendering errors
-- Fixed TypeScript type errors in storage operations
