@@ -79,6 +79,8 @@ import ImportantTraitsProcessing from "@/pages/ImportantTraitsProcessing";
 import BDSMTestUpload from "@/pages/BDSMTestUpload";
 import BDSMTestInput from "@/pages/BDSMTestInput";
 import BDSMTestProcessing from "@/pages/BDSMTestProcessing";
+import EmailVerification from "@/pages/EmailVerification";
+import PhoneVerification from "@/pages/PhoneVerification";
 
 function App() {
   const [location] = useLocation();
@@ -174,6 +176,12 @@ function App() {
               </Route>
               <Route path="/signup">
                 <PageTransition><Signup /></PageTransition>
+              </Route>
+              <Route path="/email-verification">
+                <PageTransition><EmailVerification /></PageTransition>
+              </Route>
+              <Route path="/phone-verification">
+                <PageTransition><PhoneVerification /></PageTransition>
               </Route>
               <Route path="/profile-details">
                 <PageTransition><ProfileDetails /></PageTransition>

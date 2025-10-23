@@ -7,7 +7,7 @@ import multer from "multer";
 import path from "path";
 import fs from "fs";
 import Stripe from "stripe";
-import { sendMatchNotification } from "./email";
+import { sendMatchNotification, sendVerificationEmail } from "./email";
 import webpush from "web-push";
 import { WebSocketServer, WebSocket } from "ws";
 import { uploadUserDataToDrive } from "./googleDrive";
@@ -162,6 +162,115 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.json(users);
     } catch (error) {
       res.status(500).json({ error: "Failed to fetch users" });
+    }
+  });
+
+  // Send email verification code
+  app.post("/api/verification/send-email", async (req, res) => {
+    try {
+      const { email } = req.body;
+      
+      if (!email) {
+        return res.status(400).json({ error: "Email is required" });
+      }
+
+      // Generate 6-digit code
+      const code = Math.floor(100000 + Math.random() * 900000).toString();
+      
+      // Store code in database
+      await storage.createVerificationCode(email, code, 'email');
+      
+      // Send email with code
+      await sendVerificationEmail(email, code);
+      
+      res.json({ message: "Verification code sent", success: true });
+    } catch (error) {
+      console.error('Error sending verification email:', error);
+      res.status(500).json({ error: "Failed to send verification code" });
+    }
+  });
+
+  // Verify email code
+  app.post("/api/verification/verify-email", async (req, res) => {
+    try {
+      const { email, code } = req.body;
+      
+      if (!email || !code) {
+        return res.status(400).json({ error: "Email and code are required" });
+      }
+
+      const isValid = await storage.verifyCode(email, code, 'email');
+      
+      if (isValid) {
+        res.json({ message: "Email verified successfully", success: true });
+      } else {
+        res.status(400).json({ error: "Invalid or expired code" });
+      }
+    } catch (error) {
+      console.error('Error verifying email code:', error);
+      res.status(500).json({ error: "Failed to verify code" });
+    }
+  });
+
+  // Send phone verification code (SMS via Twilio)
+  app.post("/api/verification/send-phone", async (req, res) => {
+    try {
+      const { phone } = req.body;
+      
+      if (!phone) {
+        return res.status(400).json({ error: "Phone number is required" });
+      }
+
+      // Check if Twilio credentials are configured
+      if (!process.env.TWILIO_ACCOUNT_SID || !process.env.TWILIO_AUTH_TOKEN || !process.env.TWILIO_PHONE_NUMBER) {
+        return res.status(503).json({ 
+          error: "Phone verification not configured",
+          message: "Twilio credentials are required. Please contact support."
+        });
+      }
+
+      // Generate 6-digit code
+      const code = Math.floor(100000 + Math.random() * 900000).toString();
+      
+      // Store code in database
+      await storage.createVerificationCode(phone, code, 'phone');
+      
+      // Send SMS with Twilio (when credentials are available)
+      const twilio = require('twilio');
+      const client = twilio(process.env.TWILIO_ACCOUNT_SID, process.env.TWILIO_AUTH_TOKEN);
+      
+      await client.messages.create({
+        body: `Your Executive Society verification code is: ${code}. This code expires in 10 minutes.`,
+        from: process.env.TWILIO_PHONE_NUMBER,
+        to: phone
+      });
+      
+      res.json({ message: "Verification code sent", success: true });
+    } catch (error) {
+      console.error('Error sending verification SMS:', error);
+      res.status(500).json({ error: "Failed to send verification code" });
+    }
+  });
+
+  // Verify phone code
+  app.post("/api/verification/verify-phone", async (req, res) => {
+    try {
+      const { phone, code } = req.body;
+      
+      if (!phone || !code) {
+        return res.status(400).json({ error: "Phone and code are required" });
+      }
+
+      const isValid = await storage.verifyCode(phone, code, 'phone');
+      
+      if (isValid) {
+        res.json({ message: "Phone verified successfully", success: true });
+      } else {
+        res.status(400).json({ error: "Invalid or expired code" });
+      }
+    } catch (error) {
+      console.error('Error verifying phone code:', error);
+      res.status(500).json({ error: "Failed to verify code" });
     }
   });
 

@@ -19,7 +19,8 @@ import {
   relationshipAnswers,
   messages,
   pushSubscriptions,
-  bdsmTestResults
+  bdsmTestResults,
+  verificationCodes
 } from "@shared/schema";
 import { db } from "./db";
 import { eq, and } from "drizzle-orm";
@@ -61,6 +62,10 @@ export interface IStorage {
   createBdsmTestResults(results: InsertBdsmTestResults): Promise<BdsmTestResults>;
   getBdsmTestResults(userId: string): Promise<BdsmTestResults | undefined>;
   updateBdsmTestResults(userId: string, updates: Partial<InsertBdsmTestResults>): Promise<BdsmTestResults | undefined>;
+  
+  // Verification code operations
+  createVerificationCode(emailOrPhone: string, code: string, type: 'email' | 'phone'): Promise<void>;
+  verifyCode(emailOrPhone: string, code: string, type: 'email' | 'phone'): Promise<boolean>;
 }
 
 export class DatabaseStorage implements IStorage {
@@ -216,6 +221,41 @@ export class DatabaseStorage implements IStorage {
       .where(eq(bdsmTestResults.userId, userId))
       .returning();
     return result[0];
+  }
+
+  // Verification code operations
+  async createVerificationCode(emailOrPhone: string, code: string, type: 'email' | 'phone'): Promise<void> {
+    const expiresAt = new Date(Date.now() + 10 * 60 * 1000); // 10 minutes from now
+    await db.insert(verificationCodes).values({
+      emailOrPhone,
+      code,
+      type,
+      expiresAt,
+      verified: false
+    });
+  }
+
+  async verifyCode(emailOrPhone: string, code: string, type: 'email' | 'phone'): Promise<boolean> {
+    const { gt } = await import("drizzle-orm");
+    const result = await db.select().from(verificationCodes).where(
+      and(
+        eq(verificationCodes.emailOrPhone, emailOrPhone),
+        eq(verificationCodes.code, code),
+        eq(verificationCodes.type, type),
+        eq(verificationCodes.verified, false),
+        gt(verificationCodes.expiresAt, new Date()) // Code hasn't expired
+      )
+    );
+
+    if (result.length > 0) {
+      // Mark code as verified
+      await db.update(verificationCodes)
+        .set({ verified: true })
+        .where(eq(verificationCodes.id, result[0].id));
+      return true;
+    }
+
+    return false;
   }
 }
 

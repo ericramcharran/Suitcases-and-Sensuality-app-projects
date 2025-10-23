@@ -132,6 +132,11 @@ export const verificationCodes = pgTable("verification_codes", {
   createdAt: timestamp("created_at").defaultNow(),
 });
 
+export const insertVerificationCodeSchema = createInsertSchema(verificationCodes).omit({
+  id: true,
+  createdAt: true,
+});
+
 export const insertUserSchema = createInsertSchema(users).omit({
   id: true,
   createdAt: true,

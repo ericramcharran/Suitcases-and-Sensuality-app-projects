@@ -19,19 +19,21 @@ export default function Signup() {
   const [, setLocation] = useLocation();
   const { toast } = useToast();
   const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
   const [role, setRole] = useState("");
 
   const createUserMutation = useMutation({
-    mutationFn: async (userData: { name: string; role: string }) => {
+    mutationFn: async (userData: { name: string; email: string; role: string }) => {
       const res = await apiRequest("POST", "/api/users", userData);
       return await res.json();
     },
     onSuccess: (data: any) => {
-      // Store user ID for later use
+      // Store user ID and email for verification flow
       localStorage.setItem('userId', data.id);
       localStorage.setItem('userName', name);
+      localStorage.setItem('userEmail', email);
       localStorage.setItem('userRole', role);
-      setLocation("/profile-details");
+      setLocation("/email-verification");
     },
     onError: () => {
       toast({
@@ -42,10 +44,10 @@ export default function Signup() {
     },
   });
 
-  const canContinue = name.trim().length > 0 && role.length > 0;
+  const canContinue = name.trim().length > 0 && email.trim().length > 0 && role.length > 0;
 
   const handleContinue = () => {
-    createUserMutation.mutate({ name, role });
+    createUserMutation.mutate({ name, email, role });
   };
 
   return (
@@ -74,6 +76,21 @@ export default function Signup() {
               placeholder="Your name"
               value={name}
               onChange={(e) => setName(e.target.value)}
+              className="rounded-xl"
+              disabled={createUserMutation.isPending}
+            />
+          </div>
+          <div>
+            <Label htmlFor="email" className="text-foreground mb-2 block">
+              Email
+            </Label>
+            <Input
+              data-testid="input-email"
+              id="email"
+              type="email"
+              placeholder="your.email@example.com"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               className="rounded-xl"
               disabled={createUserMutation.isPending}
             />
