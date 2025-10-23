@@ -52,19 +52,25 @@ export default function Terms() {
 
     const handleScroll = () => {
       const { scrollTop, scrollHeight, clientHeight } = container;
-      // Check if scrolled to bottom (with 5px threshold for smoother detection)
+      // Check if content doesn't need scrolling OR if scrolled to bottom
+      const noScrollNeeded = scrollHeight <= clientHeight + 1; // +1 for rounding
       const isAtBottom = scrollTop + clientHeight >= scrollHeight - 5;
       
-      if (isAtBottom && !hasScrolledToBottom) {
+      if ((noScrollNeeded || isAtBottom) && !hasScrolledToBottom) {
         setHasScrolledToBottom(true);
       }
     };
 
     container.addEventListener('scroll', handleScroll);
-    // Check initial state in case content is already fully visible
+    
+    // Check initial state and after a brief delay to ensure layout is complete
     handleScroll();
+    const timeout = setTimeout(handleScroll, 100);
 
-    return () => container.removeEventListener('scroll', handleScroll);
+    return () => {
+      container.removeEventListener('scroll', handleScroll);
+      clearTimeout(timeout);
+    };
   }, [hasScrolledToBottom]);
 
   // Auto-navigate when checkbox is checked
