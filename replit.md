@@ -8,6 +8,25 @@ The Executive Society is a premium BDSM dating platform designed for professiona
 
 Preferred communication style: Simple, everyday language.
 
+## Pending Integration: Twilio
+
+**Status**: Waiting for Twilio credentials to complete phone verification implementation.
+
+**Required Secrets** (to be added when user provides):
+- `TWILIO_ACCOUNT_SID` - Twilio Account SID (starts with "AC...")
+- `TWILIO_AUTH_TOKEN` - Twilio authentication token
+- `TWILIO_PHONE_NUMBER` - Twilio phone number for sending SMS (format: +1XXXXXXXXXX)
+
+**Setup Instructions for User**:
+1. Sign up at https://www.twilio.com/try-twilio ($15 free credit)
+2. Get Account SID and Auth Token from Console Dashboard
+3. Buy a phone number ($1/month) - select "SMS capable"
+4. Provide these three credentials to enable phone verification
+
+**Cost**: ~$0.06 per SMS verification
+
+**Note**: Email verification is already implemented using Resend (already configured). Phone verification code is ready but requires Twilio credentials to function.
+
 ## System Architecture
 
 ### Frontend

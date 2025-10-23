@@ -6,11 +6,14 @@ import { z } from "zod";
 export const users = pgTable("users", {
   id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
   email: text("email").unique(),
+  emailVerified: boolean("email_verified").default(false),
+  phone: text("phone"),
+  phoneVerified: boolean("phone_verified").default(false),
   password: text("password"),
   name: text("name").notNull(),
   profileName: varchar("profile_name", { length: 20 }), // Display name for profile (max 20 chars)
   role: text("role").notNull(), // 'Dominant', 'submissive', 'Switch'
-  verified: boolean("verified").default(false),
+  verified: boolean("verified").default(false), // ID/background check verified
   escrowBalance: integer("escrow_balance").default(0),
   escrowVerified: boolean("escrow_verified").default(false), // For Dominants with escrow/mutual fund verification
   fullyFunded: boolean("fully_funded").default(false), // Indicates if escrow account is fully funded
@@ -116,6 +119,16 @@ export const bdsmTestResults = pgTable("bdsm_test_results", {
   kinkPreferences: jsonb("kink_preferences").$type<Record<string, number>>().default(sql`'{}'::jsonb`), // Key-value pairs of kink categories and percentages
   topRole: text("top_role"), // Primary role from test (e.g., "Rope Top", "Sadist")
   rolePercentages: jsonb("role_percentages").$type<Record<string, number>>().default(sql`'{}'::jsonb`), // Role breakdown with percentages
+  createdAt: timestamp("created_at").defaultNow(),
+});
+
+export const verificationCodes = pgTable("verification_codes", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  emailOrPhone: text("email_or_phone").notNull(), // Email address or phone number
+  code: varchar("code", { length: 6 }).notNull(), // 6-digit verification code
+  type: text("type").notNull(), // 'email' or 'phone'
+  verified: boolean("verified").default(false),
+  expiresAt: timestamp("expires_at").notNull(), // Codes expire after 10 minutes
   createdAt: timestamp("created_at").defaultNow(),
 });
 
