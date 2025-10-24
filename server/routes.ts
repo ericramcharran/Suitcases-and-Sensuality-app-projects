@@ -802,6 +802,40 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Admin endpoint to create mutual match for testing
+  app.post("/api/admin/create-mutual-match", async (req, res) => {
+    try {
+      const { userId, targetUserId } = req.body;
+      
+      if (!userId || !targetUserId) {
+        res.status(400).json({ error: "Invalid request body" });
+        return;
+      }
+
+      // Create both likes using the proper storage method
+      const match1 = await storage.createMatch({
+        userId,
+        targetUserId,
+        action: 'like'
+      });
+
+      const match2 = await storage.createMatch({
+        userId: targetUserId,
+        targetUserId: userId,
+        action: 'like'
+      });
+
+      res.json({ 
+        success: true, 
+        message: "Mutual match created",
+        matches: [match1, match2]
+      });
+    } catch (error) {
+      console.error('Error creating mutual match:', error);
+      res.status(500).json({ error: "Failed to create mutual match" });
+    }
+  });
+
   // Get potential matches for a user
   app.get("/api/matches/potential/:userId", async (req, res) => {
     try {
