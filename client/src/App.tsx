@@ -81,6 +81,7 @@ import BDSMTestInput from "@/pages/BDSMTestInput";
 import BDSMTestProcessing from "@/pages/BDSMTestProcessing";
 import EmailVerification from "@/pages/EmailVerification";
 import PhoneVerification from "@/pages/PhoneVerification";
+import Resources from "@/pages/Resources";
 
 function App() {
   const [location] = useLocation();
@@ -269,6 +270,9 @@ function App() {
               </Route>
               <Route path="/settings">
                 <PageTransition><Settings /></PageTransition>
+              </Route>
+              <Route path="/resources">
+                <PageTransition><Resources /></PageTransition>
               </Route>
               <Route path="/legal-documents">
                 <PageTransition><LegalDocuments /></PageTransition>

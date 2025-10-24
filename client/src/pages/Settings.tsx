@@ -1,4 +1,4 @@
-import { ChevronLeft, Bell, Shield, Eye, CreditCard, HelpCircle, LogOut, Info, MapPin, FileText, Lock } from "lucide-react";
+import { ChevronLeft, Bell, Shield, Eye, CreditCard, HelpCircle, LogOut, Info, MapPin, FileText, Lock, Book } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Switch } from "@/components/ui/switch";
 import { useLocation } from "wouter";
@@ -25,6 +25,13 @@ const settingsOptions = [
     description: "View signed agreements and signatures",
     hasSwitch: false,
     link: "/legal-documents"
+  },
+  {
+    icon: Book,
+    title: "BDSM Resources",
+    description: "Educational definitions and lifestyle guides",
+    hasSwitch: false,
+    link: "/resources"
   },
   {
     icon: Shield,
