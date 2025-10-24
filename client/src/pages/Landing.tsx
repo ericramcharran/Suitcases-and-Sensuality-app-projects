@@ -1,9 +1,9 @@
-import { useState, useEffect } from "react";
-import { Shield } from "lucide-react";
+import { useState, useEffect, useMemo } from "react";
+import { Shield, Heart, Sparkles, Star, Lock, Crown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useLocation } from "wouter";
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import { Link } from "wouter";
 import animatedLogo from "@assets/crop animate logo_1760889514164.mp4";
 
@@ -12,6 +12,32 @@ export default function Landing() {
   const [isAnimating, setIsAnimating] = useState(false);
   const [destination, setDestination] = useState<string | null>(null);
   const [agreedToTerms, setAgreedToTerms] = useState(false);
+  const shouldReduceMotion = useReducedMotion();
+
+  // Memoize particle configuration to prevent re-creation on each render
+  const particles = useMemo(() => {
+    const icons = [Heart, Sparkles, Star, Lock, Crown];
+    const colors = [
+      'text-pink-300/40',
+      'text-purple-300/40',
+      'text-blue-300/40',
+      'text-rose-300/40',
+      'text-indigo-300/40'
+    ];
+    
+    return Array.from({ length: 20 }, (_, i) => ({
+      id: i,
+      Icon: icons[i % 5],
+      color: colors[i % 5],
+      left: Math.random() * 100,
+      top: Math.random() * 100,
+      delay: i * 0.2,
+      duration: 6 + Math.random() * 6,
+      yOffset: Math.random() * 40 - 20,
+      xOffset: Math.random() * 30 - 15,
+      scale: 0.8 + Math.random() * 0.4,
+    }));
+  }, []);
 
   const handleNavigation = (path: string) => {
     setDestination(path);
@@ -29,7 +55,39 @@ export default function Landing() {
   }, [isAnimating, destination, setLocation]);
 
   return (
-    <div className="min-h-screen bg-background flex flex-col justify-center items-center px-4 sm:px-6 py-8 sm:py-12 relative overflow-hidden">
+    <div className="min-h-screen bg-gradient-to-br from-pink-50 via-purple-50 to-blue-50 dark:from-gray-950 dark:via-purple-950/20 dark:to-blue-950/20 flex flex-col justify-center items-center px-4 sm:px-6 py-8 sm:py-12 relative overflow-hidden">
+      {/* Animated background particles */}
+      {!shouldReduceMotion && (
+        <div className="absolute inset-0 pointer-events-none overflow-hidden">
+          {particles.map((particle) => (
+            <motion.div
+              key={particle.id}
+              className="absolute"
+              style={{
+                left: `${particle.left}%`,
+                top: `${particle.top}%`,
+              }}
+              initial={{ opacity: 0, scale: 0 }}
+              animate={{
+                opacity: [0, 0.6, 0],
+                y: [0, particle.yOffset, 0],
+                x: [0, particle.xOffset, 0],
+                rotate: [0, 360],
+                scale: particle.scale,
+              }}
+              transition={{
+                duration: particle.duration,
+                repeat: Infinity,
+                delay: particle.delay,
+                ease: "easeInOut",
+              }}
+            >
+              <particle.Icon className={`w-6 h-6 ${particle.color}`} />
+            </motion.div>
+          ))}
+        </div>
+      )}
+
       {/* Keyhole vignette that closes in during zoom */}
       {isAnimating && (
         <>
@@ -58,28 +116,45 @@ export default function Landing() {
           style={{
             transformOrigin: "center 75%"
           }}
-          animate={isAnimating ? {
+          initial={!shouldReduceMotion ? { opacity: 0, scale: 0.5, y: -100 } : false}
+          animate={!shouldReduceMotion && !isAnimating ? { 
+            opacity: 1, 
+            scale: 1, 
+            y: 0 
+          } : isAnimating ? {
             y: "calc(50vh - 75%)",
             x: [0, -15, 5, 0],
             scale: 60,
             rotate: [0, -2, 3, 5],
+          } : {}}
+          transition={!isAnimating ? {
+            type: "spring",
+            stiffness: 100,
+            damping: 15,
+            delay: 0.2,
           } : {
-            y: 0,
-            x: 0,
-            scale: 1,
-            rotate: 0,
-          }}
-          transition={{
             y: { duration: 0.8, ease: [0.34, 1.56, 0.64, 1] },
             x: { duration: 2.0, delay: 0.8, ease: "easeInOut" },
             scale: { duration: 2.0, delay: 0.8, ease: [0.4, 0.0, 0.2, 1] },
             rotate: { duration: 2.0, delay: 0.8, ease: "easeInOut" },
           }}
         >
-          <div 
-            className="flex items-center justify-center overflow-hidden rounded-md mx-auto w-full max-w-md" 
+          <motion.div 
+            className="flex items-center justify-center overflow-hidden rounded-md mx-auto w-full max-w-md shadow-2xl" 
             style={{ 
               aspectRatio: '19 / 12'
+            }}
+            animate={!shouldReduceMotion && !isAnimating ? {
+              boxShadow: [
+                "0 0 20px rgba(236, 72, 153, 0.3)",
+                "0 0 40px rgba(168, 85, 247, 0.4)",
+                "0 0 20px rgba(59, 130, 246, 0.3)",
+              ],
+            } : {}}
+            transition={{
+              duration: 3,
+              repeat: Infinity,
+              ease: "easeInOut",
             }}
           >
             <video 
@@ -93,25 +168,47 @@ export default function Landing() {
                 objectPosition: 'center center'
               }}
             />
-          </div>
+          </motion.div>
         </motion.div>
 
         {/* Text and Buttons - fade out on animation */}
         <motion.div
           className="w-full"
-          animate={isAnimating ? { opacity: 0 } : { opacity: 1 }}
-          transition={{ duration: 0.5, ease: "easeOut" }}
+          initial={!shouldReduceMotion ? { opacity: 0, y: 20 } : false}
+          animate={!shouldReduceMotion && !isAnimating ? { opacity: 1, y: 0 } : isAnimating ? { opacity: 0 } : {}}
+          transition={!isAnimating ? { 
+            delay: 0.4,
+            duration: 0.6,
+          } : { 
+            duration: 0.5, 
+            ease: "easeOut" 
+          }}
         >
-          <p className="text-muted-foreground text-lg sm:text-xl mb-2 text-center font-light">
+          <motion.p 
+            className="text-muted-foreground text-lg sm:text-xl mb-2 text-center font-light"
+            initial={!shouldReduceMotion ? { opacity: 0 } : false}
+            animate={!shouldReduceMotion && !isAnimating ? { opacity: 1 } : {}}
+            transition={{ delay: 0.6 }}
+          >
             Where Power Meets Passion
-          </p>
-          <p className="text-foreground/80 text-base mb-6 sm:mb-8 max-w-md text-center leading-relaxed px-2">
+          </motion.p>
+          <motion.p 
+            className="text-foreground/80 text-base mb-6 sm:mb-8 max-w-md text-center leading-relaxed px-2"
+            initial={!shouldReduceMotion ? { opacity: 0 } : false}
+            animate={!shouldReduceMotion && !isAnimating ? { opacity: 1 } : {}}
+            transition={{ delay: 0.7 }}
+          >
             A safe space for authentic BDSM connections. Match, learn, and grow together.
-          </p>
+          </motion.p>
 
           {/* Terms Agreement Checkbox */}
-          <div className="mb-6 sm:mb-8 px-2">
-            <div className="flex items-start gap-3 p-4 rounded-lg bg-card border">
+          <motion.div 
+            className="mb-6 sm:mb-8 px-2"
+            initial={!shouldReduceMotion ? { opacity: 0, y: 10 } : false}
+            animate={!shouldReduceMotion && !isAnimating ? { opacity: 1, y: 0 } : {}}
+            transition={{ delay: 0.8 }}
+          >
+            <div className="flex items-start gap-3 p-4 rounded-lg bg-card/80 backdrop-blur-sm border-2 shadow-lg">
               <Checkbox
                 id="terms-agreement"
                 checked={agreedToTerms}
@@ -142,43 +239,66 @@ export default function Landing() {
                 . I understand this platform contains adult content and BDSM-related material.
               </label>
             </div>
-          </div>
+          </motion.div>
 
           <div className="space-y-3 w-full">
-            <Button
-              data-testid="button-get-started"
-              onClick={() => handleNavigation("/age-verification")}
-              disabled={isAnimating || !agreedToTerms}
-              className="w-full rounded-full bg-black text-white hover:bg-primary/20 transition-colors min-h-[48px] disabled:opacity-50 disabled:cursor-not-allowed"
-              size="lg"
+            <motion.div
+              initial={!shouldReduceMotion ? { opacity: 0, x: -20 } : false}
+              animate={!shouldReduceMotion && !isAnimating ? { opacity: 1, x: 0 } : {}}
+              transition={{ delay: 0.9 }}
             >
-              Get Started
-            </Button>
-            <Button
-              data-testid="button-view-subscriptions"
-              onClick={() => handleNavigation("/subscription")}
-              disabled={isAnimating || !agreedToTerms}
-              variant="outline"
-              className="w-full rounded-full border-2 hover:bg-primary/20 transition-colors min-h-[48px] disabled:opacity-50 disabled:cursor-not-allowed"
-              size="lg"
+              <Button
+                data-testid="button-get-started"
+                onClick={() => handleNavigation("/age-verification")}
+                disabled={isAnimating || !agreedToTerms}
+                className="w-full rounded-full bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500 text-white hover:shadow-2xl hover:scale-105 transition-all duration-300 min-h-[48px] disabled:opacity-50 disabled:cursor-not-allowed shadow-lg"
+                size="lg"
+              >
+                Get Started
+              </Button>
+            </motion.div>
+            <motion.div
+              initial={!shouldReduceMotion ? { opacity: 0, x: -20 } : false}
+              animate={!shouldReduceMotion && !isAnimating ? { opacity: 1, x: 0 } : {}}
+              transition={{ delay: 1.0 }}
             >
-              View Subscriptions
-            </Button>
-            <Button
-              data-testid="button-sign-in"
-              onClick={() => handleNavigation("/login")}
-              disabled={isAnimating || !agreedToTerms}
-              variant="outline"
-              className="w-full rounded-full border-2 hover:bg-primary/20 transition-colors min-h-[48px] disabled:opacity-50 disabled:cursor-not-allowed"
-              size="lg"
+              <Button
+                data-testid="button-view-subscriptions"
+                onClick={() => handleNavigation("/subscription")}
+                disabled={isAnimating || !agreedToTerms}
+                variant="outline"
+                className="w-full rounded-full border-2 hover:bg-primary/20 hover:scale-105 transition-all duration-300 min-h-[48px] disabled:opacity-50 disabled:cursor-not-allowed backdrop-blur-sm"
+                size="lg"
+              >
+                View Subscriptions
+              </Button>
+            </motion.div>
+            <motion.div
+              initial={!shouldReduceMotion ? { opacity: 0, x: -20 } : false}
+              animate={!shouldReduceMotion && !isAnimating ? { opacity: 1, x: 0 } : {}}
+              transition={{ delay: 1.1 }}
             >
-              Sign In
-            </Button>
+              <Button
+                data-testid="button-sign-in"
+                onClick={() => handleNavigation("/login")}
+                disabled={isAnimating || !agreedToTerms}
+                variant="outline"
+                className="w-full rounded-full border-2 hover:bg-primary/20 hover:scale-105 transition-all duration-300 min-h-[48px] disabled:opacity-50 disabled:cursor-not-allowed backdrop-blur-sm"
+                size="lg"
+              >
+                Sign In
+              </Button>
+            </motion.div>
           </div>
-          <div className="text-center text-sm text-muted-foreground mt-8 sm:mt-16 flex items-center justify-center gap-2 flex-wrap">
+          <motion.div 
+            className="text-center text-sm text-muted-foreground mt-8 sm:mt-16 flex items-center justify-center gap-2 flex-wrap"
+            initial={!shouldReduceMotion ? { opacity: 0 } : false}
+            animate={!shouldReduceMotion && !isAnimating ? { opacity: 1 } : {}}
+            transition={{ delay: 1.2 }}
+          >
             <Shield className="w-4 h-4" />
             <span>21+ Only · Safe · Consensual · Private</span>
-          </div>
+          </motion.div>
         </motion.div>
       </div>
     </div>
