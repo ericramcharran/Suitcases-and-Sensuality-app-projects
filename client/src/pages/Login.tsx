@@ -31,24 +31,29 @@ export default function Login() {
     setIsLoading(true);
 
     try {
+      console.log('Attempting login with:', { email: username });
       const response = await fetch('/api/auth/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email: username, password })
       });
 
+      console.log('Login response status:', response.status);
+
       if (!response.ok) {
-        const error = await response.json();
+        const error = await response.json().catch(() => ({ message: 'Unknown error' }));
+        console.error('Login error:', error);
         toast({
           variant: "destructive",
           title: "Login Failed",
-          description: "Please check your username and password for correct spelling and try again."
+          description: error.message || "Please check your username and password for correct spelling and try again."
         });
         setIsLoading(false);
         return;
       }
 
       const data = await response.json();
+      console.log('Login successful:', data);
       localStorage.setItem('userId', data.user.id);
       localStorage.setItem('userName', data.user.name);
       localStorage.setItem('userRole', data.user.role);
@@ -59,10 +64,11 @@ export default function Login() {
       });
       setLocation("/discover");
     } catch (error) {
+      console.error('Login exception:', error);
       toast({
         variant: "destructive",
         title: "Error",
-        description: "Something went wrong. Please try again."
+        description: error instanceof Error ? error.message : "Something went wrong. Please try again."
       });
     } finally {
       setIsLoading(false);
