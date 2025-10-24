@@ -17,6 +17,9 @@ const formatLastActive = (lastActive: string) => {
   return `${Math.floor(diffDays / 7)}w ago`;
 };
 import HeartTransition from "@/components/HeartTransition";
+import { ParticleEffect } from "@/components/ParticleEffect";
+import { AnimatedCounter } from "@/components/AnimatedCounter";
+import { SparkleEffect } from "@/components/SparkleEffect";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
@@ -26,7 +29,7 @@ import { useQuery, useMutation } from "@tanstack/react-query";
 import { apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
 import { queryClient } from "@/lib/queryClient";
-import { motion, useMotionValue, useTransform, PanInfo } from "framer-motion";
+import { motion, useMotionValue, useTransform, PanInfo, useReducedMotion } from "framer-motion";
 import useEmblaCarousel from "embla-carousel-react";
 import { DiscoverFilters, type FilterOptions } from "@/components/DiscoverFilters";
 
@@ -37,6 +40,7 @@ export default function Discover() {
   const [includeReviewed, setIncludeReviewed] = useState(false);
   const [minLoadingTimePassed, setMinLoadingTimePassed] = useState(false);
   const { toast } = useToast();
+  const shouldReduceMotion = useReducedMotion();
   const [filters, setFilters] = useState<FilterOptions>({
     minAge: 21,
     maxAge: 99,
@@ -47,9 +51,19 @@ export default function Discover() {
   const rotate = useTransform(x, [-200, 200], [-25, 25]);
   const opacity = useTransform(x, [-200, -100, 0, 100, 200], [0, 1, 1, 1, 0]);
   
+  // Overlay visibility driven by motion values (fixes render issue)
+  const passOverlayOpacity = useTransform(x, [-200, -50, 0], [1, 1, 0]);
+  const passOverlayScale = useTransform(x, [-200, -50, 0], [1, 1, 0.5]);
+  const likeOverlayOpacity = useTransform(x, [0, 50, 200], [0, 1, 1]);
+  const likeOverlayScale = useTransform(x, [0, 50, 200], [0.5, 1, 1]);
+  
   const [emblaRef, emblaApi] = useEmblaCarousel({ loop: false, axis: 'y' });
   
   const userId = localStorage.getItem('userId');
+  
+  // Particle effect triggers
+  const [likeParticleTrigger, setLikeParticleTrigger] = useState(0);
+  const [passParticleTrigger, setPassParticleTrigger] = useState(0);
 
   // Both buttons locked in fixed positions
   const [isDraggingButtons] = useState(false);
@@ -245,12 +259,14 @@ export default function Discover() {
 
   const handleLike = () => {
     if (currentProfile) {
+      setLikeParticleTrigger(prev => prev + 1);
       likeMutation.mutate(currentProfile.id);
     }
   };
 
   const handlePass = () => {
     if (currentProfile) {
+      setPassParticleTrigger(prev => prev + 1);
       passMutation.mutate(currentProfile.id);
     }
   };
@@ -369,6 +385,10 @@ export default function Discover() {
 
   return (
     <div className="min-h-screen bg-background flex flex-col">
+      {/* Particle Effects */}
+      <ParticleEffect type="like" trigger={likeParticleTrigger} />
+      <ParticleEffect type="pass" trigger={passParticleTrigger} />
+      
       <div className="max-w-md mx-auto h-screen w-full flex flex-col">
         {/* Header */}
         <div className="p-3 sm:p-4 border-b border-border flex justify-between items-center bg-background">
@@ -420,13 +440,24 @@ export default function Discover() {
           >
             {/* Swipe-to-dismiss wrapper */}
             <motion.div
+              key={currentProfile.id}
+              initial={{ scale: 0.8, opacity: 0, y: 50 }}
+              animate={{ scale: 1, opacity: 1, y: 0 }}
+              exit={{ scale: 0.8, opacity: 0 }}
+              transition={{ 
+                type: "spring", 
+                stiffness: 300, 
+                damping: 25 
+              }}
               style={{ x, rotate, opacity }}
               drag="x"
               dragConstraints={{ left: 0, right: 0 }}
+              dragElastic={0.7}
               onDragEnd={handleDragEnd}
+              whileDrag={{ scale: 1.05, cursor: "grabbing" }}
               className="h-full"
             >
-            <Card className="h-full flex flex-col" data-testid="match-card">
+            <Card className="h-full flex flex-col shadow-2xl" data-testid="match-card">
               {/* Profile Image Carousel - 30% larger than before */}
               <div className="relative bg-muted rounded-t-xl flex-[1.3] overflow-hidden">
                 {currentProfile.profileImages && currentProfile.profileImages.length > 0 ? (
@@ -476,15 +507,29 @@ export default function Discover() {
                   </div>
                 )}
 
-                {/* Match Percentage Badge */}
+                {/* Match Percentage Badge with Animation & Sparkles */}
                 <Tooltip delayDuration={100}>
                   <TooltipTrigger asChild>
-                    <div
-                      className="absolute top-4 right-4 bg-green-500 text-white text-[10px] px-2 py-1 rounded-full font-medium z-10 cursor-default"
+                    <motion.div
+                      initial={{ scale: 0, rotate: -180 }}
+                      animate={{ scale: 1, rotate: 0 }}
+                      transition={{ 
+                        type: "spring", 
+                        stiffness: 260, 
+                        damping: 20,
+                        delay: 0.1
+                      }}
+                      className={`absolute top-4 right-4 text-white text-sm px-3 py-1.5 rounded-full font-bold z-10 cursor-default shadow-lg ${
+                        currentProfile.matchPercentage >= 80 
+                          ? "bg-gradient-to-r from-green-500 to-emerald-600" 
+                          : currentProfile.matchPercentage >= 60
+                          ? "bg-gradient-to-r from-blue-500 to-cyan-600"
+                          : "bg-gradient-to-r from-orange-500 to-amber-600"
+                      }`}
                       data-testid="badge-match-percentage"
                     >
-                      {currentProfile.matchPercentage}%
-                    </div>
+                      <AnimatedCounter value={currentProfile.matchPercentage} />%
+                    </motion.div>
                   </TooltipTrigger>
                   <TooltipContent className="max-w-xs">
                     <p className="font-semibold mb-1">{currentProfile.matchPercentage}% Compatibility</p>
@@ -499,6 +544,9 @@ export default function Discover() {
                     <p className="text-xs text-muted-foreground">*When both users have uploaded test results, kink compatibility significantly enhances matching accuracy</p>
                   </TooltipContent>
                 </Tooltip>
+                
+                {/* Sparkle Effect for High Matches */}
+                <SparkleEffect show={currentProfile.matchPercentage >= 80} />
 
                 {/* Verified & Fully Funded Badge for Dominants (replaces standard verified badge) */}
                 {currentProfile.escrowVerified && currentProfile.fullyFunded ? (
@@ -532,18 +580,22 @@ export default function Discover() {
                 {/* Swipe Hint Overlays */}
                 <div className="absolute left-0 top-0 bottom-0 w-1/3 flex items-center justify-center pointer-events-none">
                   <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: x.get() < -50 ? 1 : 0 }}
-                    className="bg-primary/90 text-white px-4 py-2 rounded-lg font-bold text-lg -rotate-12"
+                    style={{
+                      opacity: passOverlayOpacity,
+                      scale: passOverlayScale
+                    }}
+                    className="bg-gradient-to-br from-red-500 to-pink-500 text-white px-6 py-3 rounded-2xl font-bold text-xl -rotate-12 shadow-2xl border-4 border-white"
                   >
                     PASS
                   </motion.div>
                 </div>
                 <div className="absolute right-0 top-0 bottom-0 w-1/3 flex items-center justify-center pointer-events-none">
                   <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: x.get() > 50 ? 1 : 0 }}
-                    className="bg-green-500/90 text-white px-4 py-2 rounded-lg font-bold text-lg rotate-12"
+                    style={{
+                      opacity: likeOverlayOpacity,
+                      scale: likeOverlayScale
+                    }}
+                    className="bg-gradient-to-br from-green-500 to-emerald-500 text-white px-6 py-3 rounded-2xl font-bold text-xl rotate-12 shadow-2xl border-4 border-white"
                   >
                     LIKE
                   </motion.div>
@@ -551,7 +603,15 @@ export default function Discover() {
 
                 {/* Floating Action Buttons - LOCKED IN POSITION */}
                 {/* Pass Button - WHITE X - Uses saved position */}
-                <div
+                <motion.div
+                  animate={!shouldReduceMotion ? { 
+                    scale: [1, 1.05, 1],
+                  } : {}}
+                  transition={{
+                    duration: 2,
+                    repeat: Infinity,
+                    ease: "easeInOut"
+                  }}
                   style={{
                     position: 'absolute',
                     left: `${savedPassPosition.x}px`,
@@ -560,20 +620,31 @@ export default function Discover() {
                     filter: 'drop-shadow(0 10px 25px rgba(0, 0, 0, 0.4)) drop-shadow(0 6px 12px rgba(0, 0, 0, 0.3))'
                   }}
                 >
-                  <Button
-                    data-testid="button-pass"
-                    onClick={handlePass}
-                    disabled={passMutation.isPending || likeMutation.isPending}
-                    size="icon"
-                    variant="secondary"
-                    className="rounded-full h-12 w-12 bg-white border-2 border-white hover:scale-110 transition-transform"
-                  >
-                    <X className="w-6 h-6 text-primary stroke-[2.5]" />
-                  </Button>
-                </div>
+                  <motion.div whileTap={!shouldReduceMotion ? { scale: 0.9 } : {}}>
+                    <Button
+                      data-testid="button-pass"
+                      onClick={handlePass}
+                      disabled={passMutation.isPending || likeMutation.isPending}
+                      size="icon"
+                      variant="secondary"
+                      className="rounded-full h-14 w-14 bg-white border-3 border-white hover:scale-110 transition-transform"
+                    >
+                      <X className="w-7 h-7 text-primary stroke-[2.5]" />
+                    </Button>
+                  </motion.div>
+                </motion.div>
 
                 {/* Like Button - ROSE HEART - BOTTOM RIGHT (MIRROR OF X) */}
-                <div
+                <motion.div
+                  animate={!shouldReduceMotion ? { 
+                    scale: [1, 1.05, 1],
+                  } : {}}
+                  transition={{
+                    duration: 2,
+                    repeat: Infinity,
+                    ease: "easeInOut",
+                    delay: 1
+                  }}
                   style={{
                     position: 'absolute',
                     right: '30px',
@@ -582,16 +653,18 @@ export default function Discover() {
                     filter: 'drop-shadow(0 10px 25px rgba(0, 0, 0, 0.4)) drop-shadow(0 6px 12px rgba(0, 0, 0, 0.3))'
                   }}
                 >
-                  <Button
-                    data-testid="button-like"
-                    onClick={handleLike}
-                    disabled={passMutation.isPending || likeMutation.isPending}
-                    size="icon"
-                    className="rounded-full h-12 w-12 bg-white hover:scale-110 transition-transform border-2 border-white"
-                  >
-                    <Heart className="w-6 h-6 fill-primary text-primary" />
-                  </Button>
-                </div>
+                  <motion.div whileTap={!shouldReduceMotion ? { scale: 0.9 } : {}}>
+                    <Button
+                      data-testid="button-like"
+                      onClick={handleLike}
+                      disabled={passMutation.isPending || likeMutation.isPending}
+                      size="icon"
+                      className="rounded-full h-14 w-14 bg-gradient-to-br from-primary to-pink-500 hover:scale-110 transition-transform border-3 border-white shadow-lg"
+                    >
+                      <Heart className="w-7 h-7 fill-white text-white" />
+                    </Button>
+                  </motion.div>
+                </motion.div>
               </div>
 
             {/* Profile Info - Scrollable with invisible scrollbar */}
