@@ -4,7 +4,7 @@ export function Logo() {
   return (
     <div className="flex items-center justify-center w-full px-4">
       <div 
-        className="overflow-hidden rounded-md w-full max-w-md" 
+        className="overflow-hidden rounded-md w-full max-w-md bg-transparent" 
         style={{ 
           aspectRatio: '19 / 12'
         }}
@@ -15,7 +15,7 @@ export function Logo() {
           muted
           loop
           playsInline
-          className="w-full h-full object-cover"
+          className="w-full h-full object-cover bg-transparent"
           style={{
             objectPosition: 'center center'
           }}
