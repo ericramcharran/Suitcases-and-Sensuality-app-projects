@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
 import { Sparkles, Clock, DollarSign, MapPin, Heart, Share2, Zap, Flame, ThumbsUp, ThumbsDown, Trophy, Users } from "lucide-react";
 import { useLocation } from "wouter";
+import { useQuery, useMutation } from "@tanstack/react-query";
+import { apiRequest, queryClient } from "@/lib/queryClient";
 import { getRandomActivity, type Activity } from "../data/activities";
-import { rateActivity, recordWinner, getActivityRating } from "../lib/scoreTracker";
 import "../nexus-styles.css";
 
 export default function SparkActivity() {
@@ -12,27 +13,70 @@ export default function SparkActivity() {
   const [rating, setRating] = useState<'loved' | 'meh' | null>(null);
   const [showWinnerPicker, setShowWinnerPicker] = useState(false);
   const [winnerRecorded, setWinnerRecorded] = useState(false);
+  const [coupleId, setCoupleId] = useState<string | null>(null);
 
+  // Get couple ID from localStorage
   useEffect(() => {
-    // Get a random activity when component mounts
+    const storedCoupleId = localStorage.getItem("sparkitCoupleId");
+    setCoupleId(storedCoupleId);
+  }, []);
+
+  // Fetch couple data
+  const { data: couple } = useQuery({
+    queryKey: ["/api/sparkit/couples", coupleId],
+    enabled: !!coupleId,
+  });
+
+  // Get a random activity when component mounts
+  useEffect(() => {
     const newActivity = getRandomActivity();
     setActivity(newActivity);
-    
-    // Check if this activity was already rated
-    if (newActivity) {
-      const existingRating = getActivityRating(newActivity.id);
-      setRating(existingRating);
-    }
   }, []);
+
+  // Mutation to save rating
+  const saveRatingMutation = useMutation({
+    mutationFn: async (ratingValue: 'loved' | 'meh') => {
+      if (!coupleId || !activity) throw new Error("Missing data");
+      const res = await apiRequest("POST", "/api/sparkit/activity-ratings", {
+        coupleId,
+        activityId: activity.id,
+        rating: ratingValue
+      });
+      return await res.json();
+    },
+  });
+
+  // Mutation to save winner
+  const saveWinnerMutation = useMutation({
+    mutationFn: async (winner: 'partner1' | 'partner2' | 'tie') => {
+      if (!coupleId || !activity) throw new Error("Missing data");
+      const res = await apiRequest("POST", "/api/sparkit/activity-results", {
+        coupleId,
+        activityId: activity.id,
+        winner
+      });
+      return await res.json();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["/api/sparkit/couples", coupleId, "scoreboard"] });
+      setWinnerRecorded(true);
+      setShowWinnerPicker(false);
+    },
+  });
 
   const handleSave = () => {
     setIsSaved(true);
-    // TODO: Save to Firebase
   };
 
   const handleShare = () => {
-    // TODO: Implement share functionality
-    alert("Share functionality coming soon!");
+    if (activity && typeof navigator.share !== 'undefined') {
+      navigator.share({
+        title: `Spark It! - ${activity.title}`,
+        text: `We just sparked this activity: ${activity.title}!`,
+      }).catch(() => {
+        // Share cancelled
+      });
+    }
   };
 
   const handleNewSpark = () => {
@@ -40,16 +84,14 @@ export default function SparkActivity() {
   };
 
   const handleRating = (newRating: 'loved' | 'meh') => {
-    if (!activity) return;
+    if (!activity || !coupleId) return;
     setRating(newRating);
-    rateActivity(activity.id, newRating);
+    saveRatingMutation.mutate(newRating);
   };
 
   const handleWinnerSelect = (winner: 'partner1' | 'partner2' | 'tie') => {
-    if (!activity) return;
-    recordWinner(activity.id, activity.title, winner);
-    setWinnerRecorded(true);
-    setShowWinnerPicker(false);
+    if (!activity || !coupleId) return;
+    saveWinnerMutation.mutate(winner);
   };
 
   const viewScoreboard = () => {
@@ -59,6 +101,9 @@ export default function SparkActivity() {
   if (!activity) {
     return null; // Loading state
   }
+
+  const partner1Name = couple?.partner1Name || "Partner 1";
+  const partner2Name = couple?.partner2Name || "Partner 2";
 
   return (
     <div className="nexus-app" data-testid="spark-activity-page">
@@ -259,6 +304,7 @@ export default function SparkActivity() {
               <button
                 onClick={() => handleRating('loved')}
                 className="cta-button"
+                disabled={saveRatingMutation.isPending}
                 style={{
                   background: rating === 'loved' ? 'var(--nexus-gradient-royal)' : 'rgba(255,255,255,0.1)',
                   border: '2px solid rgba(102, 126, 234, 0.4)',
@@ -276,6 +322,7 @@ export default function SparkActivity() {
               <button
                 onClick={() => handleRating('meh')}
                 className="cta-button"
+                disabled={saveRatingMutation.isPending}
                 style={{
                   background: rating === 'meh' ? 'rgba(255,107,107,0.3)' : 'rgba(255,255,255,0.1)',
                   border: '2px solid rgba(255,107,107,0.4)',
@@ -341,6 +388,7 @@ export default function SparkActivity() {
                 <button
                   onClick={() => handleWinnerSelect('partner1')}
                   className="cta-button"
+                  disabled={saveWinnerMutation.isPending}
                   style={{
                     background: 'var(--nexus-gradient-royal)',
                     border: 'none',
@@ -349,11 +397,12 @@ export default function SparkActivity() {
                   }}
                   data-testid="button-partner1-won"
                 >
-                  Partner 1
+                  {partner1Name}
                 </button>
                 <button
                   onClick={() => handleWinnerSelect('partner2')}
                   className="cta-button"
+                  disabled={saveWinnerMutation.isPending}
                   style={{
                     background: 'var(--nexus-gradient-passion)',
                     border: 'none',
@@ -362,11 +411,12 @@ export default function SparkActivity() {
                   }}
                   data-testid="button-partner2-won"
                 >
-                  Partner 2
+                  {partner2Name}
                 </button>
                 <button
                   onClick={() => handleWinnerSelect('tie')}
                   className="cta-button"
+                  disabled={saveWinnerMutation.isPending}
                   style={{
                     background: 'rgba(255,255,255,0.15)',
                     border: '2px solid rgba(255,255,255,0.3)',
