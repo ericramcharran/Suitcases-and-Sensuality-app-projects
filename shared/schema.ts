@@ -132,6 +132,82 @@ export const verificationCodes = pgTable("verification_codes", {
   createdAt: timestamp("created_at").defaultNow(),
 });
 
+// Spark It! Tables
+export const sparkitCouples = pgTable("sparkit_couples", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  partner1Name: text("partner1_name").notNull(),
+  partner2Name: text("partner2_name").notNull(),
+  coupleCode: varchar("couple_code", { length: 10 }).unique().notNull(), // Unique code for couple pairing
+  emailOrPhone: text("email_or_phone"), // Optional for notifications
+  subscriptionPlan: text("subscription_plan").default('free'), // 'free' or 'premium'
+  stripeCustomerId: text("stripe_customer_id"),
+  stripeSubscriptionId: text("stripe_subscription_id"),
+  sparksRemaining: integer("sparks_remaining").default(3), // Free tier: 3 sparks/day
+  lastSparkReset: timestamp("last_spark_reset").defaultNow(),
+  createdAt: timestamp("created_at").defaultNow(),
+});
+
+export const sparkitActivityRatings = pgTable("sparkit_activity_ratings", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  coupleId: varchar("couple_id").notNull().references(() => sparkitCouples.id),
+  activityId: integer("activity_id").notNull(), // References the activity from activities.ts
+  activityTitle: text("activity_title").notNull(),
+  rating: text("rating").notNull(), // 'loved' or 'meh'
+  createdAt: timestamp("created_at").defaultNow(),
+});
+
+export const sparkitActivityResults = pgTable("sparkit_activity_results", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  coupleId: varchar("couple_id").notNull().references(() => sparkitCouples.id),
+  activityId: integer("activity_id").notNull(),
+  activityTitle: text("activity_title").notNull(),
+  winner: text("winner").notNull(), // 'partner1', 'partner2', or 'tie'
+  createdAt: timestamp("created_at").defaultNow(),
+});
+
+export const sparkitTriviaCategories = pgTable("sparkit_trivia_categories", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  name: text("name").notNull().unique(), // e.g., "General Knowledge", "Pop Culture", "Science"
+  description: text("description"),
+  icon: text("icon"), // Icon name from lucide-react
+  createdAt: timestamp("created_at").defaultNow(),
+});
+
+export const sparkitTriviaQuestions = pgTable("sparkit_trivia_questions", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  categoryId: varchar("category_id").notNull().references(() => sparkitTriviaCategories.id),
+  question: text("question").notNull(),
+  correctAnswer: text("correct_answer").notNull(),
+  wrongAnswer1: text("wrong_answer1").notNull(),
+  wrongAnswer2: text("wrong_answer2").notNull(),
+  wrongAnswer3: text("wrong_answer3").notNull(),
+  difficulty: text("difficulty").notNull(), // 'easy', 'medium', 'hard'
+  funFact: text("fun_fact"), // Optional fun fact shown after answering
+  createdAt: timestamp("created_at").defaultNow(),
+});
+
+export const sparkitTriviaContests = pgTable("sparkit_trivia_contests", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  coupleId: varchar("couple_id").notNull().references(() => sparkitCouples.id),
+  categoryId: varchar("category_id").notNull().references(() => sparkitTriviaCategories.id),
+  categoryName: text("category_name").notNull(),
+  senderId: text("sender_id").notNull(), // 'partner1' or 'partner2'
+  questionIds: jsonb("question_ids").$type<string[]>().notNull(), // Array of 5 question IDs
+  status: text("status").default('pending'), // 'pending', 'completed'
+  createdAt: timestamp("created_at").defaultNow(),
+});
+
+export const sparkitTriviaAnswers = pgTable("sparkit_trivia_answers", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  contestId: varchar("contest_id").notNull().references(() => sparkitTriviaContests.id),
+  coupleId: varchar("couple_id").notNull().references(() => sparkitCouples.id),
+  partner: text("partner").notNull(), // 'partner1' or 'partner2'
+  questionId: varchar("question_id").notNull().references(() => sparkitTriviaQuestions.id),
+  selectedAnswer: text("selected_answer").notNull(),
+  isCorrect: boolean("is_correct").notNull(),
+  createdAt: timestamp("created_at").defaultNow(),
+});
+
 export const insertVerificationCodeSchema = createInsertSchema(verificationCodes).omit({
   id: true,
   createdAt: true,
@@ -186,3 +262,55 @@ export type InsertPushSubscription = z.infer<typeof insertPushSubscriptionSchema
 export type PushSubscription = typeof pushSubscriptions.$inferSelect;
 export type InsertBdsmTestResults = z.infer<typeof insertBdsmTestResultsSchema>;
 export type BdsmTestResults = typeof bdsmTestResults.$inferSelect;
+
+// Spark It! Insert Schemas
+export const insertSparkitCoupleSchema = createInsertSchema(sparkitCouples).omit({
+  id: true,
+  createdAt: true,
+});
+
+export const insertSparkitActivityRatingSchema = createInsertSchema(sparkitActivityRatings).omit({
+  id: true,
+  createdAt: true,
+});
+
+export const insertSparkitActivityResultSchema = createInsertSchema(sparkitActivityResults).omit({
+  id: true,
+  createdAt: true,
+});
+
+export const insertSparkitTriviaCategorySchema = createInsertSchema(sparkitTriviaCategories).omit({
+  id: true,
+  createdAt: true,
+});
+
+export const insertSparkitTriviaQuestionSchema = createInsertSchema(sparkitTriviaQuestions).omit({
+  id: true,
+  createdAt: true,
+});
+
+export const insertSparkitTriviaContestSchema = createInsertSchema(sparkitTriviaContests).omit({
+  id: true,
+  createdAt: true,
+});
+
+export const insertSparkitTriviaAnswerSchema = createInsertSchema(sparkitTriviaAnswers).omit({
+  id: true,
+  createdAt: true,
+});
+
+// Spark It! Types
+export type InsertSparkitCouple = z.infer<typeof insertSparkitCoupleSchema>;
+export type SparkitCouple = typeof sparkitCouples.$inferSelect;
+export type InsertSparkitActivityRating = z.infer<typeof insertSparkitActivityRatingSchema>;
+export type SparkitActivityRating = typeof sparkitActivityRatings.$inferSelect;
+export type InsertSparkitActivityResult = z.infer<typeof insertSparkitActivityResultSchema>;
+export type SparkitActivityResult = typeof sparkitActivityResults.$inferSelect;
+export type InsertSparkitTriviaCategory = z.infer<typeof insertSparkitTriviaCategorySchema>;
+export type SparkitTriviaCategory = typeof sparkitTriviaCategories.$inferSelect;
+export type InsertSparkitTriviaQuestion = z.infer<typeof insertSparkitTriviaQuestionSchema>;
+export type SparkitTriviaQuestion = typeof sparkitTriviaQuestions.$inferSelect;
+export type InsertSparkitTriviaContest = z.infer<typeof insertSparkitTriviaContestSchema>;
+export type SparkitTriviaContest = typeof sparkitTriviaContests.$inferSelect;
+export type InsertSparkitTriviaAnswer = z.infer<typeof insertSparkitTriviaAnswerSchema>;
+export type SparkitTriviaAnswer = typeof sparkitTriviaAnswers.$inferSelect;
