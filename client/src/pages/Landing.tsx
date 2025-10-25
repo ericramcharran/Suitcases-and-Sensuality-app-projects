@@ -55,7 +55,7 @@ export default function Landing() {
   }, [isAnimating, destination, setLocation]);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-pink-50 via-purple-50 to-blue-50 dark:from-gray-950 dark:via-purple-950/20 dark:to-blue-950/20 flex flex-col justify-center items-center px-4 sm:px-6 py-8 sm:py-12 relative overflow-hidden">
+    <div className="min-h-screen bg-gradient-to-br from-pink-50 via-purple-50 to-blue-50 dark:from-gray-950 dark:via-purple-950/20 dark:to-blue-950/20 flex flex-col justify-center items-center px-4 sm:px-6 py-8 sm:py-12 relative">
       {/* Animated background particles */}
       {!shouldReduceMotion && (
         <div className="absolute inset-0 pointer-events-none overflow-hidden">
