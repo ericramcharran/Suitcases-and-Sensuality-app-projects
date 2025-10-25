@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Sparkles, Clock, DollarSign, MapPin, Heart, Share2, Zap } from "lucide-react";
+import { Sparkles, Clock, DollarSign, MapPin, Heart, Share2, Zap, Flame } from "lucide-react";
 import { useLocation } from "wouter";
 import { getRandomActivity, type Activity } from "../data/activities";
 import "../nexus-styles.css";
@@ -117,7 +117,9 @@ export default function SparkActivity() {
               {activity.category}
             </div>
             <div style={{ 
-              display: 'inline-block',
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '8px',
               padding: '8px 20px',
               borderRadius: '20px',
               background: activity.spiceLevel === 'PG-13' 
@@ -131,7 +133,7 @@ export default function SparkActivity() {
               fontSize: '0.9em',
               textTransform: 'uppercase'
             }}>
-              {activity.spiceLevel === 'PG-13' ? '🔥 ' : ''}
+              {activity.spiceLevel === 'PG-13' && <Flame size={16} />}
               {activity.spiceLevel}
             </div>
           </div>
