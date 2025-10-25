@@ -92,33 +92,16 @@ export default function Landing() {
       {/* Dramatic zoom vignette effect */}
       {isAnimating && (
         <>
-          {/* White flash at the start */}
+          {/* White flash at the start - HIGHEST Z-INDEX */}
           <motion.div
             initial={{ opacity: 0 }}
-            animate={{ opacity: [0, 0.8, 0] }}
-            transition={{ duration: 0.4 }}
-            className="absolute inset-0 z-50 pointer-events-none bg-white"
+            animate={{ opacity: [0, 1, 0] }}
+            transition={{ duration: 0.3 }}
+            className="absolute inset-0 z-[100] pointer-events-none bg-white"
           />
           
-          {/* Fast closing circular vignette */}
-          <motion.div
-            initial={{ 
-              opacity: 0,
-              clipPath: "circle(150% at 50% 50%)"
-            }}
-            animate={{ 
-              opacity: 1,
-              clipPath: "circle(0% at 50% 50%)"
-            }}
-            transition={{ 
-              opacity: { duration: 0.3 },
-              clipPath: { duration: 1.5, ease: "easeInOut", delay: 0.2 }
-            }}
-            className="absolute inset-0 z-40 pointer-events-none bg-black"
-          />
-          
-          {/* Particle burst effect */}
-          <div className="absolute inset-0 z-45 pointer-events-none">
+          {/* Particle burst effect - ABOVE VIGNETTE */}
+          <div className="absolute inset-0 z-[60] pointer-events-none">
             {Array.from({ length: 30 }).map((_, i) => {
               const angle = (i / 30) * Math.PI * 2;
               const distance = 200 + Math.random() * 200;
@@ -140,20 +123,34 @@ export default function Landing() {
                   }}
                 >
                   {i % 3 === 0 ? (
-                    <Heart className="w-6 h-6 text-pink-500" fill="currentColor" />
+                    <Heart className="w-8 h-8 text-pink-400" fill="currentColor" />
                   ) : i % 3 === 1 ? (
-                    <Star className="w-6 h-6 text-purple-500" fill="currentColor" />
+                    <Star className="w-8 h-8 text-purple-400" fill="currentColor" />
                   ) : (
-                    <Sparkles className="w-6 h-6 text-blue-500" />
+                    <Sparkles className="w-8 h-8 text-blue-400" />
                   )}
                 </motion.div>
               );
             })}
           </div>
+          
+          {/* Fast closing circular vignette - BELOW PARTICLES */}
+          <motion.div
+            initial={{ 
+              clipPath: "circle(150% at 50% 50%)"
+            }}
+            animate={{ 
+              clipPath: "circle(0% at 50% 50%)"
+            }}
+            transition={{ 
+              clipPath: { duration: 1.5, ease: "easeInOut", delay: 0.3 }
+            }}
+            className="absolute inset-0 z-[50] pointer-events-none bg-black"
+          />
         </>
       )}
 
-      <div className="w-full max-w-md mx-auto flex flex-col items-center relative z-10">
+      <div className="w-full max-w-md mx-auto flex flex-col items-center relative z-[70]">
         {/* Logo - rises to center with curve, then zooms into keyhole */}
         <motion.div
           className="mb-0 w-full px-4"
@@ -166,9 +163,10 @@ export default function Landing() {
             scale: 1, 
             y: 0 
           } : isAnimating ? {
-            scale: 5,
-            opacity: 0,
-            filter: "blur(20px)",
+            scale: 8,
+            opacity: [1, 1, 1, 0],
+            filter: ["blur(0px)", "blur(0px)", "blur(30px)", "blur(50px)"],
+            rotate: [0, 5, -5, 0],
           } : {}}
           transition={!isAnimating ? {
             type: "spring",
@@ -176,13 +174,14 @@ export default function Landing() {
             damping: 15,
             delay: 0.2,
           } : {
-            scale: { duration: 1.5, ease: [0.4, 0.0, 0.2, 1] },
-            opacity: { duration: 1.2, delay: 0.3 },
-            filter: { duration: 1.0, delay: 0.5 },
+            scale: { duration: 1.3, ease: [0.34, 1.56, 0.64, 1] },
+            opacity: { duration: 1.3, times: [0, 0.5, 0.8, 1] },
+            filter: { duration: 1.3, times: [0, 0.5, 0.8, 1] },
+            rotate: { duration: 1.3 },
           }}
         >
           <motion.div 
-            className="flex items-center justify-center overflow-hidden rounded-md mx-auto w-full max-w-md shadow-2xl" 
+            className="flex items-center justify-center overflow-visible rounded-md mx-auto w-full max-w-md" 
             style={{ 
               aspectRatio: '19 / 12'
             }}
@@ -192,11 +191,20 @@ export default function Landing() {
                 "0 0 40px rgba(168, 85, 247, 0.4)",
                 "0 0 20px rgba(59, 130, 246, 0.3)",
               ],
+            } : isAnimating ? {
+              boxShadow: [
+                "0 0 40px rgba(236, 72, 153, 0.8)",
+                "0 0 80px rgba(168, 85, 247, 1)",
+                "0 0 120px rgba(255, 255, 255, 1)",
+              ],
             } : {}}
-            transition={{
+            transition={!isAnimating ? {
               duration: 3,
               repeat: Infinity,
               ease: "easeInOut",
+            } : {
+              duration: 1.3,
+              times: [0, 0.5, 1],
             }}
           >
             <video 
