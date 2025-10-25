@@ -1,0 +1,291 @@
+/* NEXUS App Scoped Styles - all selectors prefixed with .nexus-app */
+
+/* Brand Colors */
+:root {
+    --nexus-gradient-royal: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    --nexus-gradient-passion: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+    --nexus-gradient-full: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #e74c3c 100%);
+    --nexus-purple-royal: #667eea;
+    --nexus-purple-deep: #764ba2;
+    --nexus-red-bright: #e74c3c;
+    --nexus-red-dark: #c0392b;
+    --nexus-black-deep: #0a0a0a;
+    --nexus-black-soft: #1a1a1a;
+}
+
+/* Base Scoped Container */
+.nexus-app {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+        'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+        sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    background: var(--nexus-black-deep);
+    color: white;
+    min-height: 100vh;
+}
+
+/* Icon Styling */
+.nexus-app .app-icon-unified {
+    border-radius: 22%;
+    box-shadow: 0 20px 60px rgba(231, 76, 60, 0.4);
+    transition: all 0.3s;
+    cursor: pointer;
+}
+
+.nexus-app .app-icon-unified:hover {
+    transform: scale(1.1) rotate(5deg);
+    box-shadow: 0 25px 80px rgba(231, 76, 60, 0.6);
+}
+
+/* Animations */
+@keyframes nexus-pulse {
+    0%, 100% { 
+        transform: scale(1); 
+        opacity: 0.3; 
+    }
+    50% { 
+        transform: scale(1.1); 
+        opacity: 0.5; 
+    }
+}
+
+@keyframes nexus-float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+}
+
+@keyframes nexus-fillBar {
+    from { width: 0; }
+}
+
+.nexus-app .hero::before {
+    animation: nexus-pulse 8s ease-in-out infinite;
+}
+
+.nexus-app .icon-container {
+    animation: nexus-float 3s ease-in-out infinite;
+}
+
+.nexus-app .icon-container:nth-child(2) { animation-delay: 0.5s; }
+.nexus-app .icon-container:nth-child(3) { animation-delay: 1s; }
+
+.nexus-app .compatibility-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--nexus-purple-royal) 0%, var(--nexus-red-bright) 100%);
+    border-radius: 10px;
+    animation: nexus-fillBar 2s ease-out;
+}
+
+/* CTA Button */
+.nexus-app .cta-button {
+    background: var(--nexus-gradient-passion);
+    color: white;
+    padding: 20px 40px;
+    border-radius: 50px;
+    border: none;
+    font-size: 1.2em;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 10px 30px rgba(231, 76, 60, 0.4);
+    transition: all 0.3s;
+}
+
+.nexus-app .cta-button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 15px 40px rgba(231, 76, 60, 0.6);
+}
+
+/* Feature Card */
+.nexus-app .feature-card {
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(231, 76, 60, 0.1) 100%);
+    padding: 40px;
+    border-radius: 20px;
+    border: 2px solid rgba(231, 76, 60, 0.2);
+    transition: all 0.3s;
+    position: relative;
+    overflow: hidden;
+}
+
+.nexus-app .feature-card:hover {
+    transform: translateY(-10px);
+    border-color: var(--nexus-red-bright);
+    box-shadow: 0 15px 40px rgba(231, 76, 60, 0.3);
+}
+
+/* Phone Mockup */
+.nexus-app .phone-mockup {
+    width: 300px;
+    height: 600px;
+    background: var(--nexus-black-soft);
+    border-radius: 40px;
+    padding: 15px;
+    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.5);
+    position: relative;
+}
+
+.nexus-app .phone-screen {
+    width: 100%;
+    height: 100%;
+    background: var(--nexus-black-deep);
+    border-radius: 30px;
+    overflow: hidden;
+}
+
+.nexus-app .screen-header {
+    padding: 30px 20px;
+    text-align: center;
+    background: var(--nexus-gradient-full);
+}
+
+.nexus-app .screen-header h2 {
+    margin-top: 10px;
+    font-size: 1.5em;
+    letter-spacing: 3px;
+}
+
+.nexus-app .screen-content {
+    padding: 20px;
+}
+
+.nexus-app .match-card {
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.15) 0%, rgba(231, 76, 60, 0.15) 100%);
+    padding: 25px;
+    border-radius: 20px;
+    margin-bottom: 15px;
+}
+
+.nexus-app .match-card h4 {
+    margin-bottom: 10px;
+    font-size: 1.1em;
+}
+
+.nexus-app .match-card p {
+    color: var(--nexus-red-bright);
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.nexus-app .compatibility-bar {
+    width: 100%;
+    height: 8px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+/* Hero Section */
+.nexus-app .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 40px 20px;
+    position: relative;
+    overflow: hidden;
+}
+
+.nexus-app .hero::before {
+    content: '';
+    position: absolute;
+    width: 600px;
+    height: 600px;
+    background: var(--nexus-gradient-full);
+    filter: blur(150px);
+    opacity: 0.3;
+    border-radius: 50%;
+    z-index: 0;
+}
+
+.nexus-app .hero-content {
+    position: relative;
+    z-index: 1;
+    max-width: 1200px;
+}
+
+.nexus-app .hero h1 {
+    font-size: 4em;
+    margin-bottom: 20px;
+    background: var(--nexus-gradient-full);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.nexus-app .hero p {
+    font-size: 1.5em;
+    margin-bottom: 40px;
+    color: rgba(255, 255, 255, 0.8);
+}
+
+/* Features Section */
+.nexus-app .features {
+    padding: 100px 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.nexus-app .features h2 {
+    font-size: 3em;
+    text-align: center;
+    margin-bottom: 60px;
+    background: var(--nexus-gradient-full);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.nexus-app .features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+}
+
+.nexus-app .feature-card h3 {
+    font-size: 1.8em;
+    margin-bottom: 15px;
+    color: var(--nexus-red-bright);
+}
+
+.nexus-app .feature-card p {
+    color: rgba(255, 255, 255, 0.7);
+    line-height: 1.6;
+}
+
+/* Demo Section */
+.nexus-app .demo {
+    padding: 100px 20px;
+    background: var(--nexus-black-soft);
+}
+
+.nexus-app .demo-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 60px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.nexus-app .demo-text {
+    flex: 1;
+    min-width: 300px;
+}
+
+.nexus-app .demo-text h2 {
+    font-size: 3em;
+    margin-bottom: 20px;
+    background: var(--nexus-gradient-full);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.nexus-app .demo-text p {
+    font-size: 1.2em;
+    color: rgba(255, 255, 255, 0.7);
+    margin-bottom: 30px;
+}

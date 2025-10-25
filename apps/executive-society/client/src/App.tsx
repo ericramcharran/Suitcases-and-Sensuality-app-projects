@@ -11,7 +11,6 @@ import { ScrollToTop } from "@/components/ScrollToTop";
 import Splash from "@/pages/Splash";
 import SplashScreen from "@/pages/SplashScreen";
 import Landing from "@/pages/Landing";
-import NexusLanding from "@/pages/NexusLanding";
 import Home from "@/pages/Home";
 import About from "@/pages/About";
 import Features from "@/pages/Features";
@@ -124,9 +123,6 @@ function App() {
               </Route>
               <Route path="/splash">
                 <PageTransition><Splash /></PageTransition>
-              </Route>
-              <Route path="/nexus">
-                <PageTransition><NexusLanding /></PageTransition>
               </Route>
               <Route path="/logo-crop">
                 <PageTransition><LogoCrop /></PageTransition>
