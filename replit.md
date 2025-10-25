@@ -8,15 +8,104 @@ The Executive Society is a premium BDSM dating platform designed for professiona
 
 ## 2. Spark It!
 
-Spark It! is a couples activity app designed to help couples combat boredom and keep their relationships exciting. Built using Replit and NEXUS technology. The platform features:
+Spark It! is a couples activity app that solves decision fatigue through simultaneous button press mechanics. Both partners press a button together to receive ONE instant activity—no browsing menus, no endless scrolling.
 
-- **Animated App Icon**: Pulsing nexus design with constellation theme (purple-to-red gradient)
-- **Brand Colors**: Purple royal (#667eea) to passion red (#e74c3c) gradients
-- **Landing Page**: Hero section, feature cards with icons, phone mockup demo, CTAs
-- **Design System**: All styles scoped under `.nexus-app` to prevent conflicts
-- **Route**: Accessible at `/nexus` path within the main application
+### Business Model
+
+**Target Market**: Couples aged 25-50 across various relationship types:
+- Long distance couples
+- Couples with kids
+- Empty nesters
+- Polyamorous relationships
+- Newly dating couples
+
+**Revenue Model**:
+- **Freemium**: 3 sparks per day (free forever)
+- **Premium**: $6.99/month for unlimited sparks
+- **Future Revenue**: Partner integrations with DoorDash, Amazon, Airbnb for activity bookings
+
+### Core Features Implemented
+
+**Landing Page** (`/nexus`):
+- Hero section with "Stop Scrolling. Start Connecting" messaging
+- Problem/solution sections addressing decision fatigue
+- Couple type cards showing target audiences
+- Pricing tiers (Free vs Premium)
+- Feature highlights with icons
+- CTAs to try the demo
+
+**Simultaneous Button Press** (`/spark`):
+- Dual-button interface simulating both partners
+- Real-time status showing who's ready
+- Freemium counter (3 sparks/day with daily reset)
+- localStorage persistence across sessions
+- Upgrade prompts when sparks depleted
+- Reset functionality during waiting state
+
+**Activity Reveal** (`/spark-activity`):
+- Beautiful reveal animation
+- Activity details (duration, cost, location, energy level)
+- Tips section for making it great
+- Save/Share functionality (planned)
+- "Just Do It!" CTA
+- Link to get another spark
+
+### Technical Implementation
+
+**Frontend**:
+- React 18+ with TypeScript
+- Vite for bundling
+- Wouter for routing
+- Custom NEXUS design system scoped under `.nexus-app` class
+- Brand colors: Purple royal (#667eea) to passion red (#e74c3c) gradients
+- All styling isolated to prevent conflicts with Executive Society
+
+**State Management**:
+- localStorage for spark counter (temporary, migrating to Firebase)
+- Daily automatic reset based on date comparison
+- Persistence across page navigations
+
+**Routes**:
+- `/nexus` - Landing page with marketing
+- `/spark` - Simultaneous button press interface
+- `/spark-activity` - Activity reveal screen
 
 **Architecture**: Spark It! is integrated as a route within the same Express/Vite application alongside The Executive Society, sharing the same server infrastructure but maintaining completely separate styling and branding.
+
+### Firebase Integration (Pending User Credentials)
+
+**Required Secrets**:
+- `VITE_FIREBASE_API_KEY`
+- `VITE_FIREBASE_AUTH_DOMAIN`
+- `VITE_FIREBASE_PROJECT_ID`
+- `VITE_FIREBASE_STORAGE_BUCKET`
+- `VITE_FIREBASE_MESSAGING_SENDER_ID`
+- `VITE_FIREBASE_APP_ID`
+
+**Planned Firebase Features**:
+1. **Firestore Database**:
+   - User profiles with couple type preferences
+   - Activity database with categories
+   - User activity history and favorites
+   - Spark usage tracking (replacing localStorage)
+
+2. **Realtime Database**:
+   - Synchronize button presses between partner devices
+   - Real-time waiting state for both users
+
+3. **Firebase Auth**:
+   - User authentication
+   - Partner linking/pairing
+   - Profile management
+
+### Activity Categories (Planned)
+
+Activities will be tagged for different couple types:
+- **Long Distance**: Virtual date ideas, care packages, video activities
+- **With Kids**: Family-friendly, quick activities, post-bedtime dates
+- **Empty Nest**: Adventure activities, travel ideas, hobby exploration
+- **Polyamorous**: Group activities, communication exercises, boundary setting
+- **Newly Dating**: Getting-to-know-you activities, first experiences, light commitment
 
 ## User Preferences
 
