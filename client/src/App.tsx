@@ -12,6 +12,8 @@ import Splash from "@/pages/Splash";
 import SplashScreen from "@/pages/SplashScreen";
 import Landing from "@/pages/Landing";
 import NexusLanding from "@/pages/NexusLanding";
+import SparkButton from "@/pages/SparkButton";
+import SparkActivity from "@/pages/SparkActivity";
 import Home from "@/pages/Home";
 import About from "@/pages/About";
 import Features from "@/pages/Features";
@@ -127,6 +129,12 @@ function App() {
               </Route>
               <Route path="/nexus">
                 <PageTransition><NexusLanding /></PageTransition>
+              </Route>
+              <Route path="/spark-button">
+                <PageTransition><SparkButton /></PageTransition>
+              </Route>
+              <Route path="/spark-activity">
+                <PageTransition><SparkActivity /></PageTransition>
               </Route>
               <Route path="/logo-crop">
                 <PageTransition><LogoCrop /></PageTransition>

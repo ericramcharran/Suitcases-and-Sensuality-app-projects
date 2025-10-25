@@ -1,8 +1,15 @@
 import AppIcon from "../components/AppIcon";
 import { Zap, Users, Sparkles, DollarSign, Clock, Heart } from "lucide-react";
+import { useLocation } from "wouter";
 import "../nexus-styles.css";
 
 export default function NexusLanding() {
+  const [, setLocation] = useLocation();
+
+  const handleGetStarted = () => {
+    setLocation("/spark-button");
+  };
+
   return (
     <div className="nexus-app" data-testid="nexus-landing">
       {/* Hero Section */}
@@ -16,7 +23,11 @@ export default function NexusLanding() {
           <p className="hero-subtext">
             Both press the button. Get one instant activity. No menus. No choices. Just do it.
           </p>
-          <button className="cta-button cta-button-large" data-testid="button-get-started">
+          <button 
+            onClick={handleGetStarted}
+            className="cta-button cta-button-large" 
+            data-testid="button-get-started"
+          >
             Try Spark It Free
           </button>
           <p className="hero-fine-print">3 free sparks/day • No credit card required</p>
@@ -120,7 +131,11 @@ export default function NexusLanding() {
               <li><Users size={20} /> Perfect for trying it out</li>
               <li><Heart size={20} /> All couple types supported</li>
             </ul>
-            <button className="pricing-button pricing-button-free" data-testid="button-start-free">
+            <button 
+              onClick={handleGetStarted}
+              className="pricing-button pricing-button-free" 
+              data-testid="button-start-free"
+            >
               Start Free
             </button>
           </div>
@@ -136,7 +151,11 @@ export default function NexusLanding() {
               <li><DollarSign size={20} /> Exclusive partner deals</li>
               <li><Heart size={20} /> Save favorite activities</li>
             </ul>
-            <button className="pricing-button pricing-button-premium" data-testid="button-upgrade-premium">
+            <button 
+              onClick={handleGetStarted}
+              className="pricing-button pricing-button-premium" 
+              data-testid="button-upgrade-premium"
+            >
               Upgrade to Premium
             </button>
           </div>
@@ -164,6 +183,7 @@ export default function NexusLanding() {
             Join thousands of couples who stopped scrolling and started connecting
           </p>
           <button 
+            onClick={handleGetStarted}
             className="cta-button cta-button-large" 
             data-testid="button-start-journey"
           >
