@@ -22,7 +22,7 @@ export default function SparkActivity() {
   }, []);
 
   // Fetch couple data
-  const { data: couple } = useQuery({
+  const { data: couple, isLoading: coupleLoading, isError: coupleError } = useQuery({
     queryKey: ["/api/sparkit/couples", coupleId],
     enabled: !!coupleId,
   });
@@ -100,6 +100,31 @@ export default function SparkActivity() {
 
   if (!activity) {
     return null; // Loading state
+  }
+
+  if (coupleError) {
+    return (
+      <div className="nexus-app" data-testid="spark-activity-page">
+        <section style={{ padding: '40px 20px', textAlign: 'center' }}>
+          <p style={{ fontSize: '1.2em', color: '#e74c3c', marginBottom: '20px' }}>
+            Error loading couple data. Please try again.
+          </p>
+          <button
+            onClick={() => setLocation("/spark")}
+            className="cta-button"
+            style={{
+              background: 'var(--nexus-gradient-passion)',
+              border: 'none',
+              padding: '18px 40px',
+              fontSize: '1.2em'
+            }}
+            data-testid="button-back-to-spark"
+          >
+            Back to Spark
+          </button>
+        </section>
+      </div>
+    );
   }
 
   const partner1Name = couple?.partner1Name || "Partner 1";

@@ -15,13 +15,13 @@ export default function Scoreboard() {
   }, []);
 
   // Fetch couple data
-  const { data: couple } = useQuery({
+  const { data: couple, isError: coupleError } = useQuery({
     queryKey: ["/api/sparkit/couples", coupleId],
     enabled: !!coupleId,
   });
 
   // Fetch scoreboard data
-  const { data: scoreboardData, isLoading } = useQuery({
+  const { data: scoreboardData, isLoading, isError: scoreboardError } = useQuery({
     queryKey: ["/api/sparkit/couples", coupleId, "scoreboard"],
     queryFn: async () => {
       if (!coupleId) return null;
@@ -52,6 +52,31 @@ export default function Scoreboard() {
             data-testid="button-signup"
           >
             Get Started
+          </button>
+        </section>
+      </div>
+    );
+  }
+
+  if (coupleError || scoreboardError) {
+    return (
+      <div className="nexus-app" data-testid="scoreboard-page">
+        <section style={{ padding: '40px 20px', textAlign: 'center' }}>
+          <p style={{ fontSize: '1.2em', color: '#e74c3c', marginBottom: '20px' }}>
+            Error loading scoreboard data. Please try again.
+          </p>
+          <button
+            onClick={() => setLocation("/spark")}
+            className="cta-button"
+            style={{
+              background: 'var(--nexus-gradient-passion)',
+              border: 'none',
+              padding: '18px 40px',
+              fontSize: '1.2em'
+            }}
+            data-testid="button-back-to-spark"
+          >
+            Back to Spark
           </button>
         </section>
       </div>

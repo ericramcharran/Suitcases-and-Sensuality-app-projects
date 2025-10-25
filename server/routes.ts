@@ -1397,11 +1397,17 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Get couple by code
-  app.get("/api/sparkit/couples/:code", async (req, res) => {
+  // Get couple by ID or code
+  app.get("/api/sparkit/couples/:id", async (req, res) => {
     try {
-      const { code } = req.params;
-      const couple = await storage.getCoupleByCode(code.toUpperCase());
+      const { id } = req.params;
+      
+      // Check if parameter is a couple code (6 chars, alphanumeric) or ID (UUID)
+      const isCode = /^[A-Z0-9]{6}$/.test(id.toUpperCase());
+      
+      const couple = isCode 
+        ? await storage.getCoupleByCode(id.toUpperCase())
+        : await storage.getCoupleById(id);
       
       if (!couple) {
         return res.status(404).json({ error: "Couple not found" });

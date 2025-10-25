@@ -104,7 +104,10 @@ export default function SparkitCoupleSignup() {
             <div className="text-center space-y-3">
               <div className="text-sm text-muted-foreground">Your Couple Code</div>
               <div className="relative">
-                <div className="text-4xl font-bold tracking-widest bg-gradient-to-r from-purple-600 to-rose-600 bg-clip-text text-transparent">
+                <div 
+                  className="text-4xl font-bold tracking-widest bg-gradient-to-r from-purple-600 to-rose-600 bg-clip-text text-transparent"
+                  data-testid="text-couple-code"
+                >
                   {couple.coupleCode}
                 </div>
               </div>

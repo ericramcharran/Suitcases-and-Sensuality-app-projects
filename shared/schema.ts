@@ -136,7 +136,7 @@ export const verificationCodes = pgTable("verification_codes", {
 export const sparkitCouples = pgTable("sparkit_couples", {
   id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
   partner1Name: text("partner1_name").notNull(),
-  partner2Name: text("partner2_name").notNull(),
+  partner2Name: text("partner2_name"), // Nullable - set when partner 2 joins
   coupleCode: varchar("couple_code", { length: 10 }).unique().notNull(), // Unique code for couple pairing
   emailOrPhone: text("email_or_phone"), // Optional for notifications
   subscriptionPlan: text("subscription_plan").default('free'), // 'free' or 'premium'
