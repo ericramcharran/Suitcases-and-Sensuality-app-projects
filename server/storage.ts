@@ -324,70 +324,81 @@ export class DatabaseStorage implements IStorage {
     const couple = await this.getCoupleById(id);
     if (!couple) return undefined;
 
-    // Check if we need to reset daily sparks
-    const today = new Date().toDateString();
-    const lastReset = couple.lastSparkReset ? new Date(couple.lastSparkReset).toDateString() : null;
-
-    if (lastReset !== today) {
-      // Reset to daily limit
-      return await this.resetDailySparks(id);
-    }
-
-    // For paid plans (monthly/yearly), allow unlimited sparks
-    if (couple.subscriptionPlan === 'monthly' || couple.subscriptionPlan === 'yearly') {
-      // Increment total sparks used for analytics
-      await db
-        .update(sparkitCouples)
-        .set({ totalSparksUsed: (couple.totalSparksUsed || 0) + 1 })
-        .where(eq(sparkitCouples.id, id));
-      return couple;
-    }
-
-    // For trial plan, check limits: 10 total sparks OR 7 days
+    // STEP 1: Check trial limits FIRST (before any resets or consumption)
     if (couple.subscriptionPlan === 'trial') {
       const totalUsed = couple.totalSparksUsed || 0;
       const daysOnTrial = couple.partner2JoinedAt 
         ? Math.floor((Date.now() - new Date(couple.partner2JoinedAt).getTime()) / (1000 * 60 * 60 * 24))
         : 0;
 
-      // Check if trial has expired
+      // Check if trial has expired (10 sparks OR 7 days)
       if (totalUsed >= 10 || daysOnTrial >= 7) {
-        await db
+        // Trial expired - set sparks to 0 and return
+        const result = await db
           .update(sparkitCouples)
-          .set({ 
-            subscriptionStatus: 'trial_expired',
-            sparksRemaining: 0
-          })
-          .where(eq(sparkitCouples.id, id));
-        const expired = await this.getCoupleById(id);
-        return expired;
+          .set({ sparksRemaining: 0 })
+          .where(eq(sparkitCouples.id, id))
+          .returning();
+        return result[0];
       }
+    }
 
-      // Use spark and increment total
-      if (couple.sparksRemaining && couple.sparksRemaining > 0) {
+    // STEP 2: Handle premium plans (unlimited sparks)
+    if (couple.subscriptionPlan === 'premium_monthly' || couple.subscriptionPlan === 'premium_yearly') {
+      // Premium users always have sparks available - set to 999 as sentinel for "unlimited"
+      const result = await db
+        .update(sparkitCouples)
+        .set({ 
+          totalSparksUsed: (couple.totalSparksUsed || 0) + 1,
+          sparksRemaining: 999 // Sentinel value for unlimited
+        })
+        .where(eq(sparkitCouples.id, id))
+        .returning();
+      return result[0];
+    }
+
+    // STEP 3: For trial plan, consume a spark if available (NO daily reset for trial)
+    if (couple.subscriptionPlan === 'trial') {
+      if (couple.sparksRemaining > 0) {
         const result = await db
           .update(sparkitCouples)
           .set({ 
             sparksRemaining: couple.sparksRemaining - 1,
-            totalSparksUsed: totalUsed + 1
+            totalSparksUsed: (couple.totalSparksUsed || 0) + 1
           })
           .where(eq(sparkitCouples.id, id))
           .returning();
         return result[0];
       }
+      // No sparks remaining
       return couple;
     }
 
-    // For free/premium plan, use a spark if available
-    if (couple.sparksRemaining > 0 || couple.subscriptionPlan === 'premium') {
-      const newSparksRemaining = couple.subscriptionPlan === 'premium' 
-        ? couple.sparksRemaining 
-        : couple.sparksRemaining - 1;
-
+    // STEP 4: Check if we need to reset daily sparks (for free plans only)
+    const today = new Date().toDateString();
+    const lastReset = couple.lastSparkReset ? new Date(couple.lastSparkReset).toDateString() : null;
+    
+    let currentSparksRemaining = couple.sparksRemaining;
+    if (lastReset !== today) {
+      // Reset daily sparks AND consume one spark atomically
       const result = await db
         .update(sparkitCouples)
         .set({ 
-          sparksRemaining: newSparksRemaining,
+          sparksRemaining: 2, // 3 - 1 (reset to 3, then immediately use 1)
+          lastSparkReset: new Date(),
+          totalSparksUsed: (couple.totalSparksUsed || 0) + 1
+        })
+        .where(eq(sparkitCouples.id, id))
+        .returning();
+      return result[0];
+    }
+
+    // STEP 5: For free plans, use a spark if available
+    if (currentSparksRemaining > 0) {
+      const result = await db
+        .update(sparkitCouples)
+        .set({ 
+          sparksRemaining: currentSparksRemaining - 1,
           totalSparksUsed: (couple.totalSparksUsed || 0) + 1
         })
         .where(eq(sparkitCouples.id, id))

@@ -12,8 +12,8 @@ export default function SparkitPricing() {
   const { toast } = useToast();
   const [selectedPlan, setSelectedPlan] = useState<"monthly" | "yearly">("yearly");
 
-  // Get couple ID from localStorage
-  const coupleId = localStorage.getItem("nexus_couple_id");
+  // Get couple ID from localStorage (same key as SparkButton)
+  const coupleId = localStorage.getItem("sparkitCoupleId");
 
   const subscribeMutation = useMutation({
     mutationFn: async (billingPeriod: "monthly" | "yearly") => {

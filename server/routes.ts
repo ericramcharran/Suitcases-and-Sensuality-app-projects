@@ -1386,8 +1386,13 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(400).json({ error: "This couple is already complete" });
       }
 
+      // When partner 2 joins, start the trial period with 10 total sparks
       const updatedCouple = await storage.updateCouple(couple.id, {
-        partner2Name
+        partner2Name,
+        partner2JoinedAt: new Date(),
+        subscriptionPlan: 'trial',
+        sparksRemaining: 10, // Trial gets 10 total sparks
+        totalSparksUsed: 0 // Reset counter
       });
 
       res.json(updatedCouple);
@@ -1428,6 +1433,15 @@ export async function registerRoutes(app: Express): Promise<Server> {
       
       if (!couple) {
         return res.status(404).json({ error: "Couple not found" });
+      }
+
+      // Check if trial has expired (0 sparks and still on trial plan)
+      if (couple.subscriptionPlan === 'trial' && couple.sparksRemaining === 0) {
+        return res.status(403).json({ 
+          error: "Trial limit reached",
+          message: "Your trial has ended. Please upgrade to premium to continue using Spark It!",
+          couple 
+        });
       }
 
       res.json(couple);
@@ -1623,7 +1637,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
             
             await storage.updateCouple(coupleId, {
               subscriptionPlan,
-              stripeSubscriptionId: session.subscription as string
+              stripeSubscriptionId: session.subscription as string,
+              sparksRemaining: 999 // Unlimited sparks for premium
             });
 
             console.log(`✅ Subscription activated for couple ${coupleId}: ${subscriptionPlan}`);
@@ -1647,11 +1662,14 @@ export async function registerRoutes(app: Express): Promise<Server> {
               
               await storage.updateCouple(couple.id, {
                 subscriptionPlan: plan,
-                stripeSubscriptionId: subscription.id
+                stripeSubscriptionId: subscription.id,
+                sparksRemaining: 999 // Unlimited sparks for premium
               });
             } else if (subscription.status === 'canceled' || subscription.status === 'unpaid') {
               await storage.updateCouple(couple.id, {
-                subscriptionPlan: 'trial'
+                subscriptionPlan: 'trial',
+                sparksRemaining: 10, // Trial gets 10 total sparks
+                totalSparksUsed: 0 // Reset trial counter
               });
             }
             console.log(`✅ Subscription updated for couple ${couple.id}: ${subscription.status}`);
@@ -1669,7 +1687,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
           if (couple) {
             await storage.updateCouple(couple.id, {
               subscriptionPlan: 'trial',
-              stripeSubscriptionId: null
+              stripeSubscriptionId: null,
+              sparksRemaining: 10, // Trial gets 10 total sparks
+              totalSparksUsed: 0 // Reset trial counter
             });
             console.log(`✅ Subscription canceled for couple ${couple.id}`);
           }

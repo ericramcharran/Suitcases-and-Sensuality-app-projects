@@ -29,10 +29,24 @@ export default function SparkButton() {
     mutationFn: async () => {
       if (!coupleId) throw new Error("No couple ID");
       const res = await apiRequest("POST", `/api/sparkit/couples/${coupleId}/use-spark`, {});
+      
+      // Check if request failed (403 = trial expired)
+      if (!res.ok) {
+        const error = await res.json();
+        throw new Error(error.message || "Failed to use spark");
+      }
+      
       return await res.json();
     },
     onSuccess: () => {
+      // Spark successfully used - navigate to activity page
       queryClient.invalidateQueries({ queryKey: ["/api/sparkit/couples", coupleId] });
+      setLocation("/spark-activity");
+    },
+    onError: (error: any) => {
+      // Trial expired or other error - navigate to pricing
+      console.error("Spark error:", error.message);
+      setLocation("/sparkit/pricing");
     },
   });
 
@@ -40,9 +54,8 @@ export default function SparkButton() {
   useEffect(() => {
     if (user1Pressed && user2Pressed && couple) {
       const timer = setTimeout(() => {
-        // Use a spark via API
+        // Use a spark via API - navigation handled in onSuccess/onError
         useSparkMutation.mutate();
-        setLocation("/spark-activity");
       }, 800);
 
       return () => clearTimeout(timer);
@@ -51,7 +64,7 @@ export default function SparkButton() {
 
   const handleUser1Press = () => {
     if (!couple || couple.sparksRemaining <= 0) {
-      setLocation("/sparkit#pricing");
+      setLocation("/sparkit/pricing");
       return;
     }
     setUser1Pressed(true);
@@ -59,7 +72,7 @@ export default function SparkButton() {
 
   const handleUser2Press = () => {
     if (!couple || couple.sparksRemaining <= 0) {
-      setLocation("/sparkit#pricing");
+      setLocation("/sparkit/pricing");
       return;
     }
     setUser2Pressed(true);
@@ -148,7 +161,19 @@ export default function SparkButton() {
   }
 
   const sparksRemaining = couple.sparksRemaining || 0;
-  const isPremium = couple.subscriptionPlan === 'premium';
+  const isPremium = couple.subscriptionPlan === 'premium_monthly' || couple.subscriptionPlan === 'premium_yearly';
+  const isOnTrial = couple.subscriptionPlan === 'trial';
+  
+  // Calculate trial status
+  const trialSparksUsed = couple.totalSparksUsed || 0;
+  const trialSparksRemaining = Math.max(0, 10 - trialSparksUsed);
+  
+  let trialDaysRemaining = 0;
+  if (couple.partner2JoinedAt && isOnTrial) {
+    const joinDate = new Date(couple.partner2JoinedAt);
+    const daysSinceJoin = Math.floor((Date.now() - joinDate.getTime()) / (1000 * 60 * 60 * 24));
+    trialDaysRemaining = Math.max(0, 7 - daysSinceJoin);
+  }
 
   return (
     <div className="nexus-app" data-testid="spark-button-page">
@@ -174,21 +199,28 @@ export default function SparkButton() {
             {couple.partner1Name} {couple.partner2Name ? `& ${couple.partner2Name}` : '(waiting for partner)'}
           </p>
         </div>
-        <div data-testid="sparks-remaining" style={{ 
-          display: 'flex', 
-          alignItems: 'center', 
-          gap: '10px',
-          color: sparksRemaining === 0 && !isPremium ? '#e74c3c' : 'rgba(255,255,255,0.8)'
-        }}>
-          <Zap size={20} color="#e74c3c" />
-          <span>
-            {isPremium 
-              ? 'Unlimited Sparks' 
-              : sparksRemaining === 0 
-                ? 'No sparks left today' 
-                : `${sparksRemaining} sparks left today`
-            }
-          </span>
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '5px' }}>
+          <div data-testid="sparks-remaining" style={{ 
+            display: 'flex', 
+            alignItems: 'center', 
+            gap: '10px',
+            color: sparksRemaining === 0 && !isPremium ? '#e74c3c' : 'rgba(255,255,255,0.8)'
+          }}>
+            <Zap size={20} color="#e74c3c" />
+            <span>
+              {isPremium 
+                ? 'Unlimited Sparks' 
+                : sparksRemaining === 0 
+                  ? 'Trial limit reached' 
+                  : `${sparksRemaining} sparks remaining`
+              }
+            </span>
+          </div>
+          {isOnTrial && couple.partner2JoinedAt && (
+            <div style={{ fontSize: '0.85em', color: 'rgba(255,255,255,0.5)' }} data-testid="trial-status">
+              Trial: {trialSparksUsed}/10 sparks used • {trialDaysRemaining} days left
+            </div>
+          )}
         </div>
       </div>
 
@@ -245,13 +277,15 @@ export default function SparkButton() {
                 maxWidth: '600px',
               }}>
                 <h3 style={{ color: '#e74c3c', fontSize: '1.8em', marginBottom: '15px' }}>
-                  Out of Sparks!
+                  Trial Limit Reached!
                 </h3>
                 <p style={{ color: 'rgba(255,255,255,0.9)', marginBottom: '20px', fontSize: '1.1em' }}>
-                  You've used your 3 free sparks today. Upgrade to Premium for unlimited sparks!
+                  {trialDaysRemaining === 0 
+                    ? "Your 7-day trial has ended. Upgrade to Premium for unlimited sparks!"
+                    : "You've used all 10 trial sparks. Upgrade to Premium for unlimited daily sparks!"}
                 </p>
                 <button
-                  onClick={() => setLocation("/sparkit#pricing")}
+                  onClick={() => setLocation("/sparkit/pricing")}
                   className="cta-button"
                   style={{
                     background: 'var(--nexus-gradient-passion)',
@@ -259,7 +293,7 @@ export default function SparkButton() {
                   }}
                   data-testid="button-upgrade-now"
                 >
-                  Upgrade to Premium
+                  View Premium Plans
                 </button>
               </div>
             )}
