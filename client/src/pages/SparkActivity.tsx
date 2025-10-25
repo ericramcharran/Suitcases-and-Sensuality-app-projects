@@ -95,20 +95,45 @@ export default function SparkActivity() {
             {activity.title}
           </h1>
 
-          {/* Category Badge */}
-          <div style={{ 
-            display: 'inline-block',
-            padding: '8px 20px',
-            borderRadius: '20px',
-            background: 'rgba(231, 76, 60, 0.2)',
-            border: '1px solid rgba(231, 76, 60, 0.4)',
+          {/* Category & Spice Level Badges */}
+          <div style={{
+            display: 'flex',
+            justifyContent: 'center',
+            gap: '15px',
             marginBottom: '30px',
-            color: '#e74c3c',
-            fontWeight: 'bold',
-            fontSize: '0.9em',
-            textTransform: 'uppercase'
+            flexWrap: 'wrap'
           }}>
-            {activity.category}
+            <div style={{ 
+              display: 'inline-block',
+              padding: '8px 20px',
+              borderRadius: '20px',
+              background: 'rgba(231, 76, 60, 0.2)',
+              border: '1px solid rgba(231, 76, 60, 0.4)',
+              color: '#e74c3c',
+              fontWeight: 'bold',
+              fontSize: '0.9em',
+              textTransform: 'uppercase'
+            }}>
+              {activity.category}
+            </div>
+            <div style={{ 
+              display: 'inline-block',
+              padding: '8px 20px',
+              borderRadius: '20px',
+              background: activity.spiceLevel === 'PG-13' 
+                ? 'rgba(255, 107, 107, 0.3)' 
+                : 'rgba(102, 126, 234, 0.2)',
+              border: activity.spiceLevel === 'PG-13'
+                ? '1px solid rgba(255, 107, 107, 0.5)'
+                : '1px solid rgba(102, 126, 234, 0.4)',
+              color: activity.spiceLevel === 'PG-13' ? '#ff6b6b' : '#667eea',
+              fontWeight: 'bold',
+              fontSize: '0.9em',
+              textTransform: 'uppercase'
+            }}>
+              {activity.spiceLevel === 'PG-13' ? '🔥 ' : ''}
+              {activity.spiceLevel}
+            </div>
           </div>
 
           {/* Activity Meta */}
