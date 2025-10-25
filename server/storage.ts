@@ -13,6 +13,12 @@ import {
   type InsertPushSubscription,
   type BdsmTestResults,
   type InsertBdsmTestResults,
+  type SparkitCouple,
+  type InsertSparkitCouple,
+  type SparkitActivityRating,
+  type InsertSparkitActivityRating,
+  type SparkitActivityResult,
+  type InsertSparkitActivityResult,
   users, 
   matches,
   personalityAnswers,
@@ -20,10 +26,13 @@ import {
   messages,
   pushSubscriptions,
   bdsmTestResults,
-  verificationCodes
+  verificationCodes,
+  sparkitCouples,
+  sparkitActivityRatings,
+  sparkitActivityResults
 } from "@shared/schema";
 import { db } from "./db";
-import { eq, and } from "drizzle-orm";
+import { eq, and, desc } from "drizzle-orm";
 
 export interface IStorage {
   // User operations
@@ -67,6 +76,28 @@ export interface IStorage {
   // Verification code operations
   createVerificationCode(emailOrPhone: string, code: string, type: 'email' | 'phone'): Promise<void>;
   verifyCode(emailOrPhone: string, code: string, type: 'email' | 'phone'): Promise<boolean>;
+  
+  // Spark It! Couple operations
+  createCouple(couple: InsertSparkitCouple): Promise<SparkitCouple>;
+  getCoupleByCode(coupleCode: string): Promise<SparkitCouple | undefined>;
+  getCoupleById(id: string): Promise<SparkitCouple | undefined>;
+  updateCouple(id: string, updates: Partial<InsertSparkitCouple>): Promise<SparkitCouple | undefined>;
+  useSpark(id: string): Promise<SparkitCouple | undefined>;
+  resetDailySparks(id: string): Promise<SparkitCouple | undefined>;
+  
+  // Spark It! Activity Rating operations
+  createActivityRating(rating: InsertSparkitActivityRating): Promise<SparkitActivityRating>;
+  getActivityRatingsByCoupleId(coupleId: string): Promise<SparkitActivityRating[]>;
+  
+  // Spark It! Activity Result operations
+  createActivityResult(result: InsertSparkitActivityResult): Promise<SparkitActivityResult>;
+  getActivityResultsByCoupleId(coupleId: string, limit?: number): Promise<SparkitActivityResult[]>;
+  getScoreboardStats(coupleId: string): Promise<{
+    partner1Wins: number;
+    partner2Wins: number;
+    ties: number;
+    totalActivities: number;
+  }>;
 }
 
 export class DatabaseStorage implements IStorage {
@@ -262,6 +293,122 @@ export class DatabaseStorage implements IStorage {
     }
 
     return false;
+  }
+
+  // Spark It! Couple operations
+  async createCouple(insertCouple: InsertSparkitCouple): Promise<SparkitCouple> {
+    const result = await db.insert(sparkitCouples).values(insertCouple).returning();
+    return result[0];
+  }
+
+  async getCoupleByCode(coupleCode: string): Promise<SparkitCouple | undefined> {
+    const result = await db.select().from(sparkitCouples).where(eq(sparkitCouples.coupleCode, coupleCode));
+    return result[0];
+  }
+
+  async getCoupleById(id: string): Promise<SparkitCouple | undefined> {
+    const result = await db.select().from(sparkitCouples).where(eq(sparkitCouples.id, id));
+    return result[0];
+  }
+
+  async updateCouple(id: string, updates: Partial<InsertSparkitCouple>): Promise<SparkitCouple | undefined> {
+    const result = await db
+      .update(sparkitCouples)
+      .set(updates as any)
+      .where(eq(sparkitCouples.id, id))
+      .returning();
+    return result[0];
+  }
+
+  async useSpark(id: string): Promise<SparkitCouple | undefined> {
+    const couple = await this.getCoupleById(id);
+    if (!couple) return undefined;
+
+    // Check if we need to reset daily sparks
+    const today = new Date().toDateString();
+    const lastReset = couple.lastSparkReset ? new Date(couple.lastSparkReset).toDateString() : null;
+
+    if (lastReset !== today) {
+      // Reset to daily limit
+      return await this.resetDailySparks(id);
+    }
+
+    // Use a spark if available
+    if (couple.sparksRemaining > 0 || couple.subscriptionPlan === 'premium') {
+      const newSparksRemaining = couple.subscriptionPlan === 'premium' 
+        ? couple.sparksRemaining 
+        : couple.sparksRemaining - 1;
+
+      const result = await db
+        .update(sparkitCouples)
+        .set({ sparksRemaining: newSparksRemaining })
+        .where(eq(sparkitCouples.id, id))
+        .returning();
+      return result[0];
+    }
+
+    return couple;
+  }
+
+  async resetDailySparks(id: string): Promise<SparkitCouple | undefined> {
+    const result = await db
+      .update(sparkitCouples)
+      .set({ 
+        sparksRemaining: 3,
+        lastSparkReset: new Date()
+      })
+      .where(eq(sparkitCouples.id, id))
+      .returning();
+    return result[0];
+  }
+
+  // Spark It! Activity Rating operations
+  async createActivityRating(insertRating: InsertSparkitActivityRating): Promise<SparkitActivityRating> {
+    const result = await db.insert(sparkitActivityRatings).values(insertRating).returning();
+    return result[0];
+  }
+
+  async getActivityRatingsByCoupleId(coupleId: string): Promise<SparkitActivityRating[]> {
+    return await db.select()
+      .from(sparkitActivityRatings)
+      .where(eq(sparkitActivityRatings.coupleId, coupleId))
+      .orderBy(desc(sparkitActivityRatings.createdAt));
+  }
+
+  // Spark It! Activity Result operations
+  async createActivityResult(insertResult: InsertSparkitActivityResult): Promise<SparkitActivityResult> {
+    const result = await db.insert(sparkitActivityResults).values(insertResult).returning();
+    return result[0];
+  }
+
+  async getActivityResultsByCoupleId(coupleId: string, limit: number = 10): Promise<SparkitActivityResult[]> {
+    return await db.select()
+      .from(sparkitActivityResults)
+      .where(eq(sparkitActivityResults.coupleId, coupleId))
+      .orderBy(desc(sparkitActivityResults.createdAt))
+      .limit(limit);
+  }
+
+  async getScoreboardStats(coupleId: string): Promise<{
+    partner1Wins: number;
+    partner2Wins: number;
+    ties: number;
+    totalActivities: number;
+  }> {
+    const results = await db.select()
+      .from(sparkitActivityResults)
+      .where(eq(sparkitActivityResults.coupleId, coupleId));
+
+    const partner1Wins = results.filter(r => r.winner === 'partner1').length;
+    const partner2Wins = results.filter(r => r.winner === 'partner2').length;
+    const ties = results.filter(r => r.winner === 'tie').length;
+
+    return {
+      partner1Wins,
+      partner2Wins,
+      ties,
+      totalActivities: results.length
+    };
   }
 }
 

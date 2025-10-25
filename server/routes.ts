@@ -1316,5 +1316,253 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // ============================================
+  // SPARK IT! COUPLE PAIRING API ROUTES
+  // ============================================
+
+  // Generate unique 6-character couple code
+  function generateCoupleCode(): string {
+    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+    let code = '';
+    for (let i = 0; i < 6; i++) {
+      code += chars.charAt(Math.floor(Math.random() * chars.length));
+    }
+    return code;
+  }
+
+  // Create a new couple (first partner signs up)
+  app.post("/api/sparkit/couples", async (req, res) => {
+    try {
+      const { partner1Name } = req.body;
+      
+      if (!partner1Name) {
+        return res.status(400).json({ error: "Partner name is required" });
+      }
+
+      // Generate unique couple code
+      let coupleCode = generateCoupleCode();
+      let existingCouple = await storage.getCoupleByCode(coupleCode);
+      
+      // Ensure code is unique
+      while (existingCouple) {
+        coupleCode = generateCoupleCode();
+        existingCouple = await storage.getCoupleByCode(coupleCode);
+      }
+
+      const couple = await storage.createCouple({
+        coupleCode,
+        partner1Name,
+        partner2Name: null,
+        subscriptionPlan: 'free',
+        sparksRemaining: 3,
+        lastSparkReset: new Date(),
+        stripeCustomerId: null,
+        stripeSubscriptionId: null
+      });
+
+      res.json(couple);
+    } catch (error) {
+      console.error('Create couple error:', error);
+      res.status(500).json({ error: "Failed to create couple" });
+    }
+  });
+
+  // Join a couple (second partner uses code)
+  app.post("/api/sparkit/couples/join", async (req, res) => {
+    try {
+      const { coupleCode, partner2Name } = req.body;
+      
+      if (!coupleCode || !partner2Name) {
+        return res.status(400).json({ error: "Couple code and partner name are required" });
+      }
+
+      const couple = await storage.getCoupleByCode(coupleCode.toUpperCase());
+      
+      if (!couple) {
+        return res.status(404).json({ error: "Invalid couple code" });
+      }
+
+      if (couple.partner2Name) {
+        return res.status(400).json({ error: "This couple is already complete" });
+      }
+
+      const updatedCouple = await storage.updateCouple(couple.id, {
+        partner2Name
+      });
+
+      res.json(updatedCouple);
+    } catch (error) {
+      console.error('Join couple error:', error);
+      res.status(500).json({ error: "Failed to join couple" });
+    }
+  });
+
+  // Get couple by code
+  app.get("/api/sparkit/couples/:code", async (req, res) => {
+    try {
+      const { code } = req.params;
+      const couple = await storage.getCoupleByCode(code.toUpperCase());
+      
+      if (!couple) {
+        return res.status(404).json({ error: "Couple not found" });
+      }
+
+      res.json(couple);
+    } catch (error) {
+      console.error('Get couple error:', error);
+      res.status(500).json({ error: "Failed to get couple" });
+    }
+  });
+
+  // Use a spark
+  app.post("/api/sparkit/couples/:id/use-spark", async (req, res) => {
+    try {
+      const { id } = req.params;
+      const couple = await storage.useSpark(id);
+      
+      if (!couple) {
+        return res.status(404).json({ error: "Couple not found" });
+      }
+
+      res.json(couple);
+    } catch (error) {
+      console.error('Use spark error:', error);
+      res.status(500).json({ error: "Failed to use spark" });
+    }
+  });
+
+  // Create activity rating
+  app.post("/api/sparkit/activity-ratings", async (req, res) => {
+    try {
+      const { coupleId, activityId, rating } = req.body;
+      
+      if (!coupleId || !activityId || !rating) {
+        return res.status(400).json({ error: "Missing required fields" });
+      }
+
+      const activityRating = await storage.createActivityRating({
+        coupleId,
+        activityId,
+        rating
+      });
+
+      res.json(activityRating);
+    } catch (error) {
+      console.error('Create rating error:', error);
+      res.status(500).json({ error: "Failed to create rating" });
+    }
+  });
+
+  // Create activity result (winner selection)
+  app.post("/api/sparkit/activity-results", async (req, res) => {
+    try {
+      const { coupleId, activityId, winner } = req.body;
+      
+      if (!coupleId || !activityId || !winner) {
+        return res.status(400).json({ error: "Missing required fields" });
+      }
+
+      const result = await storage.createActivityResult({
+        coupleId,
+        activityId,
+        winner
+      });
+
+      res.json(result);
+    } catch (error) {
+      console.error('Create result error:', error);
+      res.status(500).json({ error: "Failed to create result" });
+    }
+  });
+
+  // Get scoreboard stats
+  app.get("/api/sparkit/couples/:id/scoreboard", async (req, res) => {
+    try {
+      const { id } = req.params;
+      const stats = await storage.getScoreboardStats(id);
+      const recentResults = await storage.getActivityResultsByCoupleId(id, 10);
+      
+      res.json({
+        stats,
+        recentResults
+      });
+    } catch (error) {
+      console.error('Get scoreboard error:', error);
+      res.status(500).json({ error: "Failed to get scoreboard" });
+    }
+  });
+
+  // Stripe subscription for couples (from blueprint:javascript_stripe)
+  app.post('/api/sparkit/create-subscription', async (req, res) => {
+    if (!stripe) {
+      return res.status(500).json({ error: "Stripe is not configured" });
+    }
+
+    try {
+      const { coupleId, email } = req.body;
+      
+      if (!coupleId || !email) {
+        return res.status(400).json({ error: "Couple ID and email are required" });
+      }
+
+      const couple = await storage.getCoupleById(coupleId);
+      if (!couple) {
+        return res.status(404).json({ error: "Couple not found" });
+      }
+
+      // If couple already has a subscription, return existing
+      if (couple.stripeSubscriptionId) {
+        const subscription = await stripe.subscriptions.retrieve(couple.stripeSubscriptionId);
+        const invoice = await stripe.invoices.retrieve(subscription.latest_invoice as string);
+        const paymentIntent = await stripe.paymentIntents.retrieve(invoice.payment_intent as string);
+
+        return res.json({
+          subscriptionId: subscription.id,
+          clientSecret: paymentIntent.client_secret,
+        });
+      }
+
+      // Create new Stripe customer
+      const customer = await stripe.customers.create({
+        email,
+        metadata: {
+          coupleId: coupleId,
+          partner1: couple.partner1Name,
+          partner2: couple.partner2Name || 'Pending'
+        }
+      });
+
+      // Create subscription (you'll need to set STRIPE_PRICE_ID in environment)
+      const priceId = process.env.STRIPE_PRICE_ID || 'price_1234'; // Placeholder
+      const subscription = await stripe.subscriptions.create({
+        customer: customer.id,
+        items: [{
+          price: priceId, // This should be your actual Stripe price ID for $6.99/month
+        }],
+        payment_behavior: 'default_incomplete',
+        payment_settings: { save_default_payment_method: 'on_subscription' },
+        expand: ['latest_invoice.payment_intent'],
+      });
+
+      // Update couple with Stripe IDs
+      await storage.updateCouple(coupleId, {
+        stripeCustomerId: customer.id,
+        stripeSubscriptionId: subscription.id,
+        subscriptionPlan: 'premium'
+      });
+
+      const invoice = subscription.latest_invoice as any;
+      const paymentIntent = invoice.payment_intent;
+
+      res.json({
+        subscriptionId: subscription.id,
+        clientSecret: paymentIntent.client_secret,
+      });
+    } catch (error: any) {
+      console.error('Subscription error:', error);
+      return res.status(400).json({ error: error.message });
+    }
+  });
+
   return httpServer;
 }
