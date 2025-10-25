@@ -75,7 +75,7 @@ export default function Consent() {
   }, [agreed, setLocation]);
 
   return (
-    <div className="min-h-screen bg-muted p-6">
+    <div className="h-screen bg-muted p-6 overflow-y-auto">
       <button
         data-testid="button-back"
         onClick={() => setLocation("/terms")}

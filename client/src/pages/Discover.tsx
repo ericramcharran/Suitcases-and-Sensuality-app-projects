@@ -384,7 +384,7 @@ export default function Discover() {
   }
 
   return (
-    <div className="min-h-screen bg-background flex flex-col">
+    <div className="h-screen bg-background flex flex-col overflow-hidden">
       {/* Particle Effects */}
       <ParticleEffect type="like" trigger={likeParticleTrigger} />
       <ParticleEffect type="pass" trigger={passParticleTrigger} />

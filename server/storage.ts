@@ -35,6 +35,7 @@ export interface IStorage {
   
   // Match operations
   createMatch(match: InsertMatch): Promise<Match>;
+  getMatch(matchId: string): Promise<Match | undefined>;
   getMatches(userId: string): Promise<Match[]>;
   getMutualMatches(userId: string): Promise<Match[]>;
   checkMutualMatch(userId: string, targetUserId: string): Promise<Match | undefined>;
@@ -119,6 +120,11 @@ export class DatabaseStorage implements IStorage {
         .where(eq(matches.id, reciprocalMatch.id));
     }
     
+    return result[0];
+  }
+
+  async getMatch(matchId: string): Promise<Match | undefined> {
+    const result = await db.select().from(matches).where(eq(matches.id, matchId));
     return result[0];
   }
 

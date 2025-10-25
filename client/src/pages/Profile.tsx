@@ -347,8 +347,8 @@ export default function Profile() {
   };
 
   return (
-    <div className="min-h-screen bg-background flex flex-col">
-      <div className="max-w-md mx-auto w-full flex flex-col pb-20">
+    <div className="h-screen bg-background flex flex-col overflow-hidden">
+      <div className="max-w-md mx-auto w-full flex flex-col pb-20 overflow-y-auto">
         {/* Header */}
         <div className="p-3 sm:p-4 border-b border-border bg-background flex justify-between items-center">
           <h2 className="text-xl sm:text-2xl font-light text-foreground">Profile</h2>

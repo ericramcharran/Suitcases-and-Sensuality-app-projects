@@ -18,7 +18,7 @@ export default function MatchResult() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-pink-50 via-purple-50 to-blue-50 dark:from-background dark:via-background dark:to-background flex items-center justify-center p-4 sm:p-6 relative overflow-hidden">
+    <div className="h-screen bg-gradient-to-br from-pink-50 via-purple-50 to-blue-50 dark:from-background dark:via-background dark:to-background flex items-center justify-center p-4 sm:p-6 relative overflow-hidden">
       {/* Celebration particles */}
       <CelebrationEffect show={showCelebration} />
 

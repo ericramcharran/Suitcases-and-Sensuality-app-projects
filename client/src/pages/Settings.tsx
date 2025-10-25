@@ -82,7 +82,7 @@ export default function Settings() {
   }, [setLocation]);
 
   return (
-    <div className="min-h-screen bg-muted p-4 sm:p-6">
+    <div className="h-screen bg-muted p-4 sm:p-6 overflow-y-auto">
       <button
         data-testid="button-back"
         onClick={handleBack}

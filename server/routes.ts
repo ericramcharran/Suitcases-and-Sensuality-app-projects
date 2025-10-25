@@ -998,6 +998,24 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   // Message API Routes
   
+  // Get match details by matchId
+  app.get("/api/matches/:matchId", async (req, res) => {
+    try {
+      const matchId = req.params.matchId;
+      const match = await storage.getMatch(matchId);
+      
+      if (!match) {
+        res.status(404).json({ error: "Match not found" });
+        return;
+      }
+      
+      res.json(match);
+    } catch (error) {
+      console.error('Get match error:', error);
+      res.status(500).json({ error: "Failed to get match" });
+    }
+  });
+  
   // Get all conversations for a user (from mutual matches)
   app.get("/api/messages/conversations/:userId", async (req, res) => {
     try {

@@ -32,7 +32,7 @@ export default function Messages() {
   const totalUnread = conversations.filter(c => c.unreadCount > 0).length;
 
   return (
-    <div className="min-h-screen bg-background flex flex-col">
+    <div className="h-screen bg-background flex flex-col overflow-hidden">
       <div className="max-w-md mx-auto h-screen w-full flex flex-col">
         {/* Header */}
         <div className="p-4 border-b border-border bg-background">

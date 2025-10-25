@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useMemo } from "react";
 import { useRoute, useLocation } from "wouter";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { ArrowLeft, Send } from "lucide-react";
@@ -34,18 +34,30 @@ export default function Chat() {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const wsRef = useRef<WebSocket | null>(null);
 
+  // Fetch match details
+  const { data: match, isLoading: isLoadingMatch } = useQuery<Match>({
+    queryKey: [`/api/matches/${matchId}`],
+    enabled: !!matchId,
+  });
+
+  // Get the other user's ID from the match (handle both directions)
+  // Use useMemo to prevent flip-flopping on re-renders
+  const otherUserId = useMemo(() => {
+    if (!match || !currentUserId) return null;
+    
+    if (match.userId === currentUserId) {
+      return match.targetUserId;
+    } else if (match.targetUserId === currentUserId) {
+      return match.userId;
+    }
+    return null;
+  }, [match, currentUserId]);
+
   // Fetch messages for this match
   const { data: messages = [], isLoading } = useQuery<Message[]>({
     queryKey: ['/api/messages', matchId],
     enabled: !!matchId,
   });
-
-  // Get the other user's info from the first message
-  const otherUserId = messages[0]
-    ? messages[0].senderId === currentUserId
-      ? messages[0].receiverId
-      : messages[0].senderId
-    : null;
 
   interface UserData {
     id: string;
@@ -149,9 +161,9 @@ export default function Chat() {
     }
   };
 
-  if (isLoading) {
+  if (isLoading || isLoadingMatch) {
     return (
-      <div className="min-h-screen bg-background flex items-center justify-center">
+      <div className="h-screen bg-background flex items-center justify-center">
         <div className="text-muted-foreground">Loading conversation...</div>
       </div>
     );
@@ -252,7 +264,7 @@ export default function Chat() {
             />
             <Button
               onClick={handleSend}
-              disabled={!messageText.trim() || sendMessageMutation.isPending}
+              disabled={!messageText.trim() || sendMessageMutation.isPending || !otherUserId}
               size="icon"
               data-testid="button-send"
             >
