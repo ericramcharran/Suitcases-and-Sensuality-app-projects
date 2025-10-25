@@ -254,28 +254,344 @@
     line-height: 1.6;
 }
 
-/* Demo Section */
-.nexus-app .demo {
+/* Hero Additions */
+.nexus-app .hero-tagline {
+    font-size: 2em;
+    font-weight: bold;
+    margin-bottom: 15px;
+    color: white;
+}
+
+.nexus-app .hero-subtext {
+    font-size: 1.3em;
+    color: rgba(255, 255, 255, 0.85);
+    max-width: 700px;
+    margin: 0 auto 40px;
+    line-height: 1.6;
+}
+
+.nexus-app .hero-fine-print {
+    margin-top: 20px;
+    font-size: 0.9em;
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.nexus-app .cta-button-large {
+    font-size: 1.5em;
+    padding: 25px 60px;
+}
+
+/* Problem/Solution Section */
+.nexus-app .problem-solution {
     padding: 100px 20px;
     background: var(--nexus-black-soft);
 }
 
-.nexus-app .demo-content {
+.nexus-app .problem-solution-content {
     max-width: 1200px;
     margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: 40px;
+}
+
+.nexus-app .problem-box,
+.nexus-app .solution-box {
+    padding: 50px;
+    border-radius: 20px;
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    transition: all 0.3s;
+}
+
+.nexus-app .problem-box {
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(102, 126, 234, 0.05) 100%);
+}
+
+.nexus-app .solution-box {
+    background: linear-gradient(135deg, rgba(231, 76, 60, 0.1) 0%, rgba(231, 76, 60, 0.05) 100%);
+    border-color: rgba(231, 76, 60, 0.3);
+}
+
+.nexus-app .problem-box:hover,
+.nexus-app .solution-box:hover {
+    transform: translateY(-10px);
+    border-color: var(--nexus-red-bright);
+    box-shadow: 0 20px 50px rgba(231, 76, 60, 0.3);
+}
+
+.nexus-app .problem-box h2,
+.nexus-app .solution-box h2 {
+    font-size: 2.5em;
+    margin-bottom: 20px;
+    background: var(--nexus-gradient-full);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.nexus-app .problem-box p,
+.nexus-app .solution-box p {
+    font-size: 1.2em;
+    color: rgba(255, 255, 255, 0.8);
+    line-height: 1.8;
+}
+
+/* How It Works Section */
+.nexus-app .how-it-works {
+    padding: 100px 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.nexus-app .how-it-works h2 {
+    font-size: 3em;
+    text-align: center;
+    margin-bottom: 60px;
+    background: var(--nexus-gradient-full);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.nexus-app .steps-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 40px;
+}
+
+.nexus-app .step-card {
+    text-align: center;
+    padding: 40px;
+    border-radius: 20px;
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(231, 76, 60, 0.1) 100%);
+    border: 2px solid rgba(231, 76, 60, 0.2);
+    transition: all 0.3s;
+    position: relative;
+}
+
+.nexus-app .step-card:hover {
+    transform: translateY(-10px);
+    border-color: var(--nexus-red-bright);
+    box-shadow: 0 15px 40px rgba(231, 76, 60, 0.3);
+}
+
+.nexus-app .step-number {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: var(--nexus-gradient-passion);
     display: flex;
     align-items: center;
-    gap: 60px;
-    flex-wrap: wrap;
     justify-content: center;
+    font-size: 1.5em;
+    font-weight: bold;
 }
 
-.nexus-app .demo-text {
-    flex: 1;
-    min-width: 300px;
+.nexus-app .step-card h3 {
+    font-size: 2em;
+    margin: 20px 0 15px;
+    color: var(--nexus-red-bright);
 }
 
-.nexus-app .demo-text h2 {
+.nexus-app .step-card p {
+    color: rgba(255, 255, 255, 0.7);
+    line-height: 1.6;
+}
+
+/* Couple Types Section */
+.nexus-app .couple-types {
+    padding: 100px 20px;
+    background: var(--nexus-black-soft);
+}
+
+.nexus-app .couple-types h2 {
+    font-size: 3em;
+    text-align: center;
+    margin-bottom: 60px;
+    background: var(--nexus-gradient-full);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.nexus-app .couple-types-grid {
+    max-width: 1000px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 30px;
+}
+
+.nexus-app .couple-type-card {
+    padding: 30px;
+    border-radius: 15px;
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(231, 76, 60, 0.1) 100%);
+    border: 2px solid rgba(231, 76, 60, 0.2);
+    text-align: center;
+    transition: all 0.3s;
+}
+
+.nexus-app .couple-type-card:hover {
+    transform: translateY(-5px);
+    border-color: var(--nexus-red-bright);
+    box-shadow: 0 10px 30px rgba(231, 76, 60, 0.3);
+}
+
+.nexus-app .couple-type-card h4 {
+    font-size: 1.5em;
+    margin: 15px 0 10px;
+    color: white;
+}
+
+.nexus-app .couple-type-card p {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.95em;
+    line-height: 1.5;
+}
+
+/* Pricing Section */
+.nexus-app .pricing {
+    padding: 100px 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.nexus-app .pricing h2 {
+    font-size: 3em;
+    text-align: center;
+    margin-bottom: 60px;
+    background: var(--nexus-gradient-full);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.nexus-app .pricing-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 40px;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.nexus-app .pricing-card {
+    padding: 50px 40px;
+    border-radius: 20px;
+    border: 2px solid rgba(231, 76, 60, 0.2);
+    text-align: center;
+    transition: all 0.3s;
+    position: relative;
+}
+
+.nexus-app .pricing-free {
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(102, 126, 234, 0.05) 100%);
+}
+
+.nexus-app .pricing-premium {
+    background: linear-gradient(135deg, rgba(231, 76, 60, 0.15) 0%, rgba(231, 76, 60, 0.05) 100%);
+    border-color: var(--nexus-red-bright);
+}
+
+.nexus-app .pricing-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 50px rgba(231, 76, 60, 0.3);
+}
+
+.nexus-app .pricing-badge {
+    position: absolute;
+    top: -15px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--nexus-gradient-passion);
+    padding: 8px 20px;
+    border-radius: 20px;
+    font-size: 0.85em;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+.nexus-app .pricing-card h3 {
+    font-size: 2em;
+    margin-bottom: 20px;
+    color: white;
+}
+
+.nexus-app .price {
+    font-size: 4em;
+    font-weight: bold;
+    background: var(--nexus-gradient-full);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 5px;
+}
+
+.nexus-app .price-period {
+    color: rgba(255, 255, 255, 0.6);
+    margin-bottom: 30px;
+}
+
+.nexus-app .pricing-features {
+    list-style: none;
+    padding: 0;
+    margin: 30px 0;
+    text-align: left;
+}
+
+.nexus-app .pricing-features li {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 0;
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 1.1em;
+}
+
+.nexus-app .pricing-button {
+    width: 100%;
+    padding: 18px 40px;
+    border-radius: 50px;
+    border: none;
+    font-size: 1.2em;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s;
+    margin-top: 20px;
+}
+
+.nexus-app .pricing-button-free {
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+}
+
+.nexus-app .pricing-button-free:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: translateY(-3px);
+}
+
+.nexus-app .pricing-button-premium {
+    background: var(--nexus-gradient-passion);
+    color: white;
+    box-shadow: 0 10px 30px rgba(231, 76, 60, 0.4);
+}
+
+.nexus-app .pricing-button-premium:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 15px 40px rgba(231, 76, 60, 0.6);
+}
+
+/* Partners Section */
+.nexus-app .partners {
+    padding: 100px 20px;
+    text-align: center;
+    background: var(--nexus-black-soft);
+}
+
+.nexus-app .partners h2 {
     font-size: 3em;
     margin-bottom: 20px;
     background: var(--nexus-gradient-full);
@@ -284,8 +600,24 @@
     background-clip: text;
 }
 
-.nexus-app .demo-text p {
+.nexus-app .partners-subtitle {
     font-size: 1.2em;
     color: rgba(255, 255, 255, 0.7);
-    margin-bottom: 30px;
+    margin-bottom: 50px;
+}
+
+.nexus-app .partners-logos {
+    display: flex;
+    justify-content: center;
+    gap: 60px;
+    flex-wrap: wrap;
+}
+
+.nexus-app .partner-logo {
+    font-size: 2em;
+    font-weight: bold;
+    color: rgba(255, 255, 255, 0.4);
+    padding: 20px 40px;
+    border: 2px dashed rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
 }

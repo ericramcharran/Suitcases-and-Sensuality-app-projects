@@ -1,5 +1,5 @@
 import AppIcon from "../components/AppIcon";
-import { Sparkles, Heart, Calendar, Lightbulb, Gamepad2, Coffee } from "lucide-react";
+import { Zap, Users, Sparkles, DollarSign, Clock, Heart } from "lucide-react";
 import "../nexus-styles.css";
 
 export default function NexusLanding() {
@@ -12,154 +12,164 @@ export default function NexusLanding() {
             <AppIcon size={300} />
           </div>
           <h1>Spark It!</h1>
-          <p>Never Run Out of Date Ideas Again</p>
-          <button className="cta-button" data-testid="button-get-started">
-            Get Started
+          <p className="hero-tagline">Stop Scrolling. Start Connecting.</p>
+          <p className="hero-subtext">
+            Both press the button. Get one instant activity. No menus. No choices. Just do it.
+          </p>
+          <button className="cta-button cta-button-large" data-testid="button-get-started">
+            Try Spark It Free
           </button>
+          <p className="hero-fine-print">3 free sparks/day • No credit card required</p>
         </div>
       </section>
 
-      {/* Features Section */}
-      <section className="features">
-        <h2>Beat Boredom Together</h2>
-        <div className="features-grid">
-          <div className="feature-card">
-            <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '15px' }}>
-              <Lightbulb size={32} color="#e74c3c" />
-              <h3>Endless Ideas</h3>
-            </div>
+      {/* Problem/Solution Section */}
+      <section className="problem-solution">
+        <div className="problem-solution-content">
+          <div className="problem-box">
+            <h2>The Problem</h2>
             <p>
-              From adventurous outings to cozy nights in, discover thousands of 
-              activities perfectly suited for couples.
+              You spend hours scrolling on phones next to each other instead of connecting. 
+              You want to do something together, but decision fatigue stops you every time.
             </p>
           </div>
           
-          <div className="feature-card">
-            <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '15px' }}>
-              <Sparkles size={32} color="#e74c3c" />
-              <h3>Personalized Suggestions</h3>
-            </div>
+          <div className="solution-box">
+            <h2>The Solution</h2>
             <p>
-              Get activity recommendations based on your interests, budget, 
-              and available time together.
-            </p>
-          </div>
-          
-          <div className="feature-card">
-            <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '15px' }}>
-              <Calendar size={32} color="#e74c3c" />
-              <h3>Plan Together</h3>
-            </div>
-            <p>
-              Save favorite activities, schedule date nights, and keep track 
-              of your couple adventures.
-            </p>
-          </div>
-          
-          <div className="feature-card">
-            <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '15px' }}>
-              <Gamepad2 size={32} color="#e74c3c" />
-              <h3>Fun Challenges</h3>
-            </div>
-            <p>
-              Spice things up with couple challenges, games, and conversation 
-              starters to deepen your connection.
-            </p>
-          </div>
-          
-          <div className="feature-card">
-            <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '15px' }}>
-              <Coffee size={32} color="#e74c3c" />
-              <h3>Quick Picks</h3>
-            </div>
-            <p>
-              Don't have much time? Get instant 15-minute activity ideas 
-              for spontaneous moments together.
-            </p>
-          </div>
-          
-          <div className="feature-card">
-            <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '15px' }}>
-              <Heart size={32} color="#e74c3c" />
-              <h3>Build Memories</h3>
-            </div>
-            <p>
-              Track your favorite dates, add photos, and create a timeline 
-              of your relationship adventures.
+              <strong>Both people press a button simultaneously.</strong> Get one instant activity. 
+              No menus. No choices. <strong>Just do it.</strong>
             </p>
           </div>
         </div>
       </section>
 
-      {/* Demo Section with Phone Mockup */}
-      <section className="demo">
-        <div className="demo-content">
-          <div className="demo-text">
-            <h2>Swipe Through Ideas</h2>
-            <p>
-              Browse fun activities tailored to your relationship. Both love it? Save it. 
-              One of you not feeling it? Swipe to the next idea.
-            </p>
-            <button className="cta-button" data-testid="button-try-now">
-              Try It Now
+      {/* How It Works - Simple 3 Steps */}
+      <section className="how-it-works">
+        <h2>How It Works</h2>
+        <div className="steps-grid">
+          <div className="step-card" data-testid="step-1">
+            <div className="step-number">1</div>
+            <Users size={48} color="#e74c3c" />
+            <h3>Both Press</h3>
+            <p>You and your partner press the Spark button at the same time</p>
+          </div>
+          
+          <div className="step-card" data-testid="step-2">
+            <div className="step-number">2</div>
+            <Zap size={48} color="#e74c3c" />
+            <h3>Get Activity</h3>
+            <p>One instant activity appears - perfectly matched to your couple type</p>
+          </div>
+          
+          <div className="step-card" data-testid="step-3">
+            <div className="step-number">3</div>
+            <Sparkles size={48} color="#e74c3c" />
+            <h3>Just Do It</h3>
+            <p>No overthinking. No scrolling. Go make memories together</p>
+          </div>
+        </div>
+      </section>
+
+      {/* For Every Type of Couple */}
+      <section className="couple-types">
+        <h2>Built for Real Couples</h2>
+        <div className="couple-types-grid">
+          <div className="couple-type-card">
+            <Heart size={32} color="#e74c3c" />
+            <h4>Long Distance</h4>
+            <p>Virtual activities that keep you close across the miles</p>
+          </div>
+          
+          <div className="couple-type-card">
+            <Heart size={32} color="#e74c3c" />
+            <h4>With Kids</h4>
+            <p>Quick 15-minute sparks when the kids are finally asleep</p>
+          </div>
+          
+          <div className="couple-type-card">
+            <Heart size={32} color="#e74c3c" />
+            <h4>Empty Nest</h4>
+            <p>Rediscover each other with adventurous new experiences</p>
+          </div>
+          
+          <div className="couple-type-card">
+            <Heart size={32} color="#e74c3c" />
+            <h4>Polyamorous</h4>
+            <p>Activities designed for multiple partners and unique dynamics</p>
+          </div>
+          
+          <div className="couple-type-card">
+            <Heart size={32} color="#e74c3c" />
+            <h4>Newly Dating</h4>
+            <p>Break the ice and discover each other through fun activities</p>
+          </div>
+        </div>
+      </section>
+
+      {/* Pricing Section */}
+      <section className="pricing">
+        <h2>Simple Pricing</h2>
+        <div className="pricing-grid">
+          <div className="pricing-card pricing-free" data-testid="pricing-free">
+            <h3>Free</h3>
+            <div className="price">$0</div>
+            <p className="price-period">forever</p>
+            <ul className="pricing-features">
+              <li><Clock size={20} /> 3 Sparks per day</li>
+              <li><Users size={20} /> Perfect for trying it out</li>
+              <li><Heart size={20} /> All couple types supported</li>
+            </ul>
+            <button className="pricing-button pricing-button-free" data-testid="button-start-free">
+              Start Free
             </button>
           </div>
           
-          <div className="phone-mockup" data-testid="phone-mockup">
-            <div className="phone-screen">
-              <div className="screen-header">
-                <svg width="80" height="80" viewBox="0 0 200 200">
-                  <circle cx="100" cy="100" r="15" fill="white"/>
-                  <circle cx="60" cy="60" r="10" fill="rgba(255,255,255,0.8)"/>
-                  <circle cx="140" cy="60" r="10" fill="rgba(255,255,255,0.8)"/>
-                  <circle cx="60" cy="140" r="10" fill="rgba(255,255,255,0.8)"/>
-                  <circle cx="140" cy="140" r="10" fill="rgba(255,255,255,0.8)"/>
-                </svg>
-                <h2>Spark It!</h2>
-              </div>
-              
-              <div className="screen-content">
-                <div className="match-card" data-testid="activity-card-1">
-                  <h4>Sunset Picnic at the Park</h4>
-                  <p>Outdoor • 2 hours • $20</p>
-                  <div className="compatibility-bar">
-                    <div className="compatibility-fill" style={{ width: '100%' }}></div>
-                  </div>
-                </div>
-                
-                <div className="match-card" data-testid="activity-card-2">
-                  <h4>Cook a New Recipe Together</h4>
-                  <p>At Home • 1 hour • $15</p>
-                  <div className="compatibility-bar">
-                    <div className="compatibility-fill" style={{ width: '100%' }}></div>
-                  </div>
-                </div>
-                
-                <div className="match-card" data-testid="activity-card-3">
-                  <h4>Midnight Stargazing</h4>
-                  <p>Outdoor • 1.5 hours • Free</p>
-                  <div className="compatibility-bar">
-                    <div className="compatibility-fill" style={{ width: '100%' }}></div>
-                  </div>
-                </div>
-              </div>
-            </div>
+          <div className="pricing-card pricing-premium" data-testid="pricing-premium">
+            <div className="pricing-badge">MOST POPULAR</div>
+            <h3>Premium</h3>
+            <div className="price">$6.99</div>
+            <p className="price-period">per month</p>
+            <ul className="pricing-features">
+              <li><Zap size={20} /> Unlimited Sparks</li>
+              <li><Sparkles size={20} /> Priority activity matching</li>
+              <li><DollarSign size={20} /> Exclusive partner deals</li>
+              <li><Heart size={20} /> Save favorite activities</li>
+            </ul>
+            <button className="pricing-button pricing-button-premium" data-testid="button-upgrade-premium">
+              Upgrade to Premium
+            </button>
           </div>
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section className="hero" style={{ minHeight: '60vh' }}>
+      {/* Partner Integrations Teaser */}
+      <section className="partners">
+        <h2>More Coming Soon</h2>
+        <p className="partners-subtitle">
+          Exclusive deals from our partners - book activities, order food, plan getaways
+        </p>
+        <div className="partners-logos">
+          <div className="partner-logo">DoorDash</div>
+          <div className="partner-logo">Amazon</div>
+          <div className="partner-logo">Airbnb</div>
+        </div>
+      </section>
+
+      {/* Final CTA */}
+      <section className="hero" style={{ minHeight: '70vh' }}>
         <div className="hero-content">
-          <h1 style={{ fontSize: '3em' }}>Ready to Spark Connection?</h1>
-          <p>Join couples who keep their relationships exciting</p>
+          <h1 style={{ fontSize: '3.5em' }}>Ready to Spark Connection?</h1>
+          <p style={{ fontSize: '1.3em', maxWidth: '600px', margin: '0 auto 40px' }}>
+            Join thousands of couples who stopped scrolling and started connecting
+          </p>
           <button 
-            className="cta-button" 
-            style={{ fontSize: '1.5em', padding: '25px 50px' }}
+            className="cta-button cta-button-large" 
             data-testid="button-start-journey"
           >
-            Start Sparking
+            Get Started Free
           </button>
+          <p className="hero-fine-print">3 sparks/day free • Upgrade anytime</p>
         </div>
       </section>
     </div>
