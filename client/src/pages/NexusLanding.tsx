@@ -11,7 +11,7 @@ export default function NexusLanding() {
           <div className="icon-container" style={{ marginBottom: '40px' }}>
             <AppIcon size={300} />
           </div>
-          <h1>NEXUS</h1>
+          <h1>Spark It!</h1>
           <p>Find Your Perfect Match Through Advanced Compatibility</p>
           <button className="cta-button" data-testid="button-get-started">
             Get Started
@@ -21,7 +21,7 @@ export default function NexusLanding() {
 
       {/* Features Section */}
       <section className="features">
-        <h2>Why Choose NEXUS?</h2>
+        <h2>Why Choose Spark It?</h2>
         <div className="features-grid">
           <div className="feature-card">
             <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '15px' }}>
@@ -115,7 +115,7 @@ export default function NexusLanding() {
                   <circle cx="60" cy="140" r="10" fill="rgba(255,255,255,0.8)"/>
                   <circle cx="140" cy="140" r="10" fill="rgba(255,255,255,0.8)"/>
                 </svg>
-                <h2>NEXUS</h2>
+                <h2>Spark It!</h2>
               </div>
               
               <div className="screen-content">
