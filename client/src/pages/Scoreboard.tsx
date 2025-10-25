@@ -1,27 +1,129 @@
+import { useState, useEffect } from "react";
 import { Trophy, TrendingUp, Award, BarChart3, ArrowLeft } from "lucide-react";
 import { useLocation } from "wouter";
-import { getScoreboardSummary } from "../lib/scoreTracker";
+import { useQuery } from "@tanstack/react-query";
 import "../nexus-styles.css";
 
 export default function Scoreboard() {
   const [, setLocation] = useLocation();
-  const summary = getScoreboardSummary();
+  const [coupleId, setCoupleId] = useState<string | null>(null);
 
-  const getStreakMessage = () => {
-    if (summary.streak.count === 0) {
-      return "No active streak";
-    }
-    const partner = summary.streak.winner === 'partner1' ? 'Partner 1' : 'Partner 2';
-    return `${partner} on a ${summary.streak.count} win streak!`;
+  // Get couple ID from localStorage
+  useEffect(() => {
+    const storedCoupleId = localStorage.getItem("sparkitCoupleId");
+    setCoupleId(storedCoupleId);
+  }, []);
+
+  // Fetch couple data
+  const { data: couple } = useQuery({
+    queryKey: ["/api/sparkit/couples", coupleId],
+    enabled: !!coupleId,
+  });
+
+  // Fetch scoreboard data
+  const { data: scoreboardData, isLoading } = useQuery({
+    queryKey: ["/api/sparkit/couples", coupleId, "scoreboard"],
+    queryFn: async () => {
+      if (!coupleId) return null;
+      const res = await fetch(`/api/sparkit/couples/${coupleId}/scoreboard`);
+      if (!res.ok) throw new Error("Failed to fetch scoreboard");
+      return await res.json();
+    },
+    enabled: !!coupleId,
+  });
+
+  if (!coupleId || !couple) {
+    return (
+      <div className="nexus-app" data-testid="scoreboard-page">
+        <section style={{ padding: '40px 20px', textAlign: 'center' }}>
+          <p style={{ fontSize: '1.2em', color: 'rgba(255,255,255,0.7)' }}>
+            Please sign up or join a couple to view the scoreboard
+          </p>
+          <button
+            onClick={() => setLocation("/sparkit/signup")}
+            className="cta-button"
+            style={{
+              background: 'var(--nexus-gradient-passion)',
+              border: 'none',
+              padding: '18px 40px',
+              fontSize: '1.2em',
+              marginTop: '20px'
+            }}
+            data-testid="button-signup"
+          >
+            Get Started
+          </button>
+        </section>
+      </div>
+    );
+  }
+
+  if (isLoading || !scoreboardData) {
+    return (
+      <div className="nexus-app" data-testid="scoreboard-page">
+        <section style={{ padding: '40px 20px', textAlign: 'center' }}>
+          <p style={{ fontSize: '1.2em', color: 'rgba(255,255,255,0.7)' }}>
+            Loading scoreboard...
+          </p>
+        </section>
+      </div>
+    );
+  }
+
+  const stats = scoreboardData.stats || {
+    partner1Wins: 0,
+    partner2Wins: 0,
+    ties: 0,
+    total: 0,
+    partner1Percentage: 0,
+    partner2Percentage: 0
   };
 
+  const recentResults = scoreboardData.recentResults || [];
+  const partner1Name = couple.partner1Name || "Partner 1";
+  const partner2Name = couple.partner2Name || "Partner 2";
+
   const getLeadMessage = () => {
-    if (summary.partner1.wins === summary.partner2.wins) {
+    if (stats.partner1Wins === stats.partner2Wins) {
       return "It's tied! Perfectly balanced.";
     }
-    const leader = summary.partner1.wins > summary.partner2.wins ? 'Partner 1' : 'Partner 2';
-    const diff = Math.abs(summary.partner1.wins - summary.partner2.wins);
+    const leader = stats.partner1Wins > stats.partner2Wins ? partner1Name : partner2Name;
+    const diff = Math.abs(stats.partner1Wins - stats.partner2Wins);
     return `${leader} leads by ${diff} ${diff === 1 ? 'win' : 'wins'}`;
+  };
+
+  // Calculate streak from recent results
+  const calculateStreak = () => {
+    if (recentResults.length === 0) {
+      return { winner: 'none', count: 0 };
+    }
+
+    let count = 0;
+    const latestWinner = recentResults[0].winner;
+    
+    if (latestWinner === 'tie') {
+      return { winner: 'none', count: 0 };
+    }
+
+    for (const result of recentResults) {
+      if (result.winner === latestWinner) {
+        count++;
+      } else {
+        break;
+      }
+    }
+
+    return { winner: latestWinner, count };
+  };
+
+  const streak = calculateStreak();
+
+  const getStreakMessage = () => {
+    if (streak.count === 0) {
+      return "No active streak";
+    }
+    const partner = streak.winner === 'partner1' ? partner1Name : partner2Name;
+    return `${partner} on a ${streak.count} win streak!`;
   };
 
   return (
@@ -84,7 +186,7 @@ export default function Scoreboard() {
               {getLeadMessage()}
             </h1>
             <p style={{ fontSize: '1.2em', color: 'rgba(255,255,255,0.7)' }}>
-              {summary.total} {summary.total === 1 ? 'activity' : 'activities'} completed together
+              {stats.total} {stats.total === 1 ? 'activity' : 'activities'} completed together
             </p>
           </div>
 
@@ -108,7 +210,7 @@ export default function Scoreboard() {
                 marginBottom: '15px', 
                 color: '#667eea' 
               }}>
-                Partner 1
+                {partner1Name}
               </h3>
               <div style={{ 
                 fontSize: '3em', 
@@ -116,10 +218,10 @@ export default function Scoreboard() {
                 color: '#667eea',
                 marginBottom: '10px'
               }}>
-                {summary.partner1.wins}
+                {stats.partner1Wins}
               </div>
               <p style={{ color: 'rgba(255,255,255,0.7)', fontSize: '1.1em' }}>
-                {summary.partner1.percentage}% win rate
+                {stats.partner1Percentage}% win rate
               </p>
             </div>
 
@@ -144,7 +246,7 @@ export default function Scoreboard() {
                 color: 'rgba(255,255,255,0.9)',
                 marginBottom: '10px'
               }}>
-                {summary.ties}
+                {stats.ties}
               </div>
               <p style={{ color: 'rgba(255,255,255,0.7)', fontSize: '1.1em' }}>
                 Both winners
@@ -164,7 +266,7 @@ export default function Scoreboard() {
                 marginBottom: '15px', 
                 color: '#e74c3c' 
               }}>
-                Partner 2
+                {partner2Name}
               </h3>
               <div style={{ 
                 fontSize: '3em', 
@@ -172,31 +274,31 @@ export default function Scoreboard() {
                 color: '#e74c3c',
                 marginBottom: '10px'
               }}>
-                {summary.partner2.wins}
+                {stats.partner2Wins}
               </div>
               <p style={{ color: 'rgba(255,255,255,0.7)', fontSize: '1.1em' }}>
-                {summary.partner2.percentage}% win rate
+                {stats.partner2Percentage}% win rate
               </p>
             </div>
           </div>
 
           {/* Streak Indicator */}
-          {summary.streak.count > 0 && (
+          {streak.count > 0 && (
             <div style={{
-              background: summary.streak.winner === 'partner1' 
+              background: streak.winner === 'partner1' 
                 ? 'rgba(102, 126, 234, 0.2)' 
                 : 'rgba(231, 76, 60, 0.2)',
-              border: `2px solid ${summary.streak.winner === 'partner1' ? 'rgba(102, 126, 234, 0.4)' : 'rgba(231, 76, 60, 0.4)'}`,
+              border: `2px solid ${streak.winner === 'partner1' ? 'rgba(102, 126, 234, 0.4)' : 'rgba(231, 76, 60, 0.4)'}`,
               borderRadius: '15px',
               padding: '20px',
               textAlign: 'center'
             }}>
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px' }}>
-                <TrendingUp size={24} color={summary.streak.winner === 'partner1' ? '#667eea' : '#e74c3c'} />
+                <TrendingUp size={24} color={streak.winner === 'partner1' ? '#667eea' : '#e74c3c'} />
                 <span style={{ 
                   fontSize: '1.3em', 
                   fontWeight: 'bold',
-                  color: summary.streak.winner === 'partner1' ? '#667eea' : '#e74c3c'
+                  color: streak.winner === 'partner1' ? '#667eea' : '#e74c3c'
                 }}>
                   {getStreakMessage()}
                 </span>
@@ -206,7 +308,7 @@ export default function Scoreboard() {
         </div>
 
         {/* Recent Activity */}
-        {summary.recentResults.length > 0 && (
+        {recentResults.length > 0 && (
           <div style={{
             background: 'rgba(255,255,255,0.05)',
             borderRadius: '20px',
@@ -225,7 +327,7 @@ export default function Scoreboard() {
               Recent Results
             </h3>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
-              {summary.recentResults.map((result, index) => (
+              {recentResults.map((result: any, index: number) => (
                 <div 
                   key={index}
                   style={{
@@ -247,13 +349,13 @@ export default function Scoreboard() {
                       color: 'rgba(255,255,255,0.9)',
                       marginBottom: '5px'
                     }}>
-                      {result.activityTitle}
+                      Activity #{result.activityId}
                     </p>
                     <p style={{ 
                       fontSize: '0.9em', 
                       color: 'rgba(255,255,255,0.5)' 
                     }}>
-                      {new Date(result.timestamp).toLocaleDateString()}
+                      {new Date(result.completedAt).toLocaleDateString()}
                     </p>
                   </div>
                   <div style={{
@@ -282,8 +384,8 @@ export default function Scoreboard() {
                       color: result.winner === 'partner1' ? '#667eea' :
                             result.winner === 'partner2' ? '#e74c3c' : 'rgba(255,255,255,0.9)'
                     }}>
-                      {result.winner === 'partner1' ? 'P1 Won' : 
-                       result.winner === 'partner2' ? 'P2 Won' : 'Tie'}
+                      {result.winner === 'partner1' ? `${partner1Name} Won` : 
+                       result.winner === 'partner2' ? `${partner2Name} Won` : 'Tie'}
                     </span>
                   </div>
                 </div>
@@ -293,7 +395,7 @@ export default function Scoreboard() {
         )}
 
         {/* Empty State */}
-        {summary.total === 0 && (
+        {stats.total === 0 && (
           <div style={{
             textAlign: 'center',
             padding: '60px 20px'
@@ -330,7 +432,7 @@ export default function Scoreboard() {
         )}
 
         {/* Call to Action */}
-        {summary.total > 0 && (
+        {stats.total > 0 && (
           <div style={{
             textAlign: 'center',
             marginTop: '40px'
