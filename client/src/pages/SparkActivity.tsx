@@ -95,6 +95,22 @@ export default function SparkActivity() {
             {activity.title}
           </h1>
 
+          {/* Category Badge */}
+          <div style={{ 
+            display: 'inline-block',
+            padding: '8px 20px',
+            borderRadius: '20px',
+            background: 'rgba(231, 76, 60, 0.2)',
+            border: '1px solid rgba(231, 76, 60, 0.4)',
+            marginBottom: '30px',
+            color: '#e74c3c',
+            fontWeight: 'bold',
+            fontSize: '0.9em',
+            textTransform: 'uppercase'
+          }}>
+            {activity.category}
+          </div>
+
           {/* Activity Meta */}
           <div style={{ 
             display: 'flex', 

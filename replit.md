@@ -26,7 +26,7 @@ Spark It! is a couples activity app that solves decision fatigue through simulta
 
 ### Core Features Implemented
 
-**Landing Page** (`/nexus`):
+**Landing Page** (`/sparkit`):
 - Hero section with "Stop Scrolling. Start Connecting" messaging
 - Problem/solution sections addressing decision fatigue
 - Couple type cards showing target audiences
@@ -66,7 +66,7 @@ Spark It! is a couples activity app that solves decision fatigue through simulta
 - Persistence across page navigations
 
 **Routes**:
-- `/nexus` - Landing page with marketing
+- `/sparkit` - Landing page with marketing
 - `/spark` - Simultaneous button press interface
 - `/spark-activity` - Activity reveal screen
 
@@ -98,14 +98,29 @@ Spark It! is a couples activity app that solves decision fatigue through simulta
    - Partner linking/pairing
    - Profile management
 
-### Activity Categories (Planned)
+### Activity Database
 
-Activities will be tagged for different couple types:
-- **Long Distance**: Virtual date ideas, care packages, video activities
-- **With Kids**: Family-friendly, quick activities, post-bedtime dates
-- **Empty Nest**: Adventure activities, travel ideas, hobby exploration
-- **Polyamorous**: Group activities, communication exercises, boundary setting
-- **Newly Dating**: Getting-to-know-you activities, first experiences, light commitment
+**Status**: 30 G-rated activities implemented and active
+
+**Categories**:
+- **Playful** (10 activities): Dance battles, skill challenges, rock-paper-scissors, tower building, hide & seek, thumb wars, paper airplanes, staring contests, pillow fights, balloon challenges
+- **Romantic/Connection** (8 activities): Slow dancing, compliment games, photo sharing, gratitude sharing, childhood stories, phone discoveries, compliment notes, dream vacation planning
+- **Silly/Creative** (7 activities): First date reenactments, song creation, impressions, blanket forts, movie scenes, secret handshakes, portrait drawing
+- **Adventure/Exploration** (5 activities): Store exploration, cuisine adventures, view hunting, destination-less walks, cooking new recipes
+
+**Activity Properties**:
+- Duration: 2-60 minutes
+- Energy Level: Low/Medium/High
+- Location: Indoor/Outdoor/Flexible
+- Cost: Free to $20+
+- Tips: 3 actionable tips per activity
+
+**Future Categories** (when user profiles are added):
+- Long Distance: Virtual date ideas, care packages, video activities
+- With Kids: Family-friendly, quick activities, post-bedtime dates
+- Empty Nest: Adventure activities, travel ideas, hobby exploration
+- Polyamorous: Group activities, communication exercises, boundary setting
+- Newly Dating: Getting-to-know-you activities, first experiences, light commitment
 
 ## User Preferences
 
