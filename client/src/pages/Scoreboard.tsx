@@ -380,7 +380,7 @@ export default function Scoreboard() {
                       fontSize: '0.9em', 
                       color: 'rgba(255,255,255,0.5)' 
                     }}>
-                      {new Date(result.completedAt).toLocaleDateString()}
+                      {new Date(result.createdAt).toLocaleDateString()}
                     </p>
                   </div>
                   <div style={{

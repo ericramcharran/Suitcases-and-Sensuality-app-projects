@@ -40,6 +40,7 @@ export default function SparkActivity() {
       const res = await apiRequest("POST", "/api/sparkit/activity-ratings", {
         coupleId,
         activityId: activity.id,
+        activityTitle: activity.title,
         rating: ratingValue
       });
       return await res.json();
@@ -53,6 +54,7 @@ export default function SparkActivity() {
       const res = await apiRequest("POST", "/api/sparkit/activity-results", {
         coupleId,
         activityId: activity.id,
+        activityTitle: activity.title,
         winner
       });
       return await res.json();
