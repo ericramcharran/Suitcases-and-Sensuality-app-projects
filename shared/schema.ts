@@ -139,11 +139,15 @@ export const sparkitCouples = pgTable("sparkit_couples", {
   partner2Name: text("partner2_name"), // Nullable - set when partner 2 joins
   coupleCode: varchar("couple_code", { length: 10 }).unique().notNull(), // Unique code for couple pairing
   emailOrPhone: text("email_or_phone"), // Optional for notifications
-  subscriptionPlan: text("subscription_plan").default('free'), // 'free' or 'premium'
+  subscriptionPlan: text("subscription_plan").default('free'), // 'free', 'trial', 'monthly', 'yearly'
+  subscriptionStatus: text("subscription_status").default('active'), // 'active', 'trial_expired', 'cancelled'
+  billingPeriod: text("billing_period"), // 'monthly' or 'yearly'
   stripeCustomerId: text("stripe_customer_id"),
   stripeSubscriptionId: text("stripe_subscription_id"),
   sparksRemaining: integer("sparks_remaining").default(3), // Free tier: 3 sparks/day
   lastSparkReset: timestamp("last_spark_reset").defaultNow(),
+  partner2JoinedAt: timestamp("partner2_joined_at"), // Track when trial period starts
+  totalSparksUsed: integer("total_sparks_used").default(0), // Track total sparks used during trial
   createdAt: timestamp("created_at").defaultNow(),
 });
 

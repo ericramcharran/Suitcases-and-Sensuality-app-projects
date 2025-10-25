@@ -333,7 +333,52 @@ export class DatabaseStorage implements IStorage {
       return await this.resetDailySparks(id);
     }
 
-    // Use a spark if available
+    // For paid plans (monthly/yearly), allow unlimited sparks
+    if (couple.subscriptionPlan === 'monthly' || couple.subscriptionPlan === 'yearly') {
+      // Increment total sparks used for analytics
+      await db
+        .update(sparkitCouples)
+        .set({ totalSparksUsed: (couple.totalSparksUsed || 0) + 1 })
+        .where(eq(sparkitCouples.id, id));
+      return couple;
+    }
+
+    // For trial plan, check limits: 10 total sparks OR 7 days
+    if (couple.subscriptionPlan === 'trial') {
+      const totalUsed = couple.totalSparksUsed || 0;
+      const daysOnTrial = couple.partner2JoinedAt 
+        ? Math.floor((Date.now() - new Date(couple.partner2JoinedAt).getTime()) / (1000 * 60 * 60 * 24))
+        : 0;
+
+      // Check if trial has expired
+      if (totalUsed >= 10 || daysOnTrial >= 7) {
+        await db
+          .update(sparkitCouples)
+          .set({ 
+            subscriptionStatus: 'trial_expired',
+            sparksRemaining: 0
+          })
+          .where(eq(sparkitCouples.id, id));
+        const expired = await this.getCoupleById(id);
+        return expired;
+      }
+
+      // Use spark and increment total
+      if (couple.sparksRemaining && couple.sparksRemaining > 0) {
+        const result = await db
+          .update(sparkitCouples)
+          .set({ 
+            sparksRemaining: couple.sparksRemaining - 1,
+            totalSparksUsed: totalUsed + 1
+          })
+          .where(eq(sparkitCouples.id, id))
+          .returning();
+        return result[0];
+      }
+      return couple;
+    }
+
+    // For free/premium plan, use a spark if available
     if (couple.sparksRemaining > 0 || couple.subscriptionPlan === 'premium') {
       const newSparksRemaining = couple.subscriptionPlan === 'premium' 
         ? couple.sparksRemaining 
@@ -341,7 +386,10 @@ export class DatabaseStorage implements IStorage {
 
       const result = await db
         .update(sparkitCouples)
-        .set({ sparksRemaining: newSparksRemaining })
+        .set({ 
+          sparksRemaining: newSparksRemaining,
+          totalSparksUsed: (couple.totalSparksUsed || 0) + 1
+        })
         .where(eq(sparkitCouples.id, id))
         .returning();
       return result[0];
