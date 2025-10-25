@@ -11,6 +11,7 @@ import { ScrollToTop } from "@/components/ScrollToTop";
 import Splash from "@/pages/Splash";
 import SplashScreen from "@/pages/SplashScreen";
 import Landing from "@/pages/Landing";
+import ComingSoon from "@/pages/ComingSoon";
 import NexusLanding from "@/pages/NexusLanding";
 import SparkButton from "@/pages/SparkButton";
 import SparkActivity from "@/pages/SparkActivity";
@@ -102,7 +103,7 @@ function App() {
             <AnimatePresence mode="wait">
               <Switch location={location} key={location}>
               <Route path="/">
-                <PageTransition><SplashScreen /></PageTransition>
+                <PageTransition><ComingSoon /></PageTransition>
               </Route>
               <Route path="/home">
                 <PageTransition><Home /></PageTransition>
