@@ -27,16 +27,16 @@ export function ParticleEffect({ type, trigger }: ParticleEffectProps) {
     const centerX = isLike ? window.innerWidth - 80 : 80;
     const centerY = window.innerHeight - 80;
 
-    // Reduced to 6 particles for better performance
-    const newParticles: Particle[] = Array.from({ length: 6 }, (_, i) => {
-      const angle = (i / 6) * Math.PI * 2;
-      const distance = 100 + Math.random() * 100;
+    // Increased particles for more obvious swipe effect
+    const newParticles: Particle[] = Array.from({ length: 12 }, (_, i) => {
+      const angle = (i / 12) * Math.PI * 2;
+      const distance = 120 + Math.random() * 120;
       return {
         id: Date.now() + i,
         x: centerX + Math.cos(angle) * distance,
         y: centerY + Math.sin(angle) * distance,
         rotation: Math.random() * 360,
-        scale: 0.6 + Math.random() * 0.6
+        scale: 0.8 + Math.random() * 0.8
       };
     });
 
@@ -44,7 +44,7 @@ export function ParticleEffect({ type, trigger }: ParticleEffectProps) {
 
     const timer = setTimeout(() => {
       setParticles([]);
-    }, 600);
+    }, 800);
 
     return () => clearTimeout(timer);
   }, [trigger, type, shouldReduceMotion]);
@@ -76,13 +76,13 @@ export function ParticleEffect({ type, trigger }: ParticleEffectProps) {
             rotate: particle.rotation
           }}
           transition={{
-            duration: 0.6,
+            duration: 0.8,
             ease: "easeOut"
           }}
           style={{ position: "absolute" }}
         >
           <Icon 
-            className="w-6 h-6"
+            className="w-10 h-10"
             style={{ color }}
             fill={color}
           />

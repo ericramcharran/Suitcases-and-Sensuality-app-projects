@@ -25,7 +25,7 @@ export default function MatchResult() {
       {/* Animated background sparkles */}
       {!shouldReduceMotion && (
         <div className="absolute inset-0 pointer-events-none">
-          {[...Array(8)].map((_, i) => (
+          {[...Array(12)].map((_, i) => (
             <motion.div
               key={i}
               className="absolute"
@@ -34,18 +34,18 @@ export default function MatchResult() {
                 top: `${Math.random() * 100}%`,
               }}
               animate={{
-                opacity: [0, 1, 0],
-                scale: [0, 1.5, 0],
+                opacity: [0, 0.9, 0],
+                scale: [0, 2, 0],
                 rotate: [0, 180, 360],
               }}
               transition={{
                 duration: 3,
                 repeat: Infinity,
-                delay: i * 0.4,
+                delay: i * 0.3,
                 ease: "easeInOut",
               }}
             >
-              <Sparkles className="w-6 h-6 text-yellow-400" />
+              <Sparkles className="w-8 h-8 text-yellow-400" />
             </motion.div>
           ))}
         </div>

@@ -23,17 +23,17 @@ export function CelebrationEffect({ show }: CelebrationEffectProps) {
   useEffect(() => {
     if (!show || shouldReduceMotion) return;
 
-    // Create 20 celebration particles
-    const newParticles: Particle[] = Array.from({ length: 20 }, (_, i) => {
+    // Create 30 celebration particles for more obvious effect
+    const newParticles: Particle[] = Array.from({ length: 30 }, (_, i) => {
       const types: Array<"heart" | "sparkle" | "star"> = ["heart", "sparkle", "star"];
       return {
         id: Date.now() + i,
         x: Math.random() * 100,
         y: -10 - Math.random() * 20,
         rotation: Math.random() * 360,
-        scale: 0.6 + Math.random() * 0.8,
+        scale: 0.8 + Math.random() * 1.0,
         type: types[Math.floor(Math.random() * types.length)],
-        delay: Math.random() * 0.5
+        delay: Math.random() * 0.8
       };
     });
 
@@ -72,7 +72,7 @@ export function CelebrationEffect({ show }: CelebrationEffectProps) {
             style={{ position: "absolute" }}
           >
             <Icon 
-              className="w-6 h-6"
+              className="w-10 h-10"
               style={{ color }}
               fill={color}
             />
