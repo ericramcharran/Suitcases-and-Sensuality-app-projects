@@ -143,12 +143,16 @@ export default function SparkitCoupleSignup() {
               </Button>
             </div>
 
-            <div className="text-center space-y-2">
+            <div className="text-center space-y-4 pt-2">
               <p className="text-sm text-muted-foreground">
                 Once your partner joins, you'll both have access to unlimited sparks together!
               </p>
               <Link href="/spark">
-                <Button variant="link" data-testid="link-continue">
+                <Button 
+                  className="w-full bg-gradient-to-r from-purple-600 to-rose-600 hover:from-purple-700 hover:to-rose-700 text-white font-semibold text-lg py-6 shadow-lg hover:shadow-xl transition-all"
+                  size="lg"
+                  data-testid="link-continue"
+                >
                   Continue to Spark It! →
                 </Button>
               </Link>
