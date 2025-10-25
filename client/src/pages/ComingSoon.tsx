@@ -17,18 +17,18 @@ export default function ComingSoon() {
         </div>
 
         <div className="grid md:grid-cols-2 gap-6">
-          <Link href="/landing">
-            <Card className="hover-elevate active-elevate-2 cursor-pointer h-full">
-              <CardHeader>
-                <div className="w-12 h-12 rounded-full bg-gradient-to-r from-rose-500 to-purple-500 flex items-center justify-center mb-4">
-                  <Heart className="w-6 h-6 text-white" />
-                </div>
-                <CardTitle className="text-2xl">The Executive Society</CardTitle>
-                <CardDescription>
-                  A premium platform for professionals seeking authentic power exchange relationships
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
+          <Card className="hover-elevate active-elevate-2 h-full">
+            <CardHeader>
+              <div className="w-12 h-12 rounded-full bg-gradient-to-r from-rose-500 to-purple-500 flex items-center justify-center mb-4">
+                <Heart className="w-6 h-6 text-white" />
+              </div>
+              <CardTitle className="text-2xl">The Executive Society</CardTitle>
+              <CardDescription>
+                A premium platform for professionals seeking authentic power exchange relationships
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <Link href="/landing">
                 <Button 
                   className="w-full" 
                   variant="default"
@@ -36,22 +36,22 @@ export default function ComingSoon() {
                 >
                   Enter Executive Society
                 </Button>
-              </CardContent>
-            </Card>
-          </Link>
+              </Link>
+            </CardContent>
+          </Card>
 
-          <Link href="/sparkit">
-            <Card className="hover-elevate active-elevate-2 cursor-pointer h-full">
-              <CardHeader>
-                <div className="w-12 h-12 rounded-full bg-gradient-to-r from-purple-500 to-rose-500 flex items-center justify-center mb-4">
-                  <Sparkles className="w-6 h-6 text-white" />
-                </div>
-                <CardTitle className="text-2xl">Spark It!</CardTitle>
-                <CardDescription>
-                  Beat decision fatigue with instant activity suggestions for couples
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
+          <Card className="hover-elevate active-elevate-2 h-full">
+            <CardHeader>
+              <div className="w-12 h-12 rounded-full bg-gradient-to-r from-purple-500 to-rose-500 flex items-center justify-center mb-4">
+                <Sparkles className="w-6 h-6 text-white" />
+              </div>
+              <CardTitle className="text-2xl">Spark It!</CardTitle>
+              <CardDescription>
+                Beat decision fatigue with instant activity suggestions for couples
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <Link href="/sparkit">
                 <Button 
                   className="w-full" 
                   variant="default"
@@ -59,9 +59,9 @@ export default function ComingSoon() {
                 >
                   Enter Spark It!
                 </Button>
-              </CardContent>
-            </Card>
-          </Link>
+              </Link>
+            </CardContent>
+          </Card>
         </div>
 
         <p className="text-center text-sm text-muted-foreground">

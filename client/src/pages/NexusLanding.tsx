@@ -1,10 +1,51 @@
+import { useRef, useEffect, useState } from "react";
+import { motion } from "framer-motion";
 import AppIcon from "../components/AppIcon";
 import { Zap, Users, Sparkles, DollarSign, Clock, Heart } from "lucide-react";
 import { useLocation } from "wouter";
 import "../nexus-styles.css";
 
+function useScrollAnimation() {
+  const [isVisible, setIsVisible] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+        }
+      },
+      {
+        threshold: 0.1,
+        rootMargin: "0px 0px -100px 0px"
+      }
+    );
+
+    const currentRef = ref.current;
+    if (currentRef) {
+      observer.observe(currentRef);
+    }
+
+    return () => {
+      if (currentRef) {
+        observer.unobserve(currentRef);
+      }
+    };
+  }, []);
+
+  return { ref, isVisible };
+}
+
 export default function NexusLanding() {
   const [, setLocation] = useLocation();
+  
+  const problemSolution = useScrollAnimation();
+  const howItWorks = useScrollAnimation();
+  const coupleTypes = useScrollAnimation();
+  const pricing = useScrollAnimation();
+  const partners = useScrollAnimation();
+  const finalCta = useScrollAnimation();
 
   const handleGetStarted = () => {
     setLocation("/sparkit/signup");
@@ -14,9 +55,21 @@ export default function NexusLanding() {
     setLocation("/sparkit/join");
   };
 
+  const fadeInVariants = {
+    hidden: { opacity: 0, y: 30 },
+    visible: { 
+      opacity: 1, 
+      y: 0,
+      transition: {
+        duration: 0.6,
+        ease: "easeOut"
+      }
+    }
+  };
+
   return (
     <div className="nexus-app" data-testid="nexus-landing">
-      {/* Hero Section */}
+      {/* Hero Section - No animation, always visible */}
       <section className="hero">
         <div className="hero-content">
           <div className="icon-container" style={{ marginBottom: '40px' }}>
@@ -39,7 +92,13 @@ export default function NexusLanding() {
       </section>
 
       {/* Problem/Solution Section */}
-      <section className="problem-solution">
+      <motion.section 
+        ref={problemSolution.ref}
+        initial="hidden"
+        animate={problemSolution.isVisible ? "visible" : "hidden"}
+        variants={fadeInVariants}
+        className="problem-solution"
+      >
         <div className="problem-solution-content">
           <div className="problem-box">
             <h2>The Problem</h2>
@@ -57,10 +116,16 @@ export default function NexusLanding() {
             </p>
           </div>
         </div>
-      </section>
+      </motion.section>
 
       {/* How It Works - Simple 3 Steps */}
-      <section className="how-it-works">
+      <motion.section 
+        ref={howItWorks.ref}
+        initial="hidden"
+        animate={howItWorks.isVisible ? "visible" : "hidden"}
+        variants={fadeInVariants}
+        className="how-it-works"
+      >
         <h2>How It Works</h2>
         <div className="steps-grid">
           <div className="step-card" data-testid="step-1">
@@ -84,10 +149,16 @@ export default function NexusLanding() {
             <p>No overthinking. No scrolling. Go make memories together</p>
           </div>
         </div>
-      </section>
+      </motion.section>
 
       {/* For Every Type of Couple */}
-      <section className="couple-types">
+      <motion.section 
+        ref={coupleTypes.ref}
+        initial="hidden"
+        animate={coupleTypes.isVisible ? "visible" : "hidden"}
+        variants={fadeInVariants}
+        className="couple-types"
+      >
         <h2>Built for Real Couples</h2>
         <div className="couple-types-grid">
           <div className="couple-type-card">
@@ -120,10 +191,16 @@ export default function NexusLanding() {
             <p>Break the ice and discover each other through fun activities</p>
           </div>
         </div>
-      </section>
+      </motion.section>
 
       {/* Pricing Section */}
-      <section className="pricing">
+      <motion.section 
+        ref={pricing.ref}
+        initial="hidden"
+        animate={pricing.isVisible ? "visible" : "hidden"}
+        variants={fadeInVariants}
+        className="pricing"
+      >
         <h2>Simple Pricing</h2>
         <div className="pricing-grid">
           <div className="pricing-card pricing-free" data-testid="pricing-free">
@@ -164,10 +241,16 @@ export default function NexusLanding() {
             </button>
           </div>
         </div>
-      </section>
+      </motion.section>
 
       {/* Partner Integrations Teaser */}
-      <section className="partners">
+      <motion.section 
+        ref={partners.ref}
+        initial="hidden"
+        animate={partners.isVisible ? "visible" : "hidden"}
+        variants={fadeInVariants}
+        className="partners"
+      >
         <h2>More Coming Soon</h2>
         <p className="partners-subtitle">
           Exclusive deals from our partners - book activities, order food, plan getaways
@@ -177,10 +260,17 @@ export default function NexusLanding() {
           <div className="partner-logo">Amazon</div>
           <div className="partner-logo">Airbnb</div>
         </div>
-      </section>
+      </motion.section>
 
       {/* Final CTA */}
-      <section className="hero" style={{ minHeight: '70vh' }}>
+      <motion.section 
+        ref={finalCta.ref}
+        initial="hidden"
+        animate={finalCta.isVisible ? "visible" : "hidden"}
+        variants={fadeInVariants}
+        className="hero" 
+        style={{ minHeight: '70vh' }}
+      >
         <div className="hero-content">
           <h1 style={{ fontSize: '3.5em' }}>Ready to Spark Connection?</h1>
           <p style={{ fontSize: '1.3em', maxWidth: '600px', margin: '0 auto 40px' }}>
@@ -195,7 +285,7 @@ export default function NexusLanding() {
           </button>
           <p className="hero-fine-print">3 sparks/day free • Upgrade anytime</p>
         </div>
-      </section>
+      </motion.section>
     </div>
   );
 }
