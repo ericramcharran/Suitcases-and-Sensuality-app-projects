@@ -1582,5 +1582,110 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Stripe webhook handler for Spark It! subscriptions
+  app.post("/api/sparkit/webhook", async (req, res) => {
+    if (!stripe) {
+      return res.status(500).send("Stripe not configured");
+    }
+
+    const sig = req.headers['stripe-signature'];
+    const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
+
+    if (!sig) {
+      return res.status(400).send("No signature provided");
+    }
+
+    let event: Stripe.Event;
+
+    try {
+      // Verify the webhook signature (if webhook secret is configured)
+      if (webhookSecret) {
+        event = stripe.webhooks.constructEvent(req.body, sig, webhookSecret);
+      } else {
+        // In development, just use the event from the body
+        event = req.body as Stripe.Event;
+      }
+    } catch (err: any) {
+      console.error('Webhook signature verification failed:', err.message);
+      return res.status(400).send(`Webhook Error: ${err.message}`);
+    }
+
+    // Handle the event
+    try {
+      switch (event.type) {
+        case 'checkout.session.completed': {
+          const session = event.data.object as Stripe.Checkout.Session;
+          const coupleId = session.metadata?.coupleId;
+          const billingPeriod = session.metadata?.billingPeriod;
+
+          if (coupleId && billingPeriod) {
+            const subscriptionPlan = billingPeriod === 'yearly' ? 'premium_yearly' : 'premium_monthly';
+            
+            await storage.updateCouple(coupleId, {
+              subscriptionPlan,
+              stripeSubscriptionId: session.subscription as string
+            });
+
+            console.log(`✅ Subscription activated for couple ${coupleId}: ${subscriptionPlan}`);
+          }
+          break;
+        }
+
+        case 'customer.subscription.updated': {
+          const subscription = event.data.object as Stripe.Subscription;
+          const customerId = subscription.customer as string;
+
+          // Find couple by Stripe customer ID
+          const couples = await storage.getAllCouples();
+          const couple = couples.find(c => c.stripeCustomerId === customerId);
+
+          if (couple) {
+            // Update subscription status based on Stripe status
+            if (subscription.status === 'active') {
+              const interval = subscription.items.data[0]?.price.recurring?.interval;
+              const plan = interval === 'year' ? 'premium_yearly' : 'premium_monthly';
+              
+              await storage.updateCouple(couple.id, {
+                subscriptionPlan: plan,
+                stripeSubscriptionId: subscription.id
+              });
+            } else if (subscription.status === 'canceled' || subscription.status === 'unpaid') {
+              await storage.updateCouple(couple.id, {
+                subscriptionPlan: 'trial'
+              });
+            }
+            console.log(`✅ Subscription updated for couple ${couple.id}: ${subscription.status}`);
+          }
+          break;
+        }
+
+        case 'customer.subscription.deleted': {
+          const subscription = event.data.object as Stripe.Subscription;
+          const customerId = subscription.customer as string;
+
+          const couples = await storage.getAllCouples();
+          const couple = couples.find(c => c.stripeCustomerId === customerId);
+
+          if (couple) {
+            await storage.updateCouple(couple.id, {
+              subscriptionPlan: 'trial',
+              stripeSubscriptionId: null
+            });
+            console.log(`✅ Subscription canceled for couple ${couple.id}`);
+          }
+          break;
+        }
+
+        default:
+          console.log(`Unhandled event type: ${event.type}`);
+      }
+
+      res.json({ received: true });
+    } catch (error) {
+      console.error('Error processing webhook:', error);
+      res.status(500).send('Webhook handler failed');
+    }
+  });
+
   return httpServer;
 }
