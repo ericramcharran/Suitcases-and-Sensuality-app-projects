@@ -1,5 +1,5 @@
 import AppIcon from "../components/AppIcon";
-import { Dna, Target, Lock, Zap, MessageCircle, CheckCircle } from "lucide-react";
+import { Sparkles, Heart, Calendar, Lightbulb, Gamepad2, Coffee } from "lucide-react";
 import "../nexus-styles.css";
 
 export default function NexusLanding() {
@@ -12,7 +12,7 @@ export default function NexusLanding() {
             <AppIcon size={300} />
           </div>
           <h1>Spark It!</h1>
-          <p>Find Your Perfect Match Through Advanced Compatibility</p>
+          <p>Never Run Out of Date Ideas Again</p>
           <button className="cta-button" data-testid="button-get-started">
             Get Started
           </button>
@@ -21,71 +21,71 @@ export default function NexusLanding() {
 
       {/* Features Section */}
       <section className="features">
-        <h2>Why Choose Spark It?</h2>
+        <h2>Beat Boredom Together</h2>
         <div className="features-grid">
           <div className="feature-card">
             <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '15px' }}>
-              <Dna size={32} color="#e74c3c" />
-              <h3>DNA-Level Matching</h3>
+              <Lightbulb size={32} color="#e74c3c" />
+              <h3>Endless Ideas</h3>
             </div>
             <p>
-              Our advanced algorithm analyzes personality types, relationship styles, 
-              and compatibility factors to find your perfect match.
+              From adventurous outings to cozy nights in, discover thousands of 
+              activities perfectly suited for couples.
             </p>
           </div>
           
           <div className="feature-card">
             <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '15px' }}>
-              <Target size={32} color="#e74c3c" />
-              <h3>93% Success Rate</h3>
+              <Sparkles size={32} color="#e74c3c" />
+              <h3>Personalized Suggestions</h3>
             </div>
             <p>
-              Users who match at 90%+ compatibility have a 93% success rate 
-              in forming lasting relationships.
+              Get activity recommendations based on your interests, budget, 
+              and available time together.
             </p>
           </div>
           
           <div className="feature-card">
             <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '15px' }}>
-              <Lock size={32} color="#e74c3c" />
-              <h3>Privacy First</h3>
+              <Calendar size={32} color="#e74c3c" />
+              <h3>Plan Together</h3>
             </div>
             <p>
-              Your data is encrypted and secure. We never share your information 
-              without explicit permission.
+              Save favorite activities, schedule date nights, and keep track 
+              of your couple adventures.
             </p>
           </div>
           
           <div className="feature-card">
             <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '15px' }}>
-              <Zap size={32} color="#e74c3c" />
-              <h3>Real-Time Matching</h3>
+              <Gamepad2 size={32} color="#e74c3c" />
+              <h3>Fun Challenges</h3>
             </div>
             <p>
-              Get instant compatibility scores and match suggestions as soon as 
-              you complete your profile.
+              Spice things up with couple challenges, games, and conversation 
+              starters to deepen your connection.
             </p>
           </div>
           
           <div className="feature-card">
             <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '15px' }}>
-              <MessageCircle size={32} color="#e74c3c" />
-              <h3>Smart Conversations</h3>
+              <Coffee size={32} color="#e74c3c" />
+              <h3>Quick Picks</h3>
             </div>
             <p>
-              AI-powered conversation starters based on your shared interests 
-              and compatibility factors.
+              Don't have much time? Get instant 15-minute activity ideas 
+              for spontaneous moments together.
             </p>
           </div>
           
           <div className="feature-card">
             <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '15px' }}>
-              <CheckCircle size={32} color="#e74c3c" />
-              <h3>Verified Profiles</h3>
+              <Heart size={32} color="#e74c3c" />
+              <h3>Build Memories</h3>
             </div>
             <p>
-              All users are verified to ensure authentic connections and 
-              a safe dating environment.
+              Track your favorite dates, add photos, and create a timeline 
+              of your relationship adventures.
             </p>
           </div>
         </div>
@@ -95,10 +95,10 @@ export default function NexusLanding() {
       <section className="demo">
         <div className="demo-content">
           <div className="demo-text">
-            <h2>See Your Matches</h2>
+            <h2>Swipe Through Ideas</h2>
             <p>
-              Browse through highly compatible matches with detailed compatibility 
-              breakdowns. Know exactly why you match before you even say hello.
+              Browse fun activities tailored to your relationship. Both love it? Save it. 
+              One of you not feeling it? Swipe to the next idea.
             </p>
             <button className="cta-button" data-testid="button-try-now">
               Try It Now
@@ -119,27 +119,27 @@ export default function NexusLanding() {
               </div>
               
               <div className="screen-content">
-                <div className="match-card" data-testid="match-card-1">
-                  <h4>Alex • 32 • INTJ</h4>
-                  <p>93% Compatibility</p>
+                <div className="match-card" data-testid="activity-card-1">
+                  <h4>Sunset Picnic at the Park</h4>
+                  <p>Outdoor • 2 hours • $20</p>
                   <div className="compatibility-bar">
-                    <div className="compatibility-fill" style={{ width: '93%' }}></div>
+                    <div className="compatibility-fill" style={{ width: '100%' }}></div>
                   </div>
                 </div>
                 
-                <div className="match-card" data-testid="match-card-2">
-                  <h4>Jordan • 28 • ENFP</h4>
-                  <p>88% Compatibility</p>
+                <div className="match-card" data-testid="activity-card-2">
+                  <h4>Cook a New Recipe Together</h4>
+                  <p>At Home • 1 hour • $15</p>
                   <div className="compatibility-bar">
-                    <div className="compatibility-fill" style={{ width: '88%' }}></div>
+                    <div className="compatibility-fill" style={{ width: '100%' }}></div>
                   </div>
                 </div>
                 
-                <div className="match-card" data-testid="match-card-3">
-                  <h4>Sam • 30 • INFJ</h4>
-                  <p>91% Compatibility</p>
+                <div className="match-card" data-testid="activity-card-3">
+                  <h4>Midnight Stargazing</h4>
+                  <p>Outdoor • 1.5 hours • Free</p>
                   <div className="compatibility-bar">
-                    <div className="compatibility-fill" style={{ width: '91%' }}></div>
+                    <div className="compatibility-fill" style={{ width: '100%' }}></div>
                   </div>
                 </div>
               </div>
@@ -151,14 +151,14 @@ export default function NexusLanding() {
       {/* CTA Section */}
       <section className="hero" style={{ minHeight: '60vh' }}>
         <div className="hero-content">
-          <h1 style={{ fontSize: '3em' }}>Ready to Find Your Match?</h1>
-          <p>Join thousands of users who found meaningful connections</p>
+          <h1 style={{ fontSize: '3em' }}>Ready to Spark Connection?</h1>
+          <p>Join couples who keep their relationships exciting</p>
           <button 
             className="cta-button" 
             style={{ fontSize: '1.5em', padding: '25px 50px' }}
             data-testid="button-start-journey"
           >
-            Start Your Journey
+            Start Sparking
           </button>
         </div>
       </section>

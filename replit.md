@@ -8,7 +8,7 @@ The Executive Society is a premium BDSM dating platform designed for professiona
 
 ## 2. Spark It!
 
-Spark It! is a compatibility-based matching platform that uses advanced algorithms to analyze personality types, relationship styles, and compatibility factors. Built using Replit and NEXUS technology. The platform features:
+Spark It! is a couples activity app designed to help couples combat boredom and keep their relationships exciting. Built using Replit and NEXUS technology. The platform features:
 
 - **Animated App Icon**: Pulsing nexus design with constellation theme (purple-to-red gradient)
 - **Brand Colors**: Purple royal (#667eea) to passion red (#e74c3c) gradients
