@@ -1454,15 +1454,16 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Create activity rating
   app.post("/api/sparkit/activity-ratings", async (req, res) => {
     try {
-      const { coupleId, activityId, rating } = req.body;
+      const { coupleId, activityId, activityTitle, rating } = req.body;
       
-      if (!coupleId || !activityId || !rating) {
+      if (!coupleId || !activityId || !activityTitle || !rating) {
         return res.status(400).json({ error: "Missing required fields" });
       }
 
       const activityRating = await storage.createActivityRating({
         coupleId,
         activityId,
+        activityTitle,
         rating
       });
 
@@ -1476,15 +1477,16 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Create activity result (winner selection)
   app.post("/api/sparkit/activity-results", async (req, res) => {
     try {
-      const { coupleId, activityId, winner } = req.body;
+      const { coupleId, activityId, activityTitle, winner } = req.body;
       
-      if (!coupleId || !activityId || !winner) {
+      if (!coupleId || !activityId || !activityTitle || !winner) {
         return res.status(400).json({ error: "Missing required fields" });
       }
 
       const result = await storage.createActivityResult({
         coupleId,
         activityId,
+        activityTitle,
         winner
       });
 
