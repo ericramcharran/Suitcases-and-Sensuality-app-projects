@@ -1,214 +1,54 @@
 # Multi-App Project
 
-This Replit contains two separate dating applications:
+## Overview
 
-## 1. The Executive Society
+This Replit project contains two distinct dating applications: "The Executive Society" and "Spark It!".
 
-The Executive Society is a premium BDSM dating platform designed for professionals, focusing on authentic power exchange relationships. It prioritizes trust, safety, consent, and sophisticated user matching through detailed personality and relationship assessments. The platform offers role-specific features for Dominant and submissive users, including escrow account verification for Dominants. The project aims to become the leading platform for discerning individuals seeking serious power exchange dynamics, targeting a niche yet growing market segment.
+**The Executive Society** is a premium BDSM dating platform for professionals, focusing on authentic power exchange relationships. It emphasizes trust, safety, consent, and sophisticated user matching through detailed assessments. The platform offers role-specific features, including escrow verification for Dominants, aiming to be the leading platform for discerning individuals in serious power exchange dynamics.
 
-## 2. Spark It!
-
-Spark It! is a couples activity app that solves decision fatigue through simultaneous button press mechanics. Both partners press a button together to receive ONE instant activity—no browsing menus, no endless scrolling.
-
-### Business Model
-
-**Target Market**: Couples aged 25-50 across various relationship types:
-- Long distance couples
-- Couples with kids
-- Empty nesters
-- Polyamorous relationships
-- Newly dating couples
-
-**Revenue Model**:
-- **Freemium**: 3 sparks per day (free forever)
-- **Premium**: $6.99/month for unlimited sparks
-- **Future Revenue**: Partner integrations with DoorDash, Amazon, Airbnb for activity bookings
-
-### Core Features Implemented
-
-**Landing Page** (`/sparkit`):
-- Hero section with "Stop Scrolling. Start Connecting" messaging
-- Problem/solution sections addressing decision fatigue
-- Couple type cards showing target audiences
-- Pricing tiers (Free vs Premium)
-- Feature highlights with icons
-- CTAs to try the demo
-
-**Simultaneous Button Press** (`/spark`):
-- Dual-button interface simulating both partners
-- Real-time status showing who's ready
-- Freemium counter (3 sparks/day with daily reset)
-- localStorage persistence across sessions
-- Upgrade prompts when sparks depleted
-- Reset functionality during waiting state
-
-**Activity Reveal** (`/spark-activity`):
-- Beautiful reveal animation
-- Activity details (duration, cost, location, energy level)
-- Tips section for making it great
-- Save/Share functionality (planned)
-- "Just Do It!" CTA
-- Link to get another spark
-
-### Technical Implementation
-
-**Frontend**:
-- React 18+ with TypeScript
-- Vite for bundling
-- Wouter for routing
-- Custom NEXUS design system scoped under `.nexus-app` class
-- Brand colors: Purple royal (#667eea) to passion red (#e74c3c) gradients
-- All styling isolated to prevent conflicts with Executive Society
-
-**State Management**:
-- localStorage for spark counter (temporary, migrating to Firebase)
-- Daily automatic reset based on date comparison
-- Persistence across page navigations
-
-**Routes**:
-- `/sparkit` - Landing page with marketing
-- `/spark` - Simultaneous button press interface
-- `/spark-activity` - Activity reveal screen
-
-**Architecture**: Spark It! is integrated as a route within the same Express/Vite application alongside The Executive Society, sharing the same server infrastructure but maintaining completely separate styling and branding.
-
-### Firebase Integration (Pending User Credentials)
-
-**Required Secrets**:
-- `VITE_FIREBASE_API_KEY`
-- `VITE_FIREBASE_AUTH_DOMAIN`
-- `VITE_FIREBASE_PROJECT_ID`
-- `VITE_FIREBASE_STORAGE_BUCKET`
-- `VITE_FIREBASE_MESSAGING_SENDER_ID`
-- `VITE_FIREBASE_APP_ID`
-
-**Planned Firebase Features**:
-1. **Firestore Database**:
-   - User profiles with couple type preferences
-   - Activity database with categories
-   - User activity history and favorites
-   - Spark usage tracking (replacing localStorage)
-
-2. **Realtime Database**:
-   - Synchronize button presses between partner devices
-   - Real-time waiting state for both users
-
-3. **Firebase Auth**:
-   - User authentication
-   - Partner linking/pairing
-   - Profile management
-
-### Activity Database
-
-**Status**: 70 total activities implemented and active (30 G-Rated + 40 PG-13)
-
-**G-Rated Activities (30)**:
-- **Playful** (10 activities): Dance battles, skill challenges, rock-paper-scissors, tower building, hide & seek, thumb wars, paper airplanes, staring contests, pillow fights, balloon challenges
-- **Romantic/Connection** (8 activities): Slow dancing, compliment games, photo sharing, gratitude sharing, childhood stories, phone discoveries, compliment notes, dream vacation planning
-- **Silly/Creative** (7 activities): First date reenactments, song creation, impressions, blanket forts, movie scenes, secret handshakes, portrait drawing
-- **Adventure/Exploration** (5 activities): Store exploration, cuisine adventures, view hunting, destination-less walks, cooking new recipes
-
-**PG-13 Romantic Activities (40)**:
-- **Flirty Physical** (10 activities): Kissing challenges, massage train, make out sessions, body tracing, sexy dancing, lap dances, blindfold kissing, wrestling matches
-- **Verbal Seduction** (8 activities): Attraction talk, fantasy sharing, turn-on discussions, flirty texting, compliment games, memory sharing, rating features
-- **Teasing & Tension** (7 activities): Strip games, no-kiss challenges, staring contests, fashion shows, truth or dare, first kiss recreation, power play
-- **Intimate Connection** (5 activities): Sensory memory sharing, teaching preferences, slow dancing in underwear, bathing together, naked cuddling
-- **Role Play & Fantasy** (10 activities): Strangers game, movie scenes, dream encounters, would-you-rather, code words, posing, blindfold feeding, romantic scenes, turn-on confessions, exploration notes
-
-**Activity Properties**:
-- Duration: 2-60 minutes
-- Energy Level: Low/Medium/High
-- Location: Indoor/Outdoor/Flexible/Private
-- Cost: Free to $20+
-- Spice Level: G-Rated or PG-13 (with 🔥 indicator)
-- Tips: 3 actionable tips per activity
-
-**Future Enhancements**:
-- Spice level filtering (allow users to choose G-Rated only or include PG-13)
-- Category-specific searches when user profiles are added
-- R-rated activities (Premium tier, age-verified)
-- Couple type personalization (Long Distance, With Kids, Empty Nest, Polyamorous, Newly Dating)
+**Spark It!** is a couples activity app designed to combat decision fatigue. It offers a unique simultaneous button press mechanic where both partners press a button together to receive a single, instant activity suggestion. The business model is freemium (3 sparks/day free, $6.99/month for unlimited) and targets couples aged 25-50 across various relationship types. Future revenue includes partner integrations for activity bookings. Key features include a marketing landing page, the simultaneous button press interface, an activity reveal screen with rating and winner selection, and a competitive scoreboard.
 
 ## User Preferences
 
 Preferred communication style: Simple, everyday language.
 
-## Pending Integration: Twilio
-
-**Status**: Waiting for Twilio credentials to complete phone verification implementation.
-
-**Required Secrets** (to be added when user provides):
-- `TWILIO_ACCOUNT_SID` - Twilio Account SID (starts with "AC...")
-- `TWILIO_AUTH_TOKEN` - Twilio authentication token
-- `TWILIO_PHONE_NUMBER` - Twilio phone number for sending SMS (format: +1XXXXXXXXXX)
-
-**Setup Instructions for User**:
-1. Sign up at https://www.twilio.com/try-twilio ($15 free credit)
-2. Get Account SID and Auth Token from Console Dashboard
-3. Buy a phone number ($1/month) - select "SMS capable"
-4. Provide these three credentials to enable phone verification
-
-**Cost**: ~$0.06 per SMS verification
-
-**Note**: Email verification is already implemented using Resend (already configured). Phone verification code is ready but requires Twilio credentials to function.
-
 ## System Architecture
+
+The project integrates both applications within a single Express/Vite server infrastructure while maintaining separate styling and branding.
 
 ### Frontend
 
-The frontend is built with React 18+ and TypeScript, using Vite for bundling and Wouter for routing. It incorporates a design system leveraging shadcn/ui and Radix UI, styled with Tailwind CSS for dark/light mode theming. The application is a mobile-first Progressive Web App (PWA) with extensive mobile and touch optimizations. State management relies on TanStack Query for server state. The UI/UX features a professional, clean aesthetic with a rose accent color and Inter typography, inspired by premium dating apps.
+Both applications utilize React 18+ with TypeScript, Vite for bundling, and Wouter for routing.
+**The Executive Society** frontend uses a design system leveraging shadcn/ui and Radix UI, styled with Tailwind CSS for dark/light mode theming. It's built as a mobile-first Progressive Web App (PWA) with a professional, clean aesthetic, rose accent color, and Inter typography. It includes a multi-page marketing site.
+**Spark It!** frontend uses a custom NEXUS design system scoped under `.nexus-app` with brand colors transitioning from purple royal to passion red gradients, ensuring styling isolation.
 
-The marketing site is a multi-page application with dedicated sections for Home, About, Features, How It Works, Pricing, and FAQ. It includes consistent headers and footers for a cohesive user experience.
+**Key UI/UX Decisions:**
+- Mobile-first PWA design for The Executive Society.
+- Responsive design principles; avoid hardcoded pixel dimensions.
+- Professional, clean aesthetic with rose accents for The Executive Society.
+- Vibrant, gradient-based branding for Spark It!.
 
-**Critical PWA Configuration:**
-- `client/public/manifest.json`: `"start_url": "/splash"`
-- `client/src/pages/Splash.tsx`: Must redirect to `"/landing"` (not "/home") after splash animation.
+**Technical Implementations:**
+- State management relies on TanStack Query for server state.
+- Backend developed with Express.js and TypeScript, designed with a RESTful API.
+- Zod for request/response schema validation.
+- PWA configuration (`manifest.json`, `start_url`).
+- Favicon requirements (1:1 square aspect ratio).
 
-**Favicon Requirements:**
-- Favicons (`favicon-16x16.png`, `favicon-32x32.png`) must be a 1:1 square aspect ratio, cropped from the provided logo.
+**Feature Specifications:**
+- **User Onboarding (The Executive Society):** Multi-step process including age/ID verification, legal agreement acceptance (Terms, Consent, Privacy, Guidelines) with digital signatures, background checks, email and phone verification, and role-specific flows (subscription, profile creation, personality/relationship assessments). Dominants undergo escrow/financial verification.
+- **Matching & Discovery (The Executive Society):** Sophisticated compatibility algorithm based on personality, relationship style, important traits, and kink compatibility. Features a Tinder-style card swiping interface with filtering options.
+- **Core Features (The Executive Society):** Email (Resend) & optional Phone (Twilio) verification, Digital Signatures, Email Notifications, Web Push Notifications, Real-Time Messaging (WebSocket-enabled chat), Device Permissions Manager, Travel Mode, Verified & Fully Funded Badge for Dominants, Custom Privacy-focused Profile Names.
+- **Spark It! Features:** Simultaneous button press, activity reveal with rating, winner selection, competitive scoreboard, daily spark counter with freemium/premium tiers, localStorage persistence.
+- **Spark It! Activity Database:** 70 activities (30 G-Rated, 40 PG-13) with properties like duration, energy level, location, cost, spice level, and tips.
+- **Spark It! Trivia System:** 225+ trivia questions across 10 categories for competitive engagement, with a sender-selected 5-question challenge.
 
-**Mobile Responsiveness:**
-- Avoid hardcoded pixel dimensions for images; always use responsive Tailwind CSS classes (e.g., `w-full max-w-md`, `w-72 h-auto`).
-
-### Backend
-
-The backend is developed with Express.js and TypeScript, following a RESTful API design. It uses an in-memory storage abstraction (`MemStorage`) but is designed for migration to PostgreSQL with Drizzle ORM. Zod is employed for request/response schema validation.
-
-### Database Schema (Drizzle ORM)
-
-The `users` table stores comprehensive user data including identity, D/s role, profile name, verification status (with `escrowBalance` for Dominants), detailed personality and relationship assessment results, legal agreement records with digital signatures, and subscription plan details.
-
-### User Onboarding
-
-The onboarding process is multi-step, covering age and ID verification, acceptance of legal policies (Terms, Consent, Privacy, Guidelines) with digital signatures, and a background check. Users then proceed to role-specific flows for subscription selection, profile creation, **email and phone verification** (for account security and recovery), and personality/relationship assessments. Dominants also undergo escrow/financial verification. A required checkbox on the `/landing` page ensures users are 21+ and agree to terms before accessing the app content.
-
-**Verification Flow**: After signup, users must verify their email address (6-digit code sent via Resend) and can optionally verify their phone number (6-digit SMS code via Twilio, when configured). Email verification is required; phone verification can be skipped and completed later in settings.
-
-### Matching & Discovery
-
-The platform features a sophisticated compatibility algorithm based on:
-- **Personality Assessment**: Emotional Intelligence, Ethics, Sensuality, Stability, D/s Dynamics.
-- **Relationship Style & Role Compatibility**.
-- **Important Traits**: User-selected values.
-- **Kink Compatibility**: Integration of external BDSM test results for enhanced scoring.
-
-The discovery interface is a Tinder-style card swiping system displaying compatibility percentages with detailed breakdowns. Users can filter matches by various criteria including age, compatibility score, role, and lifestyle preferences.
-
-### Core Features
-
--   **Email & Phone Verification**: Multi-factor account security using 6-digit verification codes. Email verification via Resend (required during signup). Phone verification via Twilio SMS (optional, can be completed later in settings). Codes expire after 10 minutes and include resend functionality with rate limiting.
--   **Digital Signatures**: For legal agreements using `react-signature-canvas`.
--   **Email Notifications**: Transactional emails via Resend, including mutual match notifications and verification codes.
--   **Push Notifications**: Web Push Notifications using VAPID and a service worker.
--   **Real-Time Messaging**: Complete system with mutual match requirement, WebSocket-enabled chat, read receipts, and unread counts.
--   **Device Permissions**: A `Permissions Manager` utility for camera, location, notification, and gallery access.
--   **Travel Mode**: Allows users to set temporary locations for matching in other cities.
--   **Verified & Fully Funded Badge**: Premium verification for Dominants with escrow/mutual fund verification.
--   **Profile Names**: Custom, privacy-focused profile names (max 20 characters) displayed throughout the app.
-
-### Future Roadmap: Native Standalone Apps
-
-The project plans to transition from a PWA to true native iOS and Android applications. This can be achieved either by wrapping the existing web app in a WebView (faster launch) or by building native UIs (recommended long-term for optimal performance and platform-specific features). Native apps will adapt existing features like push notifications and payments to platform-specific APIs and will implement native onboarding screens for terms agreement.
+**System Design Choices:**
+- Both applications share the same Express/Vite server infrastructure.
+- PostgreSQL database with Drizzle ORM for all persistent data (`sparkit_couples`, `sparkit_activity_ratings`, `sparkit_activity_results`, `sparkit_trivia_categories`, `sparkit_trivia_questions`, `sparkit_trivia_contests`, `sparkit_trivia_answers`, `users` table for Executive Society).
+- In-memory storage abstraction (`MemStorage`) for backend, designed for PostgreSQL migration.
+- `react-signature-canvas` for digital signatures.
+- VAPID and service worker for web push notifications.
 
 ## External Dependencies
 
@@ -221,3 +61,4 @@ The project plans to transition from a PWA to true native iOS and Android applic
 -   **Email Service**: Resend.
 -   **Push Notifications**: web-push, ws.
 -   **Digital Signatures**: react-signature-canvas.
+-   **SMS Verification**: Twilio (pending credentials for phone verification).
