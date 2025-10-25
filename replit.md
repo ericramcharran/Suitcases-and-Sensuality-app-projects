@@ -100,27 +100,34 @@ Spark It! is a couples activity app that solves decision fatigue through simulta
 
 ### Activity Database
 
-**Status**: 30 G-rated activities implemented and active
+**Status**: 70 total activities implemented and active (30 G-Rated + 40 PG-13)
 
-**Categories**:
+**G-Rated Activities (30)**:
 - **Playful** (10 activities): Dance battles, skill challenges, rock-paper-scissors, tower building, hide & seek, thumb wars, paper airplanes, staring contests, pillow fights, balloon challenges
 - **Romantic/Connection** (8 activities): Slow dancing, compliment games, photo sharing, gratitude sharing, childhood stories, phone discoveries, compliment notes, dream vacation planning
 - **Silly/Creative** (7 activities): First date reenactments, song creation, impressions, blanket forts, movie scenes, secret handshakes, portrait drawing
 - **Adventure/Exploration** (5 activities): Store exploration, cuisine adventures, view hunting, destination-less walks, cooking new recipes
 
+**PG-13 Romantic Activities (40)**:
+- **Flirty Physical** (10 activities): Kissing challenges, massage train, make out sessions, body tracing, sexy dancing, lap dances, blindfold kissing, wrestling matches
+- **Verbal Seduction** (8 activities): Attraction talk, fantasy sharing, turn-on discussions, flirty texting, compliment games, memory sharing, rating features
+- **Teasing & Tension** (7 activities): Strip games, no-kiss challenges, staring contests, fashion shows, truth or dare, first kiss recreation, power play
+- **Intimate Connection** (5 activities): Sensory memory sharing, teaching preferences, slow dancing in underwear, bathing together, naked cuddling
+- **Role Play & Fantasy** (10 activities): Strangers game, movie scenes, dream encounters, would-you-rather, code words, posing, blindfold feeding, romantic scenes, turn-on confessions, exploration notes
+
 **Activity Properties**:
 - Duration: 2-60 minutes
 - Energy Level: Low/Medium/High
-- Location: Indoor/Outdoor/Flexible
+- Location: Indoor/Outdoor/Flexible/Private
 - Cost: Free to $20+
+- Spice Level: G-Rated or PG-13 (with 🔥 indicator)
 - Tips: 3 actionable tips per activity
 
-**Future Categories** (when user profiles are added):
-- Long Distance: Virtual date ideas, care packages, video activities
-- With Kids: Family-friendly, quick activities, post-bedtime dates
-- Empty Nest: Adventure activities, travel ideas, hobby exploration
-- Polyamorous: Group activities, communication exercises, boundary setting
-- Newly Dating: Getting-to-know-you activities, first experiences, light commitment
+**Future Enhancements**:
+- Spice level filtering (allow users to choose G-Rated only or include PG-13)
+- Category-specific searches when user profiles are added
+- R-rated activities (Premium tier, age-verified)
+- Couple type personalization (Long Distance, With Kids, Empty Nest, Polyamorous, Newly Dating)
 
 ## User Preferences
 
