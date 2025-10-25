@@ -7,7 +7,11 @@ export default function NexusLanding() {
   const [, setLocation] = useLocation();
 
   const handleGetStarted = () => {
-    setLocation("/spark");
+    setLocation("/sparkit/signup");
+  };
+  
+  const handleJoin = () => {
+    setLocation("/sparkit/join");
   };
 
   return (

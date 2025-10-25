@@ -15,6 +15,8 @@ import NexusLanding from "@/pages/NexusLanding";
 import SparkButton from "@/pages/SparkButton";
 import SparkActivity from "@/pages/SparkActivity";
 import Scoreboard from "@/pages/Scoreboard";
+import SparkitCoupleSignup from "@/pages/SparkitCoupleSignup";
+import SparkitJoinCouple from "@/pages/SparkitJoinCouple";
 import Home from "@/pages/Home";
 import About from "@/pages/About";
 import Features from "@/pages/Features";
@@ -130,6 +132,12 @@ function App() {
               </Route>
               <Route path="/sparkit">
                 <PageTransition><NexusLanding /></PageTransition>
+              </Route>
+              <Route path="/sparkit/signup">
+                <PageTransition><SparkitCoupleSignup /></PageTransition>
+              </Route>
+              <Route path="/sparkit/join">
+                <PageTransition><SparkitJoinCouple /></PageTransition>
               </Route>
               <Route path="/spark">
                 <PageTransition><SparkButton /></PageTransition>
