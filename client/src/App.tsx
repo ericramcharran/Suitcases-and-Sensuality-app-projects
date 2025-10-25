@@ -14,6 +14,7 @@ import Landing from "@/pages/Landing";
 import NexusLanding from "@/pages/NexusLanding";
 import SparkButton from "@/pages/SparkButton";
 import SparkActivity from "@/pages/SparkActivity";
+import Scoreboard from "@/pages/Scoreboard";
 import Home from "@/pages/Home";
 import About from "@/pages/About";
 import Features from "@/pages/Features";
@@ -135,6 +136,9 @@ function App() {
               </Route>
               <Route path="/spark-activity">
                 <PageTransition><SparkActivity /></PageTransition>
+              </Route>
+              <Route path="/scoreboard">
+                <PageTransition><Scoreboard /></PageTransition>
               </Route>
               <Route path="/logo-crop">
                 <PageTransition><LogoCrop /></PageTransition>

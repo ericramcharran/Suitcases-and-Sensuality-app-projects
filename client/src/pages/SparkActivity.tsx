@@ -1,17 +1,28 @@
 import { useState, useEffect } from "react";
-import { Sparkles, Clock, DollarSign, MapPin, Heart, Share2, Zap, Flame } from "lucide-react";
+import { Sparkles, Clock, DollarSign, MapPin, Heart, Share2, Zap, Flame, ThumbsUp, ThumbsDown, Trophy, Users } from "lucide-react";
 import { useLocation } from "wouter";
 import { getRandomActivity, type Activity } from "../data/activities";
+import { rateActivity, recordWinner, getActivityRating } from "../lib/scoreTracker";
 import "../nexus-styles.css";
 
 export default function SparkActivity() {
   const [, setLocation] = useLocation();
   const [isSaved, setIsSaved] = useState(false);
   const [activity, setActivity] = useState<Activity | null>(null);
+  const [rating, setRating] = useState<'loved' | 'meh' | null>(null);
+  const [showWinnerPicker, setShowWinnerPicker] = useState(false);
+  const [winnerRecorded, setWinnerRecorded] = useState(false);
 
   useEffect(() => {
     // Get a random activity when component mounts
-    setActivity(getRandomActivity());
+    const newActivity = getRandomActivity();
+    setActivity(newActivity);
+    
+    // Check if this activity was already rated
+    if (newActivity) {
+      const existingRating = getActivityRating(newActivity.id);
+      setRating(existingRating);
+    }
   }, []);
 
   const handleSave = () => {
@@ -26,6 +37,23 @@ export default function SparkActivity() {
 
   const handleNewSpark = () => {
     setLocation("/spark");
+  };
+
+  const handleRating = (newRating: 'loved' | 'meh') => {
+    if (!activity) return;
+    setRating(newRating);
+    rateActivity(activity.id, newRating);
+  };
+
+  const handleWinnerSelect = (winner: 'partner1' | 'partner2' | 'tie') => {
+    if (!activity) return;
+    recordWinner(activity.id, activity.title, winner);
+    setWinnerRecorded(true);
+    setShowWinnerPicker(false);
+  };
+
+  const viewScoreboard = () => {
+    setLocation("/scoreboard");
   };
 
   if (!activity) {
@@ -212,6 +240,179 @@ export default function SparkActivity() {
                   </li>
                 ))}
               </ul>
+            </div>
+          )}
+
+          {/* Rating Section */}
+          <div style={{
+            marginBottom: '30px',
+            textAlign: 'center'
+          }}>
+            <h3 style={{ 
+              fontSize: '1.2em', 
+              marginBottom: '15px', 
+              color: 'rgba(255,255,255,0.9)' 
+            }}>
+              How was this activity?
+            </h3>
+            <div style={{ display: 'flex', gap: '15px', justifyContent: 'center' }}>
+              <button
+                onClick={() => handleRating('loved')}
+                className="cta-button"
+                style={{
+                  background: rating === 'loved' ? 'var(--nexus-gradient-royal)' : 'rgba(255,255,255,0.1)',
+                  border: '2px solid rgba(102, 126, 234, 0.4)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '8px',
+                  padding: '12px 25px',
+                  opacity: rating && rating !== 'loved' ? 0.5 : 1
+                }}
+                data-testid="button-rate-loved"
+              >
+                <ThumbsUp size={20} fill={rating === 'loved' ? 'white' : 'none'} />
+                Loved It!
+              </button>
+              <button
+                onClick={() => handleRating('meh')}
+                className="cta-button"
+                style={{
+                  background: rating === 'meh' ? 'rgba(255,107,107,0.3)' : 'rgba(255,255,255,0.1)',
+                  border: '2px solid rgba(255,107,107,0.4)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '8px',
+                  padding: '12px 25px',
+                  opacity: rating && rating !== 'meh' ? 0.5 : 1
+                }}
+                data-testid="button-rate-meh"
+              >
+                <ThumbsDown size={20} fill={rating === 'meh' ? 'white' : 'none'} />
+                Not My Vibe
+              </button>
+            </div>
+          </div>
+
+          {/* Winner Selection */}
+          {!showWinnerPicker && !winnerRecorded && (
+            <div style={{ marginBottom: '30px', textAlign: 'center' }}>
+              <button
+                onClick={() => setShowWinnerPicker(true)}
+                className="cta-button"
+                style={{
+                  background: 'var(--nexus-gradient-passion)',
+                  border: 'none',
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '10px',
+                  padding: '15px 30px',
+                  fontSize: '1.1em'
+                }}
+                data-testid="button-who-won"
+              >
+                <Trophy size={20} />
+                Who Won?
+              </button>
+            </div>
+          )}
+
+          {showWinnerPicker && (
+            <div style={{
+              background: 'rgba(255,255,255,0.05)',
+              borderRadius: '20px',
+              padding: '30px',
+              marginBottom: '30px',
+              border: '2px solid rgba(231, 76, 60, 0.3)'
+            }}>
+              <h3 style={{ 
+                fontSize: '1.5em', 
+                marginBottom: '20px', 
+                color: '#e74c3c',
+                textAlign: 'center'
+              }}>
+                Who Won This Round?
+              </h3>
+              <div style={{ 
+                display: 'flex', 
+                gap: '15px', 
+                justifyContent: 'center',
+                flexWrap: 'wrap'
+              }}>
+                <button
+                  onClick={() => handleWinnerSelect('partner1')}
+                  className="cta-button"
+                  style={{
+                    background: 'var(--nexus-gradient-royal)',
+                    border: 'none',
+                    padding: '15px 30px',
+                    fontSize: '1.1em'
+                  }}
+                  data-testid="button-partner1-won"
+                >
+                  Partner 1
+                </button>
+                <button
+                  onClick={() => handleWinnerSelect('partner2')}
+                  className="cta-button"
+                  style={{
+                    background: 'var(--nexus-gradient-passion)',
+                    border: 'none',
+                    padding: '15px 30px',
+                    fontSize: '1.1em'
+                  }}
+                  data-testid="button-partner2-won"
+                >
+                  Partner 2
+                </button>
+                <button
+                  onClick={() => handleWinnerSelect('tie')}
+                  className="cta-button"
+                  style={{
+                    background: 'rgba(255,255,255,0.15)',
+                    border: '2px solid rgba(255,255,255,0.3)',
+                    padding: '15px 30px',
+                    fontSize: '1.1em'
+                  }}
+                  data-testid="button-tie"
+                >
+                  It's a Tie!
+                </button>
+              </div>
+            </div>
+          )}
+
+          {winnerRecorded && (
+            <div style={{
+              background: 'rgba(102, 126, 234, 0.15)',
+              borderRadius: '20px',
+              padding: '20px',
+              marginBottom: '30px',
+              textAlign: 'center',
+              border: '2px solid rgba(102, 126, 234, 0.3)'
+            }}>
+              <p style={{ 
+                fontSize: '1.2em', 
+                color: '#667eea',
+                marginBottom: '10px'
+              }}>
+                Score Recorded!
+              </p>
+              <button
+                onClick={viewScoreboard}
+                className="cta-button"
+                style={{
+                  background: 'var(--nexus-gradient-royal)',
+                  border: 'none',
+                  padding: '12px 25px',
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '8px'
+                }}
+                data-testid="button-view-scoreboard"
+              >
+                <Users size={18} />
+                View Scoreboard
+              </button>
             </div>
           )}
 
