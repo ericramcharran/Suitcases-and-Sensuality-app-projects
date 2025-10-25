@@ -89,24 +89,67 @@ export default function Landing() {
         </div>
       )}
 
-      {/* Keyhole vignette that closes in during zoom */}
+      {/* Dramatic zoom vignette effect */}
       {isAnimating && (
         <>
+          {/* White flash at the start */}
           <motion.div
             initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.8, delay: 0.6 }}
-            className="absolute inset-0 z-40 pointer-events-none"
-            style={{
-              background: "radial-gradient(ellipse at center, transparent 0%, transparent 5%, black 30%)",
+            animate={{ opacity: [0, 0.8, 0] }}
+            transition={{ duration: 0.4 }}
+            className="absolute inset-0 z-50 pointer-events-none bg-white"
+          />
+          
+          {/* Fast closing circular vignette */}
+          <motion.div
+            initial={{ 
+              opacity: 0,
+              clipPath: "circle(150% at 50% 50%)"
             }}
+            animate={{ 
+              opacity: 1,
+              clipPath: "circle(0% at 50% 50%)"
+            }}
+            transition={{ 
+              opacity: { duration: 0.3 },
+              clipPath: { duration: 1.5, ease: "easeInOut", delay: 0.2 }
+            }}
+            className="absolute inset-0 z-40 pointer-events-none bg-black"
           />
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.6, delay: 1.8 }}
-            className="absolute inset-0 z-50 pointer-events-none bg-black"
-          />
+          
+          {/* Particle burst effect */}
+          <div className="absolute inset-0 z-45 pointer-events-none">
+            {Array.from({ length: 30 }).map((_, i) => {
+              const angle = (i / 30) * Math.PI * 2;
+              const distance = 200 + Math.random() * 200;
+              return (
+                <motion.div
+                  key={i}
+                  className="absolute top-1/2 left-1/2"
+                  initial={{ opacity: 0, scale: 0, x: 0, y: 0 }}
+                  animate={{
+                    opacity: [0, 1, 0],
+                    scale: [0, 1.5, 0],
+                    x: Math.cos(angle) * distance,
+                    y: Math.sin(angle) * distance,
+                  }}
+                  transition={{
+                    duration: 1.0,
+                    delay: 0.1,
+                    ease: "easeOut"
+                  }}
+                >
+                  {i % 3 === 0 ? (
+                    <Heart className="w-6 h-6 text-pink-500" fill="currentColor" />
+                  ) : i % 3 === 1 ? (
+                    <Star className="w-6 h-6 text-purple-500" fill="currentColor" />
+                  ) : (
+                    <Sparkles className="w-6 h-6 text-blue-500" />
+                  )}
+                </motion.div>
+              );
+            })}
+          </div>
         </>
       )}
 
@@ -123,10 +166,9 @@ export default function Landing() {
             scale: 1, 
             y: 0 
           } : isAnimating ? {
-            y: "calc(50vh - 75%)",
-            x: [0, -15, 5, 0],
-            scale: 60,
-            rotate: [0, -2, 3, 5],
+            scale: 5,
+            opacity: 0,
+            filter: "blur(20px)",
           } : {}}
           transition={!isAnimating ? {
             type: "spring",
@@ -134,10 +176,9 @@ export default function Landing() {
             damping: 15,
             delay: 0.2,
           } : {
-            y: { duration: 0.8, ease: [0.34, 1.56, 0.64, 1] },
-            x: { duration: 2.0, delay: 0.8, ease: "easeInOut" },
-            scale: { duration: 2.0, delay: 0.8, ease: [0.4, 0.0, 0.2, 1] },
-            rotate: { duration: 2.0, delay: 0.8, ease: "easeInOut" },
+            scale: { duration: 1.5, ease: [0.4, 0.0, 0.2, 1] },
+            opacity: { duration: 1.2, delay: 0.3 },
+            filter: { duration: 1.0, delay: 0.5 },
           }}
         >
           <motion.div 
