@@ -32,7 +32,7 @@ export default function Landing() {
       color: colors[i % 6],
       left: Math.random() * 100,
       top: Math.random() * 100,
-      delay: i * 0.2,
+      delay: i * 0.03,
       duration: 6 + Math.random() * 6,
       yOffset: Math.random() * 40 - 20,
       xOffset: Math.random() * 30 - 15,

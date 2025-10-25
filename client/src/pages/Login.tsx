@@ -29,7 +29,7 @@ export default function Login() {
       color: colors[i % 4],
       left: Math.random() * 100,
       top: Math.random() * 100,
-      delay: i * 0.3,
+      delay: i * 0.04,
       duration: 4 + Math.random() * 4,
       yOffset: Math.random() * 20 - 10,
     }));
