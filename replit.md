@@ -1,8 +1,22 @@
-# The Executive Society
+# Multi-App Project
 
-## Overview
+This Replit contains two separate dating applications:
+
+## 1. The Executive Society
 
 The Executive Society is a premium BDSM dating platform designed for professionals, focusing on authentic power exchange relationships. It prioritizes trust, safety, consent, and sophisticated user matching through detailed personality and relationship assessments. The platform offers role-specific features for Dominant and submissive users, including escrow account verification for Dominants. The project aims to become the leading platform for discerning individuals seeking serious power exchange dynamics, targeting a niche yet growing market segment.
+
+## 2. NEXUS (Spark it)
+
+NEXUS is a compatibility-based matching platform that uses advanced algorithms to analyze personality types, relationship styles, and compatibility factors. The platform features:
+
+- **Animated App Icon**: Pulsing nexus design with constellation theme (purple-to-red gradient)
+- **Brand Colors**: Purple royal (#667eea) to passion red (#e74c3c) gradients
+- **Landing Page**: Hero section, feature cards with icons, phone mockup demo, CTAs
+- **Design System**: All styles scoped under `.nexus-app` to prevent conflicts
+- **Route**: Accessible at `/nexus` path within the main application
+
+**Architecture**: NEXUS is integrated as a route within the same Express/Vite application alongside The Executive Society, sharing the same server infrastructure but maintaining completely separate styling and branding.
 
 ## User Preferences
 
