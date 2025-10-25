@@ -5,7 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
-import { Eye, EyeOff, Heart, Sparkles, Star } from "lucide-react";
+import { Eye, EyeOff, Heart, Sparkles, Star, Flower2 } from "lucide-react";
 import { Logo } from "@/components/Logo";
 import { motion, useReducedMotion } from "framer-motion";
 
@@ -20,13 +20,13 @@ export default function Login() {
 
   // Memoize particle configuration to prevent re-creation on each render
   const particles = useMemo(() => {
-    const icons = [Heart, Sparkles, Star];
-    const colors = ['text-pink-300', 'text-purple-300', 'text-blue-300'];
+    const icons = [Heart, Flower2, Star, Sparkles];
+    const colors = ['text-rose-400/80', 'text-pink-400/80', 'text-purple-400/80', 'text-blue-400/80'];
     
-    return Array.from({ length: 12 }, (_, i) => ({
+    return Array.from({ length: 16 }, (_, i) => ({
       id: i,
-      Icon: icons[i % 3],
-      color: colors[i % 3],
+      Icon: icons[i % 4],
+      color: colors[i % 4],
       left: Math.random() * 100,
       top: Math.random() * 100,
       delay: i * 0.3,
@@ -117,7 +117,7 @@ export default function Login() {
               animate={{
                 y: [0, -30, 0],
                 x: [0, particle.yOffset, 0],
-                opacity: [0.3, 0.6, 0.3],
+                opacity: [0.3, 0.9, 0.3],
                 rotate: [0, 360],
               }}
               transition={{
@@ -127,7 +127,7 @@ export default function Login() {
                 ease: "easeInOut",
               }}
             >
-              <particle.Icon className={`w-4 h-4 ${particle.color}`} />
+              <particle.Icon className={`w-8 h-8 ${particle.color}`} />
             </motion.div>
           ))}
         </div>

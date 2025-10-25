@@ -1,5 +1,5 @@
 import { useState, useEffect, useMemo } from "react";
-import { Shield, Heart, Sparkles, Star, Lock, Crown } from "lucide-react";
+import { Shield, Heart, Sparkles, Star, Lock, Crown, Flower2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useLocation } from "wouter";
@@ -16,26 +16,27 @@ export default function Landing() {
 
   // Memoize particle configuration to prevent re-creation on each render
   const particles = useMemo(() => {
-    const icons = [Heart, Sparkles, Star, Lock, Crown];
+    const icons = [Heart, Flower2, Star, Sparkles, Lock, Crown];
     const colors = [
-      'text-pink-300/40',
-      'text-purple-300/40',
-      'text-blue-300/40',
-      'text-rose-300/40',
-      'text-indigo-300/40'
+      'text-rose-400/80',
+      'text-pink-400/80',
+      'text-purple-400/80',
+      'text-blue-400/80',
+      'text-indigo-400/80',
+      'text-fuchsia-400/80'
     ];
     
-    return Array.from({ length: 20 }, (_, i) => ({
+    return Array.from({ length: 24 }, (_, i) => ({
       id: i,
-      Icon: icons[i % 5],
-      color: colors[i % 5],
+      Icon: icons[i % 6],
+      color: colors[i % 6],
       left: Math.random() * 100,
       top: Math.random() * 100,
       delay: i * 0.2,
       duration: 6 + Math.random() * 6,
       yOffset: Math.random() * 40 - 20,
       xOffset: Math.random() * 30 - 15,
-      scale: 0.8 + Math.random() * 0.4,
+      scale: 0.9 + Math.random() * 0.5,
     }));
   }, []);
 
@@ -69,7 +70,7 @@ export default function Landing() {
               }}
               initial={{ opacity: 0, scale: 0 }}
               animate={{
-                opacity: [0, 0.6, 0],
+                opacity: [0, 0.9, 0],
                 y: [0, particle.yOffset, 0],
                 x: [0, particle.xOffset, 0],
                 rotate: [0, 360],
@@ -82,7 +83,7 @@ export default function Landing() {
                 ease: "easeInOut",
               }}
             >
-              <particle.Icon className={`w-6 h-6 ${particle.color}`} />
+              <particle.Icon className={`w-8 h-8 ${particle.color}`} />
             </motion.div>
           ))}
         </div>
