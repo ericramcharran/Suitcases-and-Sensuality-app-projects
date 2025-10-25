@@ -7,7 +7,7 @@ export default function NexusLanding() {
   const [, setLocation] = useLocation();
 
   const handleGetStarted = () => {
-    setLocation("/spark-button");
+    setLocation("/spark");
   };
 
   return (

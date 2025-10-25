@@ -48,7 +48,7 @@ export default function SparkButton() {
 
   const handleUser1Press = () => {
     if (sparksRemaining <= 0) {
-      setLocation("/nexus#pricing");
+      setLocation("/sparkit#pricing");
       return;
     }
     setUser1Pressed(true);
@@ -56,7 +56,7 @@ export default function SparkButton() {
 
   const handleUser2Press = () => {
     if (sparksRemaining <= 0) {
-      setLocation("/nexus#pricing");
+      setLocation("/sparkit#pricing");
       return;
     }
     setUser2Pressed(true);
@@ -126,7 +126,7 @@ export default function SparkButton() {
                 You've used your 3 free sparks today. Upgrade to Premium for unlimited sparks!
               </p>
               <button
-                onClick={() => setLocation("/nexus#pricing")}
+                onClick={() => setLocation("/sparkit#pricing")}
                 className="cta-button"
                 style={{
                   background: 'var(--nexus-gradient-passion)',

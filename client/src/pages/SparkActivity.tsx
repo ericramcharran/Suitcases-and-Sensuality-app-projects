@@ -1,30 +1,18 @@
-import { useState } from "react";
-import { Sparkles, Clock, DollarSign, MapPin, Heart, Share2 } from "lucide-react";
+import { useState, useEffect } from "react";
+import { Sparkles, Clock, DollarSign, MapPin, Heart, Share2, Zap } from "lucide-react";
 import { useLocation } from "wouter";
+import { getRandomActivity, type Activity } from "../data/activities";
 import "../nexus-styles.css";
-
-// Sample activity (will be replaced with Firebase data)
-const sampleActivity = {
-  id: "1",
-  title: "Sunset Picnic at the Park",
-  description: "Pack your favorite snacks, grab a blanket, and watch the sunset together. Perfect for meaningful conversations and quality time.",
-  category: "outdoor",
-  coupleType: ["all"],
-  duration: "2 hours",
-  cost: "$20",
-  location: "Outdoor",
-  difficulty: "Easy",
-  tips: [
-    "Check the weather forecast",
-    "Bring a cozy blanket",
-    "Pack some finger foods",
-    "Don't forget a portable speaker for music"
-  ]
-};
 
 export default function SparkActivity() {
   const [, setLocation] = useLocation();
   const [isSaved, setIsSaved] = useState(false);
+  const [activity, setActivity] = useState<Activity | null>(null);
+
+  useEffect(() => {
+    // Get a random activity when component mounts
+    setActivity(getRandomActivity());
+  }, []);
 
   const handleSave = () => {
     setIsSaved(true);
@@ -37,8 +25,12 @@ export default function SparkActivity() {
   };
 
   const handleNewSpark = () => {
-    setLocation("/spark-button");
+    setLocation("/spark");
   };
+
+  if (!activity) {
+    return null; // Loading state
+  }
 
   return (
     <div className="nexus-app" data-testid="spark-activity-page">
@@ -100,7 +92,7 @@ export default function SparkActivity() {
             WebkitTextFillColor: 'transparent',
             backgroundClip: 'text',
           }}>
-            {sampleActivity.title}
+            {activity.title}
           </h1>
 
           {/* Activity Meta */}
@@ -113,64 +105,72 @@ export default function SparkActivity() {
           }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: 'rgba(255,255,255,0.8)' }}>
               <Clock size={20} color="#e74c3c" />
-              <span>{sampleActivity.duration}</span>
+              <span>{activity.duration}</span>
             </div>
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: 'rgba(255,255,255,0.8)' }}>
               <DollarSign size={20} color="#e74c3c" />
-              <span>{sampleActivity.cost}</span>
+              <span>{activity.cost}</span>
             </div>
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: 'rgba(255,255,255,0.8)' }}>
               <MapPin size={20} color="#e74c3c" />
-              <span>{sampleActivity.location}</span>
+              <span>{activity.location}</span>
+            </div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: 'rgba(255,255,255,0.8)' }}>
+              <Zap size={20} color="#e74c3c" />
+              <span>{activity.energyLevel} Energy</span>
             </div>
           </div>
 
-          {/* Description */}
-          <p style={{ 
-            fontSize: '1.2em', 
-            lineHeight: '1.8', 
-            color: 'rgba(255,255,255,0.9)',
-            marginBottom: '30px',
-            textAlign: 'center'
-          }}>
-            {sampleActivity.description}
-          </p>
+          {/* Description (optional) */}
+          {activity.description && (
+            <p style={{ 
+              fontSize: '1.2em', 
+              lineHeight: '1.8', 
+              color: 'rgba(255,255,255,0.9)',
+              marginBottom: '30px',
+              textAlign: 'center'
+            }}>
+              {activity.description}
+            </p>
+          )}
 
           {/* Tips */}
-          <div style={{ 
-            background: 'rgba(255,255,255,0.05)', 
-            borderRadius: '20px', 
-            padding: '30px',
-            marginBottom: '30px'
-          }}>
-            <h3 style={{ 
-              fontSize: '1.5em', 
-              marginBottom: '20px', 
-              color: '#e74c3c' 
+          {activity.tips && activity.tips.length > 0 && (
+            <div style={{ 
+              background: 'rgba(255,255,255,0.05)', 
+              borderRadius: '20px', 
+              padding: '30px',
+              marginBottom: '30px'
             }}>
-              Tips to Make It Great
-            </h3>
-            <ul style={{ 
-              listStyle: 'none', 
-              padding: 0,
-              display: 'flex',
-              flexDirection: 'column',
-              gap: '15px'
-            }}>
-              {sampleActivity.tips.map((tip, index) => (
-                <li key={index} style={{ 
-                  display: 'flex', 
-                  alignItems: 'start', 
-                  gap: '10px',
-                  color: 'rgba(255,255,255,0.8)',
-                  fontSize: '1.1em'
-                }}>
-                  <span style={{ color: '#e74c3c', fontSize: '1.2em' }}>•</span>
-                  {tip}
-                </li>
-              ))}
-            </ul>
-          </div>
+              <h3 style={{ 
+                fontSize: '1.5em', 
+                marginBottom: '20px', 
+                color: '#e74c3c' 
+              }}>
+                Tips to Make It Great
+              </h3>
+              <ul style={{ 
+                listStyle: 'none', 
+                padding: 0,
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '15px'
+              }}>
+                {activity.tips.map((tip, index) => (
+                  <li key={index} style={{ 
+                    display: 'flex', 
+                    alignItems: 'start', 
+                    gap: '10px',
+                    color: 'rgba(255,255,255,0.8)',
+                    fontSize: '1.1em'
+                  }}>
+                    <span style={{ color: '#e74c3c', fontSize: '1.2em' }}>•</span>
+                    {tip}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
 
           {/* Action Buttons */}
           <div style={{ 

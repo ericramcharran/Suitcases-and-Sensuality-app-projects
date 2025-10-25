@@ -127,10 +127,10 @@ function App() {
               <Route path="/splash">
                 <PageTransition><Splash /></PageTransition>
               </Route>
-              <Route path="/nexus">
+              <Route path="/sparkit">
                 <PageTransition><NexusLanding /></PageTransition>
               </Route>
-              <Route path="/spark-button">
+              <Route path="/spark">
                 <PageTransition><SparkButton /></PageTransition>
               </Route>
               <Route path="/spark-activity">
