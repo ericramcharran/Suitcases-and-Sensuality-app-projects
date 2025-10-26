@@ -20,6 +20,7 @@ import SparkitCoupleSignup from "@/pages/SparkitCoupleSignup";
 import SparkitJoinCouple from "@/pages/SparkitJoinCouple";
 import SparkitLogin from "@/pages/SparkitLogin";
 import SparkitPricing from "@/pages/SparkitPricing";
+import SparkitPremium from "@/pages/SparkitPremium";
 import SparkitTriviaCategories from "@/pages/SparkitTriviaCategories";
 import SparkitTriviaShare from "@/pages/SparkitTriviaShare";
 import SparkitTriviaContest from "@/pages/SparkitTriviaContest";
@@ -171,6 +172,9 @@ function App() {
               </Route>
               <Route path="/sparkit/settings">
                 <PageTransition><SparkitSettings /></PageTransition>
+              </Route>
+              <Route path="/sparkit/premium">
+                <PageTransition><SparkitPremium /></PageTransition>
               </Route>
               <Route path="/spark">
                 <PageTransition><SparkButton /></PageTransition>
