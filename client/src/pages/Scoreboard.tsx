@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { Trophy, TrendingUp, Award, BarChart3, ArrowLeft } from "lucide-react";
 import { useLocation } from "wouter";
 import { useQuery } from "@tanstack/react-query";
+import { AvatarDisplay } from "@/components/AvatarDisplay";
 import "../nexus-styles.css";
 
 export default function Scoreboard() {
@@ -230,13 +231,20 @@ export default function Scoreboard() {
               padding: '30px',
               textAlign: 'center'
             }}>
-              <h3 style={{ 
-                fontSize: '1.3em', 
-                marginBottom: '15px', 
-                color: '#667eea' 
-              }}>
-                {partner1Name}
-              </h3>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '12px', marginBottom: '15px' }}>
+                <AvatarDisplay 
+                  avatarUrl={couple.partner1AvatarUrl} 
+                  size="md" 
+                  data-testid="avatar-partner1-scoreboard"
+                />
+                <h3 style={{ 
+                  fontSize: '1.3em', 
+                  color: '#667eea',
+                  margin: 0
+                }}>
+                  {partner1Name}
+                </h3>
+              </div>
               <div style={{ 
                 fontSize: '3em', 
                 fontWeight: 'bold', 
@@ -286,13 +294,20 @@ export default function Scoreboard() {
               padding: '30px',
               textAlign: 'center'
             }}>
-              <h3 style={{ 
-                fontSize: '1.3em', 
-                marginBottom: '15px', 
-                color: '#e74c3c' 
-              }}>
-                {partner2Name}
-              </h3>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '12px', marginBottom: '15px' }}>
+                <AvatarDisplay 
+                  avatarUrl={couple.partner2AvatarUrl} 
+                  size="md" 
+                  data-testid="avatar-partner2-scoreboard"
+                />
+                <h3 style={{ 
+                  fontSize: '1.3em', 
+                  color: '#e74c3c',
+                  margin: 0
+                }}>
+                  {partner2Name}
+                </h3>
+              </div>
               <div style={{ 
                 fontSize: '3em', 
                 fontWeight: 'bold', 
