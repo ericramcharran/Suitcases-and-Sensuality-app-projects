@@ -41,6 +41,9 @@ export default function SparkitCoupleSignup() {
       return await res.json();
     },
     onSuccess: (data) => {
+      // Store couple ID in localStorage
+      localStorage.setItem("sparkitCoupleId", data.id);
+      
       setCouple(data);
       toast({
         title: "Account Created!",

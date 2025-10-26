@@ -41,7 +41,10 @@ export default function SparkitLogin() {
       }
       return await res.json();
     },
-    onSuccess: () => {
+    onSuccess: (data) => {
+      // Store couple ID in localStorage for the activity pages
+      localStorage.setItem("sparkitCoupleId", data.coupleId);
+      
       toast({
         title: "Welcome Back!",
         description: "Successfully logged in.",

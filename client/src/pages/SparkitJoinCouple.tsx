@@ -53,6 +53,9 @@ export default function SparkitJoinCouple() {
       return await res.json();
     },
     onSuccess: (data) => {
+      // Store couple ID in localStorage
+      localStorage.setItem("sparkitCoupleId", data.id);
+      
       setPartnerName(data.partner1Name);
       setJoined(true);
       
