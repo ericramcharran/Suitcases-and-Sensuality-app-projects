@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Sparkles, Clock, DollarSign, MapPin, Heart, Share2, Zap, Flame, ThumbsUp, ThumbsDown, Trophy, Users } from "lucide-react";
+import { Sparkles, Clock, DollarSign, MapPin, Heart, Share2, Zap, Flame, ThumbsUp, ThumbsDown, Trophy, Users, Video } from "lucide-react";
 import { useLocation } from "wouter";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { apiRequest, queryClient } from "@/lib/queryClient";
@@ -99,6 +99,14 @@ export default function SparkActivity() {
   const viewScoreboard = () => {
     setLocation("/scoreboard");
   };
+
+  const handleVideoSpark = () => {
+    if (!activity) return;
+    sessionStorage.setItem('currentVideoActivity', JSON.stringify(activity));
+    setLocation('/sparkit/video');
+  };
+
+  const isLDRActivity = activity && ['Video Call', 'Async', 'Text Games', 'Romantic LDR', 'Creative LDR', 'Planning LDR'].includes(activity.category);
 
   if (!activity) {
     return null; // Loading state
@@ -533,6 +541,25 @@ export default function SparkActivity() {
               <Share2 size={20} />
               Share
             </button>
+
+            {isLDRActivity && (
+              <button
+                onClick={handleVideoSpark}
+                className="cta-button"
+                style={{
+                  background: 'var(--nexus-gradient-royal)',
+                  border: 'none',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '10px',
+                  padding: '18px 35px'
+                }}
+                data-testid="button-video-spark"
+              >
+                <Video size={20} />
+                Start Video Spark
+              </button>
+            )}
           </div>
         </div>
 

@@ -23,6 +23,7 @@ import SparkitTriviaCategories from "@/pages/SparkitTriviaCategories";
 import SparkitTriviaShare from "@/pages/SparkitTriviaShare";
 import SparkitTriviaContest from "@/pages/SparkitTriviaContest";
 import SparkitTriviaResults from "@/pages/SparkitTriviaResults";
+import SparkitVideoSpark from "@/pages/SparkitVideoSpark";
 import Home from "@/pages/Home";
 import About from "@/pages/About";
 import Features from "@/pages/Features";
@@ -159,6 +160,9 @@ function App() {
               </Route>
               <Route path="/sparkit/trivia/results/:contestId">
                 <PageTransition><SparkitTriviaResults /></PageTransition>
+              </Route>
+              <Route path="/sparkit/video">
+                <PageTransition><SparkitVideoSpark /></PageTransition>
               </Route>
               <Route path="/spark">
                 <PageTransition><SparkButton /></PageTransition>
