@@ -7,7 +7,13 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
 import { queryClient, apiRequest } from "@/lib/queryClient";
-import { ArrowLeft, Save, User, Sparkles } from "lucide-react";
+import { ArrowLeft, Save, User, Sparkles, Crown, Upload, Check } from "lucide-react";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Badge } from "@/components/ui/badge";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { AVATAR_ICONS, getIconAvatarUrl, isIconAvatar, getIconIdFromUrl, type AvatarIcon } from "@/data/avatarIcons";
+import { AvatarUploader } from "@/components/AvatarUploader";
 import type { SparkitCouple } from "@shared/schema";
 
 export default function SparkitSettings() {
@@ -17,6 +23,7 @@ export default function SparkitSettings() {
 
   const [partner1Name, setPartner1Name] = useState("");
   const [partner2Name, setPartner2Name] = useState("");
+  const [selectedPartner, setSelectedPartner] = useState<"partner1" | "partner2">("partner1");
 
   const { data: couple, isLoading } = useQuery<SparkitCouple>({
     queryKey: ["/api/sparkit/couples", coupleId],
@@ -63,6 +70,36 @@ export default function SparkitSettings() {
     },
   });
 
+  const updateAvatarMutation = useMutation({
+    mutationFn: async ({ partner, avatarUrl }: { partner: "partner1" | "partner2"; avatarUrl: string }) => {
+      const res = await apiRequest("PATCH", `/api/sparkit/couples/${coupleId}/avatars`, {
+        partner,
+        avatarUrl,
+      });
+      
+      if (!res.ok) {
+        const error = await res.json();
+        throw new Error(error.error || "Failed to update avatar");
+      }
+      
+      return await res.json();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["/api/sparkit/couples", coupleId] });
+      toast({
+        title: "Avatar updated!",
+        description: "Your avatar has been saved successfully.",
+      });
+    },
+    onError: (error: Error) => {
+      toast({
+        variant: "destructive",
+        title: "Update failed",
+        description: error.message || "Could not update avatar. Please try again.",
+      });
+    },
+  });
+
   if (!coupleId) {
     return (
       <div className="nexus-app min-h-screen flex items-center justify-center p-4 bg-gradient-to-br from-nexus-purple/20 to-nexus-red/20">
@@ -101,8 +138,103 @@ export default function SparkitSettings() {
       return;
     }
 
-
     updateNamesMutation.mutate();
+  };
+
+  const handleSelectIconAvatar = (iconId: string) => {
+    if (couple?.subscriptionPlan === "trial") {
+      toast({
+        variant: "destructive",
+        title: "Premium Feature",
+        description: "Avatars are available with Premium subscription. Upgrade to customize your profile!",
+      });
+      return;
+    }
+
+    const avatarUrl = getIconAvatarUrl(iconId);
+    updateAvatarMutation.mutate({ partner: selectedPartner, avatarUrl });
+  };
+
+  const handleGetUploadParameters = async () => {
+    if (couple?.subscriptionPlan === "trial") {
+      toast({
+        variant: "destructive",
+        title: "Premium Feature",
+        description: "Custom avatars are available with Premium subscription. Upgrade now!",
+      });
+      throw new Error("Premium feature");
+    }
+
+    // Get upload URL
+    const uploadUrlRes = await apiRequest("POST", "/api/sparkit/avatar/upload-url", {
+      coupleId,
+    });
+
+    if (!uploadUrlRes.ok) {
+      toast({
+        variant: "destructive",
+        title: "Upload failed",
+        description: "Could not get upload URL. Please try again.",
+      });
+      throw new Error("Failed to get upload URL");
+    }
+
+    const { uploadURL } = await uploadUrlRes.json();
+    
+    return {
+      method: "PUT" as const,
+      url: uploadURL,
+    };
+  };
+
+  const handleUploadComplete = (objectPath: string) => {
+    // Update avatar with object path
+    updateAvatarMutation.mutate({ partner: selectedPartner, avatarUrl: objectPath });
+  };
+
+  const getCurrentAvatar = (partner: "partner1" | "partner2") => {
+    return partner === "partner1" ? couple?.partner1AvatarUrl : couple?.partner2AvatarUrl;
+  };
+
+  const renderAvatarPreview = (avatarUrl: string | null | undefined, size: "sm" | "lg" = "sm") => {
+    const sizeClass = size === "lg" ? "w-24 h-24" : "w-12 h-12";
+    const iconSize = size === "lg" ? "w-12 h-12" : "w-6 h-6";
+
+    if (!avatarUrl) {
+      return (
+        <Avatar className={sizeClass} data-testid="avatar-preview-empty">
+          <AvatarFallback className="bg-gradient-to-br from-nexus-purple/20 to-nexus-red/20">
+            <User className={iconSize} />
+          </AvatarFallback>
+        </Avatar>
+      );
+    }
+
+    if (isIconAvatar(avatarUrl)) {
+      const iconId = getIconIdFromUrl(avatarUrl);
+      const avatarIcon = AVATAR_ICONS.find(icon => icon.id === iconId);
+      
+      if (avatarIcon) {
+        const IconComponent = avatarIcon.icon;
+        return (
+          <Avatar className={sizeClass} data-testid={`avatar-preview-icon-${iconId}`}>
+            <AvatarFallback className="bg-gradient-to-br from-nexus-purple/20 to-nexus-red/20">
+              <IconComponent className={iconSize} />
+            </AvatarFallback>
+          </Avatar>
+        );
+      }
+    }
+
+    // Custom uploaded avatar
+    return (
+      <Avatar className={sizeClass} data-testid="avatar-preview-custom">
+        <img src={avatarUrl} alt="Avatar" className="object-cover" />
+        <AvatarFallback className="bg-gradient-to-br from-nexus-purple/20 to-nexus-red/20">
+          <User className={iconSize} />
+        </AvatarFallback>
+      </Avatar>
+    );
   };
 
   return (
@@ -189,6 +321,162 @@ export default function SparkitSettings() {
               )}
             </Button>
           </div>
+        </Card>
+
+        {/* Avatar Selection Card */}
+        <Card className="p-6 mb-6">
+          <div className="flex items-center justify-between mb-6">
+            <div className="flex items-center gap-3">
+              <Sparkles className="w-5 h-5 text-nexus-purple" />
+              <h2 className="text-xl font-semibold">Avatars</h2>
+            </div>
+            {couple.subscriptionPlan === "trial" && (
+              <Badge variant="secondary" className="bg-gradient-to-r from-nexus-purple to-nexus-red text-white">
+                <Crown className="w-3 h-3 mr-1" />
+                Premium
+              </Badge>
+            )}
+          </div>
+
+          {/* Partner Selector Tabs */}
+          <Tabs value={selectedPartner} onValueChange={(value) => setSelectedPartner(value as "partner1" | "partner2")} className="w-full">
+            <TabsList className="grid w-full grid-cols-2 mb-6">
+              <TabsTrigger value="partner1" data-testid="tab-partner1-avatar">
+                {partner1Name || "Partner 1"}
+              </TabsTrigger>
+              <TabsTrigger value="partner2" data-testid="tab-partner2-avatar">
+                {partner2Name || "Partner 2"}
+              </TabsTrigger>
+            </TabsList>
+
+            {/* Partner 1 Avatar */}
+            <TabsContent value="partner1" className="space-y-6">
+              {/* Current Avatar Preview */}
+              <div className="flex flex-col items-center gap-4">
+                <Label className="text-sm font-medium">Current Avatar</Label>
+                {renderAvatarPreview(getCurrentAvatar("partner1"), "lg")}
+                <p className="text-xs text-gray-500 dark:text-gray-400 text-center">
+                  {getCurrentAvatar("partner1") ? "Your selected avatar" : "No avatar selected"}
+                </p>
+              </div>
+
+              {/* Icon Gallery */}
+              <div className="space-y-3">
+                <Label className="text-sm font-medium">Choose an Icon</Label>
+                <ScrollArea className="h-64 rounded-md border p-4">
+                  <div className="grid grid-cols-6 gap-3">
+                    {AVATAR_ICONS.map((icon) => {
+                      const IconComponent = icon.icon;
+                      const isSelected = getCurrentAvatar("partner1") === getIconAvatarUrl(icon.id);
+                      
+                      return (
+                        <button
+                          key={icon.id}
+                          onClick={() => handleSelectIconAvatar(icon.id)}
+                          disabled={updateAvatarMutation.isPending}
+                          className={`
+                            relative p-3 rounded-md border-2 transition-all hover-elevate active-elevate-2
+                            ${isSelected ? "border-nexus-purple bg-nexus-purple/10" : "border-gray-200 dark:border-gray-700"}
+                            disabled:opacity-50 disabled:cursor-not-allowed
+                          `}
+                          data-testid={`icon-avatar-${icon.id}`}
+                          aria-label={icon.label}
+                        >
+                          <IconComponent className="w-6 h-6 mx-auto" />
+                          {isSelected && (
+                            <div className="absolute -top-1 -right-1 bg-nexus-purple rounded-full p-0.5">
+                              <Check className="w-3 h-3 text-white" />
+                            </div>
+                          )}
+                        </button>
+                      );
+                    })}
+                  </div>
+                </ScrollArea>
+              </div>
+
+              {/* Custom Upload */}
+              <div className="space-y-3">
+                <Label className="text-sm font-medium">Or Upload Custom Avatar</Label>
+                <AvatarUploader
+                  onGetUploadParameters={handleGetUploadParameters}
+                  onComplete={handleUploadComplete}
+                  maxFileSize={5242880}
+                  buttonClassName="w-full bg-gradient-to-r from-nexus-purple to-nexus-red hover:opacity-90 transition-opacity"
+                  disabled={couple.subscriptionPlan === "trial" || updateAvatarMutation.isPending}
+                />
+                {couple.subscriptionPlan === "trial" && (
+                  <p className="text-xs text-gray-500 dark:text-gray-400">
+                    Custom avatars require Premium subscription
+                  </p>
+                )}
+              </div>
+            </TabsContent>
+
+            {/* Partner 2 Avatar */}
+            <TabsContent value="partner2" className="space-y-6">
+              {/* Current Avatar Preview */}
+              <div className="flex flex-col items-center gap-4">
+                <Label className="text-sm font-medium">Current Avatar</Label>
+                {renderAvatarPreview(getCurrentAvatar("partner2"), "lg")}
+                <p className="text-xs text-gray-500 dark:text-gray-400 text-center">
+                  {getCurrentAvatar("partner2") ? "Your selected avatar" : "No avatar selected"}
+                </p>
+              </div>
+
+              {/* Icon Gallery */}
+              <div className="space-y-3">
+                <Label className="text-sm font-medium">Choose an Icon</Label>
+                <ScrollArea className="h-64 rounded-md border p-4">
+                  <div className="grid grid-cols-6 gap-3">
+                    {AVATAR_ICONS.map((icon) => {
+                      const IconComponent = icon.icon;
+                      const isSelected = getCurrentAvatar("partner2") === getIconAvatarUrl(icon.id);
+                      
+                      return (
+                        <button
+                          key={icon.id}
+                          onClick={() => handleSelectIconAvatar(icon.id)}
+                          disabled={updateAvatarMutation.isPending}
+                          className={`
+                            relative p-3 rounded-md border-2 transition-all hover-elevate active-elevate-2
+                            ${isSelected ? "border-nexus-purple bg-nexus-purple/10" : "border-gray-200 dark:border-gray-700"}
+                            disabled:opacity-50 disabled:cursor-not-allowed
+                          `}
+                          data-testid={`icon-avatar-${icon.id}`}
+                          aria-label={icon.label}
+                        >
+                          <IconComponent className="w-6 h-6 mx-auto" />
+                          {isSelected && (
+                            <div className="absolute -top-1 -right-1 bg-nexus-purple rounded-full p-0.5">
+                              <Check className="w-3 h-3 text-white" />
+                            </div>
+                          )}
+                        </button>
+                      );
+                    })}
+                  </div>
+                </ScrollArea>
+              </div>
+
+              {/* Custom Upload */}
+              <div className="space-y-3">
+                <Label className="text-sm font-medium">Or Upload Custom Avatar</Label>
+                <AvatarUploader
+                  onGetUploadParameters={handleGetUploadParameters}
+                  onComplete={handleUploadComplete}
+                  maxFileSize={5242880}
+                  buttonClassName="w-full bg-gradient-to-r from-nexus-purple to-nexus-red hover:opacity-90 transition-opacity"
+                  disabled={couple.subscriptionPlan === "trial" || updateAvatarMutation.isPending}
+                />
+                {couple.subscriptionPlan === "trial" && (
+                  <p className="text-xs text-gray-500 dark:text-gray-400">
+                    Custom avatars require Premium subscription
+                  </p>
+                )}
+              </div>
+            </TabsContent>
+          </Tabs>
         </Card>
 
         {/* Couple Info Card */}
