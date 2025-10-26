@@ -147,7 +147,7 @@ export default function NexusLanding() {
           <div className="step-card" data-testid="step-3">
             <div className="step-number">3</div>
             <Sparkles size={48} color="#e74c3c" />
-            <h3>Just Do It</h3>
+            <h3>Just Spark It and Go</h3>
             <p>No overthinking. No scrolling. Go make memories together</p>
           </div>
 
