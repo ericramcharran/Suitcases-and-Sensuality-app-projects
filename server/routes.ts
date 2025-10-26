@@ -12,6 +12,7 @@ import webpush from "web-push";
 import { WebSocketServer, WebSocket } from "ws";
 import { uploadUserDataToDrive } from "./googleDrive";
 import { ObjectStorageService, ObjectNotFoundError } from "./objectStorage";
+import bcrypt from "bcrypt";
 
 // Initialize Stripe (from blueprint:javascript_stripe)
 // Guard initialization to allow development without keys
@@ -1339,10 +1340,12 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
       // Determine which partner is logging in and verify password
       let partnerRole: 'partner1' | 'partner2' | null = null;
-      if (couple.partner1Email === email && couple.partner1Password === password) {
-        partnerRole = 'partner1';
-      } else if (couple.partner2Email === email && couple.partner2Password === password) {
-        partnerRole = 'partner2';
+      if (couple.partner1Email === email && couple.partner1Password) {
+        const isValid = await bcrypt.compare(password, couple.partner1Password);
+        if (isValid) partnerRole = 'partner1';
+      } else if (couple.partner2Email === email && couple.partner2Password) {
+        const isValid = await bcrypt.compare(password, couple.partner2Password);
+        if (isValid) partnerRole = 'partner2';
       }
 
       if (!partnerRole) {
@@ -1430,6 +1433,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(400).json({ error: "Email already registered" });
       }
 
+      // Hash password before storing
+      const hashedPassword = await bcrypt.hash(partner1Password, 10);
+
       // Generate unique couple code
       let coupleCode = generateCoupleCode();
       let codeExists = await storage.getCoupleByCode(coupleCode);
@@ -1444,7 +1450,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         coupleCode,
         partner1Name,
         partner1Email,
-        partner1Password,
+        partner1Password: hashedPassword,
         partner2Name: null,
         subscriptionPlan: 'trial', // Start with trial for immediate premium features access
         sparksRemaining: 10, // Trial gets 10 total sparks
@@ -1489,11 +1495,14 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(400).json({ error: "This couple is already complete" });
       }
 
+      // Hash password before storing
+      const hashedPassword = await bcrypt.hash(partner2Password, 10);
+
       // When partner 2 joins, start the trial period with 10 total sparks
       const updatedCouple = await storage.updateCouple(couple.id, {
         partner2Name,
         partner2Email,
-        partner2Password,
+        partner2Password: hashedPassword,
         partner2JoinedAt: new Date(),
         subscriptionPlan: 'trial',
         sparksRemaining: 10, // Trial gets 10 total sparks
