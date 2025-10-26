@@ -1514,6 +1514,149 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Create trivia contest (send challenge)
+  app.post("/api/sparkit/trivia/contests", async (req, res) => {
+    try {
+      const { coupleId, categoryId, categoryName, questionIds, senderName } = req.body;
+      
+      if (!coupleId || !categoryId || !categoryName || !questionIds || !senderName) {
+        return res.status(400).json({ error: "Missing required fields" });
+      }
+
+      if (!Array.isArray(questionIds) || questionIds.length !== 5) {
+        return res.status(400).json({ error: "questionIds must be an array of 5 question IDs" });
+      }
+
+      const contest = await storage.createTriviaContest({
+        coupleId,
+        categoryId,
+        categoryName,
+        questionIds,
+        senderName,
+        status: 'pending'
+      });
+
+      res.json(contest);
+    } catch (error) {
+      console.error('Create trivia contest error:', error);
+      res.status(500).json({ error: "Failed to create trivia contest" });
+    }
+  });
+
+  // Get trivia contest by ID
+  app.get("/api/sparkit/trivia/contests/:id", async (req, res) => {
+    try {
+      const { id } = req.params;
+      const contest = await storage.getTriviaContestById(id);
+      
+      if (!contest) {
+        return res.status(404).json({ error: "Contest not found" });
+      }
+
+      res.json(contest);
+    } catch (error) {
+      console.error('Get trivia contest error:', error);
+      res.status(500).json({ error: "Failed to get trivia contest" });
+    }
+  });
+
+  // Get trivia contests by couple ID
+  app.get("/api/sparkit/trivia/couples/:coupleId/contests", async (req, res) => {
+    try {
+      const { coupleId } = req.params;
+      const contests = await storage.getTriviaContestsByCoupleId(coupleId);
+      
+      res.json(contests);
+    } catch (error) {
+      console.error('Get trivia contests error:', error);
+      res.status(500).json({ error: "Failed to get trivia contests" });
+    }
+  });
+
+  // Submit trivia answers
+  app.post("/api/sparkit/trivia/contests/:id/answers", async (req, res) => {
+    try {
+      const { id } = req.params;
+      const { answers, receiverName } = req.body;
+
+      if (!answers || !Array.isArray(answers) || answers.length !== 5) {
+        return res.status(400).json({ error: "answers must be an array of 5 answers" });
+      }
+
+      if (!receiverName) {
+        return res.status(400).json({ error: "receiverName is required" });
+      }
+
+      const contest = await storage.getTriviaContestById(id);
+      if (!contest) {
+        return res.status(404).json({ error: "Contest not found" });
+      }
+
+      if (contest.status !== 'pending') {
+        return res.status(400).json({ error: "Contest has already been completed" });
+      }
+
+      // Save all answers
+      let correctCount = 0;
+      for (const answer of answers) {
+        await storage.createTriviaAnswer({
+          contestId: id,
+          questionId: answer.questionId,
+          selectedAnswer: answer.selectedAnswer,
+          isCorrect: answer.isCorrect
+        });
+        
+        if (answer.isCorrect) {
+          correctCount++;
+        }
+      }
+
+      // Update contest with score and status
+      const updatedContest = await storage.updateTriviaContest(id, {
+        status: 'completed',
+        score: correctCount,
+        receiverName
+      });
+
+      res.json({
+        contest: updatedContest,
+        score: correctCount,
+        totalQuestions: 5
+      });
+    } catch (error) {
+      console.error('Submit trivia answers error:', error);
+      res.status(500).json({ error: "Failed to submit trivia answers" });
+    }
+  });
+
+  // Get trivia results (contest with answers)
+  app.get("/api/sparkit/trivia/contests/:id/results", async (req, res) => {
+    try {
+      const { id } = req.params;
+      const contest = await storage.getTriviaContestById(id);
+      
+      if (!contest) {
+        return res.status(404).json({ error: "Contest not found" });
+      }
+
+      if (contest.status !== 'completed') {
+        return res.status(400).json({ error: "Contest not yet completed" });
+      }
+
+      const answers = await storage.getTriviaAnswersByContestId(id);
+
+      res.json({
+        contest,
+        answers,
+        score: contest.score,
+        totalQuestions: 5
+      });
+    } catch (error) {
+      console.error('Get trivia results error:', error);
+      res.status(500).json({ error: "Failed to get trivia results" });
+    }
+  });
+
   // Create Spark It! subscription checkout session
   app.post("/api/sparkit/create-subscription", async (req, res) => {
     try {
