@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { DailyProvider, useDaily, useParticipantIds, DailyVideo } from '@daily-co/daily-react';
 import DailyIframe, { DailyCall } from '@daily-co/daily-js';
 import { Button } from '@/components/ui/button';
@@ -122,24 +122,20 @@ function VideoCallContent({ roomUrl, onLeave }: VideoCallProps) {
 }
 
 export default function VideoCall({ roomUrl, onLeave }: VideoCallProps) {
-  const callObjectRef = useRef<DailyCall | null>(null);
+  const [callObject, setCallObject] = useState<DailyCall | null>(null);
 
   useEffect(() => {
-    if (!callObjectRef.current) {
-      callObjectRef.current = DailyIframe.createCallObject({
-        subscribeToTracksAutomatically: true,
-      });
-    }
+    const daily = DailyIframe.createCallObject({
+      subscribeToTracksAutomatically: true,
+    });
+    setCallObject(daily);
 
     return () => {
-      if (callObjectRef.current) {
-        callObjectRef.current.destroy();
-        callObjectRef.current = null;
-      }
+      daily.destroy();
     };
   }, []);
 
-  if (!callObjectRef.current) {
+  if (!callObject) {
     return (
       <div className="w-full h-full flex items-center justify-center">
         <p className="text-muted-foreground">Loading video...</p>
@@ -148,7 +144,7 @@ export default function VideoCall({ roomUrl, onLeave }: VideoCallProps) {
   }
 
   return (
-    <DailyProvider callObject={callObjectRef.current}>
+    <DailyProvider callObject={callObject}>
       <VideoCallContent roomUrl={roomUrl} onLeave={onLeave} />
     </DailyProvider>
   );
