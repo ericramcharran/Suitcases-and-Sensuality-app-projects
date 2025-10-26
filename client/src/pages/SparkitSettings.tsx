@@ -14,6 +14,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { AVATAR_ICONS, getIconAvatarUrl, isIconAvatar, getIconIdFromUrl, type AvatarIcon } from "@/data/avatarIcons";
 import { AvatarUploader } from "@/components/AvatarUploader";
+import { AvatarDisplay } from "@/components/AvatarDisplay";
 import type { SparkitCouple } from "@shared/schema";
 
 export default function SparkitSettings() {
@@ -196,47 +197,6 @@ export default function SparkitSettings() {
     return partner === "partner1" ? couple?.partner1AvatarUrl : couple?.partner2AvatarUrl;
   };
 
-  const renderAvatarPreview = (avatarUrl: string | null | undefined, size: "sm" | "lg" = "sm") => {
-    const sizeClass = size === "lg" ? "w-24 h-24" : "w-12 h-12";
-    const iconSize = size === "lg" ? "w-12 h-12" : "w-6 h-6";
-
-    if (!avatarUrl) {
-      return (
-        <Avatar className={sizeClass} data-testid="avatar-preview-empty">
-          <AvatarFallback className="bg-gradient-to-br from-nexus-purple/20 to-nexus-red/20">
-            <User className={iconSize} />
-          </AvatarFallback>
-        </Avatar>
-      );
-    }
-
-    if (isIconAvatar(avatarUrl)) {
-      const iconId = getIconIdFromUrl(avatarUrl);
-      const avatarIcon = AVATAR_ICONS.find(icon => icon.id === iconId);
-      
-      if (avatarIcon) {
-        const IconComponent = avatarIcon.icon;
-        return (
-          <Avatar className={sizeClass} data-testid={`avatar-preview-icon-${iconId}`}>
-            <AvatarFallback className="bg-gradient-to-br from-nexus-purple/20 to-nexus-red/20">
-              <IconComponent className={iconSize} />
-            </AvatarFallback>
-          </Avatar>
-        );
-      }
-    }
-
-    // Custom uploaded avatar
-    return (
-      <Avatar className={sizeClass} data-testid="avatar-preview-custom">
-        <img src={avatarUrl} alt="Avatar" className="object-cover" />
-        <AvatarFallback className="bg-gradient-to-br from-nexus-purple/20 to-nexus-red/20">
-          <User className={iconSize} />
-        </AvatarFallback>
-      </Avatar>
-    );
-  };
-
   return (
     <div className="nexus-app min-h-screen bg-gradient-to-br from-nexus-purple/20 to-nexus-red/20">
       <div className="max-w-2xl mx-auto p-4 py-8">
@@ -354,7 +314,11 @@ export default function SparkitSettings() {
               {/* Current Avatar Preview */}
               <div className="flex flex-col items-center gap-4">
                 <Label className="text-sm font-medium">Current Avatar</Label>
-                {renderAvatarPreview(getCurrentAvatar("partner1"), "lg")}
+                <AvatarDisplay 
+                  avatarUrl={getCurrentAvatar("partner1")} 
+                  size="xl" 
+                  data-testid="avatar-preview-partner1"
+                />
                 <p className="text-xs text-gray-500 dark:text-gray-400 text-center">
                   {getCurrentAvatar("partner1") ? "Your selected avatar" : "No avatar selected"}
                 </p>
@@ -418,7 +382,11 @@ export default function SparkitSettings() {
               {/* Current Avatar Preview */}
               <div className="flex flex-col items-center gap-4">
                 <Label className="text-sm font-medium">Current Avatar</Label>
-                {renderAvatarPreview(getCurrentAvatar("partner2"), "lg")}
+                <AvatarDisplay 
+                  avatarUrl={getCurrentAvatar("partner2")} 
+                  size="xl" 
+                  data-testid="avatar-preview-partner2"
+                />
                 <p className="text-xs text-gray-500 dark:text-gray-400 text-center">
                   {getCurrentAvatar("partner2") ? "Your selected avatar" : "No avatar selected"}
                 </p>
