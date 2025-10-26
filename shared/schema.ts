@@ -320,6 +320,15 @@ export const insertSparkitVideoSessionSchema = createInsertSchema(sparkitVideoSe
   createdAt: true,
 });
 
+// Update partner names schema (for PATCH /api/sparkit/couples/:id/names)
+export const updateCoupleNamesSchema = z.object({
+  partner1Name: z.string().min(1).max(50).optional(),
+  partner2Name: z.string().min(1).max(50).optional(),
+}).refine(
+  (data) => data.partner1Name !== undefined || data.partner2Name !== undefined,
+  { message: "At least one partner name must be provided" }
+);
+
 // Spark It! Types
 export type InsertSparkitCouple = z.infer<typeof insertSparkitCoupleSchema>;
 export type SparkitCouple = typeof sparkitCouples.$inferSelect;

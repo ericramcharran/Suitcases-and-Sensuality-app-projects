@@ -1,7 +1,7 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
-import { insertUserSchema, insertPersonalityAnswersSchema, insertRelationshipAnswersSchema, insertPushSubscriptionSchema } from "@shared/schema";
+import { insertUserSchema, insertPersonalityAnswersSchema, insertRelationshipAnswersSchema, insertPushSubscriptionSchema, updateCoupleNamesSchema, type InsertSparkitCouple } from "@shared/schema";
 import { z } from "zod";
 import multer from "multer";
 import path from "path";
@@ -1422,6 +1422,39 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error('Get couple error:', error);
       res.status(500).json({ error: "Failed to get couple" });
+    }
+  });
+
+  // Update couple partner names
+  app.patch("/api/sparkit/couples/:id/names", async (req, res) => {
+    try {
+      const { id } = req.params;
+      
+      // Validate request body
+      const validation = updateCoupleNamesSchema.safeParse(req.body);
+      if (!validation.success) {
+        return res.status(400).json({ 
+          error: "Validation failed",
+          details: validation.error.errors 
+        });
+      }
+
+      const { partner1Name, partner2Name } = validation.data;
+
+      const updates: Partial<InsertSparkitCouple> = {};
+      if (partner1Name !== undefined) updates.partner1Name = partner1Name;
+      if (partner2Name !== undefined) updates.partner2Name = partner2Name;
+
+      const updatedCouple = await storage.updateCouple(id, updates);
+      
+      if (!updatedCouple) {
+        return res.status(404).json({ error: "Couple not found" });
+      }
+
+      res.json(updatedCouple);
+    } catch (error) {
+      console.error('Update couple names error:', error);
+      res.status(500).json({ error: "Failed to update couple names" });
     }
   });
 
