@@ -393,11 +393,11 @@ export class DatabaseStorage implements IStorage {
 
     // STEP 3: For trial plan, consume a spark if available (NO daily reset for trial)
     if (couple.subscriptionPlan === 'trial') {
-      if (couple.sparksRemaining > 0) {
+      if ((couple.sparksRemaining ?? 0) > 0) {
         const result = await db
           .update(sparkitCouples)
           .set({ 
-            sparksRemaining: couple.sparksRemaining - 1,
+            sparksRemaining: (couple.sparksRemaining ?? 0) - 1,
             totalSparksUsed: (couple.totalSparksUsed || 0) + 1
           })
           .where(eq(sparkitCouples.id, id))
@@ -412,7 +412,7 @@ export class DatabaseStorage implements IStorage {
     const today = new Date().toDateString();
     const lastReset = couple.lastSparkReset ? new Date(couple.lastSparkReset).toDateString() : null;
     
-    let currentSparksRemaining = couple.sparksRemaining;
+    let currentSparksRemaining = couple.sparksRemaining ?? 0;
     if (lastReset !== today) {
       // Reset daily sparks AND consume one spark atomically
       const result = await db
