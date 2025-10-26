@@ -231,7 +231,7 @@ export default function NexusLanding() {
           
           <div className="pricing-card pricing-premium" data-testid="pricing-premium">
             <div className="pricing-badge">MOST POPULAR</div>
-            <h3>Premium</h3>
+            <h3>Premium Monthly</h3>
             <div className="price">$6.99</div>
             <p className="price-period">per month</p>
             <ul className="pricing-features">
@@ -246,6 +246,27 @@ export default function NexusLanding() {
               data-testid="button-upgrade-premium"
             >
               Upgrade to Premium
+            </button>
+          </div>
+
+          <div className="pricing-card pricing-premium" data-testid="pricing-yearly">
+            <div className="pricing-badge">BEST VALUE</div>
+            <h3>Premium Yearly</h3>
+            <div className="price">$59.99</div>
+            <p className="price-period">per year</p>
+            <p className="savings">Save $24 vs monthly</p>
+            <ul className="pricing-features">
+              <li><Zap size={20} /> Unlimited Sparks</li>
+              <li><Sparkles size={20} /> Priority activity matching</li>
+              <li><DollarSign size={20} /> Exclusive partner deals</li>
+              <li><Heart size={20} /> Save favorite activities</li>
+            </ul>
+            <button 
+              onClick={handleGetStarted}
+              className="pricing-button pricing-button-premium" 
+              data-testid="button-upgrade-yearly"
+            >
+              Get Best Deal
             </button>
           </div>
         </div>

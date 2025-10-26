@@ -534,6 +534,14 @@
     margin-bottom: 30px;
 }
 
+.nexus-app .savings {
+    color: #4ade80;
+    font-weight: bold;
+    font-size: 1.1em;
+    margin-top: -20px;
+    margin-bottom: 20px;
+}
+
 .nexus-app .pricing-features {
     list-style: none;
     padding: 0;
