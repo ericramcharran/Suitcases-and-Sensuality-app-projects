@@ -51,7 +51,7 @@ export default function SparkitTriviaShare() {
       <div className="max-w-2xl mx-auto">
         <Button
           variant="ghost"
-          onClick={() => setLocation("/sparkit/trivia/categories")}
+          onClick={() => setLocation("/spark")}
           className="mb-4"
           data-testid="button-back"
         >
@@ -135,7 +135,7 @@ export default function SparkitTriviaShare() {
 
         <div className="mt-6 flex gap-3">
           <Button
-            onClick={() => setLocation("/sparkit/spark")}
+            onClick={() => setLocation("/spark")}
             variant="outline"
             className="flex-1"
             data-testid="button-home"

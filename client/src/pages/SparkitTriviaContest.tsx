@@ -53,15 +53,9 @@ export default function SparkitTriviaContest() {
 
   const submitAnswersMutation = useMutation({
     mutationFn: async () => {
-      return await apiRequest(`/api/sparkit/trivia/contests/${contestId}/answers`, {
-        method: "POST",
-        body: JSON.stringify({
-          answers,
-          receiverName
-        }),
-        headers: {
-          "Content-Type": "application/json"
-        }
+      return await apiRequest("POST", `/api/sparkit/trivia/contests/${contestId}/answers`, {
+        answers,
+        receiverName
       });
     },
     onSuccess: () => {

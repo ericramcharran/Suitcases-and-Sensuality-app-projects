@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Zap, Users, Check, UserPlus } from "lucide-react";
+import { Zap, Users, Check, UserPlus, Brain, Trophy } from "lucide-react";
 import { useLocation } from "wouter";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { apiRequest, queryClient } from "@/lib/queryClient";
@@ -223,6 +223,59 @@ export default function SparkButton() {
           )}
         </div>
       </div>
+
+      {/* Navigation section for additional features */}
+      {couple.partner2Name && (
+        <div style={{ 
+          padding: '20px', 
+          display: 'flex', 
+          justifyContent: 'center',
+          gap: '15px',
+          flexWrap: 'wrap',
+          borderBottom: '1px solid rgba(255,255,255,0.1)'
+        }}>
+          <button
+            onClick={() => setLocation("/sparkit/trivia/categories")}
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '10px',
+              padding: '12px 24px',
+              borderRadius: '30px',
+              background: 'rgba(102, 126, 234, 0.2)',
+              border: '2px solid #667eea',
+              color: 'white',
+              cursor: 'pointer',
+              fontSize: '1em',
+              transition: 'all 0.3s',
+            }}
+            data-testid="button-trivia"
+          >
+            <Brain size={20} />
+            Trivia Challenge
+          </button>
+          <button
+            onClick={() => setLocation("/scoreboard")}
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '10px',
+              padding: '12px 24px',
+              borderRadius: '30px',
+              background: 'rgba(231, 76, 60, 0.2)',
+              border: '2px solid #e74c3c',
+              color: 'white',
+              cursor: 'pointer',
+              fontSize: '1em',
+              transition: 'all 0.3s',
+            }}
+            data-testid="button-scoreboard"
+          >
+            <Trophy size={20} />
+            Scoreboard
+          </button>
+        </div>
+      )}
 
       {/* Partner 2 not yet joined */}
       {!couple.partner2Name && (

@@ -78,7 +78,7 @@ export default function SparkitTriviaResults() {
           </CardHeader>
           <CardContent>
             <Button 
-              onClick={() => setLocation("/sparkit/spark")}
+              onClick={() => setLocation("/spark")}
               className="w-full"
               data-testid="button-home"
             >
@@ -112,7 +112,7 @@ export default function SparkitTriviaResults() {
       <div className="max-w-2xl mx-auto">
         <Button
           variant="ghost"
-          onClick={() => setLocation("/sparkit/spark")}
+          onClick={() => setLocation("/spark")}
           className="mb-4"
           data-testid="button-back"
         >

@@ -3,10 +3,24 @@ import { useLocation } from "wouter";
 import { triviaCategories, getRandomQuestionsByCategory } from "../data/triviaQuestions";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, Brain, Trophy } from "lucide-react";
+import { ArrowLeft, Brain, Trophy, Film, Flask, Scroll, Globe, UtensilsCrossed, Music, BookOpen, Lightbulb, Heart } from "lucide-react";
 import { apiRequest, queryClient } from "@/lib/queryClient";
 import { useMutation } from "@tanstack/react-query";
 import { useToast } from "@/hooks/use-toast";
+
+// Map icon names to components
+const iconMap: Record<string, any> = {
+  Film,
+  Flask,
+  Scroll,
+  Globe,
+  UtensilsCrossed,
+  Trophy,
+  Music,
+  BookOpen,
+  Lightbulb,
+  Heart
+};
 
 export default function SparkitTriviaCategories() {
   const [, setLocation] = useLocation();
@@ -25,18 +39,12 @@ export default function SparkitTriviaCategories() {
       const questions = getRandomQuestionsByCategory(categoryId, 5);
       const questionIds = questions.map(q => q.id);
 
-      return await apiRequest("/api/sparkit/trivia/contests", {
-        method: "POST",
-        body: JSON.stringify({
-          coupleId,
-          categoryId: category.id,
-          categoryName: category.name,
-          questionIds,
-          senderName: couple?.partner1Name || "Partner 1"
-        }),
-        headers: {
-          "Content-Type": "application/json"
-        }
+      return await apiRequest("POST", "/api/sparkit/trivia/contests", {
+        coupleId,
+        categoryId: category.id,
+        categoryName: category.name,
+        questionIds,
+        senderName: couple?.partner1Name || "Partner 1"
       });
     },
     onSuccess: (data) => {
@@ -87,7 +95,7 @@ export default function SparkitTriviaCategories() {
         <div className="mb-6">
           <Button
             variant="ghost"
-            onClick={() => setLocation("/sparkit/spark")}
+            onClick={() => setLocation("/spark")}
             className="mb-4"
             data-testid="button-back"
           >
@@ -107,31 +115,36 @@ export default function SparkitTriviaCategories() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {triviaCategories.map((category) => (
-            <Card
-              key={category.id}
-              className={`cursor-pointer transition-all hover-elevate active-elevate-2 ${
-                selectedCategory === category.id ? "ring-2 ring-purple-500" : ""
-              }`}
-              onClick={() => handleCategorySelect(category.id)}
-              data-testid={`category-${category.id}`}
-            >
-              <CardHeader>
-                <div className="flex items-center gap-3">
-                  <div className="text-4xl">{category.icon}</div>
-                  <div className="flex-1">
-                    <CardTitle className="text-lg">{category.name}</CardTitle>
-                    <CardDescription className="text-sm">
-                      5 questions
-                    </CardDescription>
+          {triviaCategories.map((category) => {
+            const IconComponent = iconMap[category.icon];
+            return (
+              <Card
+                key={category.id}
+                className={`cursor-pointer transition-all hover-elevate active-elevate-2 ${
+                  selectedCategory === category.id ? "ring-2 ring-purple-500" : ""
+                }`}
+                onClick={() => handleCategorySelect(category.id)}
+                data-testid={`category-${category.id}`}
+              >
+                <CardHeader>
+                  <div className="flex items-center gap-3">
+                    <div className="flex items-center justify-center w-12 h-12 rounded-full bg-gradient-to-r from-purple-500 to-red-500">
+                      <IconComponent className="w-6 h-6 text-white" />
+                    </div>
+                    <div className="flex-1">
+                      <CardTitle className="text-lg">{category.name}</CardTitle>
+                      <CardDescription className="text-sm">
+                        5 questions
+                      </CardDescription>
+                    </div>
+                    {selectedCategory === category.id && createContestMutation.isPending && (
+                      <div className="w-5 h-5 border-2 border-purple-500 border-t-transparent rounded-full animate-spin" />
+                    )}
                   </div>
-                  {selectedCategory === category.id && createContestMutation.isPending && (
-                    <div className="w-5 h-5 border-2 border-purple-500 border-t-transparent rounded-full animate-spin" />
-                  )}
-                </div>
-              </CardHeader>
-            </Card>
-          ))}
+                </CardHeader>
+              </Card>
+            );
+          })}
         </div>
 
         <Card className="mt-8 bg-gradient-to-r from-purple-500/10 to-red-500/10 border-purple-500/20">

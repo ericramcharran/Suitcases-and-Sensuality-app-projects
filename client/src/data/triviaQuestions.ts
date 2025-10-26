@@ -11,16 +11,16 @@ export interface TriviaQuestion {
 }
 
 export const triviaCategories = [
-  { id: 'pop-culture', name: 'Pop Culture', icon: '🎬' },
-  { id: 'science', name: 'Science & Nature', icon: '🔬' },
-  { id: 'history', name: 'History', icon: '📜' },
-  { id: 'geography', name: 'Geography', icon: '🌍' },
-  { id: 'food-drink', name: 'Food & Drink', icon: '🍕' },
-  { id: 'sports', name: 'Sports', icon: '⚽' },
-  { id: 'music', name: 'Music', icon: '🎵' },
-  { id: 'literature', name: 'Literature', icon: '📚' },
-  { id: 'general', name: 'General Knowledge', icon: '🧠' },
-  { id: 'couples', name: 'Love & Relationships', icon: '💕' },
+  { id: 'pop-culture', name: 'Pop Culture', icon: 'Film' },
+  { id: 'science', name: 'Science & Nature', icon: 'Flask' },
+  { id: 'history', name: 'History', icon: 'Scroll' },
+  { id: 'geography', name: 'Geography', icon: 'Globe' },
+  { id: 'food-drink', name: 'Food & Drink', icon: 'UtensilsCrossed' },
+  { id: 'sports', name: 'Sports', icon: 'Trophy' },
+  { id: 'music', name: 'Music', icon: 'Music' },
+  { id: 'literature', name: 'Literature', icon: 'BookOpen' },
+  { id: 'general', name: 'General Knowledge', icon: 'Lightbulb' },
+  { id: 'couples', name: 'Love & Relationships', icon: 'Heart' },
 ];
 
 export const triviaQuestions: TriviaQuestion[] = [

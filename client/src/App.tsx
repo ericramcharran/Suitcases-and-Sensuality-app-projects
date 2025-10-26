@@ -19,6 +19,10 @@ import Scoreboard from "@/pages/Scoreboard";
 import SparkitCoupleSignup from "@/pages/SparkitCoupleSignup";
 import SparkitJoinCouple from "@/pages/SparkitJoinCouple";
 import SparkitPricing from "@/pages/SparkitPricing";
+import SparkitTriviaCategories from "@/pages/SparkitTriviaCategories";
+import SparkitTriviaShare from "@/pages/SparkitTriviaShare";
+import SparkitTriviaContest from "@/pages/SparkitTriviaContest";
+import SparkitTriviaResults from "@/pages/SparkitTriviaResults";
 import Home from "@/pages/Home";
 import About from "@/pages/About";
 import Features from "@/pages/Features";
@@ -143,6 +147,18 @@ function App() {
               </Route>
               <Route path="/sparkit/pricing">
                 <PageTransition><SparkitPricing /></PageTransition>
+              </Route>
+              <Route path="/sparkit/trivia/categories">
+                <PageTransition><SparkitTriviaCategories /></PageTransition>
+              </Route>
+              <Route path="/sparkit/trivia/share/:contestId">
+                <PageTransition><SparkitTriviaShare /></PageTransition>
+              </Route>
+              <Route path="/sparkit/trivia/contest/:contestId">
+                <PageTransition><SparkitTriviaContest /></PageTransition>
+              </Route>
+              <Route path="/sparkit/trivia/results/:contestId">
+                <PageTransition><SparkitTriviaResults /></PageTransition>
               </Route>
               <Route path="/spark">
                 <PageTransition><SparkButton /></PageTransition>
