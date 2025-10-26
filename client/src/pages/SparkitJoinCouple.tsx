@@ -15,6 +15,8 @@ import { Link, useLocation } from "wouter";
 const joinSchema = z.object({
   coupleCode: z.string().length(6, "Couple code must be 6 characters"),
   partner2Name: z.string().min(2, "Name must be at least 2 characters"),
+  partner2Email: z.string().email("Please enter a valid email"),
+  partner2Password: z.string().min(6, "Password must be at least 6 characters"),
 });
 
 type JoinForm = z.infer<typeof joinSchema>;
@@ -30,6 +32,8 @@ export default function SparkitJoinCouple() {
     defaultValues: {
       coupleCode: "",
       partner2Name: "",
+      partner2Email: "",
+      partner2Password: "",
     },
   });
 
@@ -185,6 +189,44 @@ export default function SparkitJoinCouple() {
                         {...field}
                         placeholder="Enter your name"
                         data-testid="input-partner-name"
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="partner2Email"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Email</FormLabel>
+                    <FormControl>
+                      <Input
+                        {...field}
+                        type="email"
+                        placeholder="your.email@example.com"
+                        data-testid="input-partner-email"
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="partner2Password"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Password</FormLabel>
+                    <FormControl>
+                      <Input
+                        {...field}
+                        type="password"
+                        placeholder="Minimum 6 characters"
+                        data-testid="input-partner-password"
                       />
                     </FormControl>
                     <FormMessage />
