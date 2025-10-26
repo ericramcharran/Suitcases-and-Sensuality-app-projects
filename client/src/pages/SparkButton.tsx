@@ -425,6 +425,33 @@ export default function SparkButton() {
               </div>
             )}
 
+            {/* Celebration Sparkles */}
+            {bothPressed && (
+              <div style={{
+                position: 'fixed',
+                top: '50%',
+                left: '50%',
+                transform: 'translate(-50%, -50%)',
+                pointerEvents: 'none',
+                zIndex: 1000,
+              }}>
+                {[...Array(8)].map((_, i) => (
+                  <Sparkles
+                    key={i}
+                    size={40}
+                    color="#FFD700"
+                    style={{
+                      position: 'absolute',
+                      top: `${Math.cos((i * Math.PI) / 4) * 150}px`,
+                      left: `${Math.sin((i * Math.PI) / 4) * 150}px`,
+                      animation: 'nexus-sparkle 1s ease-out infinite',
+                      animationDelay: `${i * 0.1}s`,
+                    }}
+                  />
+                ))}
+              </div>
+            )}
+
             {/* Dual Button Interface */}
             <div style={{ 
               display: 'flex', 
@@ -448,18 +475,23 @@ export default function SparkButton() {
                   className="spark-button-demo"
                   data-testid="button-spark-user1"
                   style={{
-                    width: '200px',
-                    height: '200px',
+                    position: 'relative',
+                    width: '220px',
+                    height: '220px',
                     borderRadius: '50%',
-                    background: user1Pressed 
-                      ? 'var(--nexus-gradient-royal)' 
-                      : 'var(--nexus-gradient-passion)',
-                    border: 'none',
+                    background: bothPressed
+                      ? 'linear-gradient(135deg, #FFD700 0%, #FFA500 100%)'
+                      : user1Pressed 
+                        ? 'var(--nexus-gradient-royal)' 
+                        : 'var(--nexus-gradient-passion)',
+                    border: bothPressed ? '4px solid #FFD700' : user1Pressed ? '3px solid #667eea' : '3px solid transparent',
                     cursor: user1Pressed ? 'default' : 'pointer',
-                    boxShadow: user1Pressed 
-                      ? '0 15px 40px rgba(102, 126, 234, 0.6)' 
-                      : '0 20px 60px rgba(231, 76, 60, 0.6)',
-                    transition: 'all 0.3s',
+                    boxShadow: bothPressed
+                      ? '0 0 60px rgba(255, 215, 0, 0.8), 0 0 100px rgba(255, 215, 0, 0.5)'
+                      : user1Pressed 
+                        ? '0 15px 40px rgba(102, 126, 234, 0.6), inset 0 0 30px rgba(102, 126, 234, 0.3)' 
+                        : '0 20px 60px rgba(231, 76, 60, 0.6), inset 0 0 30px rgba(231, 76, 60, 0.2)',
+                    transition: 'all 0.4s ease',
                     display: 'flex',
                     flexDirection: 'column',
                     alignItems: 'center',
@@ -468,11 +500,14 @@ export default function SparkButton() {
                     fontSize: '1.8em',
                     fontWeight: 'bold',
                     color: 'white',
-                    opacity: user1Pressed ? 0.8 : 1,
+                    textShadow: '0 2px 10px rgba(0,0,0,0.3)',
+                    animation: !user1Pressed && !bothPressed ? 'nexus-button-pulse 2s ease-in-out infinite' : bothPressed ? 'nexus-spark-celebration 0.6s ease-in-out' : 'none',
                   }}
                 >
-                  {user1Pressed ? <Check size={60} /> : <Zap size={60} />}
-                  {user1Pressed ? 'Ready!' : 'PRESS'}
+                  {bothPressed ? <Sparkles size={70} /> : user1Pressed ? <Check size={70} /> : <Zap size={70} />}
+                  <span style={{ fontSize: '0.6em', letterSpacing: '2px' }}>
+                    {bothPressed ? 'SPARK!' : user1Pressed ? 'READY' : 'PRESS'}
+                  </span>
                 </button>
               </div>
 
@@ -488,18 +523,23 @@ export default function SparkButton() {
                   className="spark-button-demo"
                   data-testid="button-spark-user2"
                   style={{
-                    width: '200px',
-                    height: '200px',
+                    position: 'relative',
+                    width: '220px',
+                    height: '220px',
                     borderRadius: '50%',
-                    background: user2Pressed 
-                      ? 'var(--nexus-gradient-royal)' 
-                      : 'var(--nexus-gradient-passion)',
-                    border: 'none',
+                    background: bothPressed
+                      ? 'linear-gradient(135deg, #FFD700 0%, #FFA500 100%)'
+                      : user2Pressed 
+                        ? 'var(--nexus-gradient-royal)' 
+                        : 'var(--nexus-gradient-passion)',
+                    border: bothPressed ? '4px solid #FFD700' : user2Pressed ? '3px solid #667eea' : '3px solid transparent',
                     cursor: user2Pressed ? 'default' : 'pointer',
-                    boxShadow: user2Pressed 
-                      ? '0 15px 40px rgba(102, 126, 234, 0.6)' 
-                      : '0 20px 60px rgba(231, 76, 60, 0.6)',
-                    transition: 'all 0.3s',
+                    boxShadow: bothPressed
+                      ? '0 0 60px rgba(255, 215, 0, 0.8), 0 0 100px rgba(255, 215, 0, 0.5)'
+                      : user2Pressed 
+                        ? '0 15px 40px rgba(102, 126, 234, 0.6), inset 0 0 30px rgba(102, 126, 234, 0.3)' 
+                        : '0 20px 60px rgba(231, 76, 60, 0.6), inset 0 0 30px rgba(231, 76, 60, 0.2)',
+                    transition: 'all 0.4s ease',
                     display: 'flex',
                     flexDirection: 'column',
                     alignItems: 'center',
@@ -508,11 +548,15 @@ export default function SparkButton() {
                     fontSize: '1.8em',
                     fontWeight: 'bold',
                     color: 'white',
-                    opacity: user2Pressed ? 0.8 : 1,
+                    textShadow: '0 2px 10px rgba(0,0,0,0.3)',
+                    animation: !user2Pressed && !bothPressed ? 'nexus-button-pulse 2s ease-in-out infinite' : bothPressed ? 'nexus-spark-celebration 0.6s ease-in-out' : 'none',
+                    animationDelay: !user2Pressed && !bothPressed ? '0.3s' : '0s',
                   }}
                 >
-                  {user2Pressed ? <Check size={60} /> : <Zap size={60} />}
-                  {user2Pressed ? 'Ready!' : 'PRESS'}
+                  {bothPressed ? <Sparkles size={70} /> : user2Pressed ? <Check size={70} /> : <Zap size={70} />}
+                  <span style={{ fontSize: '0.6em', letterSpacing: '2px' }}>
+                    {bothPressed ? 'SPARK!' : user2Pressed ? 'READY' : 'PRESS'}
+                  </span>
                 </button>
               </div>
             </div>
@@ -550,9 +594,24 @@ export default function SparkButton() {
             )}
 
             {bothPressed && (
-              <p style={{ color: '#e74c3c', fontSize: '1.5em', fontWeight: 'bold' }}>
-                Spark Ignited! Getting your activity...
-              </p>
+              <div style={{ textAlign: 'center' }}>
+                <p style={{ 
+                  color: '#FFD700', 
+                  fontSize: '2em', 
+                  fontWeight: 'bold',
+                  textShadow: '0 0 20px rgba(255, 215, 0, 0.8)',
+                  animation: 'nexus-glow-pulse 1s ease-in-out infinite',
+                  marginBottom: '10px',
+                }}>
+                  ✨ SPARK IGNITED! ✨
+                </p>
+                <p style={{ 
+                  color: 'rgba(255,255,255,0.8)', 
+                  fontSize: '1.2em',
+                }}>
+                  Getting your activity...
+                </p>
+              </div>
             )}
 
             {/* Info Box */}
