@@ -80,7 +80,7 @@ export default function NexusLanding() {
           <h1>Spark It!</h1>
           <p className="hero-tagline">Stop Scrolling. Start Connecting.</p>
           <p className="hero-subtext">
-            Both press the button. Get one instant activity. No menus. No choices. Just do it.
+            Press the button together. One instant activity appears. Zero menus. Zero scrolling. Just spark and go.
           </p>
           <button 
             onClick={handleGetStarted}
@@ -113,8 +113,8 @@ export default function NexusLanding() {
           <div className="solution-box">
             <h2>The Solution</h2>
             <p>
-              <strong>Both people press a button simultaneously.</strong> Get one instant activity. 
-              No menus. No choices. <strong>Just do it.</strong>
+              <strong>You both press the button together.</strong> One instant activity appears. 
+              Zero menus. Zero decisions. <strong>Just spark and go.</strong>
             </p>
           </div>
         </div>
