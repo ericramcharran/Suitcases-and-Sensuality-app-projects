@@ -55,10 +55,6 @@ export default function SparkitJoinCouple() {
       setPartnerName(data.partner1Name);
       setJoined(true);
       
-      // Store couple ID in localStorage for the app
-      localStorage.setItem("sparkitCoupleId", data.id);
-      localStorage.setItem("sparkitPartnerRole", "partner2");
-      
       toast({
         title: "Connected!",
         description: `You're now connected with ${data.partner1Name}!`,

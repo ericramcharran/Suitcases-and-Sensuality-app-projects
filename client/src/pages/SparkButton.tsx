@@ -10,13 +10,14 @@ export default function SparkButton() {
   const [, setLocation] = useLocation();
   const [user1Pressed, setUser1Pressed] = useState(false);
   const [user2Pressed, setUser2Pressed] = useState(false);
-  const [coupleId, setCoupleId] = useState<string | null>(null);
 
-  // Get couple ID from localStorage
-  useEffect(() => {
-    const storedCoupleId = localStorage.getItem("sparkitCoupleId");
-    setCoupleId(storedCoupleId);
-  }, []);
+  // Check authentication via session
+  const { data: authData, isLoading: authLoading } = useQuery<{ coupleId: string; partnerRole: string } | null>({
+    queryKey: ["/api/sparkit/auth/me"],
+    retry: false,
+  });
+
+  const coupleId = authData?.coupleId ?? null;
 
   // Fetch couple data from database
   const { data: couple, isLoading } = useQuery<SparkitCouple>({
@@ -86,18 +87,26 @@ export default function SparkButton() {
 
   const bothPressed = user1Pressed && user2Pressed;
 
-  // If no couple ID, redirect to signup
-  if (!coupleId) {
+  // If not authenticated, redirect to login
+  if (!authLoading && !coupleId) {
     return (
       <div className="nexus-app" data-testid="spark-button-page">
         <section className="hero" style={{ minHeight: '100vh' }}>
           <div className="hero-content">
             <h1 style={{ fontSize: '3em', marginBottom: '20px' }}>Welcome to Spark It!</h1>
             <p style={{ fontSize: '1.3em', marginBottom: '50px', maxWidth: '700px', lineHeight: '1.6' }}>
-              You need to create or join a couple account to start sparking.
+              You need to log in to start sparking.
             </p>
             
             <div style={{ display: 'flex', gap: '20px', justifyContent: 'center', flexWrap: 'wrap' }}>
+              <button
+                onClick={() => setLocation("/sparkit/login")}
+                className="cta-button"
+                data-testid="button-login"
+              >
+                Log In
+              </button>
+
               <button
                 onClick={() => setLocation("/sparkit/signup")}
                 className="cta-button"
