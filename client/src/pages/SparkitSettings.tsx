@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
 import { queryClient, apiRequest } from "@/lib/queryClient";
-import { ArrowLeft, Save, User, Sparkles, Crown, Upload, Check } from "lucide-react";
+import { ArrowLeft, Save, User, Sparkles, Crown, Upload, Check, LogOut } from "lucide-react";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -20,11 +20,18 @@ import type { SparkitCouple } from "@shared/schema";
 export default function SparkitSettings() {
   const [, setLocation] = useLocation();
   const { toast } = useToast();
-  const coupleId = localStorage.getItem("sparkitCoupleId");
 
   const [partner1Name, setPartner1Name] = useState("");
   const [partner2Name, setPartner2Name] = useState("");
   const [selectedPartner, setSelectedPartner] = useState<"partner1" | "partner2">("partner1");
+
+  // Check authentication via session
+  const { data: authData } = useQuery<{ coupleId: string; partnerRole: string } | null>({
+    queryKey: ["/api/sparkit/auth/me"],
+    retry: false,
+  });
+
+  const coupleId = authData?.coupleId ?? null;
 
   const { data: couple, isLoading } = useQuery<SparkitCouple>({
     queryKey: ["/api/sparkit/couples", coupleId],
@@ -97,6 +104,31 @@ export default function SparkitSettings() {
         variant: "destructive",
         title: "Update failed",
         description: error.message || "Could not update avatar. Please try again.",
+      });
+    },
+  });
+
+  const logoutMutation = useMutation({
+    mutationFn: async () => {
+      const res = await apiRequest("POST", "/api/sparkit/auth/logout", {});
+      if (!res.ok) {
+        throw new Error("Logout failed");
+      }
+      return await res.json();
+    },
+    onSuccess: () => {
+      queryClient.clear();
+      toast({
+        title: "Logged out",
+        description: "You've been successfully logged out.",
+      });
+      setLocation("/sparkit/login");
+    },
+    onError: () => {
+      toast({
+        variant: "destructive",
+        title: "Logout failed",
+        description: "Could not log out. Please try again.",
       });
     },
   });
@@ -454,7 +486,7 @@ export default function SparkitSettings() {
         </Card>
 
         {/* Couple Info Card */}
-        <Card className="p-6">
+        <Card className="p-6 mb-6">
           <h3 className="text-lg font-semibold mb-4">Couple Information</h3>
           <div className="space-y-3 text-sm">
             <div className="flex justify-between">
@@ -472,6 +504,30 @@ export default function SparkitSettings() {
               </div>
             )}
           </div>
+        </Card>
+
+        {/* Logout Card */}
+        <Card className="p-6">
+          <h3 className="text-lg font-semibold mb-4">Account</h3>
+          <Button
+            onClick={() => logoutMutation.mutate()}
+            disabled={logoutMutation.isPending}
+            variant="outline"
+            className="w-full"
+            data-testid="button-logout"
+          >
+            {logoutMutation.isPending ? (
+              <>
+                <div className="inline-block animate-spin rounded-full h-4 w-4 border-b-2 border-current mr-2"></div>
+                Logging out...
+              </>
+            ) : (
+              <>
+                <LogOut className="w-4 h-4 mr-2" />
+                Log Out
+              </>
+            )}
+          </Button>
         </Card>
       </div>
     </div>
