@@ -1840,6 +1840,608 @@ export const activities: Activity[] = [
       "Be realistic about timelines",
       "Having direction gives hope"
     ]
+  },
+
+  // DEEP CONNECTION - ROMANTIC (40 activities)
+  {
+    id: 121,
+    title: "Eye contact challenge: Look into each other's eyes for 2 minutes without talking or laughing.",
+    duration: "2 minutes",
+    category: "Connection",
+    energyLevel: "Low",
+    location: "Private",
+    cost: "Free",
+    spiceLevel: "G-Rated",
+    tips: [
+      "Set a timer so you don't have to count",
+      "It's okay if it feels awkward at first",
+      "This builds intimacy and trust"
+    ]
+  },
+  {
+    id: 122,
+    title: "Share three things you've never told anyone else. Take turns.",
+    duration: "15 minutes",
+    category: "Connection",
+    energyLevel: "Low",
+    location: "Private",
+    cost: "Free",
+    spiceLevel: "G-Rated",
+    tips: [
+      "Create a safe, judgment-free space",
+      "Listen without interrupting",
+      "Keep these secrets sacred"
+    ]
+  },
+  {
+    id: 123,
+    title: "Ask each other: 'What made you fall in love with me?' Answer honestly.",
+    duration: "10 minutes",
+    category: "Connection",
+    energyLevel: "Low",
+    location: "Private",
+    cost: "Free",
+    spiceLevel: "G-Rated",
+    tips: [
+      "Be specific with your answer",
+      "Share the exact moment if you can",
+      "This is a beautiful reminder of your bond"
+    ]
+  },
+  {
+    id: 124,
+    title: "Describe your perfect day together, from waking up to falling asleep.",
+    duration: "12 minutes",
+    category: "Connection",
+    energyLevel: "Low",
+    location: "Flexible",
+    cost: "Free",
+    spiceLevel: "G-Rated",
+    tips: [
+      "Include all the little details",
+      "See how your visions align",
+      "Maybe try to make it happen soon"
+    ]
+  },
+  {
+    id: 125,
+    title: "Take turns finishing: 'I feel most loved by you when you...' Say three things each.",
+    duration: "8 minutes",
+    category: "Connection",
+    energyLevel: "Low",
+    location: "Flexible",
+    cost: "Free",
+    spiceLevel: "G-Rated",
+    tips: [
+      "Be specific about actions",
+      "Remember these - they're your partner's love language",
+      "Try to do these more often"
+    ]
+  },
+  {
+    id: 126,
+    title: "Share your biggest dream that scares you to say out loud. Support each other.",
+    duration: "15 minutes",
+    category: "Connection",
+    energyLevel: "Low",
+    location: "Private",
+    cost: "Free",
+    spiceLevel: "G-Rated",
+    tips: [
+      "This requires vulnerability",
+      "Be each other's biggest cheerleader",
+      "Dreams shared are dreams supported"
+    ]
+  },
+  {
+    id: 127,
+    title: "Trade phones. Each person finds one thing that makes you smile about the other.",
+    duration: "10 minutes",
+    category: "Connection",
+    energyLevel: "Low",
+    location: "Flexible",
+    cost: "Free",
+    spiceLevel: "G-Rated",
+    tips: [
+      "Look at photos, notes, messages",
+      "Share what made you smile",
+      "Requires trust and openness"
+    ]
+  },
+  {
+    id: 128,
+    title: "Tell the story of your relationship from your perspective. Compare notes.",
+    duration: "20 minutes",
+    category: "Connection",
+    energyLevel: "Low",
+    location: "Flexible",
+    cost: "Free",
+    spiceLevel: "G-Rated",
+    tips: [
+      "Notice what each person remembers",
+      "Different perspectives are interesting",
+      "You're writing your story together"
+    ]
+  },
+  {
+    id: 129,
+    title: "What's one thing you wish I knew about you? Now's the time to share.",
+    duration: "10 minutes",
+    category: "Connection",
+    energyLevel: "Low",
+    location: "Private",
+    cost: "Free",
+    spiceLevel: "G-Rated",
+    tips: [
+      "Be brave and honest",
+      "This deepens understanding",
+      "Listen with an open heart"
+    ]
+  },
+  {
+    id: 130,
+    title: "Write down what you love most about today, this moment, with them.",
+    duration: "5 minutes",
+    category: "Connection",
+    energyLevel: "Low",
+    location: "Flexible",
+    cost: "Free",
+    spiceLevel: "G-Rated",
+    tips: [
+      "Focus on the present moment",
+      "Share what you wrote",
+      "Keep these notes for hard days"
+    ]
+  },
+  {
+    id: 131,
+    title: "Give each other a hand massage. No talking. Just be present.",
+    duration: "10 minutes",
+    category: "Romantic",
+    energyLevel: "Low",
+    location: "Private",
+    cost: "Free",
+    spiceLevel: "G-Rated",
+    tips: [
+      "Use lotion or oil if available",
+      "5 minutes per person",
+      "Focus on being gentle and caring"
+    ]
+  },
+  {
+    id: 132,
+    title: "Take turns brushing each other's hair. Make it relaxing and gentle.",
+    duration: "8 minutes",
+    category: "Romantic",
+    energyLevel: "Low",
+    location: "Private",
+    cost: "Free",
+    spiceLevel: "G-Rated",
+    tips: [
+      "Go slowly and carefully",
+      "This is intimate and calming",
+      "Works for any hair length"
+    ]
+  },
+  {
+    id: 133,
+    title: "One person sits. Other gives a 5-minute shoulder massage. Then switch.",
+    duration: "10 minutes",
+    category: "Romantic",
+    energyLevel: "Low",
+    location: "Private",
+    cost: "Free",
+    spiceLevel: "G-Rated",
+    tips: [
+      "Ask about pressure preference",
+      "Focus on tension areas",
+      "This is caring, not perfection"
+    ]
+  },
+  {
+    id: 134,
+    title: "Make each other's favorite drink exactly how they like it. Serve with a kiss.",
+    duration: "8 minutes",
+    category: "Romantic",
+    energyLevel: "Low",
+    location: "Indoor",
+    cost: "Under $5",
+    spiceLevel: "G-Rated",
+    tips: [
+      "Get all the details right",
+      "Present it with care",
+      "Small acts of service matter"
+    ]
+  },
+  {
+    id: 135,
+    title: "Pick out tomorrow's outfit for each other. Explain why you chose it.",
+    duration: "10 minutes",
+    category: "Romantic",
+    energyLevel: "Low",
+    location: "Indoor",
+    cost: "Free",
+    spiceLevel: "G-Rated",
+    tips: [
+      "Think about what looks good on them",
+      "Consider their schedule tomorrow",
+      "Have fun with this"
+    ]
+  },
+  {
+    id: 136,
+    title: "Draw a bath for your partner. Add candles, music, whatever makes it special.",
+    duration: "15 minutes",
+    category: "Romantic",
+    energyLevel: "Low",
+    location: "Indoor",
+    cost: "Under $5",
+    spiceLevel: "G-Rated",
+    tips: [
+      "Set the perfect temperature",
+      "Add bath salts or bubbles",
+      "Create a spa atmosphere"
+    ]
+  },
+  {
+    id: 137,
+    title: "Write three things you'll do this week to make their life easier. Do them.",
+    duration: "5 minutes",
+    category: "Romantic",
+    energyLevel: "Low",
+    location: "Flexible",
+    cost: "Free",
+    spiceLevel: "G-Rated",
+    tips: [
+      "Think about what they need help with",
+      "Follow through is key",
+      "Actions speak louder than words"
+    ]
+  },
+  {
+    id: 138,
+    title: "Feed each other dessert blindfolded. Guess what it is.",
+    duration: "10 minutes",
+    category: "Romantic",
+    energyLevel: "Low",
+    location: "Indoor",
+    cost: "Under $5",
+    spiceLevel: "G-Rated",
+    tips: [
+      "Choose a variety of textures",
+      "Go slowly and carefully",
+      "This is playful and intimate"
+    ]
+  },
+  {
+    id: 139,
+    title: "Take turns reading love quotes. After each one, say why it reminds you of them.",
+    duration: "10 minutes",
+    category: "Connection",
+    energyLevel: "Low",
+    location: "Flexible",
+    cost: "Free",
+    spiceLevel: "G-Rated",
+    tips: [
+      "Find quotes online or in books",
+      "Make it personal with your explanations",
+      "This sparks beautiful conversations"
+    ]
+  },
+  {
+    id: 140,
+    title: "Text each other something you love about them. Read out loud when you get it.",
+    duration: "5 minutes",
+    category: "Connection",
+    energyLevel: "Low",
+    location: "Flexible",
+    cost: "Free",
+    spiceLevel: "G-Rated",
+    tips: [
+      "Be specific and heartfelt",
+      "Read it out loud together",
+      "Save these messages"
+    ]
+  },
+  {
+    id: 141,
+    title: "List 10 reasons you're grateful they're in your life. Go back and forth.",
+    duration: "10 minutes",
+    category: "Connection",
+    energyLevel: "Low",
+    location: "Flexible",
+    cost: "Free",
+    spiceLevel: "G-Rated",
+    tips: [
+      "Dig deep beyond the obvious",
+      "Include little things they do",
+      "Gratitude strengthens bonds"
+    ]
+  },
+  {
+    id: 142,
+    title: "Describe your partner to an imaginary person meeting them for the first time.",
+    duration: "8 minutes",
+    category: "Connection",
+    energyLevel: "Low",
+    location: "Flexible",
+    cost: "Free",
+    spiceLevel: "G-Rated",
+    tips: [
+      "Share what makes them unique",
+      "Include their best qualities",
+      "This shows how you see them"
+    ]
+  },
+  {
+    id: 143,
+    title: "Each write 5 things you admire about the other. Exchange and read them.",
+    duration: "12 minutes",
+    category: "Connection",
+    energyLevel: "Low",
+    location: "Flexible",
+    cost: "Free",
+    spiceLevel: "G-Rated",
+    tips: [
+      "Write honestly and specifically",
+      "Keep these notes",
+      "Admiration fuels attraction"
+    ]
+  },
+  {
+    id: 144,
+    title: "Say 'I love you because...' and finish it 10 different ways each.",
+    duration: "10 minutes",
+    category: "Connection",
+    energyLevel: "Low",
+    location: "Flexible",
+    cost: "Free",
+    spiceLevel: "G-Rated",
+    tips: [
+      "Go beyond surface reasons",
+      "Include actions and qualities",
+      "Take turns for each one"
+    ]
+  },
+  {
+    id: 145,
+    title: "Dim the lights. Light candles. Just sit close and talk about your favorite memories.",
+    duration: "20 minutes",
+    category: "Romantic",
+    energyLevel: "Low",
+    location: "Indoor",
+    cost: "Under $5",
+    spiceLevel: "G-Rated",
+    tips: [
+      "Create a cozy atmosphere",
+      "Share memories from your relationship",
+      "No phones - just each other"
+    ]
+  },
+  {
+    id: 146,
+    title: "Create a couples playlist. Each person adds 5 songs that remind you of them.",
+    duration: "15 minutes",
+    category: "Romantic",
+    energyLevel: "Low",
+    location: "Flexible",
+    cost: "Free",
+    spiceLevel: "G-Rated",
+    tips: [
+      "Explain why you chose each song",
+      "Listen to it together later",
+      "Add to it over time"
+    ]
+  },
+  {
+    id: 147,
+    title: "Dance slowly to your song. If you don't have one, pick one right now.",
+    duration: "5 minutes",
+    category: "Romantic",
+    energyLevel: "Low",
+    location: "Indoor",
+    cost: "Free",
+    spiceLevel: "G-Rated",
+    tips: [
+      "Hold each other close",
+      "Don't worry about dancing well",
+      "Be present in the moment"
+    ]
+  },
+  {
+    id: 148,
+    title: "Stargazing (or ceiling staring). Lie down together and dream out loud.",
+    duration: "20 minutes",
+    category: "Romantic",
+    energyLevel: "Low",
+    location: "Flexible",
+    cost: "Free",
+    spiceLevel: "G-Rated",
+    tips: [
+      "Get comfortable side by side",
+      "Share hopes and dreams",
+      "Outside or inside both work"
+    ]
+  },
+  {
+    id: 149,
+    title: "Make a cozy nest of blankets and pillows. Cuddle and talk about your future.",
+    duration: "30 minutes",
+    category: "Romantic",
+    energyLevel: "Low",
+    location: "Indoor",
+    cost: "Free",
+    spiceLevel: "G-Rated",
+    tips: [
+      "Make it as comfortable as possible",
+      "Talk about dreams and plans",
+      "Physical closeness enhances connection"
+    ]
+  },
+  {
+    id: 150,
+    title: "Turn off all screens. Light candles. Just exist in the same space quietly.",
+    duration: "15 minutes",
+    category: "Romantic",
+    energyLevel: "Low",
+    location: "Indoor",
+    cost: "Under $5",
+    spiceLevel: "G-Rated",
+    tips: [
+      "Silence can be beautiful",
+      "Be comfortable with quiet",
+      "Presence is a gift"
+    ]
+  },
+  {
+    id: 151,
+    title: "Look through old photos together. Each pick your favorite and explain why.",
+    duration: "20 minutes",
+    category: "Romantic",
+    energyLevel: "Low",
+    location: "Flexible",
+    cost: "Free",
+    spiceLevel: "G-Rated",
+    tips: [
+      "Digital or physical photos both work",
+      "Relive happy memories",
+      "Notice what each person cherishes"
+    ]
+  },
+  {
+    id: 152,
+    title: "Recreate your first photo together. Same pose, same energy.",
+    duration: "5 minutes",
+    category: "Romantic",
+    energyLevel: "Low",
+    location: "Flexible",
+    cost: "Free",
+    spiceLevel: "G-Rated",
+    tips: [
+      "Find that original photo",
+      "Get the pose as close as possible",
+      "See how you've grown together"
+    ]
+  },
+  {
+    id: 153,
+    title: "Write a letter to your future selves. Open it on your next anniversary.",
+    duration: "15 minutes",
+    category: "Romantic",
+    energyLevel: "Low",
+    location: "Flexible",
+    cost: "Free",
+    spiceLevel: "G-Rated",
+    tips: [
+      "Write about today and your hopes",
+      "Seal it and date it",
+      "Set a reminder to open it"
+    ]
+  },
+  {
+    id: 154,
+    title: "Plan your dream date night. No budget. Be creative. Then scale it to reality.",
+    duration: "15 minutes",
+    category: "Romantic",
+    energyLevel: "Low",
+    location: "Flexible",
+    cost: "Free",
+    spiceLevel: "G-Rated",
+    tips: [
+      "Dream big first",
+      "Find the essence of the idea",
+      "Make a scaled version happen soon"
+    ]
+  },
+  {
+    id: 155,
+    title: "Share the moment you knew this was serious. Was it the same moment for both?",
+    duration: "10 minutes",
+    category: "Connection",
+    energyLevel: "Low",
+    location: "Flexible",
+    cost: "Free",
+    spiceLevel: "G-Rated",
+    tips: [
+      "Be specific about the moment",
+      "Share what you felt",
+      "Different moments are okay"
+    ]
+  },
+  {
+    id: 156,
+    title: "Create a time capsule of today. Include something meaningful from right now.",
+    duration: "15 minutes",
+    category: "Romantic",
+    energyLevel: "Low",
+    location: "Indoor",
+    cost: "Free",
+    spiceLevel: "G-Rated",
+    tips: [
+      "Include tickets, notes, small objects",
+      "Decide when to open it",
+      "Make it special and intentional"
+    ]
+  },
+  {
+    id: 157,
+    title: "Each share your favorite thing about the other's family. Be specific.",
+    duration: "10 minutes",
+    category: "Connection",
+    energyLevel: "Low",
+    location: "Flexible",
+    cost: "Free",
+    spiceLevel: "G-Rated",
+    tips: [
+      "This shows you pay attention",
+      "Be genuine and thoughtful",
+      "Family matters to most people"
+    ]
+  },
+  {
+    id: 158,
+    title: "Describe the home you want to build together someday. Get detailed.",
+    duration: "20 minutes",
+    category: "Connection",
+    energyLevel: "Low",
+    location: "Flexible",
+    cost: "Free",
+    spiceLevel: "G-Rated",
+    tips: [
+      "Talk about style, location, features",
+      "See where your visions align",
+      "Planning together builds future"
+    ]
+  },
+  {
+    id: 159,
+    title: "Take a selfie. Write on it why today mattered. Save it forever.",
+    duration: "5 minutes",
+    category: "Romantic",
+    energyLevel: "Low",
+    location: "Flexible",
+    cost: "Free",
+    spiceLevel: "G-Rated",
+    tips: [
+      "Capture the moment authentically",
+      "Add a meaningful caption",
+      "These become precious over time"
+    ]
+  },
+  {
+    id: 160,
+    title: "Kiss for 10 seconds. No interruptions. Just be in the moment.",
+    duration: "10 seconds",
+    category: "Romantic",
+    energyLevel: "Low",
+    location: "Private",
+    cost: "Free",
+    spiceLevel: "G-Rated",
+    tips: [
+      "10 seconds is longer than you think",
+      "Stay fully present",
+      "Let everything else fade away"
+    ]
   }
 ];
 
