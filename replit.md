@@ -63,7 +63,9 @@ Both applications utilize React 18+ with TypeScript, Vite for bundling, and Wout
 - **Matching & Discovery (The Executive Society):** Sophisticated compatibility algorithm based on personality, relationship style, important traits, and kink compatibility. Features a Tinder-style card swiping interface with filtering options.
 - **Core Features (The Executive Society):** Email (Resend) & optional Phone (Twilio) verification, Digital Signatures, Email Notifications, Web Push Notifications, Real-Time Messaging (WebSocket-enabled chat), Device Permissions Manager, Travel Mode, Verified & Fully Funded Badge for Dominants, Custom Privacy-focused Profile Names.
 - **Spark It! Features:** Simultaneous button press, activity reveal with rating, winner selection, competitive scoreboard, daily spark counter with freemium/premium tiers, localStorage persistence.
-- **Spark It! Activity Database:** 70 activities (30 G-Rated, 40 PG-13) with properties like duration, energy level, location, cost, spice level, and tips.
+- **Spark It! Activity Database:** 120 activities across 17 categories with properties like duration, energy level, location, cost, spice level, and tips.
+  - **In-Person Categories (70 activities):** Playful, Romantic, Connection, Silly, Creative, Adventure, Flirty Physical, Verbal Seduction, Teasing, Intimate Connection, Role Play
+  - **Long-Distance Categories (50 activities):** Video Call, Async, Text Games, Romantic LDR, Creative LDR, Planning LDR - designed for couples who are apart, across different time zones, or maintaining connection remotely
 - **Spark It! Trivia System:** 225+ trivia questions across 10 categories for competitive engagement, with a sender-selected 5-question challenge.
 
 **System Design Choices:**
