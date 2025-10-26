@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Zap, Users, Check, UserPlus, Brain, Trophy, Settings } from "lucide-react";
+import { Zap, Users, Check, UserPlus, Brain, Trophy, Settings, Crown, Sparkles } from "lucide-react";
 import { useLocation } from "wouter";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { apiRequest, queryClient } from "@/lib/queryClient";
@@ -171,7 +171,7 @@ export default function SparkButton() {
   }
 
   const sparksRemaining = couple.sparksRemaining || 0;
-  const isPremium = couple.subscriptionPlan === 'premium_monthly' || couple.subscriptionPlan === 'premium_yearly';
+  const isPremium = couple.subscriptionPlan === 'monthly' || couple.subscriptionPlan === 'yearly';
   const isOnTrial = couple.subscriptionPlan === 'trial';
   
   // Calculate trial status
@@ -196,15 +196,33 @@ export default function SparkButton() {
         borderBottom: '1px solid rgba(255,255,255,0.1)'
       }}>
         <div>
-          <h2 style={{ 
-            fontSize: '1.5em', 
-            background: 'var(--nexus-gradient-full)',
-            WebkitBackgroundClip: 'text',
-            WebkitTextFillColor: 'transparent',
-            backgroundClip: 'text'
-          }}>
-            Spark It!
-          </h2>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+            <h2 style={{ 
+              fontSize: '1.5em', 
+              background: 'var(--nexus-gradient-full)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              backgroundClip: 'text'
+            }}>
+              Spark It!
+            </h2>
+            {isPremium && (
+              <div style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '5px',
+                padding: '4px 12px',
+                background: 'linear-gradient(135deg, #FFD700 0%, #FFA500 100%)',
+                borderRadius: '20px',
+                fontSize: '0.75em',
+                fontWeight: 'bold',
+                color: '#000',
+              }} data-testid="badge-premium">
+                <Crown size={14} />
+                PREMIUM
+              </div>
+            )}
+          </div>
           <p style={{ fontSize: '0.9em', color: 'rgba(255,255,255,0.6)', marginTop: '5px' }}>
             {couple.partner1Name} {couple.partner2Name ? `& ${couple.partner2Name}` : '(waiting for partner)'}
           </p>
@@ -284,6 +302,29 @@ export default function SparkButton() {
             <Trophy size={20} />
             Scoreboard
           </button>
+          {!isPremium && (
+            <button
+              onClick={() => setLocation("/sparkit/premium")}
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '10px',
+                padding: '12px 24px',
+                borderRadius: '30px',
+                background: 'linear-gradient(135deg, rgba(255, 215, 0, 0.2) 0%, rgba(255, 165, 0, 0.2) 100%)',
+                border: '2px solid #FFD700',
+                color: '#FFD700',
+                cursor: 'pointer',
+                fontSize: '1em',
+                transition: 'all 0.3s',
+                fontWeight: 'bold',
+              }}
+              data-testid="button-upgrade-premium"
+            >
+              <Crown size={20} />
+              Upgrade to Premium
+            </button>
+          )}
           <button
             onClick={() => setLocation("/sparkit/settings")}
             style={{
@@ -368,15 +409,18 @@ export default function SparkButton() {
                     : "You've used all 10 trial sparks. Upgrade to Premium for unlimited daily sparks!"}
                 </p>
                 <button
-                  onClick={() => setLocation("/sparkit/pricing")}
+                  onClick={() => setLocation("/sparkit/premium")}
                   className="cta-button"
                   style={{
-                    background: 'var(--nexus-gradient-passion)',
+                    background: 'linear-gradient(135deg, #FFD700 0%, #FFA500 100%)',
+                    color: '#000',
                     padding: '15px 35px',
+                    fontWeight: 'bold',
                   }}
                   data-testid="button-upgrade-now"
                 >
-                  View Premium Plans
+                  <Crown size={20} style={{ display: 'inline', marginRight: '8px' }} />
+                  Upgrade to Premium
                 </button>
               </div>
             )}

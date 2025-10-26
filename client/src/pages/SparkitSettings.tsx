@@ -321,6 +321,71 @@ export default function SparkitSettings() {
           </div>
         </Card>
 
+        {/* Subscription Status Card */}
+        <Card className="p-6 mb-6 bg-gradient-to-br from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 border-2">
+          <div className="flex items-center gap-3 mb-4">
+            <Crown className="w-5 h-5 text-yellow-500" />
+            <h2 className="text-xl font-semibold">Subscription</h2>
+          </div>
+
+          <div className="space-y-4">
+            {/* Current Plan */}
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm text-gray-600 dark:text-gray-400">Current Plan</p>
+                <p className="text-lg font-bold">
+                  {couple.subscriptionPlan === 'monthly' && 'Premium Monthly'}
+                  {couple.subscriptionPlan === 'yearly' && 'Premium Yearly'}
+                  {couple.subscriptionPlan === 'trial' && 'Trial'}
+                  {couple.subscriptionPlan === 'free' && 'Free'}
+                </p>
+              </div>
+              {(couple.subscriptionPlan === 'monthly' || couple.subscriptionPlan === 'yearly') && (
+                <Badge className="bg-gradient-to-r from-yellow-400 to-orange-500 text-black font-bold" data-testid="badge-premium-active">
+                  <Crown className="w-3 h-3 mr-1" />
+                  Active
+                </Badge>
+              )}
+            </div>
+
+            {/* Sparks Remaining */}
+            <div>
+              <p className="text-sm text-gray-600 dark:text-gray-400">Sparks Remaining</p>
+              <p className="text-lg font-semibold text-nexus-purple">
+                {couple.subscriptionPlan === 'monthly' || couple.subscriptionPlan === 'yearly'
+                  ? '∞ Unlimited'
+                  : `${couple.sparksRemaining || 0} sparks`}
+              </p>
+            </div>
+
+            {/* Upgrade/Manage Button */}
+            {couple.subscriptionPlan === 'free' || couple.subscriptionPlan === 'trial' ? (
+              <Button
+                onClick={() => setLocation("/sparkit/premium")}
+                className="w-full bg-gradient-to-r from-yellow-400 to-orange-500 hover:from-yellow-500 hover:to-orange-600 text-black font-bold"
+                data-testid="button-upgrade-to-premium"
+              >
+                <Crown className="w-4 h-4 mr-2" />
+                Upgrade to Premium
+              </Button>
+            ) : (
+              <div className="space-y-2">
+                <p className="text-sm text-gray-600 dark:text-gray-400">
+                  Thank you for being a Premium member! 🎉
+                </p>
+                <Button
+                  onClick={() => setLocation("/sparkit/premium")}
+                  variant="outline"
+                  className="w-full"
+                  data-testid="button-manage-subscription"
+                >
+                  View Premium Features
+                </Button>
+              </div>
+            )}
+          </div>
+        </Card>
+
         {/* Avatar Selection Card */}
         <Card className="p-6 mb-6">
           <div className="flex items-center justify-between mb-6">
