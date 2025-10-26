@@ -4,6 +4,7 @@ import { useLocation } from "wouter";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { apiRequest, queryClient } from "@/lib/queryClient";
 import { getRandomActivity, type Activity } from "../data/activities";
+import { AvatarDisplay } from "@/components/AvatarDisplay";
 import "../nexus-styles.css";
 
 export default function SparkActivity() {
@@ -428,10 +429,18 @@ export default function SparkActivity() {
                     background: 'var(--nexus-gradient-royal)',
                     border: 'none',
                     padding: '15px 30px',
-                    fontSize: '1.1em'
+                    fontSize: '1.1em',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '10px'
                   }}
                   data-testid="button-partner1-won"
                 >
+                  <AvatarDisplay 
+                    avatarUrl={couple?.partner1AvatarUrl} 
+                    size="sm" 
+                    data-testid="avatar-partner1-winner"
+                  />
                   {partner1Name}
                 </button>
                 <button
@@ -442,10 +451,18 @@ export default function SparkActivity() {
                     background: 'var(--nexus-gradient-passion)',
                     border: 'none',
                     padding: '15px 30px',
-                    fontSize: '1.1em'
+                    fontSize: '1.1em',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '10px'
                   }}
                   data-testid="button-partner2-won"
                 >
+                  <AvatarDisplay 
+                    avatarUrl={couple?.partner2AvatarUrl} 
+                    size="sm" 
+                    data-testid="avatar-partner2-winner"
+                  />
                   {partner2Name}
                 </button>
                 <button
@@ -456,10 +473,14 @@ export default function SparkActivity() {
                     background: 'rgba(255,255,255,0.15)',
                     border: '2px solid rgba(255,255,255,0.3)',
                     padding: '15px 30px',
-                    fontSize: '1.1em'
+                    fontSize: '1.1em',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '10px'
                   }}
                   data-testid="button-tie"
                 >
+                  <Trophy size={20} />
                   It's a Tie!
                 </button>
               </div>

@@ -3,6 +3,7 @@ import {
   Sparkles, 
   Coffee, 
   Pizza, 
+  Apple,
   Flame, 
   Star, 
   Moon, 
@@ -13,6 +14,7 @@ import {
   Headphones,
   Camera,
   Gamepad2,
+  Film,
   Bike,
   Plane,
   MapPin,
@@ -51,8 +53,9 @@ export const AVATAR_ICONS: AvatarIcon[] = [
   // Food & Drinks (3)
   { id: "coffee", icon: Coffee, label: "Coffee", category: "food" },
   { id: "pizza", icon: Pizza, label: "Pizza", category: "food" },
+  { id: "apple", icon: Apple, label: "Apple", category: "food" },
 
-  // Adventure (8)
+  // Adventure (7)
   { id: "bike", icon: Bike, label: "Bike", category: "adventure" },
   { id: "plane", icon: Plane, label: "Plane", category: "adventure" },
   { id: "map-pin", icon: MapPin, label: "Map Pin", category: "adventure" },
@@ -61,11 +64,12 @@ export const AVATAR_ICONS: AvatarIcon[] = [
   { id: "cloud", icon: Cloud, label: "Cloud", category: "adventure" },
   { id: "zap", icon: Zap, label: "Lightning", category: "adventure" },
 
-  // Entertainment (4)
+  // Entertainment (5)
   { id: "music", icon: Music, label: "Music", category: "entertainment" },
   { id: "headphones", icon: Headphones, label: "Headphones", category: "entertainment" },
   { id: "camera", icon: Camera, label: "Camera", category: "entertainment" },
   { id: "gamepad", icon: Gamepad2, label: "Gamepad", category: "entertainment" },
+  { id: "film", icon: Film, label: "Film", category: "entertainment" },
 
   // Nature (3)
   { id: "trees", icon: Trees, label: "Trees", category: "nature" },
