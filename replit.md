@@ -62,18 +62,20 @@ Both applications utilize React 18+ with TypeScript, Vite for bundling, and Wout
 - **User Onboarding (The Executive Society):** Multi-step process including age/ID verification, legal agreement acceptance (Terms, Consent, Privacy, Guidelines) with digital signatures, background checks, email and phone verification, and role-specific flows (subscription, profile creation, personality/relationship assessments). Dominants undergo escrow/financial verification.
 - **Matching & Discovery (The Executive Society):** Sophisticated compatibility algorithm based on personality, relationship style, important traits, and kink compatibility. Features a Tinder-style card swiping interface with filtering options.
 - **Core Features (The Executive Society):** Email (Resend) & optional Phone (Twilio) verification, Digital Signatures, Email Notifications, Web Push Notifications, Real-Time Messaging (WebSocket-enabled chat), Device Permissions Manager, Travel Mode, Verified & Fully Funded Badge for Dominants, Custom Privacy-focused Profile Names.
-- **Spark It! Features:** Simultaneous button press, activity reveal with rating, winner selection, competitive scoreboard, daily spark counter with freemium/premium tiers, localStorage persistence.
+- **Spark It! Features:** Simultaneous button press, activity reveal with rating, winner selection, competitive scoreboard, daily spark counter with freemium/premium tiers, localStorage persistence, in-app video calling for long-distance couples.
 - **Spark It! Activity Database:** 120 activities across 17 categories with properties like duration, energy level, location, cost, spice level, and tips.
   - **In-Person Categories (70 activities):** Playful, Romantic, Connection, Silly, Creative, Adventure, Flirty Physical, Verbal Seduction, Teasing, Intimate Connection, Role Play
   - **Long-Distance Categories (50 activities):** Video Call, Async, Text Games, Romantic LDR, Creative LDR, Planning LDR - designed for couples who are apart, across different time zones, or maintaining connection remotely
 - **Spark It! Trivia System:** 225+ trivia questions across 10 categories for competitive engagement, with a sender-selected 5-question challenge.
+- **Spark It! Video Calling:** Daily.co integration for embedded video calls during LDR activities. Features include camera/mic toggle, pop-out window option, and automatic room cleanup. Premium feature to offset bandwidth costs.
 
 **System Design Choices:**
 - Both applications share the same Express/Vite server infrastructure.
-- PostgreSQL database with Drizzle ORM for all persistent data (`sparkit_couples`, `sparkit_activity_ratings`, `sparkit_activity_results`, `sparkit_trivia_categories`, `sparkit_trivia_questions`, `sparkit_trivia_contests`, `sparkit_trivia_answers`, `users` table for Executive Society).
+- PostgreSQL database with Drizzle ORM for all persistent data (`sparkit_couples`, `sparkit_activity_ratings`, `sparkit_activity_results`, `sparkit_trivia_categories`, `sparkit_trivia_questions`, `sparkit_trivia_contests`, `sparkit_trivia_answers`, `sparkit_video_sessions`, `users` table for Executive Society).
 - In-memory storage abstraction (`MemStorage`) for backend, designed for PostgreSQL migration.
 - `react-signature-canvas` for digital signatures.
 - VAPID and service worker for web push notifications.
+- Daily.co integration for video calling with @daily-co/daily-react SDK.
 
 ## External Dependencies
 
@@ -87,3 +89,4 @@ Both applications utilize React 18+ with TypeScript, Vite for bundling, and Wout
 -   **Push Notifications**: web-push, ws.
 -   **Digital Signatures**: react-signature-canvas.
 -   **SMS Verification**: Twilio (pending credentials for phone verification).
+-   **Video Calling**: Daily.co (@daily-co/daily-react, @daily-co/daily-js).
