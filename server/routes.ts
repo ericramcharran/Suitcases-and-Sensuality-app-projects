@@ -1354,8 +1354,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
         coupleCode,
         partner1Name,
         partner2Name: null,
-        subscriptionPlan: 'free',
-        sparksRemaining: 3,
+        subscriptionPlan: 'trial', // Start with trial for immediate premium features access
+        sparksRemaining: 10, // Trial gets 10 total sparks
         lastSparkReset: new Date(),
         stripeCustomerId: null,
         stripeSubscriptionId: null

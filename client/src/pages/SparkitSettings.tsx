@@ -143,7 +143,10 @@ export default function SparkitSettings() {
   };
 
   const handleSelectIconAvatar = (iconId: string) => {
-    if (couple?.subscriptionPlan === "trial") {
+    // Check if user has premium access (trial, monthly, or yearly - anything except 'free')
+    const hasPremiumAccess = couple?.subscriptionPlan !== "free";
+    
+    if (!hasPremiumAccess) {
       toast({
         variant: "destructive",
         title: "Premium Feature",
@@ -157,7 +160,10 @@ export default function SparkitSettings() {
   };
 
   const handleGetUploadParameters = async () => {
-    if (couple?.subscriptionPlan === "trial") {
+    // Check if user has premium access (trial, monthly, or yearly - anything except 'free')
+    const hasPremiumAccess = couple?.subscriptionPlan !== "free";
+    
+    if (!hasPremiumAccess) {
       toast({
         variant: "destructive",
         title: "Premium Feature",
@@ -290,7 +296,7 @@ export default function SparkitSettings() {
               <Sparkles className="w-5 h-5 text-nexus-purple" />
               <h2 className="text-xl font-semibold">Avatars</h2>
             </div>
-            {couple.subscriptionPlan === "trial" && (
+            {couple.subscriptionPlan === "free" && (
               <Badge variant="secondary" className="bg-gradient-to-r from-nexus-purple to-nexus-red text-white">
                 <Crown className="w-3 h-3 mr-1" />
                 Premium
@@ -367,9 +373,9 @@ export default function SparkitSettings() {
                   onComplete={handleUploadComplete}
                   maxFileSize={5242880}
                   buttonClassName="w-full bg-gradient-to-r from-nexus-purple to-nexus-red hover:opacity-90 transition-opacity"
-                  disabled={couple.subscriptionPlan === "trial" || updateAvatarMutation.isPending}
+                  disabled={couple.subscriptionPlan === "free" || updateAvatarMutation.isPending}
                 />
-                {couple.subscriptionPlan === "trial" && (
+                {couple.subscriptionPlan === "free" && (
                   <p className="text-xs text-gray-500 dark:text-gray-400">
                     Custom avatars require Premium subscription
                   </p>
@@ -435,9 +441,9 @@ export default function SparkitSettings() {
                   onComplete={handleUploadComplete}
                   maxFileSize={5242880}
                   buttonClassName="w-full bg-gradient-to-r from-nexus-purple to-nexus-red hover:opacity-90 transition-opacity"
-                  disabled={couple.subscriptionPlan === "trial" || updateAvatarMutation.isPending}
+                  disabled={couple.subscriptionPlan === "free" || updateAvatarMutation.isPending}
                 />
-                {couple.subscriptionPlan === "trial" && (
+                {couple.subscriptionPlan === "free" && (
                   <p className="text-xs text-gray-500 dark:text-gray-400">
                     Custom avatars require Premium subscription
                   </p>
