@@ -63,9 +63,10 @@ Both applications utilize React 18+ with TypeScript, Vite for bundling, and Wout
 - **Matching & Discovery (The Executive Society):** Sophisticated compatibility algorithm based on personality, relationship style, important traits, and kink compatibility. Features a Tinder-style card swiping interface with filtering options.
 - **Core Features (The Executive Society):** Email (Resend) & optional Phone (Twilio) verification, Digital Signatures, Email Notifications, Web Push Notifications, Real-Time Messaging (WebSocket-enabled chat), Device Permissions Manager, Travel Mode, Verified & Fully Funded Badge for Dominants, Custom Privacy-focused Profile Names.
 - **Spark It! Features:** Simultaneous button press, activity reveal with rating, winner selection, competitive scoreboard, daily spark counter with freemium/premium tiers, localStorage persistence, in-app video calling for long-distance couples, partner name customization through Settings page.
-- **Spark It! Activity Database:** 120 activities across 17 categories with properties like duration, energy level, location, cost, spice level, and tips.
-  - **In-Person Categories (70 activities):** Playful, Romantic, Connection, Silly, Creative, Adventure, Flirty Physical, Verbal Seduction, Teasing, Intimate Connection, Role Play
+- **Spark It! Activity Database:** 178 activities across 18 categories with properties like duration, energy level, location, cost, spice level, and tips.
+  - **In-Person Categories (110 activities):** Playful, Romantic, Connection, Silly, Creative, Adventure, Flirty Physical, Verbal Seduction, Teasing, Intimate Connection, Role Play, Boredom Buster
   - **Long-Distance Categories (50 activities):** Video Call, Async, Text Games, Romantic LDR, Creative LDR, Planning LDR - designed for couples who are apart, across different time zones, or maintaining connection remotely
+  - **Boredom Buster Category (18 activities):** Quick, engaging activities (1-15 minutes) designed to pull couples away from doom scrolling and phone addiction. Features phone-free challenges, rapid-fire games, instant connection boosters, and awareness exercises.
 - **Spark It! Trivia System:** 225+ trivia questions across 10 categories for competitive engagement, with a sender-selected 5-question challenge.
 - **Spark It! Video Calling:** Daily.co integration for embedded video calls during LDR activities. Features include camera/mic toggle, pop-out window option, and automatic room cleanup. Premium feature to offset bandwidth costs.
 

@@ -3,7 +3,7 @@ export interface Activity {
   title: string;
   description?: string;
   duration: string;
-  category: 'Playful' | 'Romantic' | 'Connection' | 'Silly' | 'Creative' | 'Adventure' | 'Flirty Physical' | 'Verbal Seduction' | 'Teasing' | 'Intimate Connection' | 'Role Play' | 'Video Call' | 'Async' | 'Text Games' | 'Romantic LDR' | 'Creative LDR' | 'Planning LDR';
+  category: 'Playful' | 'Romantic' | 'Connection' | 'Silly' | 'Creative' | 'Adventure' | 'Flirty Physical' | 'Verbal Seduction' | 'Teasing' | 'Intimate Connection' | 'Role Play' | 'Video Call' | 'Async' | 'Text Games' | 'Romantic LDR' | 'Creative LDR' | 'Planning LDR' | 'Boredom Buster';
   energyLevel: 'Low' | 'Medium' | 'High';
   location: 'Indoor' | 'Outdoor' | 'Flexible' | 'Private';
   cost: 'Free' | 'Under $5' | 'Under $20' | '$20+';
@@ -2441,6 +2441,278 @@ export const activities: Activity[] = [
       "10 seconds is longer than you think",
       "Stay fully present",
       "Let everything else fade away"
+    ]
+  },
+
+  // BOREDOM BUSTER - Anti-Doom Scrolling Activities (18 activities)
+  {
+    id: 161,
+    title: "Phone stack: Both phones face down. First to check loses and has to do 10 pushups.",
+    duration: "5 minutes",
+    category: "Boredom Buster",
+    energyLevel: "Low",
+    location: "Flexible",
+    cost: "Free",
+    spiceLevel: "G-Rated",
+    tips: [
+      "Put phones out of reach",
+      "Loser does the punishment immediately",
+      "Talk to each other instead of scrolling"
+    ]
+  },
+  {
+    id: 162,
+    title: "60 second compliment speed round. Take turns. Go!",
+    duration: "2 minutes",
+    category: "Boredom Buster",
+    energyLevel: "Low",
+    location: "Flexible",
+    cost: "Free",
+    spiceLevel: "G-Rated",
+    tips: [
+      "Set a timer for 1 minute each",
+      "Say as many genuine compliments as possible",
+      "No repeating - get creative"
+    ]
+  },
+  {
+    id: 163,
+    title: "Make each other laugh in under 10 seconds. No words allowed. Just faces.",
+    duration: "1 minute",
+    category: "Boredom Buster",
+    energyLevel: "Low",
+    location: "Flexible",
+    cost: "Free",
+    spiceLevel: "G-Rated",
+    tips: [
+      "Silly faces only",
+      "First to laugh loses",
+      "Best 3 out of 5"
+    ]
+  },
+  {
+    id: 164,
+    title: "Show each other the last photo in your camera roll. No skipping. Explain it.",
+    duration: "3 minutes",
+    category: "Boredom Buster",
+    energyLevel: "Low",
+    location: "Flexible",
+    cost: "Free",
+    spiceLevel: "G-Rated",
+    tips: [
+      "No cheating - last photo only",
+      "Tell the story behind it",
+      "This is always interesting"
+    ]
+  },
+  {
+    id: 165,
+    title: "Rapid fire this or that: 20 questions, no thinking. Coffee or tea? Cats or dogs? GO!",
+    duration: "2 minutes",
+    category: "Boredom Buster",
+    energyLevel: "Low",
+    location: "Flexible",
+    cost: "Free",
+    spiceLevel: "G-Rated",
+    tips: [
+      "No pausing - instant answers",
+      "Get silly with the questions",
+      "Learn something new about each other"
+    ]
+  },
+  {
+    id: 166,
+    title: "Mirror game: One person moves slowly, other copies exactly. 90 seconds then switch.",
+    duration: "3 minutes",
+    category: "Boredom Buster",
+    energyLevel: "Low",
+    location: "Flexible",
+    cost: "Free",
+    spiceLevel: "G-Rated",
+    tips: [
+      "Face each other",
+      "Go slow so they can follow",
+      "Try to trick them with sudden moves"
+    ]
+  },
+  {
+    id: 167,
+    title: "Phones down. Eye contact. First to smile loses. What's the punishment? You decide.",
+    duration: "2 minutes",
+    category: "Boredom Buster",
+    energyLevel: "Low",
+    location: "Flexible",
+    cost: "Free",
+    spiceLevel: "G-Rated",
+    tips: [
+      "No talking",
+      "Making faces is cheating (but funny)",
+      "Agree on a silly punishment first"
+    ]
+  },
+  {
+    id: 168,
+    title: "Word association rapid fire. Say the first word that comes to mind. 1 minute.",
+    duration: "1 minute",
+    category: "Boredom Buster",
+    energyLevel: "Low",
+    location: "Flexible",
+    cost: "Free",
+    spiceLevel: "G-Rated",
+    tips: [
+      "No thinking - just respond",
+      "See where it goes",
+      "The weirder the better"
+    ]
+  },
+  {
+    id: 169,
+    title: "Delete one app from your phone right now. Tell them why. Then actually do it.",
+    duration: "3 minutes",
+    category: "Boredom Buster",
+    energyLevel: "Low",
+    location: "Flexible",
+    cost: "Free",
+    spiceLevel: "G-Rated",
+    tips: [
+      "Choose the most time-wasting app",
+      "Support each other in this",
+      "Notice how it feels"
+    ]
+  },
+  {
+    id: 170,
+    title: "Impressions battle: Do your best impression of each other. 30 seconds each.",
+    duration: "1 minute",
+    category: "Boredom Buster",
+    energyLevel: "Medium",
+    location: "Flexible",
+    cost: "Free",
+    spiceLevel: "G-Rated",
+    tips: [
+      "Exaggerate their quirks lovingly",
+      "Include their mannerisms",
+      "Laugh together at yourselves"
+    ]
+  },
+  {
+    id: 171,
+    title: "Phone camera roll roulette: Random number 1-50. Both open that photo and share.",
+    duration: "3 minutes",
+    category: "Boredom Buster",
+    energyLevel: "Low",
+    location: "Flexible",
+    cost: "Free",
+    spiceLevel: "G-Rated",
+    tips: [
+      "Count back from most recent",
+      "Explain the context",
+      "Random memories are the best"
+    ]
+  },
+  {
+    id: 172,
+    title: "20-second dance party. Put on any song. Dance like nobody's watching. GO!",
+    duration: "1 minute",
+    category: "Boredom Buster",
+    energyLevel: "High",
+    location: "Flexible",
+    cost: "Free",
+    spiceLevel: "G-Rated",
+    tips: [
+      "Don't think - just move",
+      "Silly is encouraged",
+      "Instant mood boost"
+    ]
+  },
+  {
+    id: 173,
+    title: "Thumb wrestling best of 5. Loser has to make the next meal or snack.",
+    duration: "2 minutes",
+    category: "Boredom Buster",
+    energyLevel: "Low",
+    location: "Flexible",
+    cost: "Free",
+    spiceLevel: "G-Rated",
+    tips: [
+      "Warm up those thumbs",
+      "Best technique wins",
+      "Claim your victory"
+    ]
+  },
+  {
+    id: 174,
+    title: "Guess what I'm thinking in 20 questions. Yes or no answers only.",
+    duration: "5 minutes",
+    category: "Boredom Buster",
+    energyLevel: "Low",
+    location: "Flexible",
+    cost: "Free",
+    spiceLevel: "G-Rated",
+    tips: [
+      "Think of something specific",
+      "Count the questions",
+      "Strategic questions win"
+    ]
+  },
+  {
+    id: 175,
+    title: "Both put phones in airplane mode for 15 minutes. Actually talk. See what happens.",
+    duration: "15 minutes",
+    category: "Boredom Buster",
+    energyLevel: "Low",
+    location: "Flexible",
+    cost: "Free",
+    spiceLevel: "G-Rated",
+    tips: [
+      "Actually do it - both phones",
+      "Notice the urge to check",
+      "Be present with each other"
+    ]
+  },
+  {
+    id: 176,
+    title: "Screenshot your screen time from today. Compare. No judgment. Just awareness.",
+    duration: "3 minutes",
+    category: "Boredom Buster",
+    energyLevel: "Low",
+    location: "Flexible",
+    cost: "Free",
+    spiceLevel: "G-Rated",
+    tips: [
+      "Be honest about it",
+      "Notice the patterns",
+      "Decide together to do better"
+    ]
+  },
+  {
+    id: 177,
+    title: "Right now: Drop phones and do 10 jumping jacks together. Get the blood moving.",
+    duration: "1 minute",
+    category: "Boredom Buster",
+    energyLevel: "High",
+    location: "Flexible",
+    cost: "Free",
+    spiceLevel: "G-Rated",
+    tips: [
+      "No excuses - just do it",
+      "Count out loud together",
+      "Feel immediately better"
+    ]
+  },
+  {
+    id: 178,
+    title: "Confession time: What were you just scrolling? Be honest. Then put it away.",
+    duration: "2 minutes",
+    category: "Boredom Buster",
+    energyLevel: "Low",
+    location: "Flexible",
+    cost: "Free",
+    spiceLevel: "G-Rated",
+    tips: [
+      "Total honesty - no shame",
+      "Laugh about the rabbit holes",
+      "Choose connection over scrolling"
     ]
   }
 ];
