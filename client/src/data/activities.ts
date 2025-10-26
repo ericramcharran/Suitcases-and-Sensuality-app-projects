@@ -3,7 +3,7 @@ export interface Activity {
   title: string;
   description?: string;
   duration: string;
-  category: 'Playful' | 'Romantic' | 'Connection' | 'Silly' | 'Creative' | 'Adventure' | 'Flirty Physical' | 'Verbal Seduction' | 'Teasing' | 'Intimate Connection' | 'Role Play';
+  category: 'Playful' | 'Romantic' | 'Connection' | 'Silly' | 'Creative' | 'Adventure' | 'Flirty Physical' | 'Verbal Seduction' | 'Teasing' | 'Intimate Connection' | 'Role Play' | 'Video Call' | 'Async' | 'Text Games' | 'Romantic LDR' | 'Creative LDR' | 'Planning LDR';
   energyLevel: 'Low' | 'Medium' | 'High';
   location: 'Indoor' | 'Outdoor' | 'Flexible' | 'Private';
   cost: 'Free' | 'Under $5' | 'Under $20' | '$20+';
@@ -1077,6 +1077,768 @@ export const activities: Activity[] = [
       "Be adventurous but respectful",
       "No judgment on what's written",
       "Decide together what to try"
+    ]
+  },
+
+  // VIDEO CALL (12 activities)
+  {
+    id: 71,
+    title: "Synchronized movie night: Both start the same movie at the exact same time. Video call on mute. Unmute to react together.",
+    duration: "2 hours",
+    category: "Video Call",
+    energyLevel: "Low",
+    location: "Flexible",
+    cost: "Free",
+    spiceLevel: "G-Rated",
+    tips: [
+      "Pick a movie you've both been wanting to watch",
+      "Count down 3-2-1 and press play together",
+      "Keep video call open to see each other's reactions"
+    ]
+  },
+  {
+    id: 72,
+    title: "Cook together remotely: Same recipe. Video call in kitchen. Cook together step-by-step. Eat 'together.'",
+    duration: "60 minutes",
+    category: "Video Call",
+    energyLevel: "Medium",
+    location: "Indoor",
+    cost: "Under $20",
+    spiceLevel: "G-Rated",
+    tips: [
+      "Share the recipe beforehand",
+      "Shop for ingredients together",
+      "Set up your phone so they can see you cook"
+    ]
+  },
+  {
+    id: 73,
+    title: "Virtual museum tour: Pick a museum with online tours. Video call and explore together. Discuss art.",
+    duration: "45 minutes",
+    category: "Video Call",
+    energyLevel: "Low",
+    location: "Flexible",
+    cost: "Free",
+    spiceLevel: "G-Rated",
+    tips: [
+      "Try the Louvre, Smithsonian, or British Museum",
+      "Take turns picking which exhibits to visit",
+      "Share what catches your eye"
+    ]
+  },
+  {
+    id: 74,
+    title: "Show and tell: Each person shows 5 objects from their day. Explain why each matters.",
+    duration: "20 minutes",
+    category: "Video Call",
+    energyLevel: "Low",
+    location: "Flexible",
+    cost: "Free",
+    spiceLevel: "G-Rated",
+    tips: [
+      "Pick meaningful or funny items",
+      "Tell the story behind each one",
+      "Learn about their daily life"
+    ]
+  },
+  {
+    id: 75,
+    title: "Get ready together: Video call while getting ready for your day. Just exist in the same 'space.'",
+    duration: "30 minutes",
+    category: "Video Call",
+    energyLevel: "Low",
+    location: "Indoor",
+    cost: "Free",
+    spiceLevel: "G-Rated",
+    tips: [
+      "Set your phone up where they can see you",
+      "Chat casually while doing your routine",
+      "Makes the distance feel smaller"
+    ]
+  },
+  {
+    id: 76,
+    title: "Virtual workout: Same workout video. Video call and do it together. Suffer together.",
+    duration: "30 minutes",
+    category: "Video Call",
+    energyLevel: "High",
+    location: "Indoor",
+    cost: "Free",
+    spiceLevel: "G-Rated",
+    tips: [
+      "Find a YouTube workout you both like",
+      "Start at the same time",
+      "Accountability makes it easier"
+    ]
+  },
+  {
+    id: 77,
+    title: "Bedtime story: Take turns reading a book chapter to each other. Fall asleep on call.",
+    duration: "30 minutes",
+    category: "Video Call",
+    energyLevel: "Low",
+    location: "Flexible",
+    cost: "Free",
+    spiceLevel: "G-Rated",
+    tips: [
+      "Pick a book you both enjoy",
+      "Take turns each night",
+      "Great for different time zones"
+    ]
+  },
+  {
+    id: 78,
+    title: "Coffee/tea date: Both make your drink. Video call and just talk. Like a real coffee date.",
+    duration: "45 minutes",
+    category: "Video Call",
+    energyLevel: "Low",
+    location: "Flexible",
+    cost: "Free",
+    spiceLevel: "G-Rated",
+    tips: [
+      "Get comfortable in your favorite spot",
+      "No agenda, just conversation",
+      "Low pressure, high intimacy"
+    ]
+  },
+  {
+    id: 79,
+    title: "Virtual game night: Play online games together. Jackbox, Among Us, chess, whatever.",
+    duration: "90 minutes",
+    category: "Video Call",
+    energyLevel: "Medium",
+    location: "Flexible",
+    cost: "Free",
+    spiceLevel: "G-Rated",
+    tips: [
+      "Many free games available online",
+      "Keep it lighthearted and fun",
+      "Winner gets bragging rights"
+    ]
+  },
+  {
+    id: 80,
+    title: "House tour update: Show them your space. What's new? What changed? Let them 'visit.'",
+    duration: "15 minutes",
+    category: "Video Call",
+    energyLevel: "Low",
+    location: "Indoor",
+    cost: "Free",
+    spiceLevel: "G-Rated",
+    tips: [
+      "Walk them through your place",
+      "Show new decorations or changes",
+      "Helps them picture where you are"
+    ]
+  },
+  {
+    id: 81,
+    title: "Reaction video challenge: Both watch the same YouTube video. Film your reactions. Compare.",
+    duration: "20 minutes",
+    category: "Video Call",
+    energyLevel: "Low",
+    location: "Flexible",
+    cost: "Free",
+    spiceLevel: "G-Rated",
+    tips: [
+      "Pick something funny or surprising",
+      "Record your genuine reactions",
+      "Share and laugh together"
+    ]
+  },
+  {
+    id: 82,
+    title: "Online shopping together: Browse same website on video call. Pick outfits for each other.",
+    duration: "30 minutes",
+    category: "Video Call",
+    energyLevel: "Low",
+    location: "Flexible",
+    cost: "Free",
+    spiceLevel: "G-Rated",
+    tips: [
+      "Share your screen or browse together",
+      "See what they think looks good on you",
+      "Learn each other's taste"
+    ]
+  },
+
+  // ASYNC (10 activities)
+  {
+    id: 83,
+    title: "Photo challenge: Both take a photo of the same thing (sunset, coffee, smile). Send at same time.",
+    duration: "5 minutes",
+    category: "Async",
+    energyLevel: "Low",
+    location: "Flexible",
+    cost: "Free",
+    spiceLevel: "G-Rated",
+    tips: [
+      "Pick a theme for the day",
+      "Set a time to send photos",
+      "Works great across time zones"
+    ]
+  },
+  {
+    id: 84,
+    title: "Voice note story: Take turns adding to a story via voice notes. Build it together over days.",
+    duration: "Ongoing",
+    category: "Async",
+    energyLevel: "Low",
+    location: "Flexible",
+    cost: "Free",
+    spiceLevel: "G-Rated",
+    tips: [
+      "Start with 'Once upon a time...'",
+      "Keep it playful and creative",
+      "See where the story goes"
+    ]
+  },
+  {
+    id: 85,
+    title: "Shared playlist building: Add one song per day that reminds you of them. Listen together later.",
+    duration: "Ongoing",
+    category: "Async",
+    energyLevel: "Low",
+    location: "Flexible",
+    cost: "Free",
+    spiceLevel: "G-Rated",
+    tips: [
+      "Use Spotify or Apple Music",
+      "Explain why each song matters",
+      "Creates your reunion soundtrack"
+    ]
+  },
+  {
+    id: 86,
+    title: "Morning/night routine swap: Film your morning routine. Watch theirs. Feel closer to their day.",
+    duration: "10 minutes",
+    category: "Async",
+    energyLevel: "Low",
+    location: "Indoor",
+    cost: "Free",
+    spiceLevel: "G-Rated",
+    tips: [
+      "Keep it casual and real",
+      "No need to make it perfect",
+      "Helps you feel part of their life"
+    ]
+  },
+  {
+    id: 87,
+    title: "Letter writing: Handwrite a letter. Mail it. Old school. Receive one back.",
+    duration: "30 minutes",
+    category: "Async",
+    energyLevel: "Low",
+    location: "Flexible",
+    cost: "Under $5",
+    spiceLevel: "G-Rated",
+    tips: [
+      "Handwriting makes it personal",
+      "Include small drawings or stickers",
+      "Something tangible to hold"
+    ]
+  },
+  {
+    id: 88,
+    title: "Countdown calendar: Create shared digital countdown to reunion. Add daily reasons you're excited.",
+    duration: "5 minutes",
+    category: "Async",
+    energyLevel: "Low",
+    location: "Flexible",
+    cost: "Free",
+    spiceLevel: "G-Rated",
+    tips: [
+      "Use a shared calendar or app",
+      "Add one reason each day",
+      "Builds anticipation together"
+    ]
+  },
+  {
+    id: 89,
+    title: "Book club for two: Read same book. Discuss chapters over text. Deep conversations.",
+    duration: "Ongoing",
+    category: "Async",
+    energyLevel: "Low",
+    location: "Flexible",
+    cost: "Under $20",
+    spiceLevel: "G-Rated",
+    tips: [
+      "Pick a book you're both interested in",
+      "Set chapter goals together",
+      "Discuss as you go"
+    ]
+  },
+  {
+    id: 90,
+    title: "Instagram story takeover: Post to each other's stories for a day. Show your world.",
+    duration: "24 hours",
+    category: "Async",
+    energyLevel: "Low",
+    location: "Flexible",
+    cost: "Free",
+    spiceLevel: "G-Rated",
+    tips: [
+      "Share your login temporarily",
+      "Post about your day from their account",
+      "Public commitment is sweet"
+    ]
+  },
+  {
+    id: 91,
+    title: "Recipe exchange: Each cook a meal from your culture/region. Send photos. Describe tastes.",
+    duration: "60 minutes",
+    category: "Async",
+    energyLevel: "Medium",
+    location: "Indoor",
+    cost: "Under $20",
+    spiceLevel: "G-Rated",
+    tips: [
+      "Share family recipes",
+      "Explain the cultural significance",
+      "Learn each other's backgrounds"
+    ]
+  },
+  {
+    id: 92,
+    title: "Fitness challenge: Set a weekly goal (steps, workouts). Check in daily. Winner picks next activity.",
+    duration: "1 week",
+    category: "Async",
+    energyLevel: "High",
+    location: "Flexible",
+    cost: "Free",
+    spiceLevel: "G-Rated",
+    tips: [
+      "Use a fitness app to track",
+      "Keep each other accountable",
+      "Celebrate small wins together"
+    ]
+  },
+
+  // TEXT GAMES (8 activities)
+  {
+    id: 93,
+    title: "20 questions (intimate edition): Take turns asking deep questions. No holds barred. Be vulnerable.",
+    duration: "30 minutes",
+    category: "Text Games",
+    energyLevel: "Low",
+    location: "Flexible",
+    cost: "Free",
+    spiceLevel: "G-Rated",
+    tips: [
+      "Ask things you really want to know",
+      "Answer honestly and fully",
+      "Deepens your connection"
+    ]
+  },
+  {
+    id: 94,
+    title: "Would you rather (relationship edition): Silly and serious. Learn each other's preferences.",
+    duration: "20 minutes",
+    category: "Text Games",
+    energyLevel: "Low",
+    location: "Flexible",
+    cost: "Free",
+    spiceLevel: "G-Rated",
+    tips: [
+      "Mix funny and serious questions",
+      "Ask why they chose their answer",
+      "Learn something new"
+    ]
+  },
+  {
+    id: 95,
+    title: "Compliment tennis: Go back and forth with compliments. First to run out does the dishes (when reunited).",
+    duration: "10 minutes",
+    category: "Text Games",
+    energyLevel: "Low",
+    location: "Flexible",
+    cost: "Free",
+    spiceLevel: "G-Rated",
+    tips: [
+      "Be specific and genuine",
+      "Go beyond just 'you're pretty'",
+      "Everyone wins with compliments"
+    ]
+  },
+  {
+    id: 96,
+    title: "Story building: 'Once upon a time...' Each person adds one sentence. Get weird.",
+    duration: "20 minutes",
+    category: "Text Games",
+    energyLevel: "Low",
+    location: "Flexible",
+    cost: "Free",
+    spiceLevel: "G-Rated",
+    tips: [
+      "Don't think too hard",
+      "Let it get silly",
+      "See where it goes"
+    ]
+  },
+  {
+    id: 97,
+    title: "Memory lane: 'Remember when we...' Share favorite memories. One per day for a week.",
+    duration: "5 minutes",
+    category: "Text Games",
+    energyLevel: "Low",
+    location: "Flexible",
+    cost: "Free",
+    spiceLevel: "G-Rated",
+    tips: [
+      "Pick specific moments",
+      "Relive the good times",
+      "Strengthens your shared history"
+    ]
+  },
+  {
+    id: 98,
+    title: "Future planning: Text each other one thing you want to do when reunited. Build anticipation.",
+    duration: "5 minutes",
+    category: "Text Games",
+    energyLevel: "Low",
+    location: "Flexible",
+    cost: "Free",
+    spiceLevel: "G-Rated",
+    tips: [
+      "Be specific about what you want",
+      "Make concrete plans",
+      "Creates excitement"
+    ]
+  },
+  {
+    id: 99,
+    title: "Good morning/night ritual: First and last text of day must be specific (not just 'gm'). Make it meaningful.",
+    duration: "2 minutes",
+    category: "Text Games",
+    energyLevel: "Low",
+    location: "Flexible",
+    cost: "Free",
+    spiceLevel: "G-Rated",
+    tips: [
+      "Say something real each time",
+      "Share one thing from your day",
+      "Consistency builds connection"
+    ]
+  },
+  {
+    id: 100,
+    title: "Two truths and a lie (relationship edition): Make them about your relationship. Guess which is fake.",
+    duration: "15 minutes",
+    category: "Text Games",
+    energyLevel: "Low",
+    location: "Flexible",
+    cost: "Free",
+    spiceLevel: "G-Rated",
+    tips: [
+      "Make them believable",
+      "Test how well you know each other",
+      "Learn new things"
+    ]
+  },
+
+  // ROMANTIC LDR (8 activities)
+  {
+    id: 101,
+    title: "Surprise delivery: Order food/flowers/gift to their location. Time it with a video call. Watch them receive it.",
+    duration: "30 minutes",
+    category: "Romantic LDR",
+    energyLevel: "Low",
+    location: "Flexible",
+    cost: "$20+",
+    spiceLevel: "G-Rated",
+    tips: [
+      "Use a delivery service in their area",
+      "Time it so you're on call when it arrives",
+      "High impact romantic gesture"
+    ]
+  },
+  {
+    id: 102,
+    title: "Wear their shirt: If you have their clothing, wear it. Send photo. Makes them feel close.",
+    duration: "5 minutes",
+    category: "Romantic LDR",
+    energyLevel: "Low",
+    location: "Flexible",
+    cost: "Free",
+    spiceLevel: "PG-13",
+    tips: [
+      "Their scent makes it special",
+      "Take a cute photo",
+      "Sensory connection"
+    ]
+  },
+  {
+    id: 103,
+    title: "Sunset/sunrise share: Both watch at your locations. Send photo. Different sky, same moment.",
+    duration: "10 minutes",
+    category: "Romantic LDR",
+    energyLevel: "Low",
+    location: "Outdoor",
+    cost: "Free",
+    spiceLevel: "G-Rated",
+    tips: [
+      "Check sunset times for both locations",
+      "Share the moment together",
+      "Poetic and connecting"
+    ]
+  },
+  {
+    id: 104,
+    title: "Virtual date night: Both dress up. Set table nice. Video call 'dinner date.' Act like it's real.",
+    duration: "90 minutes",
+    category: "Romantic LDR",
+    energyLevel: "Medium",
+    location: "Indoor",
+    cost: "Under $20",
+    spiceLevel: "G-Rated",
+    tips: [
+      "Put effort into getting dressed up",
+      "Set a nice table with candles",
+      "Effort shows love"
+    ]
+  },
+  {
+    id: 105,
+    title: "Love letter mailbox: Set up shared digital folder. Leave love notes throughout the week. Read Friday night.",
+    duration: "Ongoing",
+    category: "Romantic LDR",
+    energyLevel: "Low",
+    location: "Flexible",
+    cost: "Free",
+    spiceLevel: "G-Rated",
+    tips: [
+      "Use Google Drive or Dropbox",
+      "Add notes when inspired",
+      "Anticipation builds all week"
+    ]
+  },
+  {
+    id: 106,
+    title: "Spotify DJ: Make them a 'what I wish I could say' playlist. Songs say it for you.",
+    duration: "30 minutes",
+    category: "Romantic LDR",
+    energyLevel: "Low",
+    location: "Flexible",
+    cost: "Free",
+    spiceLevel: "G-Rated",
+    tips: [
+      "Choose songs with meaningful lyrics",
+      "Order matters - tell a story",
+      "Let the music speak"
+    ]
+  },
+  {
+    id: 107,
+    title: "Recreate first date: Both set up same scene (restaurant, park, etc). Video call and reminisce.",
+    duration: "60 minutes",
+    category: "Romantic LDR",
+    energyLevel: "Medium",
+    location: "Flexible",
+    cost: "Under $20",
+    spiceLevel: "G-Rated",
+    tips: [
+      "Recreate the setting as best you can",
+      "Talk about that first date",
+      "Relive the magic"
+    ]
+  },
+  {
+    id: 108,
+    title: "Open when letters: Write letters for different occasions ('Open when sad,' 'Open when you miss me'). Mail them.",
+    duration: "2 hours",
+    category: "Romantic LDR",
+    energyLevel: "Low",
+    location: "Flexible",
+    cost: "Under $5",
+    spiceLevel: "G-Rated",
+    tips: [
+      "Write 5-10 different letters",
+      "Be thoughtful about occasions",
+      "Provides ongoing comfort"
+    ]
+  },
+
+  // CREATIVE LDR (6 activities)
+  {
+    id: 109,
+    title: "Collaborative art: Start a drawing. Send photo. Other person adds to it. Send back. Continue.",
+    duration: "Ongoing",
+    category: "Creative LDR",
+    energyLevel: "Low",
+    location: "Flexible",
+    cost: "Free",
+    spiceLevel: "G-Rated",
+    tips: [
+      "No artistic skill needed",
+      "Let it evolve naturally",
+      "Creates a shared artifact"
+    ]
+  },
+  {
+    id: 110,
+    title: "Shared journal: Google Doc where you both write. Thoughts, poems, random. Check it daily.",
+    duration: "Ongoing",
+    category: "Creative LDR",
+    energyLevel: "Low",
+    location: "Flexible",
+    cost: "Free",
+    spiceLevel: "G-Rated",
+    tips: [
+      "No rules about what to write",
+      "Respond to each other's entries",
+      "Permanent record of your thoughts"
+    ]
+  },
+  {
+    id: 111,
+    title: "Vision board together: Pinterest board of future together. Both add pins. Discuss on video call.",
+    duration: "45 minutes",
+    category: "Creative LDR",
+    energyLevel: "Low",
+    location: "Flexible",
+    cost: "Free",
+    spiceLevel: "G-Rated",
+    tips: [
+      "Create a shared Pinterest board",
+      "Add travel, home, lifestyle ideas",
+      "Dream together about the future"
+    ]
+  },
+  {
+    id: 112,
+    title: "TikTok duet: One person makes a video. Other duets it. Make something silly together.",
+    duration: "15 minutes",
+    category: "Creative LDR",
+    energyLevel: "Medium",
+    location: "Flexible",
+    cost: "Free",
+    spiceLevel: "G-Rated",
+    tips: [
+      "Pick a fun trend or song",
+      "Don't take it too seriously",
+      "Public display of affection"
+    ]
+  },
+  {
+    id: 113,
+    title: "Photo album collaboration: Shared album where both add favorite memories. Caption them together.",
+    duration: "Ongoing",
+    category: "Creative LDR",
+    energyLevel: "Low",
+    location: "Flexible",
+    cost: "Free",
+    spiceLevel: "G-Rated",
+    tips: [
+      "Use Google Photos or iCloud",
+      "Add photos as you find them",
+      "Your relationship archive"
+    ]
+  },
+  {
+    id: 114,
+    title: "Plan reunion trip: Both research. Share links. Build itinerary together. Make it special.",
+    duration: "90 minutes",
+    category: "Creative LDR",
+    energyLevel: "Low",
+    location: "Flexible",
+    cost: "Free",
+    spiceLevel: "G-Rated",
+    tips: [
+      "Use a shared Google Doc",
+      "Research fun activities together",
+      "Gives you both something to look forward to"
+    ]
+  },
+
+  // PLANNING LDR (6 activities)
+  {
+    id: 115,
+    title: "Calendar sync: Block out next video call dates. Make them sacred. No canceling.",
+    duration: "15 minutes",
+    category: "Planning LDR",
+    energyLevel: "Low",
+    location: "Flexible",
+    cost: "Free",
+    spiceLevel: "G-Rated",
+    tips: [
+      "Use a shared calendar",
+      "Commit to specific times",
+      "Shows it's a priority"
+    ]
+  },
+  {
+    id: 116,
+    title: "Communication check-in: How's our texting frequency? Too much? Too little? Adjust.",
+    duration: "20 minutes",
+    category: "Planning LDR",
+    energyLevel: "Low",
+    location: "Flexible",
+    cost: "Free",
+    spiceLevel: "G-Rated",
+    tips: [
+      "Be honest about what you need",
+      "Find a balance that works",
+      "Prevents resentment"
+    ]
+  },
+  {
+    id: 117,
+    title: "Time zone coordinator: What times work for both? Create recurring slots. Make it automatic.",
+    duration: "20 minutes",
+    category: "Planning LDR",
+    energyLevel: "Low",
+    location: "Flexible",
+    cost: "Free",
+    spiceLevel: "G-Rated",
+    tips: [
+      "Find overlapping free time",
+      "Set recurring video calls",
+      "Reduces daily logistics"
+    ]
+  },
+  {
+    id: 118,
+    title: "Visit planning: When's next visit? Who's traveling? Book it NOW. Put money down.",
+    duration: "45 minutes",
+    category: "Planning LDR",
+    energyLevel: "Low",
+    location: "Flexible",
+    cost: "$20+",
+    spiceLevel: "G-Rated",
+    tips: [
+      "Commit to actual dates",
+      "Book flights or transportation",
+      "Concrete plans create hope"
+    ]
+  },
+  {
+    id: 119,
+    title: "Relationship state of union: How are we doing with distance? What do we need more/less of?",
+    duration: "30 minutes",
+    category: "Planning LDR",
+    energyLevel: "Low",
+    location: "Flexible",
+    cost: "Free",
+    spiceLevel: "G-Rated",
+    tips: [
+      "Schedule these regularly",
+      "Be honest and constructive",
+      "Preventive maintenance for your relationship"
+    ]
+  },
+  {
+    id: 120,
+    title: "End date discussion: When does distance end? Is there a plan? Talk about it honestly.",
+    duration: "60 minutes",
+    category: "Planning LDR",
+    energyLevel: "Low",
+    location: "Flexible",
+    cost: "Free",
+    spiceLevel: "G-Rated",
+    tips: [
+      "Long-distance needs an end goal",
+      "Be realistic about timelines",
+      "Having direction gives hope"
     ]
   }
 ];
