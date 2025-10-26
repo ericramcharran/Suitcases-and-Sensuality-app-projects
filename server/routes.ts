@@ -1430,7 +1430,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       // Check if email already exists
       const existingCouple = await storage.getCoupleByPartnerEmail(partner1Email);
       if (existingCouple) {
-        return res.status(400).json({ error: "Email already registered" });
+        return res.status(400).json({ error: "This email is already registered. Please use a different email or log in instead." });
       }
 
       // Hash password before storing
@@ -1482,7 +1482,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       // Check if email already exists
       const existingCouple = await storage.getCoupleByPartnerEmail(partner2Email);
       if (existingCouple) {
-        return res.status(400).json({ error: "Email already registered" });
+        return res.status(400).json({ error: "This email is already registered. Please use a different email or log in instead." });
       }
 
       const couple = await storage.getCoupleByCode(coupleCode.toUpperCase());

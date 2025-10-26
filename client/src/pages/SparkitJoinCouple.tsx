@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { useToast } from "@/hooks/use-toast";
-import { Heart, Sparkles, MessageCircle } from "lucide-react";
+import { Heart, Sparkles, MessageCircle, Eye, EyeOff } from "lucide-react";
 import { Link, useLocation } from "wouter";
 
 const joinSchema = z.object({
@@ -25,6 +25,7 @@ export default function SparkitJoinCouple() {
   const [, setLocation] = useLocation();
   const [joined, setJoined] = useState(false);
   const [partnerName, setPartnerName] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const { toast } = useToast();
 
   const form = useForm<JoinForm>({
@@ -218,12 +219,26 @@ export default function SparkitJoinCouple() {
                   <FormItem>
                     <FormLabel>Password</FormLabel>
                     <FormControl>
-                      <Input
-                        {...field}
-                        type="password"
-                        placeholder="Minimum 6 characters"
-                        data-testid="input-partner-password"
-                      />
+                      <div className="relative">
+                        <Input
+                          {...field}
+                          type={showPassword ? "text" : "password"}
+                          placeholder="Minimum 6 characters"
+                          data-testid="input-partner-password"
+                        />
+                        <button
+                          type="button"
+                          onClick={() => setShowPassword(!showPassword)}
+                          className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
+                          data-testid="button-toggle-password"
+                        >
+                          {showPassword ? (
+                            <EyeOff className="w-4 h-4" />
+                          ) : (
+                            <Eye className="w-4 h-4" />
+                          )}
+                        </button>
+                      </div>
                     </FormControl>
                     <FormMessage />
                   </FormItem>

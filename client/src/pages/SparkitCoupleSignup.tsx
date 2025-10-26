@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { useToast } from "@/hooks/use-toast";
-import { Sparkles, Copy, Check, Share2 } from "lucide-react";
+import { Sparkles, Copy, Check, Share2, Eye, EyeOff } from "lucide-react";
 import { Link } from "wouter";
 
 const signupSchema = z.object({
@@ -23,6 +23,7 @@ type SignupForm = z.infer<typeof signupSchema>;
 export default function SparkitCoupleSignup() {
   const [couple, setCouple] = useState<any>(null);
   const [copied, setCopied] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   const { toast } = useToast();
 
   const form = useForm<SignupForm>({
@@ -46,10 +47,10 @@ export default function SparkitCoupleSignup() {
         description: "Share your couple code with your partner to get started.",
       });
     },
-    onError: () => {
+    onError: (error: any) => {
       toast({
         title: "Error",
-        description: "Failed to create couple. Please try again.",
+        description: error.message || "Failed to create couple. Please try again.",
         variant: "destructive",
       });
     },
@@ -237,12 +238,26 @@ export default function SparkitCoupleSignup() {
                   <FormItem>
                     <FormLabel>Password</FormLabel>
                     <FormControl>
-                      <Input
-                        {...field}
-                        type="password"
-                        placeholder="Minimum 6 characters"
-                        data-testid="input-partner-password"
-                      />
+                      <div className="relative">
+                        <Input
+                          {...field}
+                          type={showPassword ? "text" : "password"}
+                          placeholder="Minimum 6 characters"
+                          data-testid="input-partner-password"
+                        />
+                        <button
+                          type="button"
+                          onClick={() => setShowPassword(!showPassword)}
+                          className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
+                          data-testid="button-toggle-password"
+                        >
+                          {showPassword ? (
+                            <EyeOff className="w-4 h-4" />
+                          ) : (
+                            <Eye className="w-4 h-4" />
+                          )}
+                        </button>
+                      </div>
                     </FormControl>
                     <FormMessage />
                   </FormItem>
