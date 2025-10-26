@@ -183,6 +183,12 @@ export default function NexusLanding() {
           
           <div className="couple-type-card">
             <Heart size={32} color="#e74c3c" />
+            <h4>Stuck Scrolling</h4>
+            <p>1-minute activities to break phone addiction and reconnect instantly</p>
+          </div>
+          
+          <div className="couple-type-card">
+            <Heart size={32} color="#e74c3c" />
             <h4>Polyamorous</h4>
             <p>Activities designed for multiple partners and unique dynamics</p>
           </div>
