@@ -19,6 +19,10 @@ import {
   type InsertSparkitActivityRating,
   type SparkitActivityResult,
   type InsertSparkitActivityResult,
+  type SparkitTriviaContest,
+  type InsertSparkitTriviaContest,
+  type SparkitTriviaAnswer,
+  type InsertSparkitTriviaAnswer,
   users, 
   matches,
   personalityAnswers,
@@ -29,7 +33,9 @@ import {
   verificationCodes,
   sparkitCouples,
   sparkitActivityRatings,
-  sparkitActivityResults
+  sparkitActivityResults,
+  sparkitTriviaContests,
+  sparkitTriviaAnswers
 } from "@shared/schema";
 import { db } from "./db";
 import { eq, and, desc } from "drizzle-orm";
@@ -98,6 +104,14 @@ export interface IStorage {
     ties: number;
     totalActivities: number;
   }>;
+  
+  // Spark It! Trivia operations
+  createTriviaContest(contest: InsertSparkitTriviaContest): Promise<SparkitTriviaContest>;
+  getTriviaContestById(id: string): Promise<SparkitTriviaContest | undefined>;
+  getTriviaContestsByCoupleId(coupleId: string): Promise<SparkitTriviaContest[]>;
+  createTriviaAnswer(answer: InsertSparkitTriviaAnswer): Promise<SparkitTriviaAnswer>;
+  getTriviaAnswersByContestId(contestId: string): Promise<SparkitTriviaAnswer[]>;
+  updateTriviaContest(id: string, updates: Partial<InsertSparkitTriviaContest>): Promise<SparkitTriviaContest | undefined>;
 }
 
 export class DatabaseStorage implements IStorage {
@@ -468,6 +482,47 @@ export class DatabaseStorage implements IStorage {
       ties,
       totalActivities: results.length
     };
+  }
+
+  // Spark It! Trivia operations
+  async createTriviaContest(insertContest: InsertSparkitTriviaContest): Promise<SparkitTriviaContest> {
+    const result = await db.insert(sparkitTriviaContests).values(insertContest).returning();
+    return result[0];
+  }
+
+  async getTriviaContestById(id: string): Promise<SparkitTriviaContest | undefined> {
+    const result = await db.select()
+      .from(sparkitTriviaContests)
+      .where(eq(sparkitTriviaContests.id, id));
+    return result[0];
+  }
+
+  async getTriviaContestsByCoupleId(coupleId: string): Promise<SparkitTriviaContest[]> {
+    return await db.select()
+      .from(sparkitTriviaContests)
+      .where(eq(sparkitTriviaContests.coupleId, coupleId))
+      .orderBy(desc(sparkitTriviaContests.createdAt));
+  }
+
+  async createTriviaAnswer(insertAnswer: InsertSparkitTriviaAnswer): Promise<SparkitTriviaAnswer> {
+    const result = await db.insert(sparkitTriviaAnswers).values(insertAnswer).returning();
+    return result[0];
+  }
+
+  async getTriviaAnswersByContestId(contestId: string): Promise<SparkitTriviaAnswer[]> {
+    return await db.select()
+      .from(sparkitTriviaAnswers)
+      .where(eq(sparkitTriviaAnswers.contestId, contestId))
+      .orderBy(sparkitTriviaAnswers.questionId);
+  }
+
+  async updateTriviaContest(id: string, updates: Partial<InsertSparkitTriviaContest>): Promise<SparkitTriviaContest | undefined> {
+    const result = await db
+      .update(sparkitTriviaContests)
+      .set(updates as any)
+      .where(eq(sparkitTriviaContests.id, id))
+      .returning();
+    return result[0];
   }
 }
 
