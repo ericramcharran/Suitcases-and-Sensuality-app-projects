@@ -37,11 +37,18 @@ export default function SparkitPremium() {
 
   const createCheckoutMutation = useMutation({
     mutationFn: async (billingPeriod: 'monthly' | 'yearly') => {
-      const response = await apiRequest('/api/sparkit/create-subscription', 'POST', {
+      const response = await apiRequest('POST', '/api/sparkit/create-subscription', {
         coupleId: authData?.coupleId,
         billingPeriod
       });
-      return response;
+      
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.error || 'Failed to create checkout session');
+      }
+      
+      const data = await response.json();
+      return data;
     },
     onSuccess: (data) => {
       if (data.url) {

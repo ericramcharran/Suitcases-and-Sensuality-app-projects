@@ -2188,6 +2188,12 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(404).json({ error: "Couple not found" });
       }
 
+      // Server-side premium check: only monthly or yearly subscriptions can use avatars
+      const isPremium = couple.subscriptionPlan === 'monthly' || couple.subscriptionPlan === 'yearly';
+      if (!isPremium) {
+        return res.status(403).json({ error: "Premium subscription required for custom avatars" });
+      }
+
       const objectStorageService = new ObjectStorageService();
       const objectPath = await objectStorageService.trySetObjectEntityAclPolicy(
         validatedData.avatarUrl,
