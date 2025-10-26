@@ -165,8 +165,8 @@ export default function NexusLanding() {
         <div className="couple-types-grid">
           <div className="couple-type-card">
             <Heart size={32} color="#e74c3c" />
-            <h4>Long Distance</h4>
-            <p>Virtual activities that keep you close across the miles</p>
+            <h4>Doom Scrollers</h4>
+            <p>1-minute activities to break phone addiction and reconnect instantly</p>
           </div>
           
           <div className="couple-type-card">
@@ -177,26 +177,26 @@ export default function NexusLanding() {
           
           <div className="couple-type-card">
             <Heart size={32} color="#e74c3c" />
+            <h4>Newly Dating</h4>
+            <p>Break the ice and discover each other through fun activities</p>
+          </div>
+          
+          <div className="couple-type-card">
+            <Heart size={32} color="#e74c3c" />
+            <h4>Long Distance</h4>
+            <p>Virtual activities that keep you close across the miles</p>
+          </div>
+          
+          <div className="couple-type-card">
+            <Heart size={32} color="#e74c3c" />
             <h4>Empty Nest</h4>
             <p>Rediscover each other with adventurous new experiences</p>
           </div>
           
           <div className="couple-type-card">
             <Heart size={32} color="#e74c3c" />
-            <h4>Stuck Scrolling</h4>
-            <p>1-minute activities to break phone addiction and reconnect instantly</p>
-          </div>
-          
-          <div className="couple-type-card">
-            <Heart size={32} color="#e74c3c" />
             <h4>Polyamorous</h4>
             <p>Activities designed for multiple partners and unique dynamics</p>
-          </div>
-          
-          <div className="couple-type-card">
-            <Heart size={32} color="#e74c3c" />
-            <h4>Newly Dating</h4>
-            <p>Break the ice and discover each other through fun activities</p>
           </div>
         </div>
       </motion.section>
