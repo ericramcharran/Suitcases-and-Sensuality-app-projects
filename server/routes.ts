@@ -1,7 +1,7 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
-import { insertUserSchema, insertPersonalityAnswersSchema, insertRelationshipAnswersSchema, insertPushSubscriptionSchema, updateCoupleNamesSchema, type InsertSparkitCouple } from "@shared/schema";
+import { insertUserSchema, insertPersonalityAnswersSchema, insertRelationshipAnswersSchema, insertPushSubscriptionSchema, updateCoupleNamesSchema, updateAvatarSchema, type InsertSparkitCouple } from "@shared/schema";
 import { z } from "zod";
 import multer from "multer";
 import path from "path";
@@ -11,6 +11,7 @@ import { sendMatchNotification, sendVerificationEmail } from "./email";
 import webpush from "web-push";
 import { WebSocketServer, WebSocket } from "ws";
 import { uploadUserDataToDrive } from "./googleDrive";
+import { ObjectStorageService, ObjectNotFoundError } from "./objectStorage";
 
 // Initialize Stripe (from blueprint:javascript_stripe)
 // Guard initialization to allow development without keys
@@ -1997,6 +1998,106 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error('End video session error:', error);
       res.status(500).json({ message: "Server error" });
+    }
+  });
+
+  // Avatar & Object Storage Routes (from blueprint:javascript_object_storage)
+  
+  // Serve public objects (avatars can be accessed publicly)
+  app.get("/objects/:objectPath(*)", async (req, res) => {
+    const objectStorageService = new ObjectStorageService();
+    try {
+      const objectFile = await objectStorageService.getObjectEntityFile(
+        req.path,
+      );
+      objectStorageService.downloadObject(objectFile, res);
+    } catch (error) {
+      console.error("Error checking object access:", error);
+      if (error instanceof ObjectNotFoundError) {
+        return res.sendStatus(404);
+      }
+      return res.sendStatus(500);
+    }
+  });
+
+  // Serve public assets (for pre-made avatars)
+  app.get("/public-objects/:filePath(*)", async (req, res) => {
+    const filePath = req.params.filePath;
+    const objectStorageService = new ObjectStorageService();
+    try {
+      const file = await objectStorageService.searchPublicObject(filePath);
+      if (!file) {
+        return res.status(404).json({ error: "File not found" });
+      }
+      objectStorageService.downloadObject(file, res);
+    } catch (error) {
+      console.error("Error searching for public object:", error);
+      return res.status(500).json({ error: "Internal server error" });
+    }
+  });
+
+  // Get upload URL for custom avatar
+  app.post("/api/sparkit/avatar/upload-url", async (req, res) => {
+    try {
+      const { coupleId } = req.body;
+      
+      if (!coupleId) {
+        return res.status(400).json({ error: "Couple ID is required" });
+      }
+
+      // Verify couple exists
+      const couple = await storage.getCoupleById(coupleId);
+      if (!couple) {
+        return res.status(404).json({ error: "Couple not found" });
+      }
+
+      const objectStorageService = new ObjectStorageService();
+      const uploadURL = await objectStorageService.getObjectEntityUploadURL();
+      res.json({ uploadURL });
+    } catch (error) {
+      console.error("Get avatar upload URL error:", error);
+      res.status(500).json({ error: "Failed to get upload URL" });
+    }
+  });
+
+  // Update avatar after upload
+  app.patch("/api/sparkit/couples/:id/avatars", async (req, res) => {
+    try {
+      const { id } = req.params;
+      const validatedData = updateAvatarSchema.parse(req.body);
+
+      const couple = await storage.getCoupleById(id);
+      if (!couple) {
+        return res.status(404).json({ error: "Couple not found" });
+      }
+
+      const objectStorageService = new ObjectStorageService();
+      const objectPath = await objectStorageService.trySetObjectEntityAclPolicy(
+        validatedData.avatarUrl,
+        {
+          owner: id, // Couple owns the avatar
+          visibility: "public", // Avatars are public (visible on scoreboard)
+        },
+      );
+
+      // Update couple with new avatar URL
+      const updateData: Partial<InsertSparkitCouple> = {};
+      if (validatedData.partner === "partner1") {
+        updateData.partner1AvatarUrl = objectPath;
+      } else {
+        updateData.partner2AvatarUrl = objectPath;
+      }
+
+      await storage.updateCouple(id, updateData);
+      const updatedCouple = await storage.getCoupleById(id);
+
+      res.json(updatedCouple);
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        return res.status(400).json({ error: error.errors });
+      }
+      console.error('Update avatar error:', error);
+      res.status(500).json({ error: "Failed to update avatar" });
     }
   });
 

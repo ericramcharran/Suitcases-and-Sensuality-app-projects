@@ -331,6 +331,12 @@ export const updateCoupleNamesSchema = z.object({
   { message: "At least one partner name must be provided" }
 );
 
+// Update avatar schema (for PATCH /api/sparkit/couples/:id/avatars)
+export const updateAvatarSchema = z.object({
+  partner: z.enum(["partner1", "partner2"]),
+  avatarUrl: z.string().url(),
+});
+
 // Spark It! Types
 export type InsertSparkitCouple = z.infer<typeof insertSparkitCoupleSchema>;
 export type SparkitCouple = typeof sparkitCouples.$inferSelect;
