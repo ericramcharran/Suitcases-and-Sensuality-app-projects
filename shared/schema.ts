@@ -214,6 +214,16 @@ export const sparkitTriviaAnswers = pgTable("sparkit_trivia_answers", {
   createdAt: timestamp("created_at").defaultNow(),
 });
 
+export const sparkitVideoSessions = pgTable("sparkit_video_sessions", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  coupleId: varchar("couple_id").notNull().references(() => sparkitCouples.id),
+  roomName: text("room_name").notNull().unique(), // Daily.co room name
+  roomUrl: text("room_url").notNull(), // Daily.co room URL
+  status: text("status").default('active'), // 'active', 'ended'
+  expiresAt: timestamp("expires_at").notNull(), // Room expiration time
+  createdAt: timestamp("created_at").defaultNow(),
+});
+
 export const insertVerificationCodeSchema = createInsertSchema(verificationCodes).omit({
   id: true,
   createdAt: true,
@@ -305,6 +315,11 @@ export const insertSparkitTriviaAnswerSchema = createInsertSchema(sparkitTriviaA
   createdAt: true,
 });
 
+export const insertSparkitVideoSessionSchema = createInsertSchema(sparkitVideoSessions).omit({
+  id: true,
+  createdAt: true,
+});
+
 // Spark It! Types
 export type InsertSparkitCouple = z.infer<typeof insertSparkitCoupleSchema>;
 export type SparkitCouple = typeof sparkitCouples.$inferSelect;
@@ -320,3 +335,5 @@ export type InsertSparkitTriviaContest = z.infer<typeof insertSparkitTriviaConte
 export type SparkitTriviaContest = typeof sparkitTriviaContests.$inferSelect;
 export type InsertSparkitTriviaAnswer = z.infer<typeof insertSparkitTriviaAnswerSchema>;
 export type SparkitTriviaAnswer = typeof sparkitTriviaAnswers.$inferSelect;
+export type InsertSparkitVideoSession = z.infer<typeof insertSparkitVideoSessionSchema>;
+export type SparkitVideoSession = typeof sparkitVideoSessions.$inferSelect;
