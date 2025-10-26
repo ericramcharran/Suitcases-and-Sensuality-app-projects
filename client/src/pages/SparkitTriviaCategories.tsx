@@ -1,20 +1,20 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useLocation } from "wouter";
 import { triviaCategories, getRandomQuestionsByCategory } from "../data/triviaQuestions";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, Brain, Trophy, Film, Flask, Scroll, Globe, UtensilsCrossed, Music, BookOpen, Lightbulb, Heart } from "lucide-react";
+import { ArrowLeft, Brain, Trophy, Film, Atom, Landmark, Globe, Utensils, Music, BookOpen, Lightbulb, Heart } from "lucide-react";
 import { apiRequest, queryClient } from "@/lib/queryClient";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { useToast } from "@/hooks/use-toast";
 
 // Map icon names to components
 const iconMap: Record<string, any> = {
   Film,
-  Flask,
-  Scroll,
+  Atom,
+  Landmark,
   Globe,
-  UtensilsCrossed,
+  Utensils,
   Trophy,
   Music,
   BookOpen,
@@ -26,10 +26,19 @@ export default function SparkitTriviaCategories() {
   const [, setLocation] = useLocation();
   const { toast } = useToast();
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+  const [coupleId, setCoupleId] = useState<string | null>(null);
 
-  const coupleId = localStorage.getItem("sparkitCoupleId");
-  const coupleData = localStorage.getItem("sparkitCoupleData");
-  const couple = coupleData ? JSON.parse(coupleData) : null;
+  // Get couple ID from localStorage
+  useEffect(() => {
+    const storedCoupleId = localStorage.getItem("sparkitCoupleId");
+    setCoupleId(storedCoupleId);
+  }, []);
+
+  // Fetch couple data from database
+  const { data: couple, isLoading } = useQuery({
+    queryKey: ["/api/sparkit/couples", coupleId],
+    enabled: !!coupleId,
+  });
 
   const createContestMutation = useMutation({
     mutationFn: async (categoryId: string) => {
@@ -65,6 +74,18 @@ export default function SparkitTriviaCategories() {
     createContestMutation.mutate(categoryId);
   };
 
+  // Show loading state
+  if (isLoading) {
+    return (
+      <div className="nexus-app min-h-screen flex items-center justify-center p-4">
+        <div className="text-center">
+          <p className="text-lg">Loading...</p>
+        </div>
+      </div>
+    );
+  }
+
+  // If no couple ID, redirect to signup
   if (!coupleId || !couple) {
     return (
       <div className="nexus-app min-h-screen flex items-center justify-center p-4">

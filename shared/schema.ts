@@ -193,10 +193,12 @@ export const sparkitTriviaQuestions = pgTable("sparkit_trivia_questions", {
 export const sparkitTriviaContests = pgTable("sparkit_trivia_contests", {
   id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
   coupleId: varchar("couple_id").notNull().references(() => sparkitCouples.id),
-  categoryId: varchar("category_id").notNull().references(() => sparkitTriviaCategories.id),
+  categoryId: text("category_id").notNull(), // Changed from varchar to text to match data
   categoryName: text("category_name").notNull(),
-  senderId: text("sender_id").notNull(), // 'partner1' or 'partner2'
+  senderName: text("sender_name").notNull(), // Name of partner who created the challenge
+  receiverName: text("receiver_name"), // Name of partner who completed the challenge
   questionIds: jsonb("question_ids").$type<string[]>().notNull(), // Array of 5 question IDs
+  score: integer("score"), // Score achieved (out of 5)
   status: text("status").default('pending'), // 'pending', 'completed'
   createdAt: timestamp("created_at").defaultNow(),
 });

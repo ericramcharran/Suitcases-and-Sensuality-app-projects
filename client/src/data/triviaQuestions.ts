@@ -12,10 +12,10 @@ export interface TriviaQuestion {
 
 export const triviaCategories = [
   { id: 'pop-culture', name: 'Pop Culture', icon: 'Film' },
-  { id: 'science', name: 'Science & Nature', icon: 'Flask' },
-  { id: 'history', name: 'History', icon: 'Scroll' },
+  { id: 'science', name: 'Science & Nature', icon: 'Atom' },
+  { id: 'history', name: 'History', icon: 'Landmark' },
   { id: 'geography', name: 'Geography', icon: 'Globe' },
-  { id: 'food-drink', name: 'Food & Drink', icon: 'UtensilsCrossed' },
+  { id: 'food-drink', name: 'Food & Drink', icon: 'Utensils' },
   { id: 'sports', name: 'Sports', icon: 'Trophy' },
   { id: 'music', name: 'Music', icon: 'Music' },
   { id: 'literature', name: 'Literature', icon: 'BookOpen' },
