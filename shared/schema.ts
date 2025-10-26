@@ -137,6 +137,10 @@ export const sparkitCouples = pgTable("sparkit_couples", {
   id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
   partner1Name: text("partner1_name").notNull(),
   partner2Name: text("partner2_name"), // Nullable - set when partner 2 joins
+  partner1Email: text("partner1_email").unique(), // Email for partner 1 login
+  partner1Password: text("partner1_password"), // Password for partner 1 login
+  partner2Email: text("partner2_email").unique(), // Email for partner 2 login
+  partner2Password: text("partner2_password"), // Password for partner 2 login
   partner1AvatarUrl: text("partner1_avatar_url"), // Avatar for partner 1 (pre-made or custom upload)
   partner2AvatarUrl: text("partner2_avatar_url"), // Avatar for partner 2 (pre-made or custom upload)
   coupleCode: varchar("couple_code", { length: 10 }).unique().notNull(), // Unique code for couple pairing
