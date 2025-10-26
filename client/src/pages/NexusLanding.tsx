@@ -1,7 +1,7 @@
 import { useRef, useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import AppIcon from "../components/AppIcon";
-import { Zap, Users, Sparkles, DollarSign, Clock, Heart } from "lucide-react";
+import { Zap, Users, Sparkles, DollarSign, Clock, Heart, PhoneOff } from "lucide-react";
 import { useLocation } from "wouter";
 import { DevProjectIndicator } from "@/components/DevProjectIndicator";
 import "../nexus-styles.css";
@@ -149,6 +149,13 @@ export default function NexusLanding() {
             <Sparkles size={48} color="#e74c3c" />
             <h3>Just Do It</h3>
             <p>No overthinking. No scrolling. Go make memories together</p>
+          </div>
+
+          <div className="step-card" data-testid="step-4">
+            <div className="step-number">4</div>
+            <PhoneOff size={48} color="#e74c3c" />
+            <h3>Phones Down</h3>
+            <p>Put the screens away and reconnect with your partner in real life</p>
           </div>
         </div>
       </motion.section>
