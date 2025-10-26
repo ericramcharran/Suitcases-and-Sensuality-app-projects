@@ -3,6 +3,7 @@ import { Zap, Users, Check, UserPlus, Brain, Trophy, Settings } from "lucide-rea
 import { useLocation } from "wouter";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { apiRequest, queryClient } from "@/lib/queryClient";
+import type { SparkitCouple } from "@shared/schema";
 import "../nexus-styles.css";
 
 export default function SparkButton() {
@@ -18,7 +19,7 @@ export default function SparkButton() {
   }, []);
 
   // Fetch couple data from database
-  const { data: couple, isLoading } = useQuery({
+  const { data: couple, isLoading } = useQuery<SparkitCouple>({
     queryKey: ["/api/sparkit/couples", coupleId],
     enabled: !!coupleId,
     refetchInterval: 5000, // Refresh every 5 seconds to check for partner joining
@@ -52,7 +53,7 @@ export default function SparkButton() {
 
   // Handle navigation when both press
   useEffect(() => {
-    if (user1Pressed && user2Pressed && couple) {
+    if (user1Pressed && user2Pressed && couple && !useSparkMutation.isPending) {
       const timer = setTimeout(() => {
         // Use a spark via API - navigation handled in onSuccess/onError
         useSparkMutation.mutate();
@@ -60,10 +61,10 @@ export default function SparkButton() {
 
       return () => clearTimeout(timer);
     }
-  }, [user1Pressed, user2Pressed, couple]);
+  }, [user1Pressed, user2Pressed, couple, useSparkMutation.isPending]);
 
   const handleUser1Press = () => {
-    if (!couple || couple.sparksRemaining <= 0) {
+    if (!couple || (couple.sparksRemaining ?? 0) <= 0) {
       setLocation("/sparkit/pricing");
       return;
     }
@@ -71,7 +72,7 @@ export default function SparkButton() {
   };
 
   const handleUser2Press = () => {
-    if (!couple || couple.sparksRemaining <= 0) {
+    if (!couple || (couple.sparksRemaining ?? 0) <= 0) {
       setLocation("/sparkit/pricing");
       return;
     }
