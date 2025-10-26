@@ -14,6 +14,8 @@ import { Link } from "wouter";
 
 const signupSchema = z.object({
   partner1Name: z.string().min(2, "Name must be at least 2 characters"),
+  partner1Email: z.string().email("Please enter a valid email"),
+  partner1Password: z.string().min(6, "Password must be at least 6 characters"),
 });
 
 type SignupForm = z.infer<typeof signupSchema>;
@@ -27,6 +29,8 @@ export default function SparkitCoupleSignup() {
     resolver: zodResolver(signupSchema),
     defaultValues: {
       partner1Name: "",
+      partner1Email: "",
+      partner1Password: "",
     },
   });
 
@@ -200,6 +204,44 @@ export default function SparkitCoupleSignup() {
                         {...field}
                         placeholder="Enter your name"
                         data-testid="input-partner-name"
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="partner1Email"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Email</FormLabel>
+                    <FormControl>
+                      <Input
+                        {...field}
+                        type="email"
+                        placeholder="your.email@example.com"
+                        data-testid="input-partner-email"
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="partner1Password"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Password</FormLabel>
+                    <FormControl>
+                      <Input
+                        {...field}
+                        type="password"
+                        placeholder="Minimum 6 characters"
+                        data-testid="input-partner-password"
                       />
                     </FormControl>
                     <FormMessage />
