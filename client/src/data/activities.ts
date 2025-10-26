@@ -3,7 +3,7 @@ export interface Activity {
   title: string;
   description?: string;
   duration: string;
-  category: 'Playful' | 'Romantic' | 'Connection' | 'Silly' | 'Creative' | 'Adventure' | 'Flirty Physical' | 'Verbal Seduction' | 'Teasing' | 'Intimate Connection' | 'Role Play' | 'Video Call' | 'Async' | 'Text Games' | 'Romantic LDR' | 'Creative LDR' | 'Planning LDR' | 'Boredom Buster';
+  category: 'Playful' | 'Romantic' | 'Connection' | 'Silly' | 'Creative' | 'Adventure' | 'Flirty Physical' | 'Verbal Seduction' | 'Teasing' | 'Intimate Connection' | 'Role Play' | 'Video Call' | 'Async' | 'Text Games' | 'Romantic LDR' | 'Creative LDR' | 'Planning LDR' | 'Boredom Buster' | 'Polyamorous';
   energyLevel: 'Low' | 'Medium' | 'High';
   location: 'Indoor' | 'Outdoor' | 'Flexible' | 'Private';
   cost: 'Free' | 'Under $5' | 'Under $20' | '$20+';
@@ -2713,6 +2713,617 @@ export const activities: Activity[] = [
       "Total honesty - no shame",
       "Laugh about the rabbit holes",
       "Choose connection over scrolling"
+    ]
+  },
+
+  // POLYAMOROUS - Activities for ENM/Poly Relationships (40 activities)
+  // Group Activities
+  {
+    id: 179,
+    title: "Polycule check-in circle: Everyone shares one high and one low from their week. No interruptions.",
+    duration: "15 minutes",
+    category: "Polyamorous",
+    energyLevel: "Low",
+    location: "Flexible",
+    cost: "Free",
+    spiceLevel: "G-Rated",
+    tips: [
+      "Give each person equal time",
+      "No advice unless asked",
+      "Practice active listening"
+    ]
+  },
+  {
+    id: 180,
+    title: "Relationship map drawing: Draw your polycule on a whiteboard. Lines show connections. Discuss.",
+    duration: "20 minutes",
+    category: "Polyamorous",
+    energyLevel: "Low",
+    location: "Indoor",
+    cost: "Free",
+    spiceLevel: "G-Rated",
+    tips: [
+      "Use different colors for different relationship types",
+      "Include emotional connections",
+      "See the web of support"
+    ]
+  },
+  {
+    id: 181,
+    title: "Group schedule sync: Pull out calendars. Plan the next month's one-on-one time for everyone.",
+    duration: "30 minutes",
+    category: "Polyamorous",
+    energyLevel: "Low",
+    location: "Flexible",
+    cost: "Free",
+    spiceLevel: "G-Rated",
+    tips: [
+      "Use shared digital calendar",
+      "Color code by partner",
+      "Include buffer time for flexibility"
+    ]
+  },
+  {
+    id: 182,
+    title: "Appreciation circle: Go around. Each person says what they love about the person to their left.",
+    duration: "10 minutes",
+    category: "Polyamorous",
+    energyLevel: "Low",
+    location: "Flexible",
+    cost: "Free",
+    spiceLevel: "G-Rated",
+    tips: [
+      "Be specific with compliments",
+      "No 'buts' or qualifiers",
+      "Let it sink in"
+    ]
+  },
+  {
+    id: 183,
+    title: "Create household agreements: What are your shared values? Write them down together.",
+    duration: "45 minutes",
+    category: "Polyamorous",
+    energyLevel: "Low",
+    location: "Indoor",
+    cost: "Free",
+    spiceLevel: "G-Rated",
+    tips: [
+      "Start with values, not rules",
+      "Everyone contributes ideas",
+      "Review quarterly"
+    ]
+  },
+  {
+    id: 184,
+    title: "Polycule game night: Each person picks one game. Winner gets to skip dishes tomorrow.",
+    duration: "2 hours",
+    category: "Polyamorous",
+    energyLevel: "Medium",
+    location: "Indoor",
+    cost: "Free",
+    spiceLevel: "G-Rated",
+    tips: [
+      "Rotate who picks first",
+      "Keep games under 30 minutes each",
+      "Friendly competition builds bonds"
+    ]
+  },
+  {
+    id: 185,
+    title: "Group meal prep: Everyone cooks their signature dish. Family dinner together.",
+    duration: "90 minutes",
+    category: "Polyamorous",
+    energyLevel: "Medium",
+    location: "Indoor",
+    cost: "Under $20",
+    spiceLevel: "G-Rated",
+    tips: [
+      "Coordinate the menu beforehand",
+      "Make it a weekly tradition",
+      "Share cooking duties"
+    ]
+  },
+  {
+    id: 186,
+    title: "Jealousy processing: Someone feeling jealous? Group support session. Listen, validate, problem-solve.",
+    duration: "30 minutes",
+    category: "Polyamorous",
+    energyLevel: "Low",
+    location: "Private",
+    cost: "Free",
+    spiceLevel: "G-Rated",
+    tips: [
+      "Create safe space for vulnerability",
+      "No dismissing feelings",
+      "Focus on needs underneath"
+    ]
+  },
+  {
+    id: 187,
+    title: "Metamour date: Partners who share a partner go out together. Build your relationship.",
+    duration: "2 hours",
+    category: "Polyamorous",
+    energyLevel: "Medium",
+    location: "Outdoor",
+    cost: "Under $20",
+    spiceLevel: "G-Rated",
+    tips: [
+      "Find common interests",
+      "Don't just talk about shared partner",
+      "Building this bond strengthens everyone"
+    ]
+  },
+  {
+    id: 188,
+    title: "Poly movie night: Watch a movie about relationships. Discuss what you'd do differently.",
+    duration: "2.5 hours",
+    category: "Polyamorous",
+    energyLevel: "Low",
+    location: "Indoor",
+    cost: "Free",
+    spiceLevel: "G-Rated",
+    tips: [
+      "Pick something that sparks discussion",
+      "Pause to discuss key moments",
+      "Learn from fictional scenarios"
+    ]
+  },
+
+  // One-on-One Time
+  {
+    id: 189,
+    title: "Protected date night: No phones. No metamour emergencies. Just you two for 3 hours.",
+    duration: "3 hours",
+    category: "Polyamorous",
+    energyLevel: "Medium",
+    location: "Flexible",
+    cost: "Under $20",
+    spiceLevel: "G-Rated",
+    tips: [
+      "Set boundaries with others beforehand",
+      "Turn off notifications",
+      "Be fully present"
+    ]
+  },
+  {
+    id: 190,
+    title: "Relationship state of the union: How are WE doing? What do WE need more/less of?",
+    duration: "45 minutes",
+    category: "Polyamorous",
+    energyLevel: "Low",
+    location: "Private",
+    cost: "Free",
+    spiceLevel: "G-Rated",
+    tips: [
+      "Use 'I' statements",
+      "Focus on this dyad specifically",
+      "End with actionable next steps"
+    ]
+  },
+  {
+    id: 191,
+    title: "Share your other relationships: What's going well with others? What support do you need?",
+    duration: "30 minutes",
+    category: "Polyamorous",
+    energyLevel: "Low",
+    location: "Flexible",
+    cost: "Free",
+    spiceLevel: "G-Rated",
+    tips: [
+      "Practice compersion",
+      "Ask how you can support",
+      "Celebrate their joys"
+    ]
+  },
+  {
+    id: 192,
+    title: "Plan your next adventure: Just the two of you. Where do you want to go? When? Book it.",
+    duration: "20 minutes",
+    category: "Polyamorous",
+    energyLevel: "Low",
+    location: "Flexible",
+    cost: "Free",
+    spiceLevel: "G-Rated",
+    tips: [
+      "Check calendars for conflicts",
+      "Make it special to this relationship",
+      "Having plans builds anticipation"
+    ]
+  },
+  {
+    id: 193,
+    title: "Love language check: How do YOU need love from ME? Has it changed?",
+    duration: "20 minutes",
+    category: "Polyamorous",
+    energyLevel: "Low",
+    location: "Flexible",
+    cost: "Free",
+    spiceLevel: "G-Rated",
+    tips: [
+      "Needs evolve over time",
+      "Be specific about examples",
+      "Listen without defensiveness"
+    ]
+  },
+  {
+    id: 194,
+    title: "Early relationship nostalgia: Remember when we first met? What attracted you? Tell the story.",
+    duration: "15 minutes",
+    category: "Polyamorous",
+    energyLevel: "Low",
+    location: "Flexible",
+    cost: "Free",
+    spiceLevel: "G-Rated",
+    tips: [
+      "Share what drew you together",
+      "Reminisce about early dates",
+      "Reconnect with that spark"
+    ]
+  },
+  {
+    id: 195,
+    title: "Boundaries review: Are our agreements still working? What needs updating?",
+    duration: "30 minutes",
+    category: "Polyamorous",
+    energyLevel: "Low",
+    location: "Private",
+    cost: "Free",
+    spiceLevel: "G-Rated",
+    tips: [
+      "Agreements should evolve",
+      "What worked then may not work now",
+      "Renegotiate as needed"
+    ]
+  },
+  {
+    id: 196,
+    title: "Sensory date: Take turns being blindfolded. Other person creates sensory experiences.",
+    duration: "20 minutes",
+    category: "Polyamorous",
+    energyLevel: "Low",
+    location: "Private",
+    cost: "Free",
+    spiceLevel: "PG-13",
+    tips: [
+      "Use textures, scents, sounds",
+      "Build trust and vulnerability",
+      "Focus on presence and sensation"
+    ]
+  },
+
+  // Communication Exercises
+  {
+    id: 197,
+    title: "NVC practice: Use Non-Violent Communication. 'When you ___, I feel ___, I need ___, would you ___?'",
+    duration: "20 minutes",
+    category: "Polyamorous",
+    energyLevel: "Low",
+    location: "Flexible",
+    cost: "Free",
+    spiceLevel: "G-Rated",
+    tips: [
+      "Focus on observations not judgments",
+      "Name the feeling specifically",
+      "Make clear requests"
+    ]
+  },
+  {
+    id: 198,
+    title: "Active listening drill: One person talks 5 min uninterrupted. Other repeats back what they heard.",
+    duration: "10 minutes",
+    category: "Polyamorous",
+    energyLevel: "Low",
+    location: "Flexible",
+    cost: "Free",
+    spiceLevel: "G-Rated",
+    tips: [
+      "No interrupting at all",
+      "Reflect back emotions too",
+      "Practice being heard"
+    ]
+  },
+  {
+    id: 199,
+    title: "Needs vs. strategies: What's the underlying need? Brainstorm 5 ways to meet it.",
+    duration: "25 minutes",
+    category: "Polyamorous",
+    energyLevel: "Low",
+    location: "Flexible",
+    cost: "Free",
+    spiceLevel: "G-Rated",
+    tips: [
+      "Get to root need, not surface request",
+      "Multiple strategies = flexibility",
+      "Creative problem solving"
+    ]
+  },
+  {
+    id: 200,
+    title: "Compersion practice: Share something good about your other relationships. Others celebrate with you.",
+    duration: "15 minutes",
+    category: "Polyamorous",
+    energyLevel: "Low",
+    location: "Flexible",
+    cost: "Free",
+    spiceLevel: "G-Rated",
+    tips: [
+      "Joy in partner's joy",
+      "Celebrate without comparison",
+      "This is advanced poly skill"
+    ]
+  },
+  {
+    id: 201,
+    title: "Scheduling negotiation: Who gets holidays? Weekends? Practice fair time allocation.",
+    duration: "30 minutes",
+    category: "Polyamorous",
+    energyLevel: "Low",
+    location: "Flexible",
+    cost: "Free",
+    spiceLevel: "G-Rated",
+    tips: [
+      "Consider everyone's needs",
+      "Rotate major holidays",
+      "Document the agreements"
+    ]
+  },
+  {
+    id: 202,
+    title: "Trigger identification: What situations make you feel insecure? Share without blame.",
+    duration: "25 minutes",
+    category: "Polyamorous",
+    energyLevel: "Low",
+    location: "Private",
+    cost: "Free",
+    spiceLevel: "G-Rated",
+    tips: [
+      "Own your triggers",
+      "Share the why behind them",
+      "Ask for what helps"
+    ]
+  },
+  {
+    id: 203,
+    title: "Safer sex talk: When did you last get tested? What are current fluid bonds? Update.",
+    duration: "20 minutes",
+    category: "Polyamorous",
+    energyLevel: "Low",
+    location: "Private",
+    cost: "Free",
+    spiceLevel: "PG-13",
+    tips: [
+      "Regular testing is essential",
+      "Transparency protects everyone",
+      "Update when situations change"
+    ]
+  },
+
+  // Personal Growth
+  {
+    id: 204,
+    title: "Jealousy journal: Write down jealous feelings. What's the fear underneath? Share if ready.",
+    duration: "20 minutes",
+    category: "Polyamorous",
+    energyLevel: "Low",
+    location: "Flexible",
+    cost: "Free",
+    spiceLevel: "G-Rated",
+    tips: [
+      "Jealousy is information",
+      "Dig deeper than surface feeling",
+      "Share when you're ready"
+    ]
+  },
+  {
+    id: 205,
+    title: "Attachment style discussion: What's your attachment? How does it show up in poly?",
+    duration: "30 minutes",
+    category: "Polyamorous",
+    energyLevel: "Low",
+    location: "Flexible",
+    cost: "Free",
+    spiceLevel: "G-Rated",
+    tips: [
+      "Understanding attachment helps",
+      "Poly can trigger attachment wounds",
+      "Awareness is first step"
+    ]
+  },
+  {
+    id: 206,
+    title: "Read 'The Ethical Slut' chapter: Everyone reads one chapter. Discuss what resonated.",
+    duration: "45 minutes",
+    category: "Polyamorous",
+    energyLevel: "Low",
+    location: "Flexible",
+    cost: "Free",
+    spiceLevel: "G-Rated",
+    tips: [
+      "Pick a chapter together",
+      "Share different takeaways",
+      "Education strengthens practice"
+    ]
+  },
+  {
+    id: 207,
+    title: "Personal boundaries check: What are YOUR boundaries (not just relationship agreements)?",
+    duration: "15 minutes",
+    category: "Polyamorous",
+    energyLevel: "Low",
+    location: "Flexible",
+    cost: "Free",
+    spiceLevel: "G-Rated",
+    tips: [
+      "Your boundaries are yours",
+      "They're different from rules",
+      "You can say no"
+    ]
+  },
+  {
+    id: 208,
+    title: "Capacity assessment: On a scale 1-10, what's your relationship capacity right now? Be honest.",
+    duration: "10 minutes",
+    category: "Polyamorous",
+    energyLevel: "Low",
+    location: "Flexible",
+    cost: "Free",
+    spiceLevel: "G-Rated",
+    tips: [
+      "Capacity fluctuates",
+      "Communicate current bandwidth",
+      "It's okay to need less sometimes"
+    ]
+  },
+
+  // Household/Nesting Partners
+  {
+    id: 209,
+    title: "Chore chart creation: Who does what? Make it fair. Make it visible. Stick to it.",
+    duration: "30 minutes",
+    category: "Polyamorous",
+    energyLevel: "Low",
+    location: "Indoor",
+    cost: "Free",
+    spiceLevel: "G-Rated",
+    tips: [
+      "Equal doesn't mean identical",
+      "Play to strengths",
+      "Rotate unpleasant tasks"
+    ]
+  },
+  {
+    id: 210,
+    title: "Quiet hours agreement: When does each person need alone time? Schedule it.",
+    duration: "15 minutes",
+    category: "Polyamorous",
+    energyLevel: "Low",
+    location: "Indoor",
+    cost: "Free",
+    spiceLevel: "G-Rated",
+    tips: [
+      "Alone time is not rejection",
+      "Introverts need this especially",
+      "Respect closed doors"
+    ]
+  },
+  {
+    id: 211,
+    title: "Sleepover protocol: How do we handle overnight guests? Set clear expectations.",
+    duration: "20 minutes",
+    category: "Polyamorous",
+    energyLevel: "Low",
+    location: "Indoor",
+    cost: "Free",
+    spiceLevel: "G-Rated",
+    tips: [
+      "Discuss beforehand, not during",
+      "Everyone's comfort matters",
+      "Agree on communication method"
+    ]
+  },
+  {
+    id: 212,
+    title: "Financial transparency: Who pays what? What's shared? Review quarterly.",
+    duration: "45 minutes",
+    category: "Polyamorous",
+    energyLevel: "Low",
+    location: "Indoor",
+    cost: "Free",
+    spiceLevel: "G-Rated",
+    tips: [
+      "Money talks prevent resentment",
+      "Document the agreements",
+      "Adjust as situations change"
+    ]
+  },
+  {
+    id: 213,
+    title: "Morning routine mapping: Who needs the bathroom when? Who makes coffee? Coordinate.",
+    duration: "15 minutes",
+    category: "Polyamorous",
+    energyLevel: "Low",
+    location: "Indoor",
+    cost: "Free",
+    spiceLevel: "G-Rated",
+    tips: [
+      "Small logistics matter",
+      "Create a flow chart",
+      "Prevent morning conflicts"
+    ]
+  },
+  {
+    id: 214,
+    title: "Conflict resolution protocol: When two people argue, what's the process? Agree now.",
+    duration: "30 minutes",
+    category: "Polyamorous",
+    energyLevel: "Low",
+    location: "Indoor",
+    cost: "Free",
+    spiceLevel: "G-Rated",
+    tips: [
+      "Decide when emotions are low",
+      "Include mediation options",
+      "Everyone feels safer with process"
+    ]
+  },
+  {
+    id: 215,
+    title: "Space claiming: Each person designates one space as theirs. Others respect it.",
+    duration: "10 minutes",
+    category: "Polyamorous",
+    energyLevel: "Low",
+    location: "Indoor",
+    cost: "Free",
+    spiceLevel: "G-Rated",
+    tips: [
+      "Even small spaces matter",
+      "Personal territory reduces stress",
+      "Ask before using someone's space"
+    ]
+  },
+  {
+    id: 216,
+    title: "Kitchen rotation: Who cooks when? Create a schedule. No one cooks 2 days in a row.",
+    duration: "20 minutes",
+    category: "Polyamorous",
+    energyLevel: "Low",
+    location: "Indoor",
+    cost: "Free",
+    spiceLevel: "G-Rated",
+    tips: [
+      "Fair distribution prevents burnout",
+      "Account for work schedules",
+      "Include cleanup in rotation"
+    ]
+  },
+  {
+    id: 217,
+    title: "Guest comfort talk: What makes each person comfortable when someone brings a date home?",
+    duration: "25 minutes",
+    category: "Polyamorous",
+    energyLevel: "Low",
+    location: "Indoor",
+    cost: "Free",
+    spiceLevel: "G-Rated",
+    tips: [
+      "Discuss before it happens",
+      "Be specific about needs",
+      "Balance privacy and respect"
+    ]
+  },
+  {
+    id: 218,
+    title: "House meeting: Weekly 30-min check-in. Celebrations, concerns, updates, scheduling.",
+    duration: "30 minutes",
+    category: "Polyamorous",
+    energyLevel: "Low",
+    location: "Indoor",
+    cost: "Free",
+    spiceLevel: "G-Rated",
+    tips: [
+      "Same time every week",
+      "Start with celebrations",
+      "End with action items"
     ]
   }
 ];
