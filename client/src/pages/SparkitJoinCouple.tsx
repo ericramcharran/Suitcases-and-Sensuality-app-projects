@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { useToast } from "@/hooks/use-toast";
-import { Heart, Sparkles } from "lucide-react";
+import { Heart, Sparkles, MessageCircle } from "lucide-react";
 import { Link, useLocation } from "wouter";
 
 const joinSchema = z.object({
@@ -74,6 +74,28 @@ export default function SparkitJoinCouple() {
       ...data,
       coupleCode: data.coupleCode.toUpperCase(),
     });
+  };
+
+  const sendReminder = async () => {
+    const signupUrl = `${window.location.origin}/sparkit/signup`;
+    const reminderMessage = `Hey! I'm ready to use Spark It! together 💕\n\nIt's a fun app that helps us beat decision fatigue - we both press a button and get instant activity suggestions!\n\nCan you create an account and share your couple code with me?\n\nSign up here: ${signupUrl}\n\nThen send me your 6-character code so I can join you! ✨`;
+    
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: "Join me on Spark It!",
+          text: reminderMessage,
+        });
+      } catch (error) {
+        console.log("Share cancelled");
+      }
+    } else {
+      navigator.clipboard.writeText(reminderMessage);
+      toast({
+        title: "Reminder Copied!",
+        description: "Paste this message and send it to your partner",
+      });
+    }
   };
 
   if (joined) {
@@ -182,18 +204,30 @@ export default function SparkitJoinCouple() {
           </Form>
 
           <div className="mt-6 text-center space-y-4">
-            <div className="bg-blue-50 rounded-lg p-4 text-sm text-blue-900">
-              <p className="font-medium mb-1">Don't have a code?</p>
-              <p className="text-xs">Ask your partner to create an account and share their code with you</p>
+            <div className="bg-gradient-to-r from-purple-50 to-rose-50 rounded-lg p-4 border border-purple-200">
+              <p className="font-medium mb-2 text-sm">Don't have a code?</p>
+              <p className="text-xs text-muted-foreground mb-3">
+                Ask your partner to create an account and share their code with you
+              </p>
+              <Button
+                onClick={sendReminder}
+                variant="outline"
+                size="sm"
+                className="w-full"
+                data-testid="button-send-reminder"
+              >
+                <MessageCircle className="w-4 h-4 mr-2" />
+                Send Partner a Reminder
+              </Button>
             </div>
             
             <div className="pt-4 border-t">
               <p className="text-xs text-muted-foreground">
                 Need to create a couple?{" "}
                 <Link href="/sparkit/signup">
-                  <a className="text-purple-600 hover:underline" data-testid="link-signup">
+                  <span className="text-purple-600 hover:underline cursor-pointer" data-testid="link-signup">
                     Create account
-                  </a>
+                  </span>
                 </Link>
               </p>
             </div>
