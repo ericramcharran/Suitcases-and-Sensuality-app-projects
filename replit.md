@@ -2,11 +2,34 @@
 
 ## Overview
 
-This Replit project contains two distinct dating applications: "The Executive Society" and "Spark It!".
+This Replit project contains two distinct applications: "The Executive Society" and "Spark It!".
 
 **The Executive Society** is a premium BDSM dating platform for professionals, focusing on authentic power exchange relationships. It emphasizes trust, safety, consent, and sophisticated user matching through detailed assessments. The platform offers role-specific features, including escrow verification for Dominants, aiming to be the leading platform for discerning individuals in serious power exchange dynamics.
 
-**Spark It!** is a couples activity app designed to combat decision fatigue. It offers a unique simultaneous button press mechanic where both partners press a button together to receive a single, instant activity suggestion. The business model is freemium (3 sparks/day free, $6.99/month for unlimited) and targets couples aged 25-50 across various relationship types. Future revenue includes partner integrations for activity bookings. Key features include a marketing landing page, the simultaneous button press interface, an activity reveal screen with rating and winner selection, and a competitive scoreboard.
+**Spark It!** is a couples activity app designed to combat decision fatigue. It offers a unique simultaneous button press mechanic where both partners press a button together to receive a single, instant activity suggestion. The business model is freemium (10 total sparks OR 7 days trial, whichever comes first) with premium subscriptions (Monthly: $6.99, Yearly: $59.99). Key features include activity suggestions, trivia challenges, and competitive scoreboard.
+
+## Project Navigation
+
+**Development Mode Project Selector (Root URL: /)**
+- The root URL displays a developer-friendly project selector
+- Choose which app to work on: Executive Society or Spark It!
+- Visual indicators show which project is active
+
+**Project Pathways:**
+1. **Executive Society** 
+   - Entry point: `/landing` 
+   - Routes: /login, /signup, /discover, /messages, /profile, etc.
+   - Visual indicator: Rose badge with Heart icon in top-left corner (dev mode only)
+   
+2. **Spark It!**
+   - Entry point: `/sparkit`
+   - Routes: /spark, /sparkit/signup, /scoreboard, /sparkit/trivia/*, etc.
+   - Visual indicator: Purple badge with Sparkles icon in top-left corner (dev mode only)
+
+**Navigation Features:**
+- Dev indicators appear only in development mode (not in production)
+- Home button in each indicator returns to project selector
+- Clear visual separation: Rose for Executive Society, Purple for Spark It!
 
 ## User Preferences
 

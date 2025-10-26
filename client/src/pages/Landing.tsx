@@ -5,6 +5,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { useLocation } from "wouter";
 import { motion, useReducedMotion } from "framer-motion";
 import { Link } from "wouter";
+import { DevProjectIndicator } from "@/components/DevProjectIndicator";
 import animatedLogo from "@assets/crop animate logo_1760889514164.mp4";
 
 export default function Landing() {
@@ -57,6 +58,7 @@ export default function Landing() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-pink-50 via-purple-50 to-blue-50 dark:from-gray-950 dark:via-purple-950/20 dark:to-blue-950/20 flex flex-col justify-center items-center px-4 sm:px-6 py-8 sm:py-12 relative">
+      <DevProjectIndicator project="executive" />
       {/* Animated background particles */}
       {!shouldReduceMotion && (
         <div className="absolute inset-0 pointer-events-none overflow-hidden">
