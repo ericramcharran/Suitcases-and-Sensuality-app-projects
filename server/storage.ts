@@ -41,7 +41,7 @@ import {
   sparkitVideoSessions
 } from "@shared/schema";
 import { db } from "./db";
-import { eq, and, desc } from "drizzle-orm";
+import { eq, and, desc, or } from "drizzle-orm";
 
 export interface IStorage {
   // User operations
@@ -90,6 +90,7 @@ export interface IStorage {
   createCouple(couple: InsertSparkitCouple): Promise<SparkitCouple>;
   getCoupleByCode(coupleCode: string): Promise<SparkitCouple | undefined>;
   getCoupleById(id: string): Promise<SparkitCouple | undefined>;
+  getCoupleByPartnerEmail(email: string): Promise<SparkitCouple | undefined>;
   updateCouple(id: string, updates: Partial<InsertSparkitCouple>): Promise<SparkitCouple | undefined>;
   useSpark(id: string): Promise<SparkitCouple | undefined>;
   resetDailySparks(id: string): Promise<SparkitCouple | undefined>;
@@ -331,6 +332,16 @@ export class DatabaseStorage implements IStorage {
 
   async getCoupleById(id: string): Promise<SparkitCouple | undefined> {
     const result = await db.select().from(sparkitCouples).where(eq(sparkitCouples.id, id));
+    return result[0];
+  }
+
+  async getCoupleByPartnerEmail(email: string): Promise<SparkitCouple | undefined> {
+    const result = await db.select().from(sparkitCouples).where(
+      or(
+        eq(sparkitCouples.partner1Email, email),
+        eq(sparkitCouples.partner2Email, email)
+      )
+    );
     return result[0];
   }
 

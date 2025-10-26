@@ -1318,6 +1318,90 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // ============================================
+  // SPARK IT! AUTHENTICATION API ROUTES
+  // ============================================
+
+  // Login for Spark It! (either partner can log in)
+  app.post("/api/sparkit/auth/login", async (req, res) => {
+    try {
+      const { email, password } = req.body;
+      
+      if (!email || !password) {
+        return res.status(400).json({ error: "Email and password are required" });
+      }
+
+      // Check if email belongs to partner 1 or partner 2
+      const couple = await storage.getCoupleByPartnerEmail(email);
+      
+      if (!couple) {
+        return res.status(401).json({ error: "Invalid email or password" });
+      }
+
+      // Determine which partner is logging in and verify password
+      let partnerRole: 'partner1' | 'partner2' | null = null;
+      if (couple.partner1Email === email && couple.partner1Password === password) {
+        partnerRole = 'partner1';
+      } else if (couple.partner2Email === email && couple.partner2Password === password) {
+        partnerRole = 'partner2';
+      }
+
+      if (!partnerRole) {
+        return res.status(401).json({ error: "Invalid email or password" });
+      }
+
+      // Store auth info in session
+      req.session.sparkitCoupleId = couple.id;
+      req.session.sparkitPartnerRole = partnerRole;
+
+      res.json({ 
+        coupleId: couple.id, 
+        partnerRole,
+        partnerName: partnerRole === 'partner1' ? couple.partner1Name : couple.partner2Name
+      });
+    } catch (error) {
+      console.error('Spark It! login error:', error);
+      res.status(500).json({ error: "Login failed" });
+    }
+  });
+
+  // Logout for Spark It!
+  app.post("/api/sparkit/auth/logout", async (req, res) => {
+    try {
+      req.session.sparkitCoupleId = undefined;
+      req.session.sparkitPartnerRole = undefined;
+      res.json({ success: true });
+    } catch (error) {
+      console.error('Spark It! logout error:', error);
+      res.status(500).json({ error: "Logout failed" });
+    }
+  });
+
+  // Get current logged in Spark It! user
+  app.get("/api/sparkit/auth/me", async (req, res) => {
+    try {
+      if (!req.session.sparkitCoupleId || !req.session.sparkitPartnerRole) {
+        return res.status(401).json({ error: "Not authenticated" });
+      }
+
+      const couple = await storage.getCoupleById(req.session.sparkitCoupleId);
+      
+      if (!couple) {
+        return res.status(404).json({ error: "Couple not found" });
+      }
+
+      const partnerRole = req.session.sparkitPartnerRole;
+      res.json({ 
+        coupleId: couple.id, 
+        partnerRole,
+        partnerName: partnerRole === 'partner1' ? couple.partner1Name : couple.partner2Name
+      });
+    } catch (error) {
+      console.error('Spark It! get me error:', error);
+      res.status(500).json({ error: "Failed to get user" });
+    }
+  });
+
+  // ============================================
   // SPARK IT! COUPLE PAIRING API ROUTES
   // ============================================
 
@@ -1334,25 +1418,33 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Create a new couple (first partner signs up)
   app.post("/api/sparkit/couples", async (req, res) => {
     try {
-      const { partner1Name } = req.body;
+      const { partner1Name, partner1Email, partner1Password } = req.body;
       
-      if (!partner1Name) {
-        return res.status(400).json({ error: "Partner name is required" });
+      if (!partner1Name || !partner1Email || !partner1Password) {
+        return res.status(400).json({ error: "Name, email, and password are required" });
+      }
+
+      // Check if email already exists
+      const existingCouple = await storage.getCoupleByPartnerEmail(partner1Email);
+      if (existingCouple) {
+        return res.status(400).json({ error: "Email already registered" });
       }
 
       // Generate unique couple code
       let coupleCode = generateCoupleCode();
-      let existingCouple = await storage.getCoupleByCode(coupleCode);
+      let codeExists = await storage.getCoupleByCode(coupleCode);
       
       // Ensure code is unique
-      while (existingCouple) {
+      while (codeExists) {
         coupleCode = generateCoupleCode();
-        existingCouple = await storage.getCoupleByCode(coupleCode);
+        codeExists = await storage.getCoupleByCode(coupleCode);
       }
 
       const couple = await storage.createCouple({
         coupleCode,
         partner1Name,
+        partner1Email,
+        partner1Password,
         partner2Name: null,
         subscriptionPlan: 'trial', // Start with trial for immediate premium features access
         sparksRemaining: 10, // Trial gets 10 total sparks
@@ -1360,6 +1452,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
         stripeCustomerId: null,
         stripeSubscriptionId: null
       });
+
+      // Auto-login after signup
+      req.session.sparkitCoupleId = couple.id;
+      req.session.sparkitPartnerRole = 'partner1';
 
       res.json(couple);
     } catch (error) {
@@ -1371,10 +1467,16 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Join a couple (second partner uses code)
   app.post("/api/sparkit/couples/join", async (req, res) => {
     try {
-      const { coupleCode, partner2Name } = req.body;
+      const { coupleCode, partner2Name, partner2Email, partner2Password } = req.body;
       
-      if (!coupleCode || !partner2Name) {
-        return res.status(400).json({ error: "Couple code and partner name are required" });
+      if (!coupleCode || !partner2Name || !partner2Email || !partner2Password) {
+        return res.status(400).json({ error: "Code, name, email, and password are required" });
+      }
+
+      // Check if email already exists
+      const existingCouple = await storage.getCoupleByPartnerEmail(partner2Email);
+      if (existingCouple) {
+        return res.status(400).json({ error: "Email already registered" });
       }
 
       const couple = await storage.getCoupleByCode(coupleCode.toUpperCase());
@@ -1390,11 +1492,17 @@ export async function registerRoutes(app: Express): Promise<Server> {
       // When partner 2 joins, start the trial period with 10 total sparks
       const updatedCouple = await storage.updateCouple(couple.id, {
         partner2Name,
+        partner2Email,
+        partner2Password,
         partner2JoinedAt: new Date(),
         subscriptionPlan: 'trial',
         sparksRemaining: 10, // Trial gets 10 total sparks
         totalSparksUsed: 0 // Reset counter
       });
+
+      // Auto-login after joining
+      req.session.sparkitCoupleId = updatedCouple!.id;
+      req.session.sparkitPartnerRole = 'partner2';
 
       res.json(updatedCouple);
     } catch (error) {
