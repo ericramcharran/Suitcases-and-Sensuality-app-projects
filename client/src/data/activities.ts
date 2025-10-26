@@ -3325,6 +3325,543 @@ export const activities: Activity[] = [
       "Start with celebrations",
       "End with action items"
     ]
+  },
+
+  // POLYAMOROUS PG-13 - GROUP INTIMACY (8 activities)
+  {
+    id: 219,
+    title: "Cuddle pile: Everyone gets cozy on the couch. Set a timer for 15 minutes. Just be close.",
+    duration: "15 minutes",
+    category: "Polyamorous",
+    energyLevel: "Low",
+    location: "Indoor",
+    cost: "Free",
+    spiceLevel: "PG-13",
+    tips: [
+      "Discuss comfort levels first",
+      "Respect personal boundaries",
+      "No pressure to participate"
+    ]
+  },
+  {
+    id: 220,
+    title: "Pass the kiss: Sit in a circle. First person kisses second, second kisses third, etc. Make each one count.",
+    duration: "5 minutes",
+    category: "Polyamorous",
+    energyLevel: "Low",
+    location: "Flexible",
+    cost: "Free",
+    spiceLevel: "PG-13",
+    tips: [
+      "Full consent required",
+      "Be present with each kiss",
+      "Light and playful approach"
+    ]
+  },
+  {
+    id: 221,
+    title: "Group massage train: Sit in a line. Everyone massages the shoulders of person in front. Then switch.",
+    duration: "20 minutes",
+    category: "Polyamorous",
+    energyLevel: "Medium",
+    location: "Indoor",
+    cost: "Free",
+    spiceLevel: "PG-13",
+    tips: [
+      "Ask about pressure preferences",
+      "Switch halfway through",
+      "Creates physical connection"
+    ]
+  },
+  {
+    id: 222,
+    title: "Strip poker (or any game): Loser removes one item. First naked does dishes for a week.",
+    duration: "30 minutes",
+    category: "Polyamorous",
+    energyLevel: "Medium",
+    location: "Indoor",
+    cost: "Free",
+    spiceLevel: "PG-13",
+    tips: [
+      "Set clear boundaries beforehand",
+      "Stop if anyone uncomfortable",
+      "Keep it playful"
+    ]
+  },
+  {
+    id: 223,
+    title: "Compliment circle (physical edition): Go around. Each person says what they find physically attractive about the next person.",
+    duration: "10 minutes",
+    category: "Polyamorous",
+    energyLevel: "Low",
+    location: "Flexible",
+    cost: "Free",
+    spiceLevel: "PG-13",
+    tips: [
+      "Be specific and sincere",
+      "Focus on what they like being noticed",
+      "Celebrate different types of beauty"
+    ]
+  },
+  {
+    id: 224,
+    title: "Slow dance rotation: Put on slow music. Every 2 minutes, switch partners. Feel the different energies.",
+    duration: "15 minutes",
+    category: "Polyamorous",
+    energyLevel: "Medium",
+    location: "Indoor",
+    cost: "Free",
+    spiceLevel: "PG-13",
+    tips: [
+      "Create romantic ambiance",
+      "Notice each person's unique energy",
+      "Be fully present with each partner"
+    ]
+  },
+  {
+    id: 225,
+    title: "Truth or dare (poly edition): Only relationship/attraction questions. Be brave. Be honest.",
+    duration: "20 minutes",
+    category: "Polyamorous",
+    energyLevel: "Medium",
+    location: "Flexible",
+    cost: "Free",
+    spiceLevel: "PG-13",
+    tips: [
+      "Respect right to pass",
+      "Keep questions thoughtful",
+      "Process feelings that arise"
+    ]
+  },
+  {
+    id: 226,
+    title: "Group bath/hot tub: If space allows, get in together. Talk, relax, be comfortable in bodies.",
+    duration: "30 minutes",
+    category: "Polyamorous",
+    energyLevel: "Low",
+    location: "Indoor",
+    cost: "Free",
+    spiceLevel: "PG-13",
+    tips: [
+      "Discuss comfort levels first",
+      "Focus on relaxation and connection",
+      "Not about performance"
+    ]
+  },
+
+  // POLYAMOROUS PG-13 - JEALOUSY & COMPERSION (7 activities)
+  {
+    id: 227,
+    title: "Compersion practice: One person describes attraction to someone else. Others celebrate, not compete.",
+    duration: "15 minutes",
+    category: "Polyamorous",
+    energyLevel: "Low",
+    location: "Flexible",
+    cost: "Free",
+    spiceLevel: "PG-13",
+    tips: [
+      "Start small and gentle",
+      "Notice your emotional reactions",
+      "Celebrate their joy"
+    ]
+  },
+  {
+    id: 228,
+    title: "Jealousy role-play: Act out a jealous scenario. Practice responding with compassion, not defensiveness.",
+    duration: "20 minutes",
+    category: "Polyamorous",
+    energyLevel: "Medium",
+    location: "Flexible",
+    cost: "Free",
+    spiceLevel: "PG-13",
+    tips: [
+      "Use hypothetical scenarios",
+      "Practice non-defensive responses",
+      "Debrief afterwards"
+    ]
+  },
+  {
+    id: 229,
+    title: "Watch partner flirt: One person flirts with another. Third watches and processes feelings afterwards.",
+    duration: "20 minutes",
+    category: "Polyamorous",
+    energyLevel: "High",
+    location: "Flexible",
+    cost: "Free",
+    spiceLevel: "PG-13",
+    tips: [
+      "Only if all comfortable",
+      "Process emotions honestly",
+      "Build jealousy resilience gradually"
+    ]
+  },
+  {
+    id: 230,
+    title: "Sexy story sharing: Each person describes their hottest recent encounter. Others practice compersion.",
+    duration: "15 minutes",
+    category: "Polyamorous",
+    energyLevel: "Medium",
+    location: "Flexible",
+    cost: "Free",
+    spiceLevel: "PG-13",
+    tips: [
+      "Respect privacy boundaries",
+      "Focus on your own joy",
+      "Celebrate others' happiness"
+    ]
+  },
+  {
+    id: 231,
+    title: "Physical reassurance: When someone feels jealous, everyone gives them physical affection and verbal affirmation.",
+    duration: "10 minutes",
+    category: "Polyamorous",
+    energyLevel: "Low",
+    location: "Flexible",
+    cost: "Free",
+    spiceLevel: "PG-13",
+    tips: [
+      "Ask what they need",
+      "Provide comfort without dismissing feelings",
+      "Validate the emotion"
+    ]
+  },
+  {
+    id: 232,
+    title: "Compare turn-ons: What does each person do differently that you love? Celebrate the variety.",
+    duration: "15 minutes",
+    category: "Polyamorous",
+    energyLevel: "Medium",
+    location: "Flexible",
+    cost: "Free",
+    spiceLevel: "PG-13",
+    tips: [
+      "Avoid comparisons that hurt",
+      "Emphasize uniqueness",
+      "Appreciate different qualities"
+    ]
+  },
+  {
+    id: 233,
+    title: "Jealousy trigger exploration: Share what makes you jealous. Others practice NOT doing it on purpose.",
+    duration: "20 minutes",
+    category: "Polyamorous",
+    energyLevel: "Medium",
+    location: "Flexible",
+    cost: "Free",
+    spiceLevel: "PG-13",
+    tips: [
+      "Be specific about triggers",
+      "Not about controlling others",
+      "Build awareness and compassion"
+    ]
+  },
+
+  // POLYAMOROUS PG-13 - DYAD TIME (WITHIN POLY CONTEXT) (8 activities)
+  {
+    id: 234,
+    title: "Reclaiming ritual: After one partner has been with someone else, reconnect physically. Cuddle, kiss, be present.",
+    duration: "30 minutes",
+    category: "Polyamorous",
+    energyLevel: "Medium",
+    location: "Indoor",
+    cost: "Free",
+    spiceLevel: "PG-13",
+    tips: [
+      "Focus on reconnection",
+      "Be present with each other",
+      "No performance pressure"
+    ]
+  },
+  {
+    id: 235,
+    title: "Our unique connection: What do WE have that's special? What do I get from YOU that's different?",
+    duration: "20 minutes",
+    category: "Polyamorous",
+    energyLevel: "Low",
+    location: "Flexible",
+    cost: "Free",
+    spiceLevel: "PG-13",
+    tips: [
+      "Celebrate your unique bond",
+      "Avoid comparing to other relationships",
+      "Name specific qualities"
+    ]
+  },
+  {
+    id: 236,
+    title: "Sexy confession: Tell them what you love about their body. Be specific. Be bold.",
+    duration: "10 minutes",
+    category: "Polyamorous",
+    energyLevel: "Medium",
+    location: "Flexible",
+    cost: "Free",
+    spiceLevel: "PG-13",
+    tips: [
+      "Be genuinely specific",
+      "Focus on what you desire",
+      "Make them feel seen"
+    ]
+  },
+  {
+    id: 237,
+    title: "Make out like teenagers: 15 minutes of just kissing. Nothing else. Remember why you wanted each other.",
+    duration: "15 minutes",
+    category: "Polyamorous",
+    energyLevel: "Medium",
+    location: "Indoor",
+    cost: "Free",
+    spiceLevel: "PG-13",
+    tips: [
+      "No goal except kissing",
+      "Be fully present",
+      "Rediscover each other"
+    ]
+  },
+  {
+    id: 238,
+    title: "Share fantasies: What do you want to try? What haven't we done yet? Plan it.",
+    duration: "20 minutes",
+    category: "Polyamorous",
+    energyLevel: "Low",
+    location: "Flexible",
+    cost: "Free",
+    spiceLevel: "PG-13",
+    tips: [
+      "No judgment zone",
+      "Be open and honest",
+      "Create exciting plans together"
+    ]
+  },
+  {
+    id: 239,
+    title: "Morning after talk: After being with someone else, share details if wanted. Practice transparency.",
+    duration: "15 minutes",
+    category: "Polyamorous",
+    energyLevel: "Low",
+    location: "Flexible",
+    cost: "Free",
+    spiceLevel: "PG-13",
+    tips: [
+      "Only share if both want it",
+      "Respect privacy of others",
+      "Build trust through openness"
+    ]
+  },
+  {
+    id: 240,
+    title: "Desire check-in: On a scale 1-10, how much do you want me right now? Why? What would make it higher?",
+    duration: "10 minutes",
+    category: "Polyamorous",
+    energyLevel: "Low",
+    location: "Flexible",
+    cost: "Free",
+    spiceLevel: "PG-13",
+    tips: [
+      "Be honest without cruelty",
+      "Discuss what influences desire",
+      "Non-defensive listening"
+    ]
+  },
+  {
+    id: 241,
+    title: "Body worship: Take turns appreciating each other's body out loud. Touch is optional but encouraged.",
+    duration: "15 minutes",
+    category: "Polyamorous",
+    energyLevel: "Medium",
+    location: "Indoor",
+    cost: "Free",
+    spiceLevel: "PG-13",
+    tips: [
+      "Speak from genuine appreciation",
+      "Notice what makes them glow",
+      "Create safe vulnerability"
+    ]
+  },
+
+  // POLYAMOROUS PG-13 - METAMOUR CONNECTION (4 activities)
+  {
+    id: 242,
+    title: "Metamour massage exchange: You both love the same person. Give each other a back massage. Bond.",
+    duration: "20 minutes",
+    category: "Polyamorous",
+    energyLevel: "Medium",
+    location: "Indoor",
+    cost: "Free",
+    spiceLevel: "PG-13",
+    tips: [
+      "Build caring between metamours",
+      "Respect comfort boundaries",
+      "Create alliance, not rivalry"
+    ]
+  },
+  {
+    id: 243,
+    title: "Compare notes (flirty edition): What does your shared partner like? Share tips. Get detailed.",
+    duration: "15 minutes",
+    category: "Polyamorous",
+    energyLevel: "Low",
+    location: "Flexible",
+    cost: "Free",
+    spiceLevel: "PG-13",
+    tips: [
+      "Respect their privacy boundaries",
+      "Collaborate for their happiness",
+      "Build metamour alliance"
+    ]
+  },
+  {
+    id: 244,
+    title: "Process jealousy together: You're both dating them. Be honest about hard feelings. Support each other.",
+    duration: "30 minutes",
+    category: "Polyamorous",
+    energyLevel: "High",
+    location: "Flexible",
+    cost: "Free",
+    spiceLevel: "PG-13",
+    tips: [
+      "Vulnerability builds connection",
+      "Support each other's struggles",
+      "Shared challenges create bonds"
+    ]
+  },
+  {
+    id: 245,
+    title: "Appreciation exchange: What do you appreciate about me being in their life? Say it directly.",
+    duration: "10 minutes",
+    category: "Polyamorous",
+    energyLevel: "Low",
+    location: "Flexible",
+    cost: "Free",
+    spiceLevel: "PG-13",
+    tips: [
+      "Name specific contributions",
+      "Practice compersion",
+      "Build positive metamour relationships"
+    ]
+  },
+
+  // POLYAMOROUS PG-13 - SPICY GROUP DYNAMICS (3 activities)
+  {
+    id: 246,
+    title: "Kissing booth: One person sits. Others take turns kissing them. Rate each kiss 1-10. Be playful.",
+    duration: "10 minutes",
+    category: "Polyamorous",
+    energyLevel: "Medium",
+    location: "Flexible",
+    cost: "Free",
+    spiceLevel: "PG-13",
+    tips: [
+      "Keep it light and fun",
+      "Everyone consents first",
+      "Celebrate different styles"
+    ]
+  },
+  {
+    id: 247,
+    title: "Attraction ranking (consensual): Each person ranks who they're most physically attracted to right now. Discuss.",
+    duration: "15 minutes",
+    category: "Polyamorous",
+    energyLevel: "High",
+    location: "Flexible",
+    cost: "Free",
+    spiceLevel: "PG-13",
+    tips: [
+      "Requires high trust",
+      "Attraction fluctuates",
+      "Process feelings that arise"
+    ]
+  },
+  {
+    id: 248,
+    title: "Group makeout: If everyone consents, set a timer for 10 minutes. Rotate kissing partners. Enjoy.",
+    duration: "10 minutes",
+    category: "Polyamorous",
+    energyLevel: "Medium",
+    location: "Indoor",
+    cost: "Free",
+    spiceLevel: "PG-13",
+    tips: [
+      "Full enthusiastic consent required",
+      "Anyone can stop anytime",
+      "Be present with each person"
+    ]
+  },
+
+  // POLYAMOROUS PG-13 - BONUS ACTIVITIES (5 activities)
+  {
+    id: 249,
+    title: "New relationship energy talk: Someone has NRE with someone new? Others practice being happy for them.",
+    duration: "20 minutes",
+    category: "Polyamorous",
+    energyLevel: "Medium",
+    location: "Flexible",
+    cost: "Free",
+    spiceLevel: "PG-13",
+    tips: [
+      "NRE is natural and temporary",
+      "Practice compersion",
+      "Maintain existing relationship care"
+    ]
+  },
+  {
+    id: 250,
+    title: "Attention auction: Each person bids for one-on-one time. Winner gets their preferred activity. Others practice patience.",
+    duration: "15 minutes",
+    category: "Polyamorous",
+    energyLevel: "Low",
+    location: "Flexible",
+    cost: "Free",
+    spiceLevel: "PG-13",
+    tips: [
+      "Make it fair and fun",
+      "Everyone gets turns",
+      "Balance needs creatively"
+    ]
+  },
+  {
+    id: 251,
+    title: "Sexy scheduling: Look at calendar. Block out intimate time with each person. Make it fair. Make it hot.",
+    duration: "20 minutes",
+    category: "Polyamorous",
+    energyLevel: "Low",
+    location: "Flexible",
+    cost: "Free",
+    spiceLevel: "PG-13",
+    tips: [
+      "Prioritize intimate connection",
+      "Distribute fairly",
+      "Build anticipation"
+    ]
+  },
+  {
+    id: 252,
+    title: "Describe your type: What attracted you to each person? How are they different? Celebrate variety.",
+    duration: "15 minutes",
+    category: "Polyamorous",
+    energyLevel: "Low",
+    location: "Flexible",
+    cost: "Free",
+    spiceLevel: "PG-13",
+    tips: [
+      "Appreciate different qualities",
+      "Avoid hurtful comparisons",
+      "Celebrate uniqueness"
+    ]
+  },
+  {
+    id: 253,
+    title: "Physical preference sharing: What kind of touch does each person like? Demonstrate. Take notes.",
+    duration: "20 minutes",
+    category: "Polyamorous",
+    energyLevel: "Medium",
+    location: "Flexible",
+    cost: "Free",
+    spiceLevel: "PG-13",
+    tips: [
+      "Be specific about preferences",
+      "Demonstrate if comfortable",
+      "Learn each other deeply"
+    ]
   }
 ];
 
