@@ -23,6 +23,8 @@ import {
   type InsertSparkitTriviaContest,
   type SparkitTriviaAnswer,
   type InsertSparkitTriviaAnswer,
+  type SparkitVideoSession,
+  type InsertSparkitVideoSession,
   users, 
   matches,
   personalityAnswers,
@@ -35,7 +37,8 @@ import {
   sparkitActivityRatings,
   sparkitActivityResults,
   sparkitTriviaContests,
-  sparkitTriviaAnswers
+  sparkitTriviaAnswers,
+  sparkitVideoSessions
 } from "@shared/schema";
 import { db } from "./db";
 import { eq, and, desc } from "drizzle-orm";
@@ -112,6 +115,12 @@ export interface IStorage {
   createTriviaAnswer(answer: InsertSparkitTriviaAnswer): Promise<SparkitTriviaAnswer>;
   getTriviaAnswersByContestId(contestId: string): Promise<SparkitTriviaAnswer[]>;
   updateTriviaContest(id: string, updates: Partial<InsertSparkitTriviaContest>): Promise<SparkitTriviaContest | undefined>;
+  
+  // Spark It! Video Session operations
+  createVideoSession(session: InsertSparkitVideoSession): Promise<SparkitVideoSession>;
+  getVideoSessionById(id: string): Promise<SparkitVideoSession | undefined>;
+  getActiveVideoSessionByCoupleId(coupleId: string): Promise<SparkitVideoSession | undefined>;
+  updateVideoSession(id: string, updates: Partial<InsertSparkitVideoSession>): Promise<SparkitVideoSession | undefined>;
 }
 
 export class DatabaseStorage implements IStorage {
@@ -521,6 +530,39 @@ export class DatabaseStorage implements IStorage {
       .update(sparkitTriviaContests)
       .set(updates as any)
       .where(eq(sparkitTriviaContests.id, id))
+      .returning();
+    return result[0];
+  }
+
+  // Spark It! Video Session operations
+  async createVideoSession(insertSession: InsertSparkitVideoSession): Promise<SparkitVideoSession> {
+    const result = await db.insert(sparkitVideoSessions).values(insertSession).returning();
+    return result[0];
+  }
+
+  async getVideoSessionById(id: string): Promise<SparkitVideoSession | undefined> {
+    const result = await db.select()
+      .from(sparkitVideoSessions)
+      .where(eq(sparkitVideoSessions.id, id));
+    return result[0];
+  }
+
+  async getActiveVideoSessionByCoupleId(coupleId: string): Promise<SparkitVideoSession | undefined> {
+    const result = await db.select()
+      .from(sparkitVideoSessions)
+      .where(and(
+        eq(sparkitVideoSessions.coupleId, coupleId),
+        eq(sparkitVideoSessions.status, 'active')
+      ))
+      .orderBy(desc(sparkitVideoSessions.createdAt));
+    return result[0];
+  }
+
+  async updateVideoSession(id: string, updates: Partial<InsertSparkitVideoSession>): Promise<SparkitVideoSession | undefined> {
+    const result = await db
+      .update(sparkitVideoSessions)
+      .set(updates as any)
+      .where(eq(sparkitVideoSessions.id, id))
       .returning();
     return result[0];
   }

@@ -1852,5 +1852,120 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Spark It! Video Room Routes
+  // Create a new Daily.co video room for a couple
+  app.post("/api/sparkit/video/create-room", async (req, res) => {
+    try {
+      const { coupleId } = req.body;
+
+      if (!coupleId) {
+        return res.status(400).json({ message: "Couple ID is required" });
+      }
+
+      if (!process.env.DAILY_API_KEY) {
+        return res.status(503).json({ message: "Video service not configured" });
+      }
+
+      // Check if couple already has an active video session
+      const existingSession = await storage.getActiveVideoSessionByCoupleId(coupleId);
+      if (existingSession) {
+        return res.json({
+          roomUrl: existingSession.roomUrl,
+          roomName: existingSession.roomName,
+          sessionId: existingSession.id
+        });
+      }
+
+      // Create a new Daily.co room
+      const roomName = `sparkit-${coupleId}-${Date.now()}`;
+      const expiresInSeconds = 60 * 60; // 1 hour
+
+      const response = await fetch('https://api.daily.co/v1/rooms', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${process.env.DAILY_API_KEY}`
+        },
+        body: JSON.stringify({
+          name: roomName,
+          privacy: 'private',
+          properties: {
+            max_participants: 2,
+            enable_screenshare: false,
+            enable_chat: false,
+            enable_knocking: false,
+            enable_prejoin_ui: false,
+            exp: Math.floor(Date.now() / 1000) + expiresInSeconds
+          }
+        })
+      });
+
+      if (!response.ok) {
+        const error = await response.text();
+        console.error('Daily.co API error:', error);
+        return res.status(500).json({ message: "Failed to create video room" });
+      }
+
+      const roomData = await response.json();
+
+      // Save session to database
+      const session = await storage.createVideoSession({
+        coupleId,
+        roomName: roomData.name,
+        roomUrl: roomData.url,
+        status: 'active',
+        expiresAt: new Date(Date.now() + expiresInSeconds * 1000)
+      });
+
+      res.json({
+        roomUrl: session.roomUrl,
+        roomName: session.roomName,
+        sessionId: session.id
+      });
+    } catch (error) {
+      console.error('Create video room error:', error);
+      res.status(500).json({ message: "Server error" });
+    }
+  });
+
+  // End a video session
+  app.post("/api/sparkit/video/end-session", async (req, res) => {
+    try {
+      const { sessionId } = req.body;
+
+      if (!sessionId) {
+        return res.status(400).json({ message: "Session ID is required" });
+      }
+
+      const session = await storage.getVideoSessionById(sessionId);
+      if (!session) {
+        return res.status(404).json({ message: "Session not found" });
+      }
+
+      // Update session status
+      await storage.updateVideoSession(sessionId, { status: 'ended' });
+
+      // Optionally delete the room from Daily.co (or let it expire)
+      if (process.env.DAILY_API_KEY) {
+        try {
+          await fetch(`https://api.daily.co/v1/rooms/${session.roomName}`, {
+            method: 'DELETE',
+            headers: {
+              'Authorization': `Bearer ${process.env.DAILY_API_KEY}`
+            }
+          });
+        } catch (error) {
+          console.error('Error deleting Daily.co room:', error);
+          // Non-critical error, continue
+        }
+      }
+
+      res.json({ message: "Session ended successfully" });
+    } catch (error) {
+      console.error('End video session error:', error);
+      res.status(500).json({ message: "Server error" });
+    }
+  });
+
   return httpServer;
 }
