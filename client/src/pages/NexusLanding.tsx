@@ -3,7 +3,6 @@ import { motion } from "framer-motion";
 import AppIcon from "../components/AppIcon";
 import { Zap, Users, Sparkles, DollarSign, Clock, Heart, PhoneOff } from "lucide-react";
 import { useLocation } from "wouter";
-import { DevProjectIndicator } from "@/components/DevProjectIndicator";
 import "../nexus-styles.css";
 
 function useScrollAnimation() {
@@ -74,7 +73,6 @@ export default function NexusLanding() {
 
   return (
     <div className="nexus-app" data-testid="nexus-landing">
-      <DevProjectIndicator project="sparkit" />
       {/* Hero Section - No animation, always visible */}
       <section className="hero">
         <div className="hero-content">

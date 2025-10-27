@@ -1,13 +1,13 @@
 {
-  "name": "The Executive Society - BDSM Dating",
-  "short_name": "Executive Society",
-  "description": "Premium BDSM dating for professionals. Match with compatible partners based on personality, relationship style, and authentic power exchange dynamics. Safe, consensual, and private.",
-  "start_url": "/splash",
+  "name": "Spark It! - Couples Activity App",
+  "short_name": "Spark It!",
+  "description": "Stop scrolling, start connecting. Press the button together and get one instant activity. Zero menus, zero decisions. Just spark and go.",
+  "start_url": "/sparkit",
   "display": "standalone",
   "background_color": "#0a0a0a",
-  "theme_color": "#e21d4b",
+  "theme_color": "#9333ea",
   "orientation": "portrait",
-  "categories": ["lifestyle", "social", "dating"],
+  "categories": ["lifestyle", "social", "entertainment"],
   "icons": [
     {
       "src": "/icon-192.png",
