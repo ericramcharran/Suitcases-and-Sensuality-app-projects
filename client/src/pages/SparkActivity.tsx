@@ -193,13 +193,14 @@ export default function SparkActivity() {
 
           {/* Activity Title */}
           <h1 style={{ 
-            fontSize: '2.5em', 
+            fontSize: '1.8em', 
             marginBottom: '20px', 
             textAlign: 'center',
             background: 'var(--nexus-gradient-full)',
             WebkitBackgroundClip: 'text',
             WebkitTextFillColor: 'transparent',
             backgroundClip: 'text',
+            lineHeight: '1.3'
           }}>
             {activity.title}
           </h1>
@@ -276,8 +277,8 @@ export default function SparkActivity() {
           {/* Description (optional) */}
           {activity.description && (
             <p style={{ 
-              fontSize: '1.2em', 
-              lineHeight: '1.8', 
+              fontSize: '1em', 
+              lineHeight: '1.6', 
               color: 'rgba(255,255,255,0.9)',
               marginBottom: '30px',
               textAlign: 'center'
@@ -295,8 +296,8 @@ export default function SparkActivity() {
               marginBottom: '30px'
             }}>
               <h3 style={{ 
-                fontSize: '1.5em', 
-                marginBottom: '20px', 
+                fontSize: '1.2em', 
+                marginBottom: '15px', 
                 color: '#e74c3c' 
               }}>
                 Tips to Make It Great
@@ -306,20 +307,20 @@ export default function SparkActivity() {
                 padding: 0,
                 display: 'flex',
                 flexDirection: 'column',
-                gap: '15px'
+                gap: '12px'
               }}>
                 {activity.tips.map((tip, index) => (
                   <li key={index} style={{ 
                     display: 'flex', 
                     alignItems: 'flex-start', 
-                    gap: '12px',
+                    gap: '10px',
                     color: 'rgba(255,255,255,0.8)',
-                    fontSize: '1.1em',
-                    lineHeight: '1.6'
+                    fontSize: '0.95em',
+                    lineHeight: '1.5'
                   }}>
                     <span style={{ 
                       color: '#e74c3c', 
-                      fontSize: '1.5em',
+                      fontSize: '1.3em',
                       lineHeight: '1',
                       flexShrink: 0,
                       marginTop: '2px'
@@ -337,13 +338,13 @@ export default function SparkActivity() {
             textAlign: 'center'
           }}>
             <h3 style={{ 
-              fontSize: '1.2em', 
+              fontSize: '1em', 
               marginBottom: '15px', 
               color: 'rgba(255,255,255,0.9)' 
             }}>
               How was this activity?
             </h3>
-            <div style={{ display: 'flex', gap: '15px', justifyContent: 'center' }}>
+            <div style={{ display: 'flex', gap: '12px', justifyContent: 'center', flexWrap: 'wrap' }}>
               <button
                 onClick={() => handleRating('loved')}
                 className="cta-button"
@@ -352,15 +353,20 @@ export default function SparkActivity() {
                   background: rating === 'loved' ? 'var(--nexus-gradient-royal)' : 'rgba(255,255,255,0.1)',
                   border: '2px solid rgba(102, 126, 234, 0.4)',
                   display: 'flex',
+                  flexDirection: 'column',
                   alignItems: 'center',
-                  gap: '8px',
-                  padding: '12px 25px',
-                  opacity: rating && rating !== 'loved' ? 0.5 : 1
+                  justifyContent: 'center',
+                  gap: '6px',
+                  padding: '16px 24px',
+                  opacity: rating && rating !== 'loved' ? 0.5 : 1,
+                  minWidth: '120px',
+                  borderRadius: '20px',
+                  fontSize: '0.95em'
                 }}
                 data-testid="button-rate-loved"
               >
-                <ThumbsUp size={20} fill={rating === 'loved' ? 'white' : 'none'} />
-                Loved It!
+                <ThumbsUp size={24} fill={rating === 'loved' ? 'white' : 'none'} />
+                <span>Loved It!</span>
               </button>
               <button
                 onClick={() => handleRating('meh')}
@@ -370,15 +376,20 @@ export default function SparkActivity() {
                   background: rating === 'meh' ? 'rgba(255,107,107,0.3)' : 'rgba(255,255,255,0.1)',
                   border: '2px solid rgba(255,107,107,0.4)',
                   display: 'flex',
+                  flexDirection: 'column',
                   alignItems: 'center',
-                  gap: '8px',
-                  padding: '12px 25px',
-                  opacity: rating && rating !== 'meh' ? 0.5 : 1
+                  justifyContent: 'center',
+                  gap: '6px',
+                  padding: '16px 24px',
+                  opacity: rating && rating !== 'meh' ? 0.5 : 1,
+                  minWidth: '120px',
+                  borderRadius: '20px',
+                  fontSize: '0.95em'
                 }}
                 data-testid="button-rate-meh"
               >
-                <ThumbsDown size={20} fill={rating === 'meh' ? 'white' : 'none'} />
-                Not My Vibe
+                <ThumbsDown size={24} fill={rating === 'meh' ? 'white' : 'none'} />
+                <span>Not My Vibe</span>
               </button>
             </div>
           </div>
