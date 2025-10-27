@@ -93,8 +93,8 @@ export default function SparkButton() {
       <div className="nexus-app" data-testid="spark-button-page">
         <section className="hero" style={{ minHeight: '100vh' }}>
           <div className="hero-content">
-            <h1 style={{ fontSize: '3em', marginBottom: '20px' }}>Welcome to Spark It!</h1>
-            <p style={{ fontSize: '1.3em', marginBottom: '50px', maxWidth: '700px', lineHeight: '1.6' }}>
+            <h1 style={{ fontSize: '1.8em', marginBottom: '20px', lineHeight: '1.3' }}>Welcome to Spark It!</h1>
+            <p style={{ fontSize: '1em', marginBottom: '50px', maxWidth: '700px', lineHeight: '1.6' }}>
               You need to log in to start sparking.
             </p>
             
@@ -137,7 +137,7 @@ export default function SparkButton() {
       <div className="nexus-app" data-testid="spark-button-page">
         <section className="hero" style={{ minHeight: '100vh' }}>
           <div className="hero-content">
-            <p style={{ fontSize: '1.3em' }}>Loading...</p>
+            <p style={{ fontSize: '1em' }}>Loading...</p>
           </div>
         </section>
       </div>
@@ -150,8 +150,8 @@ export default function SparkButton() {
       <div className="nexus-app" data-testid="spark-button-page">
         <section className="hero" style={{ minHeight: '100vh' }}>
           <div className="hero-content">
-            <h1 style={{ fontSize: '3em', marginBottom: '20px' }}>Couple Not Found</h1>
-            <p style={{ fontSize: '1.3em', marginBottom: '50px', maxWidth: '700px', lineHeight: '1.6' }}>
+            <h1 style={{ fontSize: '1.8em', marginBottom: '20px', lineHeight: '1.3' }}>Couple Not Found</h1>
+            <p style={{ fontSize: '1em', marginBottom: '50px', maxWidth: '700px', lineHeight: '1.6' }}>
               We couldn't find your couple account. Please try signing up again.
             </p>
             <button

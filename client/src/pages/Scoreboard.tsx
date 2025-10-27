@@ -37,7 +37,7 @@ export default function Scoreboard() {
     return (
       <div className="nexus-app" data-testid="scoreboard-page">
         <section style={{ padding: '40px 20px', textAlign: 'center' }}>
-          <p style={{ fontSize: '1.2em', color: 'rgba(255,255,255,0.7)' }}>
+          <p style={{ fontSize: '1em', color: 'rgba(255,255,255,0.7)' }}>
             Please sign up or join a couple to view the scoreboard
           </p>
           <button
@@ -63,7 +63,7 @@ export default function Scoreboard() {
     return (
       <div className="nexus-app" data-testid="scoreboard-page">
         <section style={{ padding: '40px 20px', textAlign: 'center' }}>
-          <p style={{ fontSize: '1.2em', color: '#e74c3c', marginBottom: '20px' }}>
+          <p style={{ fontSize: '1em', color: '#e74c3c', marginBottom: '20px' }}>
             Error loading scoreboard data. Please try again.
           </p>
           <button
@@ -88,7 +88,7 @@ export default function Scoreboard() {
     return (
       <div className="nexus-app" data-testid="scoreboard-page">
         <section style={{ padding: '40px 20px', textAlign: 'center' }}>
-          <p style={{ fontSize: '1.2em', color: 'rgba(255,255,255,0.7)' }}>
+          <p style={{ fontSize: '1em', color: 'rgba(255,255,255,0.7)' }}>
             Loading scoreboard...
           </p>
         </section>
@@ -177,11 +177,12 @@ export default function Scoreboard() {
           <ArrowLeft size={20} />
         </button>
         <h2 style={{ 
-          fontSize: '1.5em', 
+          fontSize: '1.3em', 
           background: 'var(--nexus-gradient-full)',
           WebkitBackgroundClip: 'text',
           WebkitTextFillColor: 'transparent',
           backgroundClip: 'text',
+          lineHeight: '1.3'
         }}>
           Couple Scoreboard
         </h2>
@@ -202,16 +203,17 @@ export default function Scoreboard() {
           <div style={{ textAlign: 'center', marginBottom: '30px' }}>
             <Trophy size={60} color="#e74c3c" style={{ margin: '0 auto 15px' }} />
             <h1 style={{ 
-              fontSize: '2em', 
+              fontSize: '1.5em', 
               marginBottom: '10px',
               background: 'var(--nexus-gradient-full)',
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent',
               backgroundClip: 'text',
+              lineHeight: '1.3'
             }}>
               {getLeadMessage()}
             </h1>
-            <p style={{ fontSize: '1.2em', color: 'rgba(255,255,255,0.7)' }}>
+            <p style={{ fontSize: '1em', color: 'rgba(255,255,255,0.7)' }}>
               {stats.total} {stats.total === 1 ? 'activity' : 'activities'} completed together
             </p>
           </div>
@@ -246,14 +248,14 @@ export default function Scoreboard() {
                 </h3>
               </div>
               <div style={{ 
-                fontSize: '3em', 
+                fontSize: '2.5em', 
                 fontWeight: 'bold', 
                 color: '#667eea',
                 marginBottom: '10px'
               }}>
                 {stats.partner1Wins}
               </div>
-              <p style={{ color: 'rgba(255,255,255,0.7)', fontSize: '1.1em' }}>
+              <p style={{ color: 'rgba(255,255,255,0.7)', fontSize: '0.95em' }}>
                 {stats.partner1Percentage}% win rate
               </p>
             </div>
@@ -274,14 +276,14 @@ export default function Scoreboard() {
                 Ties
               </h3>
               <div style={{ 
-                fontSize: '3em', 
+                fontSize: '2.5em', 
                 fontWeight: 'bold', 
                 color: 'rgba(255,255,255,0.9)',
                 marginBottom: '10px'
               }}>
                 {stats.ties}
               </div>
-              <p style={{ color: 'rgba(255,255,255,0.7)', fontSize: '1.1em' }}>
+              <p style={{ color: 'rgba(255,255,255,0.7)', fontSize: '0.95em' }}>
                 Both winners
               </p>
             </div>
@@ -309,14 +311,14 @@ export default function Scoreboard() {
                 </h3>
               </div>
               <div style={{ 
-                fontSize: '3em', 
+                fontSize: '2.5em', 
                 fontWeight: 'bold', 
                 color: '#e74c3c',
                 marginBottom: '10px'
               }}>
                 {stats.partner2Wins}
               </div>
-              <p style={{ color: 'rgba(255,255,255,0.7)', fontSize: '1.1em' }}>
+              <p style={{ color: 'rgba(255,255,255,0.7)', fontSize: '0.95em' }}>
                 {stats.partner2Percentage}% win rate
               </p>
             </div>
@@ -336,7 +338,7 @@ export default function Scoreboard() {
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px' }}>
                 <TrendingUp size={24} color={streak.winner === 'partner1' ? '#667eea' : '#e74c3c'} />
                 <span style={{ 
-                  fontSize: '1.3em', 
+                  fontSize: '1.1em', 
                   fontWeight: 'bold',
                   color: streak.winner === 'partner1' ? '#667eea' : '#e74c3c'
                 }}>
@@ -356,7 +358,7 @@ export default function Scoreboard() {
             marginBottom: '30px'
           }}>
             <h3 style={{ 
-              fontSize: '1.5em', 
+              fontSize: '1.2em', 
               marginBottom: '20px', 
               color: '#e74c3c',
               display: 'flex',
