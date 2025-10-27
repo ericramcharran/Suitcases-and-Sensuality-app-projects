@@ -5,6 +5,7 @@ import { useQuery, useMutation } from "@tanstack/react-query";
 import { apiRequest, queryClient } from "@/lib/queryClient";
 import { getRandomActivity, type Activity } from "../data/activities";
 import { AvatarDisplay } from "@/components/AvatarDisplay";
+import type { SparkitCouple } from "@shared/schema";
 import "../nexus-styles.css";
 
 export default function SparkActivity() {
@@ -23,16 +24,18 @@ export default function SparkActivity() {
   }, []);
 
   // Fetch couple data
-  const { data: couple, isLoading: coupleLoading, isError: coupleError } = useQuery({
+  const { data: couple, isLoading: coupleLoading, isError: coupleError } = useQuery<SparkitCouple>({
     queryKey: ["/api/sparkit/couples", coupleId],
     enabled: !!coupleId,
   });
 
-  // Get a random activity when component mounts
+  // Get a random activity when component mounts or couple data changes
   useEffect(() => {
-    const newActivity = getRandomActivity();
-    setActivity(newActivity);
-  }, []);
+    if (couple) {
+      const newActivity = getRandomActivity(couple.relationshipType);
+      setActivity(newActivity);
+    }
+  }, [couple]);
 
   // Mutation to save rating
   const saveRatingMutation = useMutation({

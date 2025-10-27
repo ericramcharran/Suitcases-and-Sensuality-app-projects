@@ -3865,7 +3865,21 @@ export const activities: Activity[] = [
   }
 ];
 
-export function getRandomActivity(): Activity {
-  const randomIndex = Math.floor(Math.random() * activities.length);
-  return activities[randomIndex];
+export function getRandomActivity(relationshipType?: string | null): Activity {
+  // Filter out polyamorous activities unless the couple is polyamorous
+  let availableActivities = activities;
+  
+  if (relationshipType !== 'polyamorous') {
+    // Exclude polyamorous category for non-polyamorous couples
+    availableActivities = activities.filter(activity => activity.category !== 'Polyamorous');
+  }
+  
+  // Defensive check: ensure we have activities available
+  if (availableActivities.length === 0) {
+    // Fallback to all activities if filtering somehow resulted in empty array
+    availableActivities = activities;
+  }
+  
+  const randomIndex = Math.floor(Math.random() * availableActivities.length);
+  return availableActivities[randomIndex];
 }
