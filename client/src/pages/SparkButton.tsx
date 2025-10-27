@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Zap, Users, Check, UserPlus, Brain, Trophy, Settings, Crown, Sparkles } from "lucide-react";
+import { Zap, Users, Check, UserPlus, Brain, Trophy, Settings, Crown, Sparkles, Send, Share2 } from "lucide-react";
 import { useLocation } from "wouter";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { apiRequest, queryClient } from "@/lib/queryClient";
@@ -8,8 +8,8 @@ import "../nexus-styles.css";
 
 export default function SparkButton() {
   const [, setLocation] = useLocation();
-  const [user1Pressed, setUser1Pressed] = useState(false);
-  const [user2Pressed, setUser2Pressed] = useState(false);
+  const [myButtonPressed, setMyButtonPressed] = useState(false);
+  const [partnerButtonPressed, setPartnerButtonPressed] = useState(false);
 
   // Check authentication via session
   const { data: authData, isLoading: authLoading} = useQuery<{ coupleId: string; partnerRole: string } | null>({
@@ -35,7 +35,7 @@ export default function SparkButton() {
     const ws = new WebSocket(`${protocol}//${window.location.host}?userId=sparkit-${coupleId}-${partnerRole}`);
 
     ws.onopen = () => {
-      console.log('WebSocket connected for spark synchronization');
+      console.log('[WebSocket] Connected for spark synchronization');
     };
 
     ws.onmessage = (event) => {
@@ -44,20 +44,22 @@ export default function SparkButton() {
         console.log(`[WebSocket] Received message:`, message);
         
         if (message.type === 'spark-button-press') {
-          console.log(`[WebSocket] Button press from ${message.data.partner}`);
-          // Update button state based on which partner pressed
-          if (message.data.partner === 'partner1') {
-            console.log('[WebSocket] Setting user1Pressed = true');
-            setUser1Pressed(true);
-          } else if (message.data.partner === 'partner2') {
-            console.log('[WebSocket] Setting user2Pressed = true');
-            setUser2Pressed(true);
+          const pressedPartner = message.data.partner;
+          console.log(`[WebSocket] Button press from ${pressedPartner}, my role is ${partnerRole}`);
+          
+          // If the pressed partner matches my role, update MY button
+          // If the pressed partner is different, update PARTNER button
+          if (pressedPartner === partnerRole) {
+            console.log('[WebSocket] My button was pressed');
+            setMyButtonPressed(true);
+          } else {
+            console.log('[WebSocket] Partner button was pressed');
+            setPartnerButtonPressed(true);
           }
         } else if (message.type === 'spark-button-reset') {
           console.log('[WebSocket] Reset button states');
-          // Reset both buttons
-          setUser1Pressed(false);
-          setUser2Pressed(false);
+          setMyButtonPressed(false);
+          setPartnerButtonPressed(false);
         }
       } catch (error) {
         console.error('WebSocket message parse error:', error);
@@ -103,9 +105,9 @@ export default function SparkButton() {
     },
   });
 
-  // Handle navigation when both press
+  // Handle navigation when both partners press
   useEffect(() => {
-    if (user1Pressed && user2Pressed && couple && !useSparkMutation.isPending) {
+    if (myButtonPressed && partnerButtonPressed && couple && !useSparkMutation.isPending) {
       const timer = setTimeout(() => {
         // Use a spark via API - navigation handled in onSuccess/onError
         useSparkMutation.mutate();
@@ -113,9 +115,9 @@ export default function SparkButton() {
 
       return () => clearTimeout(timer);
     }
-  }, [user1Pressed, user2Pressed, couple, useSparkMutation.isPending]);
+  }, [myButtonPressed, partnerButtonPressed, couple, useSparkMutation.isPending]);
 
-  const handleUser1Press = async () => {
+  const handleMyButtonPress = async () => {
     if (!couple || (couple.sparksRemaining ?? 0) <= 0) {
       setLocation("/sparkit/pricing");
       return;
@@ -123,37 +125,42 @@ export default function SparkButton() {
     
     // Notify partner via WebSocket (backend derives partner from session)
     try {
-      console.log('[Button] Notifying backend of button press');
+      console.log('[Button] Notifying backend of my button press');
       await apiRequest("POST", `/api/sparkit/couples/${coupleId}/button-press`, {});
-      console.log('[Button] Backend notified successfully - setting user1Pressed = true');
-      setUser1Pressed(true);
+      console.log('[Button] Backend notified successfully - setting myButtonPressed = true');
+      setMyButtonPressed(true);
     } catch (error) {
       console.error('Failed to notify partner:', error);
       // Don't set pressed state if API call failed
     }
   };
 
-  const handleUser2Press = async () => {
-    if (!couple || (couple.sparksRemaining ?? 0) <= 0) {
-      setLocation("/sparkit/pricing");
-      return;
-    }
+  const handleSendSparkRequest = async () => {
+    const sparkUrl = `${window.location.origin}/spark`;
+    const partnerName = partnerRole === 'partner1' ? couple?.partner2Name : couple?.partner1Name;
+    const myName = partnerRole === 'partner1' ? couple?.partner1Name : couple?.partner2Name;
     
-    // Notify partner via WebSocket (backend derives partner from session)
-    try {
-      console.log('[Button] Notifying backend of button press');
-      await apiRequest("POST", `/api/sparkit/couples/${coupleId}/button-press`, {});
-      console.log('[Button] Backend notified successfully - setting user2Pressed = true');
-      setUser2Pressed(true);
-    } catch (error) {
-      console.error('Failed to notify partner:', error);
-      // Don't set pressed state if API call failed
+    const shareText = `${myName} wants to Spark It! with you! 🎯\n\nClick this link to start sparking together:\n${sparkUrl}`;
+
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: "Let's Spark It!",
+          text: shareText,
+        });
+      } catch (error) {
+        console.log("Share cancelled");
+      }
+    } else {
+      navigator.clipboard.writeText(shareText);
+      // Show toast notification
+      alert("Spark request copied to clipboard! Send it to your partner.");
     }
   };
 
   const handleReset = async () => {
-    setUser1Pressed(false);
-    setUser2Pressed(false);
+    setMyButtonPressed(false);
+    setPartnerButtonPressed(false);
     
     // Notify partner to reset as well
     try {
@@ -163,7 +170,9 @@ export default function SparkButton() {
     }
   };
 
-  const bothPressed = user1Pressed && user2Pressed;
+  const bothPressed = myButtonPressed && partnerButtonPressed;
+  const myName = partnerRole === 'partner1' ? couple?.partner1Name : couple?.partner2Name;
+  const partnerName = partnerRole === 'partner1' ? couple?.partner2Name : couple?.partner1Name;
 
   // If not authenticated, redirect to login
   if (!authLoading && !coupleId) {
@@ -463,10 +472,16 @@ export default function SparkButton() {
       {couple.partner2Name && (
         <section className="hero" style={{ minHeight: '80vh' }}>
           <div className="hero-content">
-            <h1 style={{ fontSize: '3em', marginBottom: '20px' }}>Ready to Spark?</h1>
-            <p style={{ fontSize: '1.3em', marginBottom: '50px', maxWidth: '700px', lineHeight: '1.6' }}>
-              <strong>Demo:</strong> Both partners press their button at the same time. 
-              For this demo, press both buttons below to simulate the experience.
+            <h1 style={{ fontSize: '2.5em', marginBottom: '20px' }}>
+              {bothPressed ? '✨ SPARK IGNITED! ✨' : partnerButtonPressed ? `Waiting for you, ${myName}!` : 'Ready to Spark?'}
+            </h1>
+            <p style={{ fontSize: '1.2em', marginBottom: '30px', maxWidth: '700px', lineHeight: '1.6' }}>
+              {bothPressed 
+                ? 'Both partners pressed! Getting your activity...'
+                : partnerButtonPressed 
+                  ? `${partnerName} is ready and waiting for you to press your button!`
+                  : 'Press your button when you\'re both ready to discover a fun activity together!'
+              }
             </p>
             
             {sparksRemaining === 0 && !isPremium && (
@@ -530,43 +545,41 @@ export default function SparkButton() {
               </div>
             )}
 
-            {/* Dual Button Interface */}
+            {/* Single Button for Current User */}
             <div style={{ 
               display: 'flex', 
-              gap: '60px', 
+              flexDirection: 'column',
+              gap: '40px', 
               justifyContent: 'center',
               alignItems: 'center',
-              flexWrap: 'wrap',
               marginBottom: '40px',
-              opacity: sparksRemaining === 0 && !isPremium ? 0.4 : 1,
-              pointerEvents: sparksRemaining === 0 && !isPremium ? 'none' : 'auto',
             }}>
-              {/* Partner 1 Button */}
-              <div style={{ textAlign: 'center' }}>
-                <p style={{ marginBottom: '20px', color: 'rgba(255,255,255,0.7)' }}>
+              {/* My Spark Button */}
+              <div style={{ textAlign: 'center', position: 'relative' }}>
+                <p style={{ marginBottom: '20px', color: 'rgba(255,255,255,0.7)', fontSize: '1.1em' }}>
                   <Users size={20} style={{ display: 'inline', marginRight: '8px' }} />
-                  {couple.partner1Name}
+                  {myName}'s Button
                 </p>
                 <button 
-                  onClick={handleUser1Press}
-                  disabled={user1Pressed || bothPressed || (sparksRemaining === 0 && !isPremium)}
+                  onClick={handleMyButtonPress}
+                  disabled={myButtonPressed || bothPressed || (sparksRemaining === 0 && !isPremium)}
                   className="spark-button-demo"
-                  data-testid="button-spark-user1"
+                  data-testid="button-spark-my"
                   style={{
                     position: 'relative',
-                    width: '220px',
-                    height: '220px',
+                    width: '280px',
+                    height: '280px',
                     borderRadius: '50%',
                     background: bothPressed
                       ? 'linear-gradient(135deg, #FFD700 0%, #FFA500 100%)'
-                      : user1Pressed 
+                      : myButtonPressed 
                         ? 'var(--nexus-gradient-royal)' 
                         : 'var(--nexus-gradient-passion)',
-                    border: bothPressed ? '4px solid #FFD700' : user1Pressed ? '3px solid #667eea' : '3px solid transparent',
-                    cursor: user1Pressed ? 'default' : 'pointer',
+                    border: bothPressed ? '4px solid #FFD700' : myButtonPressed ? '3px solid #667eea' : '3px solid transparent',
+                    cursor: myButtonPressed || (sparksRemaining === 0 && !isPremium) ? 'default' : 'pointer',
                     boxShadow: bothPressed
                       ? '0 0 60px rgba(255, 215, 0, 0.8), 0 0 100px rgba(255, 215, 0, 0.5)'
-                      : user1Pressed 
+                      : myButtonPressed 
                         ? '0 15px 40px rgba(102, 126, 234, 0.6), inset 0 0 30px rgba(102, 126, 234, 0.3)' 
                         : '0 20px 60px rgba(231, 76, 60, 0.6), inset 0 0 30px rgba(231, 76, 60, 0.2)',
                     transition: 'all 0.4s ease',
@@ -575,152 +588,83 @@ export default function SparkButton() {
                     alignItems: 'center',
                     justifyContent: 'center',
                     gap: '15px',
-                    fontSize: '1.8em',
+                    fontSize: '2em',
                     fontWeight: 'bold',
                     color: 'white',
                     textShadow: '0 2px 10px rgba(0,0,0,0.3)',
-                    animation: !user1Pressed && !bothPressed ? 'nexus-button-pulse 2s ease-in-out infinite' : bothPressed ? 'nexus-spark-celebration 0.6s ease-in-out' : 'none',
+                    animation: !myButtonPressed && !bothPressed ? 'nexus-button-pulse 2s ease-in-out infinite' : bothPressed ? 'nexus-spark-celebration 0.6s ease-in-out' : 'none',
+                    opacity: sparksRemaining === 0 && !isPremium ? 0.4 : 1,
+                    pointerEvents: sparksRemaining === 0 && !isPremium ? 'none' : 'auto',
                   }}
                 >
-                  {bothPressed ? <Sparkles size={70} /> : user1Pressed ? <Check size={70} /> : <Zap size={70} />}
-                  <span style={{ fontSize: '0.6em', letterSpacing: '2px' }}>
-                    {bothPressed ? 'SPARK!' : user1Pressed ? 'READY' : 'PRESS'}
+                  {bothPressed ? <Sparkles size={80} /> : myButtonPressed ? <Check size={80} /> : <Zap size={80} />}
+                  <span style={{ fontSize: '0.55em', letterSpacing: '3px' }}>
+                    {bothPressed ? 'SPARK!' : myButtonPressed ? 'READY!' : 'PRESS'}
                   </span>
                 </button>
               </div>
 
-              {/* Partner 2 Button */}
-              <div style={{ textAlign: 'center' }}>
-                <p style={{ marginBottom: '20px', color: 'rgba(255,255,255,0.7)' }}>
-                  <Users size={20} style={{ display: 'inline', marginRight: '8px' }} />
-                  {couple.partner2Name}
-                </p>
-                <button 
-                  onClick={handleUser2Press}
-                  disabled={user2Pressed || bothPressed || (sparksRemaining === 0 && !isPremium)}
-                  className="spark-button-demo"
-                  data-testid="button-spark-user2"
+              {/* Partner Status Indicator */}
+              {partnerButtonPressed && !bothPressed && (
+                <div style={{
+                  padding: '20px 40px',
+                  background: 'rgba(102, 126, 234, 0.2)',
+                  borderRadius: '15px',
+                  border: '2px solid #667eea',
+                  textAlign: 'center',
+                  animation: 'nexus-button-pulse 1.5s ease-in-out infinite',
+                }}>
+                  <p style={{ fontSize: '1.3em', fontWeight: 'bold', marginBottom: '5px' }}>
+                    {partnerName} is READY!
+                  </p>
+                  <p style={{ fontSize: '1em', color: 'rgba(255,255,255,0.7)' }}>
+                    Press your button to spark together!
+                  </p>
+                </div>
+              )}
+
+              {/* Send Spark Request Button */}
+              {!partnerButtonPressed && !myButtonPressed && (
+                <button
+                  onClick={handleSendSparkRequest}
                   style={{
-                    position: 'relative',
-                    width: '220px',
-                    height: '220px',
-                    borderRadius: '50%',
-                    background: bothPressed
-                      ? 'linear-gradient(135deg, #FFD700 0%, #FFA500 100%)'
-                      : user2Pressed 
-                        ? 'var(--nexus-gradient-royal)' 
-                        : 'var(--nexus-gradient-passion)',
-                    border: bothPressed ? '4px solid #FFD700' : user2Pressed ? '3px solid #667eea' : '3px solid transparent',
-                    cursor: user2Pressed ? 'default' : 'pointer',
-                    boxShadow: bothPressed
-                      ? '0 0 60px rgba(255, 215, 0, 0.8), 0 0 100px rgba(255, 215, 0, 0.5)'
-                      : user2Pressed 
-                        ? '0 15px 40px rgba(102, 126, 234, 0.6), inset 0 0 30px rgba(102, 126, 234, 0.3)' 
-                        : '0 20px 60px rgba(231, 76, 60, 0.6), inset 0 0 30px rgba(231, 76, 60, 0.2)',
-                    transition: 'all 0.4s ease',
                     display: 'flex',
-                    flexDirection: 'column',
                     alignItems: 'center',
-                    justifyContent: 'center',
-                    gap: '15px',
-                    fontSize: '1.8em',
-                    fontWeight: 'bold',
-                    color: 'white',
-                    textShadow: '0 2px 10px rgba(0,0,0,0.3)',
-                    animation: !user2Pressed && !bothPressed ? 'nexus-button-pulse 2s ease-in-out infinite' : bothPressed ? 'nexus-spark-celebration 0.6s ease-in-out' : 'none',
-                    animationDelay: !user2Pressed && !bothPressed ? '0.3s' : '0s',
-                  }}
-                >
-                  {bothPressed ? <Sparkles size={70} /> : user2Pressed ? <Check size={70} /> : <Zap size={70} />}
-                  <span style={{ fontSize: '0.6em', letterSpacing: '2px' }}>
-                    {bothPressed ? 'SPARK!' : user2Pressed ? 'READY' : 'PRESS'}
-                  </span>
-                </button>
-              </div>
-            </div>
-
-            {/* Status Messages */}
-            {(sparksRemaining > 0 || isPremium) && !user1Pressed && !user2Pressed && (
-              <p style={{ color: 'rgba(255,255,255,0.6)', fontSize: '1.1em' }}>
-                Press both buttons to generate your activity
-              </p>
-            )}
-
-            {(user1Pressed || user2Pressed) && !bothPressed && (
-              <div style={{ textAlign: 'center' }}>
-                <p style={{ color: '#e74c3c', fontSize: '1.3em', marginBottom: '20px' }}>
-                  {user1Pressed && !user2Pressed && `${couple.partner1Name} ready! Waiting for ${couple.partner2Name}...`}
-                  {user2Pressed && !user1Pressed && `${couple.partner2Name} ready! Waiting for ${couple.partner1Name}...`}
-                </p>
-                <button 
-                  onClick={handleReset}
-                  style={{
+                    gap: '10px',
                     padding: '15px 30px',
                     borderRadius: '30px',
-                    background: 'rgba(255,255,255,0.1)',
-                    border: '2px solid rgba(255,255,255,0.3)',
+                    background: 'rgba(102, 126, 234, 0.2)',
+                    border: '2px solid #667eea',
                     color: 'white',
                     cursor: 'pointer',
                     fontSize: '1.1em',
                     transition: 'all 0.3s',
                   }}
-                  data-testid="button-cancel"
+                  data-testid="button-send-spark-request"
+                >
+                  <Share2 size={20} />
+                  Send Spark Request to {partnerName}
+                </button>
+              )}
+
+              {/* Reset button (for testing) */}
+              {(myButtonPressed || partnerButtonPressed) && !bothPressed && (
+                <button
+                  onClick={handleReset}
+                  style={{
+                    padding: '10px 20px',
+                    borderRadius: '20px',
+                    background: 'rgba(255,255,255,0.1)',
+                    border: '1px solid rgba(255,255,255,0.3)',
+                    color: 'rgba(255,255,255,0.6)',
+                    cursor: 'pointer',
+                    fontSize: '0.9em',
+                  }}
+                  data-testid="button-reset"
                 >
                   Reset
                 </button>
-              </div>
-            )}
-
-            {bothPressed && (
-              <div style={{ textAlign: 'center' }}>
-                <p style={{ 
-                  color: '#FFD700', 
-                  fontSize: '2em', 
-                  fontWeight: 'bold',
-                  textShadow: '0 0 20px rgba(255, 215, 0, 0.8)',
-                  animation: 'nexus-glow-pulse 1s ease-in-out infinite',
-                  marginBottom: '10px',
-                }}>
-                  ✨ SPARK IGNITED! ✨
-                </p>
-                <p style={{ 
-                  color: 'rgba(255,255,255,0.8)', 
-                  fontSize: '1.2em',
-                }}>
-                  Getting your activity...
-                </p>
-              </div>
-            )}
-
-            {/* Info Box */}
-            <div style={{
-              marginTop: '60px',
-              maxWidth: '600px',
-              padding: '30px',
-              background: 'rgba(255,255,255,0.05)',
-              borderRadius: '15px',
-              border: '1px solid rgba(255,255,255,0.1)',
-            }}>
-              <h3 style={{ color: '#e74c3c', marginBottom: '15px' }}>
-                How It Works in the Real App:
-              </h3>
-              <ul style={{ 
-                textAlign: 'left', 
-                color: 'rgba(255,255,255,0.7)',
-                lineHeight: '1.8',
-                listStyle: 'none',
-                padding: 0,
-              }}>
-                <li style={{ marginBottom: '10px' }}>
-                  <strong style={{ color: 'white' }}>1.</strong> Each partner opens the app on their device
-                </li>
-                <li style={{ marginBottom: '10px' }}>
-                  <strong style={{ color: 'white' }}>2.</strong> Both press their SPARK button within seconds of each other
-                </li>
-                <li>
-                  <strong style={{ color: 'white' }}>3.</strong> When both are ready, you instantly get your activity
-                </li>
-              </ul>
+              )}
             </div>
           </div>
         </section>
