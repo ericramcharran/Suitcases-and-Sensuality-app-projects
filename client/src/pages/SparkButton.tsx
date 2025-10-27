@@ -12,12 +12,13 @@ export default function SparkButton() {
   const [user2Pressed, setUser2Pressed] = useState(false);
 
   // Check authentication via session
-  const { data: authData, isLoading: authLoading } = useQuery<{ coupleId: string; partnerRole: string } | null>({
+  const { data: authData, isLoading: authLoading} = useQuery<{ coupleId: string; partnerRole: string } | null>({
     queryKey: ["/api/sparkit/auth/me"],
     retry: false,
   });
 
   const coupleId = authData?.coupleId ?? null;
+  const partnerRole = authData?.partnerRole ?? null;
 
   // Fetch couple data from database
   const { data: couple, isLoading } = useQuery<SparkitCouple>({
@@ -25,6 +26,56 @@ export default function SparkButton() {
     enabled: !!coupleId,
     refetchInterval: 5000, // Refresh every 5 seconds to check for partner joining
   });
+
+  // WebSocket connection for real-time button press synchronization
+  useEffect(() => {
+    if (!coupleId || !partnerRole) return;
+
+    const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+    const ws = new WebSocket(`${protocol}//${window.location.host}?userId=sparkit-${coupleId}-${partnerRole}`);
+
+    ws.onopen = () => {
+      console.log('WebSocket connected for spark synchronization');
+    };
+
+    ws.onmessage = (event) => {
+      try {
+        const message = JSON.parse(event.data);
+        console.log(`[WebSocket] Received message:`, message);
+        
+        if (message.type === 'spark-button-press') {
+          console.log(`[WebSocket] Button press from ${message.data.partner}`);
+          // Update button state based on which partner pressed
+          if (message.data.partner === 'partner1') {
+            console.log('[WebSocket] Setting user1Pressed = true');
+            setUser1Pressed(true);
+          } else if (message.data.partner === 'partner2') {
+            console.log('[WebSocket] Setting user2Pressed = true');
+            setUser2Pressed(true);
+          }
+        } else if (message.type === 'spark-button-reset') {
+          console.log('[WebSocket] Reset button states');
+          // Reset both buttons
+          setUser1Pressed(false);
+          setUser2Pressed(false);
+        }
+      } catch (error) {
+        console.error('WebSocket message parse error:', error);
+      }
+    };
+
+    ws.onerror = (error) => {
+      console.error('WebSocket error:', error);
+    };
+
+    ws.onclose = () => {
+      console.log('WebSocket disconnected');
+    };
+
+    return () => {
+      ws.close();
+    };
+  }, [coupleId, partnerRole]);
 
   // Mutation to use a spark
   const useSparkMutation = useMutation({
@@ -64,25 +115,52 @@ export default function SparkButton() {
     }
   }, [user1Pressed, user2Pressed, couple, useSparkMutation.isPending]);
 
-  const handleUser1Press = () => {
+  const handleUser1Press = async () => {
     if (!couple || (couple.sparksRemaining ?? 0) <= 0) {
       setLocation("/sparkit/pricing");
       return;
     }
-    setUser1Pressed(true);
+    
+    // Notify partner via WebSocket (backend derives partner from session)
+    try {
+      console.log('[Button] Notifying backend of button press');
+      await apiRequest("POST", `/api/sparkit/couples/${coupleId}/button-press`, {});
+      console.log('[Button] Backend notified successfully - setting user1Pressed = true');
+      setUser1Pressed(true);
+    } catch (error) {
+      console.error('Failed to notify partner:', error);
+      // Don't set pressed state if API call failed
+    }
   };
 
-  const handleUser2Press = () => {
+  const handleUser2Press = async () => {
     if (!couple || (couple.sparksRemaining ?? 0) <= 0) {
       setLocation("/sparkit/pricing");
       return;
     }
-    setUser2Pressed(true);
+    
+    // Notify partner via WebSocket (backend derives partner from session)
+    try {
+      console.log('[Button] Notifying backend of button press');
+      await apiRequest("POST", `/api/sparkit/couples/${coupleId}/button-press`, {});
+      console.log('[Button] Backend notified successfully - setting user2Pressed = true');
+      setUser2Pressed(true);
+    } catch (error) {
+      console.error('Failed to notify partner:', error);
+      // Don't set pressed state if API call failed
+    }
   };
 
-  const handleReset = () => {
+  const handleReset = async () => {
     setUser1Pressed(false);
     setUser2Pressed(false);
+    
+    // Notify partner to reset as well
+    try {
+      await apiRequest("POST", `/api/sparkit/couples/${coupleId}/button-reset`, {});
+    } catch (error) {
+      console.error('Failed to notify partner of reset:', error);
+    }
   };
 
   const bothPressed = user1Pressed && user2Pressed;

@@ -1665,6 +1665,100 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Button press notification (send WebSocket to partner)
+  app.post("/api/sparkit/couples/:id/button-press", async (req, res) => {
+    try {
+      const { id } = req.params;
+      
+      // Authenticate: verify session couple ID matches the couple ID in the URL
+      const sessionCoupleId = (req.session as any)?.sparkitCoupleId;
+      const sessionPartnerRole = (req.session as any)?.sparkitPartnerRole;
+      
+      if (!sessionCoupleId || sessionCoupleId !== id) {
+        console.log(`[Button Press] Auth failed - session: ${sessionCoupleId}, requested: ${id}`);
+        return res.status(403).json({ error: "Unauthorized: couple ID mismatch" });
+      }
+      
+      if (!sessionPartnerRole || (sessionPartnerRole !== 'partner1' && sessionPartnerRole !== 'partner2')) {
+        console.log(`[Button Press] Invalid partner role in session: ${sessionPartnerRole}`);
+        return res.status(403).json({ error: "Unauthorized: invalid partner role" });
+      }
+      
+      // Use partner role from session (don't trust client)
+      const partner = sessionPartnerRole;
+      console.log(`[Button Press] Authenticated request for couple ${id}, partner: ${partner}`);
+
+      // Send WebSocket message to BOTH partners
+      const partner1Client = wsClients.get(`sparkit-${id}-partner1`);
+      const partner2Client = wsClients.get(`sparkit-${id}-partner2`);
+      
+      console.log(`[Button Press] Partner 1 WS: ${partner1Client ? 'connected' : 'NOT connected'}`);
+      console.log(`[Button Press] Partner 2 WS: ${partner2Client ? 'connected' : 'NOT connected'}`);
+      
+      const message = JSON.stringify({
+        type: 'spark-button-press',
+        data: { partner }
+      });
+      
+      if (partner1Client && partner1Client.readyState === WebSocket.OPEN) {
+        console.log(`[Button Press] Sending to partner1 client`);
+        partner1Client.send(message);
+      }
+      
+      if (partner2Client && partner2Client.readyState === WebSocket.OPEN) {
+        console.log(`[Button Press] Sending to partner2 client`);
+        partner2Client.send(message);
+      }
+      
+      console.log(`[Button Press] Response sent successfully`);
+      res.json({ success: true });
+    } catch (error) {
+      console.error('Button press notification error:', error);
+      res.status(500).json({ error: "Failed to send notification" });
+    }
+  });
+
+  // Button reset notification (send WebSocket to partner)
+  app.post("/api/sparkit/couples/:id/button-reset", async (req, res) => {
+    try {
+      const { id } = req.params;
+
+      // Authenticate: verify session couple ID matches the couple ID in the URL
+      const sessionCoupleId = (req.session as any)?.sparkitCoupleId;
+      const sessionPartnerRole = (req.session as any)?.sparkitPartnerRole;
+      
+      if (!sessionCoupleId || sessionCoupleId !== id) {
+        return res.status(403).json({ error: "Unauthorized: couple ID mismatch" });
+      }
+      
+      if (!sessionPartnerRole || (sessionPartnerRole !== 'partner1' && sessionPartnerRole !== 'partner2')) {
+        return res.status(403).json({ error: "Unauthorized: invalid partner role" });
+      }
+
+      // Send WebSocket message to BOTH partners
+      const partner1Client = wsClients.get(`sparkit-${id}-partner1`);
+      const partner2Client = wsClients.get(`sparkit-${id}-partner2`);
+      
+      const message = JSON.stringify({
+        type: 'spark-button-reset',
+        data: {}
+      });
+      
+      if (partner1Client && partner1Client.readyState === WebSocket.OPEN) {
+        partner1Client.send(message);
+      }
+      
+      if (partner2Client && partner2Client.readyState === WebSocket.OPEN) {
+        partner2Client.send(message);
+      }
+      
+      res.json({ success: true });
+    } catch (error) {
+      console.error('Button reset notification error:', error);
+      res.status(500).json({ error: "Failed to send notification" });
+    }
+  });
+
   // Create trivia contest (send challenge)
   app.post("/api/sparkit/trivia/contests", async (req, res) => {
     try {
