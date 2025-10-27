@@ -117,6 +117,8 @@ export default function SparkitSettings() {
       return await res.json();
     },
     onSuccess: () => {
+      // Clear localStorage to prevent stale couple ID
+      localStorage.removeItem("sparkitCoupleId");
       queryClient.clear();
       toast({
         title: "Logged out",

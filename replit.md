@@ -85,6 +85,19 @@ Both applications utilize React 18+ with TypeScript, Vite for bundling, and Wout
 - VAPID and service worker for web push notifications.
 - Daily.co integration for video calling with @daily-co/daily-react SDK.
 
+**Spark It! Authentication & State Management:**
+- **Session-based authentication:** Express sessions with PostgreSQL store (via `connect-pg-simple`)
+- **localStorage pattern:** `sparkitCoupleId` stored after successful login/signup/join to enable client-side couple context
+  - **Set on:** Login success, signup success, join success
+  - **Clear on:** Logout, couple not found errors
+  - **Why:** Activity pages (SparkActivity, Scoreboard, etc.) need couple ID to fetch correct data before auth session loads
+- **API Response Shapes (Critical for frontend compatibility):**
+  - `POST /api/sparkit/auth/login` → `{ coupleId: string, partnerRole: string }`
+  - `POST /api/sparkit/couples` (signup) → `{ id: string, partner1Name: string, ... }`
+  - `POST /api/sparkit/couples/join` → `{ id: string, partner1Name: string, partner2Name: string, ... }`
+  - `GET /api/sparkit/auth/me` → `{ coupleId: string, partnerRole: string }` (session check)
+- **Known Issue (October 2025):** If session expires but localStorage persists, pages will show harmless fetch failures until user logs back in. Pages already redirect to login when no session detected.
+
 ## External Dependencies
 
 -   **UI Component Libraries**: Radix UI, shadcn/ui, Lucide React, cmdk, Embla Carousel, Vaul.
