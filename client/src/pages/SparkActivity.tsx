@@ -311,13 +311,20 @@ export default function SparkActivity() {
                 {activity.tips.map((tip, index) => (
                   <li key={index} style={{ 
                     display: 'flex', 
-                    alignItems: 'start', 
-                    gap: '10px',
+                    alignItems: 'flex-start', 
+                    gap: '12px',
                     color: 'rgba(255,255,255,0.8)',
-                    fontSize: '1.1em'
+                    fontSize: '1.1em',
+                    lineHeight: '1.6'
                   }}>
-                    <span style={{ color: '#e74c3c', fontSize: '1.2em' }}>•</span>
-                    {tip}
+                    <span style={{ 
+                      color: '#e74c3c', 
+                      fontSize: '1.5em',
+                      lineHeight: '1',
+                      flexShrink: 0,
+                      marginTop: '2px'
+                    }}>•</span>
+                    <span style={{ flex: 1 }}>{tip}</span>
                   </li>
                 ))}
               </ul>
