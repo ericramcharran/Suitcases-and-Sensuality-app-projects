@@ -338,7 +338,22 @@ export const updateCoupleNamesSchema = z.object({
 // Update avatar schema (for PATCH /api/sparkit/couples/:id/avatars)
 export const updateAvatarSchema = z.object({
   partner: z.enum(["partner1", "partner2"]),
-  avatarUrl: z.string().url(),
+  avatarUrl: z.string().refine(
+    (url) => {
+      // Allow predefined icon format: "icon:heart", "icon:star", etc.
+      if (url.startsWith("icon:")) return true;
+      // Allow object storage paths: "/objects/..."
+      if (url.startsWith("/objects/")) return true;
+      // Allow valid HTTPS URLs only (no data URIs or other schemes)
+      try {
+        const parsed = new URL(url);
+        return parsed.protocol === "https:";
+      } catch {
+        return false;
+      }
+    },
+    { message: "Avatar URL must be an icon format (icon:*), object storage path (/objects/*), or valid HTTPS URL" }
+  ),
 });
 
 // Spark It! Types
