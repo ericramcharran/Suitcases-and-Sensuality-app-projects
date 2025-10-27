@@ -55,6 +55,10 @@ export default function NexusLanding() {
   const handleJoin = () => {
     setLocation("/sparkit/join");
   };
+  
+  const handleLogin = () => {
+    setLocation("/sparkit/login");
+  };
 
   const fadeInVariants = {
     hidden: { opacity: 0, y: 30 },
@@ -90,6 +94,25 @@ export default function NexusLanding() {
             Try Spark It Free
           </button>
           <p className="hero-fine-print">3 free sparks/day • No credit card required</p>
+          <p className="hero-fine-print" style={{ marginTop: '12px' }}>
+            Already have an account? <button 
+              onClick={handleLogin}
+              className="login-link"
+              data-testid="link-login"
+              style={{
+                background: 'none',
+                border: 'none',
+                color: 'inherit',
+                textDecoration: 'underline',
+                cursor: 'pointer',
+                padding: 0,
+                font: 'inherit',
+                opacity: 0.9
+              }}
+            >
+              Login
+            </button>
+          </p>
         </div>
       </section>
 
@@ -320,6 +343,25 @@ export default function NexusLanding() {
             Get Started Free
           </button>
           <p className="hero-fine-print">3 sparks/day free • Upgrade anytime</p>
+          <p className="hero-fine-print" style={{ marginTop: '12px' }}>
+            Already have an account? <button 
+              onClick={handleLogin}
+              className="login-link"
+              data-testid="link-login-footer"
+              style={{
+                background: 'none',
+                border: 'none',
+                color: 'inherit',
+                textDecoration: 'underline',
+                cursor: 'pointer',
+                padding: 0,
+                font: 'inherit',
+                opacity: 0.9
+              }}
+            >
+              Login
+            </button>
+          </p>
         </div>
       </motion.section>
     </div>

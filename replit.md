@@ -87,6 +87,10 @@ Both applications utilize React 18+ with TypeScript, Vite for bundling, and Wout
 
 **Spark It! Authentication & State Management:**
 - **Session-based authentication:** Express sessions with PostgreSQL store (via `connect-pg-simple`)
+- **Session persistence:** 30-day cookie maxAge keeps users logged in until explicit logout
+- **Login entry points:** 
+  - Direct URL: `/sparkit/login`
+  - Landing page: "Already have an account? Login" links on NexusLanding (hero section & final CTA)
 - **localStorage pattern:** `sparkitCoupleId` stored after successful login/signup/join to enable client-side couple context
   - **Set on:** Login success, signup success, join success
   - **Clear on:** Logout, couple not found errors
