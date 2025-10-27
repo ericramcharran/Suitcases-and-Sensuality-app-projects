@@ -67,7 +67,7 @@ Both applications utilize React 18+ with TypeScript, Vite for bundling, and Wout
   - **Monthly Plan:** $6.99/month - Unlimited sparks, custom avatars, video calling access
   - **Yearly Plan:** $59.99/year - All monthly features at discounted rate
   - **Trial System:** New couples get 10 total sparks OR 7 days (whichever first); trial users do NOT receive premium features
-  - **Premium Gating:** Avatar selection (30 predefined Lucide icons) and custom uploads (via object storage) restricted to monthly/yearly subscribers with both client-side early returns and server-side 403 validation; secure validation prevents XSS (allows only "icon:*", "/objects/*", or HTTPS URLs)
+  - **Premium Gating:** Avatar selection (80+ predefined Lucide icons across 12 categories: Romantic, Food & Drinks, Sports, Hobbies, Tech, Adventure, Entertainment, Nature, Travel, Animals, Symbols, Luxury) and custom uploads (via object storage) restricted to monthly/yearly subscribers with both client-side early returns and server-side 403 validation; secure validation prevents XSS (allows only "icon:*", "/objects/*", or HTTPS URLs)
   - **Subscription Flow:** SparkitPremium page with pricing cards → Stripe Checkout redirect → Payment processing → Plan upgrade
 - **Spark It! Activity Database:** 253 activities across 19 categories with properties like duration, energy level, location, cost, spice level, and tips.
   - **In-Person Categories (110 activities):** Playful, Romantic, Connection, Silly, Creative, Adventure, Flirty Physical, Verbal Seduction, Teasing, Intimate Connection, Role Play, Boredom Buster
