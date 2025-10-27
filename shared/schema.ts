@@ -143,6 +143,7 @@ export const sparkitCouples = pgTable("sparkit_couples", {
   partner2Password: text("partner2_password"), // Password for partner 2 login
   partner1AvatarUrl: text("partner1_avatar_url"), // Avatar for partner 1 (pre-made or custom upload)
   partner2AvatarUrl: text("partner2_avatar_url"), // Avatar for partner 2 (pre-made or custom upload)
+  relationshipType: text("relationship_type"), // e.g., "empty_nesters", "newly_dating", "long_distance", "couple_with_kids"
   coupleCode: varchar("couple_code", { length: 10 }).unique().notNull(), // Unique code for couple pairing
   emailOrPhone: text("email_or_phone"), // Optional for notifications
   subscriptionPlan: text("subscription_plan").default('free'), // 'free', 'trial', 'monthly', 'yearly'
