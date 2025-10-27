@@ -13,7 +13,7 @@ import { Heart, Sparkles, MessageCircle, Eye, EyeOff } from "lucide-react";
 import { Link, useLocation } from "wouter";
 
 const joinSchema = z.object({
-  coupleCode: z.string().length(6, "Couple code must be 6 characters"),
+  coupleCode: z.string().min(6, "Couple code must be at least 6 characters").max(10, "Couple code must be at most 10 characters"),
   partner2Name: z.string().min(2, "Name must be at least 2 characters"),
   partner2Email: z.string().email("Please enter a valid email"),
   partner2Password: z.string().min(6, "Password must be at least 6 characters"),
@@ -82,7 +82,7 @@ export default function SparkitJoinCouple() {
 
   const sendReminder = async () => {
     const signupUrl = `${window.location.origin}/sparkit/signup`;
-    const reminderMessage = `Hey! I'm ready to use Spark It! together 💕\n\nIt's a fun app that helps us beat decision fatigue - we both press a button and get instant activity suggestions!\n\nCan you create an account and share your couple code with me?\n\nSign up here: ${signupUrl}\n\nThen send me your 6-character code so I can join you! ✨`;
+    const reminderMessage = `Hey! I'm ready to use Spark It! together 💕\n\nIt's a fun app that helps us beat decision fatigue - we both press a button and get instant activity suggestions!\n\nCan you create an account and share your couple code with me?\n\nSign up here: ${signupUrl}\n\nThen send me your couple code so I can join you! ✨`;
     
     if (navigator.share) {
       try {
@@ -166,9 +166,9 @@ export default function SparkitJoinCouple() {
                     <FormControl>
                       <Input
                         {...field}
-                        placeholder="Enter 6-character code"
+                        placeholder="Enter couple code"
                         className="text-center text-2xl tracking-widest uppercase font-bold"
-                        maxLength={6}
+                        maxLength={10}
                         onChange={(e) => field.onChange(e.target.value.toUpperCase())}
                         data-testid="input-couple-code"
                       />
