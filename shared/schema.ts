@@ -145,6 +145,8 @@ export const sparkitCouples = pgTable("sparkit_couples", {
   partner2AvatarUrl: text("partner2_avatar_url"), // Avatar for partner 2 (pre-made or custom upload)
   relationshipType: text("relationship_type"), // e.g., "empty_nesters", "newly_dating", "long_distance", "couple_with_kids"
   coupleCode: varchar("couple_code", { length: 10 }).unique().notNull(), // Unique code for couple pairing
+  city: text("city"), // City for AI-powered local activity suggestions
+  state: text("state"), // State/region for AI-powered local activity suggestions
   emailOrPhone: text("email_or_phone"), // Optional for notifications
   subscriptionPlan: text("subscription_plan").default('free'), // 'free', 'trial', 'monthly', 'yearly'
   subscriptionStatus: text("subscription_status").default('active'), // 'active', 'trial_expired', 'cancelled'
