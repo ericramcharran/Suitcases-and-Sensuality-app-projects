@@ -78,7 +78,7 @@ export default function Login() {
       localStorage.setItem('userRole', data.user.role);
       
       toast({
-        description: `Welcome, ${data.user.profileName || data.user.name}!`
+        description: `Welcome back, ${data.user.profileName || data.user.name}!`
       });
       setLocation("/discover");
     } catch (error) {
