@@ -697,7 +697,7 @@ export default function SparkButton() {
                     {partnerName} is READY!
                   </p>
                   <p style={{ fontSize: '1em', color: 'rgba(255,255,255,0.7)' }}>
-                    Press your button to spark together!
+                    Press your button to Spark it together!
                   </p>
                 </div>
               )}
@@ -722,7 +722,7 @@ export default function SparkButton() {
                   data-testid="button-send-spark-request"
                 >
                   <Share2 size={20} />
-                  Send Spark Request to {partnerName}
+                  Send Spark It! Request to {partnerName}
                 </button>
               )}
 
