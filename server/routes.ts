@@ -2001,13 +2001,18 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
       // Send push notification to other partner
       const otherPartnerUserId = `sparkit-${id}-${otherPartner}`;
+      console.log(`[Button Press] Looking up push subscriptions for userId: ${otherPartnerUserId}`);
       try {
         const subscriptions = await storage.getPushSubscriptions(otherPartnerUserId);
+        console.log(`[Button Press] Found ${subscriptions.length} subscription(s) for ${otherPartnerUserId}`);
         
         if (subscriptions.length > 0 && pushNotificationsEnabled) {
+          const notificationBody = `${presserName} wants to spark with you! Press your button now!`;
+          console.log(`[Button Press] Notification body: "${notificationBody}"`);
+          
           const payload = JSON.stringify({
             title: '🎯 Spark It!',
-            body: `${presserName} wants to spark with you! Press your button now!`,
+            body: notificationBody,
             icon: '/icon-192x192.png',
             badge: '/icon-192x192.png',
             url: '/spark'
