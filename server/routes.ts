@@ -14,6 +14,7 @@ import { uploadUserDataToDrive } from "./googleDrive";
 import { ObjectStorageService, ObjectNotFoundError } from "./objectStorage";
 import bcrypt from "bcrypt";
 import { generateLocalActivity } from "./openai";
+import { sendSMS } from "./twilio";
 
 // Initialize Stripe (from blueprint:javascript_stripe)
 // Guard initialization to allow development without keys
@@ -1770,6 +1771,72 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error('Generate AI activity error:', error);
       res.status(500).json({ error: "Failed to generate AI activity" });
+    }
+  });
+
+  // Send activity via SMS to partner
+  app.post("/api/sparkit/couples/:id/send-sms", async (req, res) => {
+    try {
+      const { id } = req.params;
+      const { activityTitle, activityDescription, partnerRole } = req.body;
+      
+      // Validate required fields
+      if (!activityTitle || !partnerRole) {
+        return res.status(400).json({ error: "Missing required fields: activityTitle and partnerRole" });
+      }
+
+      // Authenticate: verify session couple ID matches the couple ID in the URL
+      const sessionCoupleId = (req.session as any)?.sparkitCoupleId;
+      
+      if (!sessionCoupleId || sessionCoupleId !== id) {
+        return res.status(403).json({ error: "Unauthorized: couple ID mismatch" });
+      }
+      
+      // Get couple to retrieve partner phone numbers
+      const couple = await storage.getSparkitCoupleById(id);
+      
+      if (!couple) {
+        return res.status(404).json({ error: "Couple not found" });
+      }
+      
+      // Determine which partner to send to (opposite of current user)
+      const recipientPhone = partnerRole === 'partner1' ? couple.partner2Phone : couple.partner1Phone;
+      const recipientName = partnerRole === 'partner1' ? couple.partner2Name : couple.partner1Name;
+      const senderName = partnerRole === 'partner1' ? couple.partner1Name : couple.partner2Name;
+      
+      if (!recipientPhone) {
+        return res.status(400).json({ 
+          error: "Phone number not set",
+          message: `${recipientName || 'Your partner'} hasn't added their phone number yet. Ask them to add it in Settings!`
+        });
+      }
+      
+      // Format SMS message
+      const message = `${senderName} sent you a Spark It! activity:\n\n${activityTitle}${activityDescription ? `\n\n${activityDescription}` : ''}\n\nReady to spark some fun together?`;
+      
+      // Send SMS
+      const result = await sendSMS({
+        to: recipientPhone,
+        message: message
+      });
+      
+      if (!result.success) {
+        console.error('SMS send failed:', result.error);
+        return res.status(500).json({ 
+          error: "Failed to send SMS",
+          message: result.error
+        });
+      }
+      
+      console.log(`SMS sent successfully to ${recipientName} at ${recipientPhone}`);
+      res.json({ 
+        success: true,
+        message: `Activity sent to ${recipientName || 'your partner'}!`
+      });
+      
+    } catch (error) {
+      console.error('Send SMS error:', error);
+      res.status(500).json({ error: "Failed to send SMS" });
     }
   });
 
