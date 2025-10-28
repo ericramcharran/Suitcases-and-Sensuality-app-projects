@@ -806,6 +806,22 @@ export default function SparkitSettings() {
                       const IconComponent = icon.icon;
                       const isSelected = getCurrentAvatar("partner1") === getIconAvatarUrl(icon.id);
                       
+                      // Assign fun colors based on category
+                      const iconColorClass = {
+                        romantic: "text-pink-500 dark:text-pink-400",
+                        food: "text-orange-500 dark:text-orange-400",
+                        adventure: "text-blue-500 dark:text-blue-400",
+                        entertainment: "text-purple-500 dark:text-purple-400",
+                        nature: "text-green-500 dark:text-green-400",
+                        animals: "text-amber-500 dark:text-amber-400",
+                        luxury: "text-yellow-500 dark:text-yellow-400",
+                        sports: "text-red-500 dark:text-red-400",
+                        hobbies: "text-indigo-500 dark:text-indigo-400",
+                        tech: "text-cyan-500 dark:text-cyan-400",
+                        travel: "text-teal-500 dark:text-teal-400",
+                        symbols: "text-gray-600 dark:text-gray-400",
+                      }[icon.category];
+                      
                       return (
                         <button
                           key={icon.id}
@@ -819,7 +835,7 @@ export default function SparkitSettings() {
                           data-testid={`icon-avatar-${icon.id}`}
                           aria-label={icon.label}
                         >
-                          <IconComponent className="w-6 h-6 mx-auto" />
+                          <IconComponent className={`w-6 h-6 mx-auto ${iconColorClass}`} />
                           {isSelected && (
                             <div className="absolute -top-1 -right-1 bg-nexus-purple rounded-full p-0.5">
                               <Check className="w-3 h-3 text-white" />
@@ -835,6 +851,9 @@ export default function SparkitSettings() {
               {/* Custom Upload */}
               <div className="space-y-3">
                 <Label className="text-sm font-medium">Or Upload Custom Avatar</Label>
+                <p className="text-xs text-gray-500 dark:text-gray-400">
+                  Upload a square image (JPG, PNG, GIF, or WebP) under 5MB. Most phone photos work great!
+                </p>
                 <AvatarUploader
                   onGetUploadParameters={handleGetUploadParameters}
                   onComplete={handleUploadComplete}
@@ -874,6 +893,22 @@ export default function SparkitSettings() {
                       const IconComponent = icon.icon;
                       const isSelected = getCurrentAvatar("partner2") === getIconAvatarUrl(icon.id);
                       
+                      // Assign fun colors based on category
+                      const iconColorClass = {
+                        romantic: "text-pink-500 dark:text-pink-400",
+                        food: "text-orange-500 dark:text-orange-400",
+                        adventure: "text-blue-500 dark:text-blue-400",
+                        entertainment: "text-purple-500 dark:text-purple-400",
+                        nature: "text-green-500 dark:text-green-400",
+                        animals: "text-amber-500 dark:text-amber-400",
+                        luxury: "text-yellow-500 dark:text-yellow-400",
+                        sports: "text-red-500 dark:text-red-400",
+                        hobbies: "text-indigo-500 dark:text-indigo-400",
+                        tech: "text-cyan-500 dark:text-cyan-400",
+                        travel: "text-teal-500 dark:text-teal-400",
+                        symbols: "text-gray-600 dark:text-gray-400",
+                      }[icon.category];
+                      
                       return (
                         <button
                           key={icon.id}
@@ -887,7 +922,7 @@ export default function SparkitSettings() {
                           data-testid={`icon-avatar-${icon.id}`}
                           aria-label={icon.label}
                         >
-                          <IconComponent className="w-6 h-6 mx-auto" />
+                          <IconComponent className={`w-6 h-6 mx-auto ${iconColorClass}`} />
                           {isSelected && (
                             <div className="absolute -top-1 -right-1 bg-nexus-purple rounded-full p-0.5">
                               <Check className="w-3 h-3 text-white" />
@@ -903,6 +938,9 @@ export default function SparkitSettings() {
               {/* Custom Upload */}
               <div className="space-y-3">
                 <Label className="text-sm font-medium">Or Upload Custom Avatar</Label>
+                <p className="text-xs text-gray-500 dark:text-gray-400">
+                  Upload a square image (JPG, PNG, GIF, or WebP) under 5MB. Most phone photos work great!
+                </p>
                 <AvatarUploader
                   onGetUploadParameters={handleGetUploadParameters}
                   onComplete={handleUploadComplete}

@@ -28,15 +28,15 @@ export function AvatarUploader({
     const file = event.target.files?.[0];
     if (!file) return;
 
-    // Validate file size
-    if (file.size > maxFileSize) {
-      alert(`File size must be less than ${(maxFileSize / 1024 / 1024).toFixed(1)}MB`);
+    // Validate file type first
+    if (!file.type.startsWith("image/")) {
+      alert("Please select an image file (JPG, PNG, GIF, or WebP)");
       return;
     }
 
-    // Validate file type
-    if (!file.type.startsWith("image/")) {
-      alert("Please select an image file");
+    // Validate file size
+    if (file.size > maxFileSize) {
+      alert(`Image too large! Please choose an image under ${(maxFileSize / 1024 / 1024).toFixed(1)}MB.\n\nTip: Most phone photos work great if taken recently!`);
       return;
     }
 
@@ -59,11 +59,12 @@ export function AvatarUploader({
         throw new Error("Upload failed");
       }
 
-      // Extract object path from upload URL
-      const objectPath = new URL(url).pathname;
+      // Pass the full signed URL to the backend for normalization
+      // The backend will extract and normalize the object path
+      const uploadUrl = url.split('?')[0]; // Remove query parameters
       
       // Call completion callback
-      onComplete?.(objectPath);
+      onComplete?.(uploadUrl);
     } catch (error) {
       console.error("Upload error:", error);
       alert("Failed to upload avatar. Please try again.");
