@@ -68,6 +68,12 @@ export default function SparkButton() {
           console.log('[WebSocket] Reset button states');
           setMyButtonPressed(false);
           setPartnerButtonPressed(false);
+        } else if (message.type === 'spark-used') {
+          console.log('[WebSocket] Spark used - navigating to activity page');
+          const navigateTo = message.data.navigateTo;
+          if (navigateTo) {
+            setLocation(navigateTo);
+          }
         }
       } catch (error) {
         console.error('WebSocket message parse error:', error);

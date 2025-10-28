@@ -119,12 +119,17 @@ self.addEventListener('notificationclick', (event) => {
   const urlToOpen = event.notification.data.url || '/';
   
   event.waitUntil(
-    clients.matchAll({ type: 'window', includeUncontrolled: true }).then((clientList) => {
+    clients.matchAll({ type: 'window' }).then((clientList) => {
+      // Look for existing window with matching path
       for (const client of clientList) {
-        if (client.url === urlToOpen && 'focus' in client) {
+        const clientUrl = new URL(client.url);
+        const targetPath = new URL(urlToOpen, self.location.origin).pathname;
+        
+        if (clientUrl.pathname === targetPath && 'focus' in client) {
           return client.focus();
         }
       }
+      // If no matching window found, open new one
       if (clients.openWindow) {
         return clients.openWindow(urlToOpen);
       }

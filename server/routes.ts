@@ -1718,6 +1718,25 @@ export async function registerRoutes(app: Express): Promise<Server> {
       });
       console.log('[Use Spark] Cleared button press timestamps');
 
+      // Send WebSocket message to BOTH partners to navigate to activity page
+      const partner1Client = wsClients.get(`sparkit-${id}-partner1`);
+      const partner2Client = wsClients.get(`sparkit-${id}-partner2`);
+      
+      const navigationMessage = JSON.stringify({
+        type: 'spark-used',
+        data: { navigateTo: '/spark-activity' }
+      });
+      
+      if (partner1Client && partner1Client.readyState === WebSocket.OPEN) {
+        console.log('[Use Spark] Sending navigation message to partner1');
+        partner1Client.send(navigationMessage);
+      }
+      
+      if (partner2Client && partner2Client.readyState === WebSocket.OPEN) {
+        console.log('[Use Spark] Sending navigation message to partner2');
+        partner2Client.send(navigationMessage);
+      }
+
       res.json(couple);
     } catch (error) {
       console.error('Use spark error:', error);
