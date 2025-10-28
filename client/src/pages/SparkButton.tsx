@@ -400,6 +400,59 @@ export default function SparkButton() {
         </div>
       </div>
 
+      {/* Settings Completion Banner */}
+      {(() => {
+        const myPhone = partnerRole === 'partner1' ? couple.partner1Phone : couple.partner2Phone;
+        const needsSettings = !myPhone;
+        
+        if (needsSettings) {
+          return (
+            <div style={{
+              margin: '20px',
+              padding: '20px',
+              background: 'linear-gradient(135deg, rgba(231, 76, 60, 0.2) 0%, rgba(231, 76, 60, 0.1) 100%)',
+              border: '2px solid #e74c3c',
+              borderRadius: '15px',
+              textAlign: 'center',
+            }} data-testid="settings-banner">
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px', marginBottom: '10px' }}>
+                <Settings size={24} color="#e74c3c" />
+                <h3 style={{ fontSize: '1.2em', fontWeight: 'bold', color: '#e74c3c' }}>
+                  Complete Your Settings
+                </h3>
+              </div>
+              <p style={{ fontSize: '1em', marginBottom: '15px', color: 'rgba(255,255,255,0.9)' }}>
+                To receive notifications when your partner presses their button, please add your phone number and enable at least one notification method (Push or SMS).
+              </p>
+              <button
+                onClick={() => setLocation("/sparkit/settings")}
+                style={{
+                  padding: '12px 24px',
+                  borderRadius: '25px',
+                  background: '#e74c3c',
+                  border: 'none',
+                  color: 'white',
+                  fontSize: '1em',
+                  fontWeight: 'bold',
+                  cursor: 'pointer',
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '8px',
+                  transition: 'all 0.3s',
+                }}
+                onMouseEnter={(e) => e.currentTarget.style.background = '#c0392b'}
+                onMouseLeave={(e) => e.currentTarget.style.background = '#e74c3c'}
+                data-testid="button-go-to-settings"
+              >
+                <Settings size={18} />
+                Go to Settings
+              </button>
+            </div>
+          );
+        }
+        return null;
+      })()}
+
       {/* Navigation section for additional features */}
       {couple.partner2Name && (
         <div style={{ 
