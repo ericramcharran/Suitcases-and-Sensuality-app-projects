@@ -222,7 +222,7 @@ export default function SparkActivity() {
             }}
             data-testid="button-back-to-spark"
           >
-            Back to Spark
+            Back to Spark It!
           </button>
         </section>
       </div>
@@ -756,7 +756,7 @@ export default function SparkActivity() {
               data-testid="button-new-spark"
             >
               <Sparkles size={24} style={{ marginRight: '10px', display: 'inline' }} />
-              Get Another Spark
+              Get Another Spark It!
             </button>
             
             {couple?.city && couple?.state && import.meta.env.VITE_ENABLE_AI_ACTIVITIES === 'true' && (

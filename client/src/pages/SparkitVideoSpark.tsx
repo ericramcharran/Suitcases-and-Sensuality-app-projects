@@ -126,7 +126,7 @@ export default function SparkitVideoSpark() {
             data-testid="button-back"
           >
             <ArrowLeft className="h-5 w-5 mr-2" />
-            Back to Spark
+            Back to Spark It!
           </Button>
         </div>
 

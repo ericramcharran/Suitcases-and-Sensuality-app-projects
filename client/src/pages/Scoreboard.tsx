@@ -77,7 +77,7 @@ export default function Scoreboard() {
             }}
             data-testid="button-back-to-spark"
           >
-            Back to Spark
+            Back to Spark It!
           </button>
         </section>
       </div>
@@ -490,7 +490,7 @@ export default function Scoreboard() {
               }}
               data-testid="button-get-spark"
             >
-              Get Another Spark
+              Get Another Spark It!
             </button>
           </div>
         )}

@@ -280,7 +280,7 @@ export default function SparkitPremium() {
                 className="bg-white/10 backdrop-blur-lg border-white/30 text-white hover:bg-white/20"
                 data-testid="button-back-to-spark"
               >
-                Back to Spark
+                Back to Spark It!
               </Button>
             </div>
           ) : (
@@ -311,7 +311,7 @@ export default function SparkitPremium() {
             className="text-purple-200 hover:text-white"
             data-testid="button-back-link"
           >
-            Back to Spark
+            Back to Spark It!
           </Button>
         </div>
       </div>

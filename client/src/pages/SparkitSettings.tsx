@@ -590,7 +590,7 @@ export default function SparkitSettings() {
 
           <div className="space-y-6">
             <p className="text-sm text-gray-600 dark:text-gray-400">
-              Get instant notifications when your partner presses the Spark It button
+              Get instant notifications when your partner presses the Spark It! button
             </p>
 
             <div className="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">

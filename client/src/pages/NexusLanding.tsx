@@ -89,7 +89,7 @@ export default function NexusLanding() {
             className="cta-button cta-button-large" 
             data-testid="button-get-started"
           >
-            Try Spark It Free
+            Try Spark It! Free
           </button>
           <p className="hero-fine-print">3 free sparks/day • No credit card required</p>
           <p className="hero-fine-print" style={{ marginTop: '12px' }}>
@@ -168,7 +168,7 @@ export default function NexusLanding() {
           <div className="step-card" data-testid="step-3">
             <div className="step-number">3</div>
             <Sparkles size={48} color="#e74c3c" />
-            <h3>Just Spark It and Go</h3>
+            <h3>Just Spark It! and Go</h3>
             <p>No overthinking. No scrolling. Go make memories together</p>
           </div>
 
@@ -329,7 +329,7 @@ export default function NexusLanding() {
         style={{ minHeight: '70vh' }}
       >
         <div className="hero-content">
-          <h1 style={{ fontSize: '3.5em' }}>Ready to Spark Connection?</h1>
+          <h1 style={{ fontSize: '3.5em' }}>Ready to Spark It! Connection?</h1>
           <p style={{ fontSize: '1.3em', maxWidth: '600px', margin: '0 auto 40px' }}>
             Join thousands of couples who stopped scrolling and started connecting
           </p>

@@ -181,7 +181,7 @@ export default function SparkitPricing() {
                 <h2 style={{ fontSize: '1.6em', fontWeight: 'bold', color: 'white' }}>Your Trial Is Active!</h2>
               </div>
               <p style={{ fontSize: '1em', color: 'rgba(255,255,255,0.8)', marginBottom: '25px' }}>
-                Enjoying Spark It? Here's what you're getting for free:
+                Enjoying Spark It!? Here's what you're getting for free:
               </p>
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '15px', textAlign: 'left' }}>
                 {trialFeatures.map((feature, index) => (

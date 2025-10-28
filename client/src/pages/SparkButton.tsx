@@ -611,7 +611,7 @@ export default function SparkButton() {
         <section className="hero" style={{ minHeight: '80vh' }}>
           <div className="hero-content">
             <h1 style={{ fontSize: '2.5em', marginBottom: '20px' }}>
-              {bothPressed ? '✨ SPARK IGNITED! ✨' : partnerButtonPressed ? `Waiting for you, ${myName}!` : 'Ready to Spark?'}
+              {bothPressed ? '✨ SPARK IGNITED! ✨' : partnerButtonPressed ? `Waiting for you, ${myName}!` : 'Ready to Spark It!?'}
             </h1>
             <p style={{ fontSize: '1.2em', marginBottom: '30px', maxWidth: '700px', lineHeight: '1.6' }}>
               {bothPressed 
