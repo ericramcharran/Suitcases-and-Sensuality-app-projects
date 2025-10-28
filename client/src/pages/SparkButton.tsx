@@ -87,6 +87,37 @@ export default function SparkButton() {
     };
   }, [coupleId, partnerRole]);
 
+  // Check for recent partner button press from database (for when partner wasn't connected)
+  useEffect(() => {
+    if (!couple || !partnerRole) return;
+
+    const otherPartner = partnerRole === 'partner1' ? 'partner2' : 'partner1';
+    const partnerPressTime = otherPartner === 'partner1' ? couple.partner1LastPressed : couple.partner2LastPressed;
+    const myPressTime = partnerRole === 'partner1' ? couple.partner1LastPressed : couple.partner2LastPressed;
+
+    // Check if partner pressed within last 5 minutes
+    if (partnerPressTime) {
+      const timeSincePress = Date.now() - new Date(partnerPressTime).getTime();
+      const fiveMinutes = 5 * 60 * 1000;
+      
+      if (timeSincePress < fiveMinutes) {
+        console.log('[Button State] Partner pressed recently, setting partnerButtonPressed = true');
+        setPartnerButtonPressed(true);
+      }
+    }
+
+    // Check if I pressed recently (restore my button state)
+    if (myPressTime) {
+      const timeSincePress = Date.now() - new Date(myPressTime).getTime();
+      const fiveMinutes = 5 * 60 * 1000;
+      
+      if (timeSincePress < fiveMinutes) {
+        console.log('[Button State] I pressed recently, setting myButtonPressed = true');
+        setMyButtonPressed(true);
+      }
+    }
+  }, [couple, partnerRole]);
+
   // Mutation to use a spark
   const useSparkMutation = useMutation({
     mutationFn: async () => {
