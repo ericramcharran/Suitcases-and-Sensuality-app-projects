@@ -160,7 +160,7 @@ export default function SparkitPricing() {
                 onMouseLeave={(e) => e.currentTarget.style.background = 'rgba(255,255,255,0.15)'}
                 data-testid="button-back-to-spark"
               >
-                Back to Spark Button
+                Back to Spark It! Button
               </button>
             </div>
           )}
@@ -441,7 +441,7 @@ export default function SparkitPricing() {
               onMouseLeave={(e) => e.currentTarget.style.background = 'rgba(255,255,255,0.1)'}
               data-testid="button-back-spark"
             >
-              Back to Spark Button
+              Back to Spark It! Button
             </button>
           </div>
         </div>
