@@ -63,10 +63,27 @@ export function AvatarDisplay({
     
     if (avatarIcon) {
       const IconComponent = avatarIcon.icon;
+      
+      // Apply colorful category-specific colors
+      const iconColorClass = {
+        romantic: "text-pink-500 dark:text-pink-400",
+        food: "text-orange-500 dark:text-orange-400",
+        adventure: "text-blue-500 dark:text-blue-400",
+        entertainment: "text-purple-500 dark:text-purple-400",
+        nature: "text-green-500 dark:text-green-400",
+        animals: "text-amber-500 dark:text-amber-400",
+        luxury: "text-yellow-500 dark:text-yellow-400",
+        sports: "text-red-500 dark:text-red-400",
+        hobbies: "text-indigo-500 dark:text-indigo-400",
+        tech: "text-cyan-500 dark:text-cyan-400",
+        travel: "text-teal-500 dark:text-teal-400",
+        symbols: "text-gray-600 dark:text-gray-400",
+      }[avatarIcon.category];
+      
       return (
         <Avatar className={`${sizeClass} ${className}`} data-testid={testId || `avatar-icon-${iconId}`}>
           <AvatarFallback className="bg-gradient-to-br from-nexus-purple/20 to-nexus-red/20">
-            <IconComponent className={iconSize} />
+            <IconComponent className={`${iconSize} ${iconColorClass}`} />
           </AvatarFallback>
         </Avatar>
       );

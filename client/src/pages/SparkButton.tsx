@@ -4,6 +4,7 @@ import { useLocation } from "wouter";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { apiRequest, queryClient } from "@/lib/queryClient";
 import type { SparkitCouple } from "@shared/schema";
+import { AvatarDisplay } from "@/components/AvatarDisplay";
 import "../nexus-styles.css";
 
 export default function SparkButton() {
@@ -349,37 +350,59 @@ export default function SparkButton() {
         alignItems: 'center',
         borderBottom: '1px solid rgba(255,255,255,0.1)'
       }}>
-        <div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-            <h2 style={{ 
-              fontSize: '1.5em', 
-              background: 'var(--nexus-gradient-full)',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-              backgroundClip: 'text'
-            }}>
-              Spark It!
-            </h2>
-            {isPremium && (
-              <div style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '5px',
-                padding: '4px 12px',
-                background: 'linear-gradient(135deg, #FFD700 0%, #FFA500 100%)',
-                borderRadius: '20px',
-                fontSize: '0.75em',
-                fontWeight: 'bold',
-                color: '#000',
-              }} data-testid="badge-premium">
-                <Crown size={14} />
-                PREMIUM
-              </div>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
+          {/* Avatars */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <AvatarDisplay 
+              avatarUrl={couple.partner1AvatarUrl} 
+              size="md" 
+              data-testid="avatar-partner1"
+            />
+            {couple.partner2Name && (
+              <>
+                <span style={{ color: 'rgba(255,255,255,0.4)', fontSize: '1.2em' }}>&</span>
+                <AvatarDisplay 
+                  avatarUrl={couple.partner2AvatarUrl} 
+                  size="md" 
+                  data-testid="avatar-partner2"
+                />
+              </>
             )}
           </div>
-          <p style={{ fontSize: '0.9em', color: 'rgba(255,255,255,0.6)', marginTop: '5px' }}>
-            {couple.partner1Name} {couple.partner2Name ? `& ${couple.partner2Name}` : '(waiting for partner)'}
-          </p>
+          
+          {/* Title and names */}
+          <div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+              <h2 style={{ 
+                fontSize: '1.5em', 
+                background: 'var(--nexus-gradient-full)',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+                backgroundClip: 'text'
+              }}>
+                Spark It!
+              </h2>
+              {isPremium && (
+                <div style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '5px',
+                  padding: '4px 12px',
+                  background: 'linear-gradient(135deg, #FFD700 0%, #FFA500 100%)',
+                  borderRadius: '20px',
+                  fontSize: '0.75em',
+                  fontWeight: 'bold',
+                  color: '#000',
+                }} data-testid="badge-premium">
+                  <Crown size={14} />
+                  PREMIUM
+                </div>
+              )}
+            </div>
+            <p style={{ fontSize: '0.9em', color: 'rgba(255,255,255,0.6)', marginTop: '5px' }}>
+              {couple.partner1Name} {couple.partner2Name ? `& ${couple.partner2Name}` : '(waiting for partner)'}
+            </p>
+          </div>
         </div>
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '5px' }}>
           <div data-testid="sparks-remaining" style={{ 
