@@ -347,8 +347,8 @@ export const updateAvatarSchema = z.object({
     (url) => {
       // Allow predefined icon format: "icon:heart", "icon:star", etc.
       if (url.startsWith("icon:")) return true;
-      // Allow object storage paths: "/objects/..."
-      if (url.startsWith("/objects/")) return true;
+      // Allow object storage paths: "/objects/..." or "/replit-objstore-..."
+      if (url.startsWith("/objects/") || url.startsWith("/replit-objstore-")) return true;
       // Allow valid HTTPS URLs only (no data URIs or other schemes)
       try {
         const parsed = new URL(url);
@@ -357,7 +357,7 @@ export const updateAvatarSchema = z.object({
         return false;
       }
     },
-    { message: "Avatar URL must be an icon format (icon:*), object storage path (/objects/*), or valid HTTPS URL" }
+    { message: "Avatar URL must be an icon format (icon:*), object storage path, or valid HTTPS URL" }
   ),
 });
 
