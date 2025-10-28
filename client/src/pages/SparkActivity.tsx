@@ -1,15 +1,17 @@
 import { useState, useEffect } from "react";
-import { Sparkles, Clock, DollarSign, MapPin, Heart, Share2, Zap, Flame, ThumbsUp, ThumbsDown, Trophy, Users, Video, Wand2 } from "lucide-react";
+import { Sparkles, Clock, DollarSign, MapPin, Heart, Share2, Zap, Flame, ThumbsUp, ThumbsDown, Trophy, Users, Video, Wand2, MessageSquare } from "lucide-react";
 import { useLocation } from "wouter";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { apiRequest, queryClient } from "@/lib/queryClient";
 import { getRandomActivity, type Activity } from "../data/activities";
 import { AvatarDisplay } from "@/components/AvatarDisplay";
+import { useToast } from "@/hooks/use-toast";
 import type { SparkitCouple } from "@shared/schema";
 import "../nexus-styles.css";
 
 export default function SparkActivity() {
   const [, setLocation] = useLocation();
+  const { toast } = useToast();
   const [isSaved, setIsSaved] = useState(false);
   const [activity, setActivity] = useState<Activity | null>(null);
   const [rating, setRating] = useState<'loved' | 'meh' | null>(null);
@@ -23,6 +25,12 @@ export default function SparkActivity() {
     const storedCoupleId = localStorage.getItem("sparkitCoupleId");
     setCoupleId(storedCoupleId);
   }, []);
+
+  // Check authentication via session
+  const { data: authData } = useQuery<{ coupleId: string; partnerRole: string } | null>({
+    queryKey: ["/api/sparkit/auth/me"],
+    retry: false,
+  });
 
   // Fetch couple data
   const { data: couple, isLoading: coupleLoading, isError: coupleError } = useQuery<SparkitCouple>({
@@ -115,6 +123,38 @@ export default function SparkActivity() {
         setShowWinnerPicker(false);
         setWinnerRecorded(false);
       }
+    },
+  });
+
+  // Mutation to send activity via SMS
+  const sendSmsMutation = useMutation({
+    mutationFn: async () => {
+      if (!coupleId || !activity || !authData?.partnerRole) {
+        throw new Error("Missing required data");
+      }
+      const res = await apiRequest("POST", `/api/sparkit/couples/${coupleId}/send-sms`, {
+        activityTitle: activity.title,
+        activityDescription: activity.description,
+        partnerRole: authData.partnerRole
+      });
+      if (!res.ok) {
+        const error = await res.json();
+        throw new Error(error.message || error.error || "Failed to send SMS");
+      }
+      return await res.json();
+    },
+    onSuccess: (data) => {
+      toast({
+        title: "SMS Sent!",
+        description: data.message || "Activity sent to your partner via text message.",
+      });
+    },
+    onError: (error: Error) => {
+      toast({
+        variant: "destructive",
+        title: "SMS Failed",
+        description: error.message || "Could not send SMS. Make sure phone numbers are set in Settings.",
+      });
     },
   });
 
@@ -630,6 +670,34 @@ export default function SparkActivity() {
             >
               <Share2 size={20} />
               Share
+            </button>
+
+            <button
+              onClick={() => sendSmsMutation.mutate()}
+              disabled={sendSmsMutation.isPending}
+              className="cta-button"
+              style={{
+                background: 'rgba(255,255,255,0.1)',
+                border: '2px solid rgba(255,255,255,0.3)',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '10px',
+                padding: '18px 35px',
+                opacity: sendSmsMutation.isPending ? 0.6 : 1
+              }}
+              data-testid="button-send-sms"
+            >
+              {sendSmsMutation.isPending ? (
+                <>
+                  <div className="inline-block animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
+                  Sending...
+                </>
+              ) : (
+                <>
+                  <MessageSquare size={20} />
+                  Send to Partner
+                </>
+              )}
             </button>
 
             {isLDRActivity && (
