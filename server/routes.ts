@@ -13,6 +13,7 @@ import { WebSocketServer, WebSocket } from "ws";
 import { uploadUserDataToDrive } from "./googleDrive";
 import { ObjectStorageService, ObjectNotFoundError } from "./objectStorage";
 import bcrypt from "bcrypt";
+import { generateLocalActivity } from "./openai";
 
 // Initialize Stripe (from blueprint:javascript_stripe)
 // Guard initialization to allow development without keys
@@ -1645,6 +1646,39 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error('Create result error:', error);
       res.status(500).json({ error: "Failed to create result" });
+    }
+  });
+
+  // Generate AI-powered local activity
+  app.post("/api/sparkit/couples/:id/ai-activity", async (req, res) => {
+    try {
+      const { id } = req.params;
+      
+      // Get couple to check location and relationship type
+      const couple = await storage.getSparkitCoupleById(id);
+      
+      if (!couple) {
+        return res.status(404).json({ error: "Couple not found" });
+      }
+      
+      if (!couple.city || !couple.state) {
+        return res.status(400).json({ 
+          error: "Location not set",
+          message: "Please set your location in Settings to get AI-powered local activities"
+        });
+      }
+      
+      // Generate AI activity
+      const aiActivity = await generateLocalActivity({
+        city: couple.city,
+        state: couple.state,
+        relationshipType: couple.relationshipType || undefined,
+      });
+      
+      res.json(aiActivity);
+    } catch (error) {
+      console.error('Generate AI activity error:', error);
+      res.status(500).json({ error: "Failed to generate AI activity" });
     }
   });
 
