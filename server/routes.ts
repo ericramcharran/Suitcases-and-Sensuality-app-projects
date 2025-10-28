@@ -1903,6 +1903,18 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const partner = sessionPartnerRole;
       console.log(`[Button Press] Authenticated request for couple ${id}, partner: ${partner}`);
 
+      // Fetch couple data for SMS and push notifications
+      const couple = await storage.getCoupleById(id);
+      if (!couple) {
+        return res.status(404).json({ error: "Couple not found" });
+      }
+
+      // Determine the other partner (recipient of notifications)
+      const otherPartner = partner === 'partner1' ? 'partner2' : 'partner1';
+      const presserName = partner === 'partner1' ? couple.partner1Name : couple.partner2Name;
+      const recipientName = otherPartner === 'partner1' ? couple.partner1Name : couple.partner2Name;
+      const recipientPhone = otherPartner === 'partner1' ? couple.partner1Phone : couple.partner2Phone;
+
       // Send WebSocket message to BOTH partners
       const partner1Client = wsClients.get(`sparkit-${id}-partner1`);
       const partner2Client = wsClients.get(`sparkit-${id}-partner2`);
@@ -1923,6 +1935,67 @@ export async function registerRoutes(app: Express): Promise<Server> {
       if (partner2Client && partner2Client.readyState === WebSocket.OPEN) {
         console.log(`[Button Press] Sending to partner2 client`);
         partner2Client.send(message);
+      }
+
+      // Send SMS notification to other partner if they have a phone number
+      if (recipientPhone) {
+        const smsMessage = `${presserName} wants to Spark It! with you! 🎯\n\nOpen the app now to press your button and get an activity together!\n\n${process.env.REPLIT_DEPLOYMENT ? `https://${process.env.REPLIT_DEPLOYMENT}` : 'http://localhost:5000'}/spark`;
+        
+        try {
+          const smsResult = await sendSMS({ 
+            to: recipientPhone, 
+            message: smsMessage 
+          });
+          
+          if (smsResult.success) {
+            console.log(`[Button Press] SMS sent to ${recipientName}`);
+          } else {
+            console.log(`[Button Press] SMS failed: ${smsResult.error}`);
+          }
+        } catch (smsError) {
+          console.error('[Button Press] SMS error:', smsError);
+        }
+      }
+
+      // Send push notification to other partner
+      const otherPartnerUserId = `sparkit-${id}-${otherPartner}`;
+      try {
+        const subscriptions = await storage.getPushSubscriptions(otherPartnerUserId);
+        
+        if (subscriptions.length > 0 && pushNotificationsEnabled) {
+          const payload = JSON.stringify({
+            title: '🎯 Spark It!',
+            body: `${presserName} wants to spark with you! Press your button now!`,
+            icon: '/icon-192x192.png',
+            badge: '/icon-192x192.png',
+            url: '/spark'
+          });
+
+          const sendPromises = subscriptions.map(async (sub) => {
+            const pushSubscription = {
+              endpoint: sub.endpoint,
+              keys: {
+                p256dh: sub.p256dh,
+                auth: sub.auth
+              }
+            };
+
+            try {
+              await webpush.sendNotification(pushSubscription, payload);
+              console.log(`[Button Press] Push notification sent to ${recipientName}`);
+            } catch (error: any) {
+              // Remove invalid subscriptions
+              if (error.statusCode === 404 || error.statusCode === 410) {
+                await storage.deletePushSubscription(sub.endpoint);
+              }
+              console.error('[Button Press] Push notification error:', error);
+            }
+          });
+
+          await Promise.all(sendPromises);
+        }
+      } catch (pushError) {
+        console.error('[Button Press] Push notification error:', pushError);
       }
       
       console.log(`[Button Press] Response sent successfully`);
