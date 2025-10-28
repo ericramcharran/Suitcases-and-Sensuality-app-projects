@@ -46,8 +46,7 @@ export default function SparkitLogin() {
       localStorage.setItem("sparkitCoupleId", data.coupleId);
       
       toast({
-        title: "Welcome Back!",
-        description: "Successfully logged in.",
+        description: `Welcome back, ${data.partnerName}!`,
       });
       setLocation("/spark");
     },
