@@ -168,19 +168,22 @@ export default function SparkButton() {
   });
 
   // Handle navigation when both partners press
+  // IMPORTANT: Only partner1 calls the API to prevent duplicate activity generation
   useEffect(() => {
     console.log('[Navigation Check]', {
       myButtonPressed,
       partnerButtonPressed,
       hasCouple: !!couple,
       isPending: useSparkMutation.isPending,
-      willTrigger: myButtonPressed && partnerButtonPressed && couple && !useSparkMutation.isPending
+      partnerRole,
+      willTrigger: myButtonPressed && partnerButtonPressed && couple && !useSparkMutation.isPending && partnerRole === 'partner1'
     });
     
-    if (myButtonPressed && partnerButtonPressed && couple && !useSparkMutation.isPending) {
-      console.log('[Navigation] Both buttons pressed! Will use spark in 800ms');
+    // Only partner1 makes the API call to prevent duplicate activity generation
+    if (myButtonPressed && partnerButtonPressed && couple && !useSparkMutation.isPending && partnerRole === 'partner1') {
+      console.log('[Navigation] Both buttons pressed! Partner1 will use spark in 800ms');
       const timer = setTimeout(() => {
-        console.log('[Navigation] Calling use-spark mutation now');
+        console.log('[Navigation] Calling use-spark mutation now (partner1 only)');
         // Use a spark via API - navigation handled in onSuccess/onError
         useSparkMutation.mutate();
       }, 800);
@@ -190,7 +193,7 @@ export default function SparkButton() {
         clearTimeout(timer);
       };
     }
-  }, [myButtonPressed, partnerButtonPressed, couple, useSparkMutation.isPending]);
+  }, [myButtonPressed, partnerButtonPressed, couple, useSparkMutation.isPending, partnerRole]);
 
   const handleMyButtonPress = async () => {
     if (!couple) return;
