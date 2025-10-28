@@ -159,6 +159,8 @@ export const sparkitCouples = pgTable("sparkit_couples", {
   lastSparkReset: timestamp("last_spark_reset").defaultNow(),
   partner2JoinedAt: timestamp("partner2_joined_at"), // Track when trial period starts
   totalSparksUsed: integer("total_sparks_used").default(0), // Track total sparks used during trial
+  partner1LastPressed: timestamp("partner1_last_pressed"), // Track when partner1 last pressed button
+  partner2LastPressed: timestamp("partner2_last_pressed"), // Track when partner2 last pressed button
   createdAt: timestamp("created_at").defaultNow(),
 });
 
