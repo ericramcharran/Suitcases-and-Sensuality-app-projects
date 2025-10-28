@@ -119,8 +119,17 @@ self.addEventListener('notificationclick', (event) => {
   const urlToOpen = event.notification.data.url || '/';
   
   event.waitUntil(
-    clients.matchAll({ type: 'window' }).then((clientList) => {
-      // Look for existing window with matching path
+    clients.matchAll({ type: 'window', includeUncontrolled: true }).then((clientList) => {
+      // For Spark It! notifications (/spark), always open a new window
+      // This prevents focusing the wrong user's session when multiple users are logged in
+      if (urlToOpen === '/spark' || urlToOpen.startsWith('/spark')) {
+        if (clients.openWindow) {
+          return clients.openWindow(urlToOpen);
+        }
+        return;
+      }
+      
+      // For other notifications, try to focus existing window
       for (const client of clientList) {
         const clientUrl = new URL(client.url);
         const targetPath = new URL(urlToOpen, self.location.origin).pathname;
@@ -129,6 +138,7 @@ self.addEventListener('notificationclick', (event) => {
           return client.focus();
         }
       }
+      
       // If no matching window found, open new one
       if (clients.openWindow) {
         return clients.openWindow(urlToOpen);
