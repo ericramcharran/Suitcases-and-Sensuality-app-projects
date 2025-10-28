@@ -57,8 +57,9 @@ Return ONLY valid JSON with this exact structure (no markdown, no code blocks):
 }`;
 
   try {
+    console.log('[OpenAI] Calling GPT-4 Turbo with prompt for', city, state);
     const completion = await openai.chat.completions.create({
-      model: "gpt-5",
+      model: "gpt-4-turbo",
       messages: [
         {
           role: "system",
@@ -73,19 +74,31 @@ Return ONLY valid JSON with this exact structure (no markdown, no code blocks):
       max_completion_tokens: 500
     });
 
+    console.log('[OpenAI] Response received:', {
+      choices: completion.choices.length,
+      hasContent: !!completion.choices[0]?.message?.content,
+      finishReason: completion.choices[0]?.finish_reason
+    });
+
     const content = completion.choices[0]?.message?.content;
     if (!content) {
+      console.error('[OpenAI] No content in response:', JSON.stringify(completion, null, 2));
       throw new Error("No response from AI");
     }
 
+    console.log('[OpenAI] Parsing JSON response, length:', content.length);
     const activity = JSON.parse(content);
+    console.log('[OpenAI] Successfully generated activity:', activity.title);
     
     return {
       ...activity,
       isAIGenerated: true as const
     };
   } catch (error) {
-    console.error("Error generating AI activity:", error);
+    console.error("[OpenAI] Error generating AI activity:", error);
+    if (error instanceof Error) {
+      console.error("[OpenAI] Error details:", error.message, error.stack);
+    }
     throw new Error("Failed to generate activity suggestion");
   }
 }

@@ -74,10 +74,17 @@ export default function SparkActivity() {
   // Mutation to get AI-generated activities
   const getAiActivitiesMutation = useMutation({
     mutationFn: async () => {
-      if (!coupleId) throw new Error("Missing couple ID");
-      const res = await apiRequest("GET", `/api/sparkit/couples/${coupleId}/ai-activities`, {});
+      // Use couple.id directly if available, fallback to coupleId from localStorage
+      const id = couple?.id || coupleId;
+      if (!id) {
+        console.error('[AI Activity] No couple ID available', { couple, coupleId });
+        throw new Error("Missing couple ID");
+      }
+      console.log('[AI Activity] Requesting activities for couple:', id);
+      const res = await apiRequest("GET", `/api/sparkit/couples/${id}/ai-activities`, {});
       if (!res.ok) {
         const error = await res.json();
+        console.error('[AI Activity] Error response:', error);
         throw new Error(error.error || "Failed to generate AI activities");
       }
       return await res.json();

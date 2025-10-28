@@ -1625,30 +1625,29 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(400).json({ error: "Location not set. Please set your location in Settings to use AI activities." });
       }
 
-      console.log(`[AI Activities] Generating activities for ${couple.city}, ${couple.state}`);
+      console.log(`[AI Activities] Generating activity for ${couple.city}, ${couple.state}`);
       
-      // Generate 5 AI activities with timeout
+      // Generate just 1 AI activity to keep response fast
       const { generateLocalActivity } = await import('./openai.js');
       
-      // Add timeout to prevent hanging
-      const activityPromises = Array.from({ length: 5 }, (_, i) =>
-        Promise.race([
-          generateLocalActivity({
-            city: couple.city!,
-            state: couple.state!,
-            relationshipType: couple.relationshipType || undefined
-          }),
-          new Promise((_, reject) => 
-            setTimeout(() => reject(new Error(`Activity ${i+1} generation timed out`)), 15000)
-          )
-        ])
-      );
+      // Add timeout to prevent hanging (20 seconds should be enough for 1 activity)
+      const activityPromise = Promise.race([
+        generateLocalActivity({
+          city: couple.city!,
+          state: couple.state!,
+          relationshipType: couple.relationshipType || undefined
+        }),
+        new Promise((_, reject) => 
+          setTimeout(() => reject(new Error('Activity generation timed out after 20 seconds')), 20000)
+        )
+      ]);
 
-      const activities = await Promise.all(activityPromises);
-      console.log(`[AI Activities] Successfully generated ${activities.length} activities`);
+      const activity = await activityPromise;
+      console.log(`[AI Activities] Successfully generated activity: ${activity.title}`);
 
+      // Return in array format to match frontend expectations
       res.json({
-        activities,
+        activities: [activity],
         location: {
           city: couple.city,
           state: couple.state
@@ -1657,7 +1656,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error('[AI Activities] Error:', error);
       res.status(500).json({ 
-        error: "Failed to generate AI activities",
+        error: "Failed to generate AI activity",
         details: error instanceof Error ? error.message : 'Unknown error'
       });
     }
