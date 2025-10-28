@@ -177,6 +177,11 @@ export class NotificationManager {
 
   async unsubscribeFromPush(): Promise<boolean> {
     try {
+      // Lazily get registration if not already set
+      if (!this.registration && 'serviceWorker' in navigator) {
+        this.registration = await navigator.serviceWorker.getRegistration();
+      }
+
       if (!this.registration) {
         return false;
       }
@@ -204,6 +209,11 @@ export class NotificationManager {
 
   async isSubscribed(): Promise<boolean> {
     try {
+      // Lazily get registration if not already set
+      if (!this.registration && 'serviceWorker' in navigator) {
+        this.registration = await navigator.serviceWorker.getRegistration();
+      }
+
       if (!this.registration) {
         return false;
       }

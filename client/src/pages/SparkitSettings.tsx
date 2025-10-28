@@ -210,18 +210,15 @@ export default function SparkitSettings() {
   // Check notification permission and subscription status on mount
   useEffect(() => {
     const checkNotificationStatus = async () => {
-      if ('Notification' in window && 'serviceWorker' in navigator) {
+      if ('Notification' in window) {
         const permission = Notification.permission;
         if (permission === 'granted') {
           try {
-            // Get service worker registration directly to check subscription status
-            const registration = await navigator.serviceWorker.getRegistration();
-            if (registration) {
-              const subscription = await registration.pushManager.getSubscription();
-              setNotificationsEnabled(!!subscription);
-            } else {
-              setNotificationsEnabled(false);
-            }
+            // Use NotificationManager to check subscription status
+            // (it now lazily gets registration if needed)
+            const notifManager = NotificationManager.getInstance();
+            const isSubscribed = await notifManager.isSubscribed();
+            setNotificationsEnabled(isSubscribed);
           } catch (error) {
             console.error('Error checking subscription status:', error);
             setNotificationsEnabled(false);
