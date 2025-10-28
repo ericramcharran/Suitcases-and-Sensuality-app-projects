@@ -1711,6 +1711,13 @@ export async function registerRoutes(app: Express): Promise<Server> {
         });
       }
 
+      // Clear button press timestamps after spark is consumed
+      await storage.updateCouple(id, {
+        partner1LastPressed: null as any,
+        partner2LastPressed: null as any
+      });
+      console.log('[Use Spark] Cleared button press timestamps');
+
       res.json(couple);
     } catch (error) {
       console.error('Use spark error:', error);

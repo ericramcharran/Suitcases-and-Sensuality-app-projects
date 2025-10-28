@@ -94,27 +94,38 @@ export default function SparkButton() {
     const otherPartner = partnerRole === 'partner1' ? 'partner2' : 'partner1';
     const partnerPressTime = otherPartner === 'partner1' ? couple.partner1LastPressed : couple.partner2LastPressed;
     const myPressTime = partnerRole === 'partner1' ? couple.partner1LastPressed : couple.partner2LastPressed;
+    const fiveMinutes = 5 * 60 * 1000;
 
     // Check if partner pressed within last 5 minutes
     if (partnerPressTime) {
       const timeSincePress = Date.now() - new Date(partnerPressTime).getTime();
-      const fiveMinutes = 5 * 60 * 1000;
       
       if (timeSincePress < fiveMinutes) {
         console.log('[Button State] Partner pressed recently, setting partnerButtonPressed = true');
         setPartnerButtonPressed(true);
+      } else {
+        console.log('[Button State] Partner press expired, setting partnerButtonPressed = false');
+        setPartnerButtonPressed(false);
       }
+    } else {
+      // No timestamp = no recent press
+      setPartnerButtonPressed(false);
     }
 
     // Check if I pressed recently (restore my button state)
     if (myPressTime) {
       const timeSincePress = Date.now() - new Date(myPressTime).getTime();
-      const fiveMinutes = 5 * 60 * 1000;
       
       if (timeSincePress < fiveMinutes) {
         console.log('[Button State] I pressed recently, setting myButtonPressed = true');
         setMyButtonPressed(true);
+      } else {
+        console.log('[Button State] My press expired, setting myButtonPressed = false');
+        setMyButtonPressed(false);
       }
+    } else {
+      // No timestamp = no recent press
+      setMyButtonPressed(false);
     }
   }, [couple, partnerRole]);
 
@@ -133,6 +144,11 @@ export default function SparkButton() {
       return await res.json();
     },
     onSuccess: () => {
+      // Clear button states before navigation to prevent stale state on return
+      console.log('[Spark Mutation] Clearing button states before navigation');
+      setMyButtonPressed(false);
+      setPartnerButtonPressed(false);
+      
       // Spark successfully used - navigate to activity page
       queryClient.invalidateQueries({ queryKey: ["/api/sparkit/couples", coupleId] });
       setLocation("/spark-activity");
