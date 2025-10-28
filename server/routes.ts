@@ -1909,6 +1909,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(404).json({ error: "Couple not found" });
       }
 
+      // Save button press timestamp to database
+      const timestampField = partner === 'partner1' ? 'partner1LastPressed' : 'partner2LastPressed';
+      await storage.updateCouplePressTimestamp(id, timestampField);
+      console.log(`[Button Press] Saved ${timestampField} timestamp to database`);
+
       // Determine the other partner (recipient of notifications)
       const otherPartner = partner === 'partner1' ? 'partner2' : 'partner1';
       const presserName = partner === 'partner1' ? couple.partner1Name : couple.partner2Name;
@@ -2021,6 +2026,13 @@ export async function registerRoutes(app: Express): Promise<Server> {
       if (!sessionPartnerRole || (sessionPartnerRole !== 'partner1' && sessionPartnerRole !== 'partner2')) {
         return res.status(403).json({ error: "Unauthorized: invalid partner role" });
       }
+
+      // Clear button press timestamps
+      await storage.updateCouple(id, {
+        partner1LastPressed: null as any,
+        partner2LastPressed: null as any
+      });
+      console.log('[Button Reset] Cleared button press timestamps');
 
       // Send WebSocket message to BOTH partners
       const partner1Client = wsClients.get(`sparkit-${id}-partner1`);

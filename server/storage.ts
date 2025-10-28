@@ -92,6 +92,7 @@ export interface IStorage {
   getCoupleById(id: string): Promise<SparkitCouple | undefined>;
   getCoupleByPartnerEmail(email: string): Promise<SparkitCouple | undefined>;
   updateCouple(id: string, updates: Partial<InsertSparkitCouple>): Promise<SparkitCouple | undefined>;
+  updateCouplePressTimestamp(id: string, field: 'partner1LastPressed' | 'partner2LastPressed'): Promise<void>;
   useSpark(id: string): Promise<SparkitCouple | undefined>;
   resetDailySparks(id: string): Promise<SparkitCouple | undefined>;
   
@@ -352,6 +353,17 @@ export class DatabaseStorage implements IStorage {
       .where(eq(sparkitCouples.id, id))
       .returning();
     return result[0];
+  }
+
+  async updateCouplePressTimestamp(id: string, field: 'partner1LastPressed' | 'partner2LastPressed'): Promise<void> {
+    const updateData = field === 'partner1LastPressed' 
+      ? { partner1LastPressed: new Date() }
+      : { partner2LastPressed: new Date() };
+    
+    await db
+      .update(sparkitCouples)
+      .set(updateData as any)
+      .where(eq(sparkitCouples.id, id));
   }
 
   async useSpark(id: string): Promise<SparkitCouple | undefined> {
