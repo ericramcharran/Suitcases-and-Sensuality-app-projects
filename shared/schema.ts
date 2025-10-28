@@ -141,6 +141,8 @@ export const sparkitCouples = pgTable("sparkit_couples", {
   partner1Password: text("partner1_password"), // Password for partner 1 login
   partner2Email: text("partner2_email").unique(), // Email for partner 2 login
   partner2Password: text("partner2_password"), // Password for partner 2 login
+  partner1Phone: text("partner1_phone"), // Phone number for partner 1 (for SMS notifications)
+  partner2Phone: text("partner2_phone"), // Phone number for partner 2 (for SMS notifications)
   partner1AvatarUrl: text("partner1_avatar_url"), // Avatar for partner 1 (pre-made or custom upload)
   partner2AvatarUrl: text("partner2_avatar_url"), // Avatar for partner 2 (pre-made or custom upload)
   relationshipType: text("relationship_type"), // e.g., "empty_nesters", "newly_dating", "long_distance", "couple_with_kids"
