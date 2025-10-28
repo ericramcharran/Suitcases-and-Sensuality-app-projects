@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Sparkles, Clock, DollarSign, MapPin, Heart, Share2, Zap, Flame, ThumbsUp, ThumbsDown, Trophy, Users, Video } from "lucide-react";
+import { Sparkles, Clock, DollarSign, MapPin, Heart, Share2, Zap, Flame, ThumbsUp, ThumbsDown, Trophy, Users, Video, Wand2 } from "lucide-react";
 import { useLocation } from "wouter";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { apiRequest, queryClient } from "@/lib/queryClient";
@@ -16,6 +16,7 @@ export default function SparkActivity() {
   const [showWinnerPicker, setShowWinnerPicker] = useState(false);
   const [winnerRecorded, setWinnerRecorded] = useState(false);
   const [coupleId, setCoupleId] = useState<string | null>(null);
+  const [isAiActivity, setIsAiActivity] = useState(false);
 
   // Get couple ID from localStorage
   useEffect(() => {
@@ -67,6 +68,46 @@ export default function SparkActivity() {
       queryClient.invalidateQueries({ queryKey: ["/api/sparkit/couples", coupleId, "scoreboard"] });
       setWinnerRecorded(true);
       setShowWinnerPicker(false);
+    },
+  });
+
+  // Mutation to get AI-generated activities
+  const getAiActivitiesMutation = useMutation({
+    mutationFn: async () => {
+      if (!coupleId) throw new Error("Missing couple ID");
+      const res = await apiRequest("GET", `/api/sparkit/couples/${coupleId}/ai-activities`, {});
+      if (!res.ok) {
+        const error = await res.json();
+        throw new Error(error.error || "Failed to generate AI activities");
+      }
+      return await res.json();
+    },
+    onSuccess: (data) => {
+      if (data.activities && data.activities.length > 0) {
+        // Pick a random activity from the AI suggestions
+        const randomIndex = Math.floor(Math.random() * data.activities.length);
+        const aiActivity = data.activities[randomIndex];
+        
+        // Create an Activity object from AI response
+        const newActivity: Activity = {
+          id: Date.now(),
+          title: aiActivity.title,
+          description: aiActivity.description,
+          category: aiActivity.category || 'AI Suggested',
+          duration: aiActivity.estimated_duration || '30-60 min',
+          energyLevel: aiActivity.energy_level || 'medium',
+          location: aiActivity.location_type || 'varies',
+          cost: aiActivity.cost_range || '$',
+          spiceLevel: 'G-Rated',
+          tips: aiActivity.tips || []
+        };
+        
+        setActivity(newActivity);
+        setIsAiActivity(true);
+        setRating(null);
+        setShowWinnerPicker(false);
+        setWinnerRecorded(false);
+      }
     },
   });
 
@@ -620,19 +661,71 @@ export default function SparkActivity() {
           <p style={{ fontSize: '1.2em', marginBottom: '30px', color: 'rgba(255,255,255,0.9)' }}>
             No overthinking. No scrolling. Make memories together.
           </p>
-          <button
-            onClick={handleNewSpark}
-            className="cta-button"
-            style={{
-              background: 'white',
-              color: '#e74c3c',
-              fontSize: '1.3em',
-              padding: '20px 50px',
-            }}
-            data-testid="button-new-spark"
-          >
-            Get Another Spark
-          </button>
+          
+          <div style={{ 
+            display: 'flex', 
+            gap: '20px', 
+            justifyContent: 'center',
+            flexWrap: 'wrap',
+            marginBottom: '20px'
+          }}>
+            <button
+              onClick={handleNewSpark}
+              className="cta-button"
+              style={{
+                background: 'white',
+                color: '#e74c3c',
+                fontSize: '1.3em',
+                padding: '20px 50px',
+              }}
+              data-testid="button-new-spark"
+            >
+              <Sparkles size={24} style={{ marginRight: '10px', display: 'inline' }} />
+              Get Another Spark
+            </button>
+            
+            {couple?.city && couple?.state && (
+              <button
+                onClick={() => getAiActivitiesMutation.mutate()}
+                disabled={getAiActivitiesMutation.isPending}
+                className="cta-button"
+                style={{
+                  background: 'rgba(255,255,255,0.2)',
+                  backdropFilter: 'blur(10px)',
+                  border: '2px solid rgba(255,255,255,0.5)',
+                  color: 'white',
+                  fontSize: '1.3em',
+                  padding: '20px 50px',
+                  opacity: getAiActivitiesMutation.isPending ? 0.6 : 1
+                }}
+                data-testid="button-ai-activity"
+              >
+                {getAiActivitiesMutation.isPending ? (
+                  <>
+                    <div style={{ display: 'inline-block', marginRight: '10px' }}>
+                      <div className="inline-block animate-spin rounded-full h-6 w-6 border-b-2 border-white"></div>
+                    </div>
+                    Generating...
+                  </>
+                ) : (
+                  <>
+                    <Wand2 size={24} style={{ marginRight: '10px', display: 'inline' }} />
+                    AI Local Activity
+                  </>
+                )}
+              </button>
+            )}
+          </div>
+          
+          {isAiActivity && (
+            <p style={{ 
+              fontSize: '1em', 
+              color: 'rgba(255,255,255,0.8)',
+              fontStyle: 'italic'
+            }}>
+              This activity was AI-generated based on your location: {couple?.city}, {couple?.state}
+            </p>
+          )}
         </div>
       </section>
 
