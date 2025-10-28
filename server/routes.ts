@@ -1422,7 +1422,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Create a new couple (first partner signs up)
   app.post("/api/sparkit/couples", async (req, res) => {
     try {
-      const { partner1Name, partner1Email, partner1Password } = req.body;
+      const { partner1Name, partner1Email, partner1Password, city, state, relationshipType } = req.body;
       
       if (!partner1Name || !partner1Email || !partner1Password) {
         return res.status(400).json({ error: "Name, email, and password are required" });
@@ -1457,7 +1457,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
         sparksRemaining: 10, // Trial gets 10 total sparks
         lastSparkReset: new Date(),
         stripeCustomerId: null,
-        stripeSubscriptionId: null
+        stripeSubscriptionId: null,
+        city: city || null,
+        state: state || null,
+        relationshipType: relationshipType || 'monogamous'
       });
 
       // Auto-login after signup
@@ -1602,6 +1605,61 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error('Update couple location error:', error);
       res.status(500).json({ error: "Failed to update couple location" });
+    }
+  });
+
+  // Get AI-generated activities based on couple's location
+  app.get("/api/sparkit/couples/:id/ai-activities", async (req, res) => {
+    try {
+      console.log(`[AI Activities] Request for couple ${req.params.id}`);
+      const { id } = req.params;
+      const couple = await storage.getCoupleById(id);
+      
+      if (!couple) {
+        console.log('[AI Activities] Couple not found');
+        return res.status(404).json({ error: "Couple not found" });
+      }
+
+      if (!couple.city || !couple.state) {
+        console.log('[AI Activities] Location not set');
+        return res.status(400).json({ error: "Location not set. Please set your location in Settings to use AI activities." });
+      }
+
+      console.log(`[AI Activities] Generating activities for ${couple.city}, ${couple.state}`);
+      
+      // Generate 5 AI activities with timeout
+      const { generateLocalActivity } = await import('./openai.js');
+      
+      // Add timeout to prevent hanging
+      const activityPromises = Array.from({ length: 5 }, (_, i) =>
+        Promise.race([
+          generateLocalActivity({
+            city: couple.city!,
+            state: couple.state!,
+            relationshipType: couple.relationshipType || undefined
+          }),
+          new Promise((_, reject) => 
+            setTimeout(() => reject(new Error(`Activity ${i+1} generation timed out`)), 15000)
+          )
+        ])
+      );
+
+      const activities = await Promise.all(activityPromises);
+      console.log(`[AI Activities] Successfully generated ${activities.length} activities`);
+
+      res.json({
+        activities,
+        location: {
+          city: couple.city,
+          state: couple.state
+        }
+      });
+    } catch (error) {
+      console.error('[AI Activities] Error:', error);
+      res.status(500).json({ 
+        error: "Failed to generate AI activities",
+        details: error instanceof Error ? error.message : 'Unknown error'
+      });
     }
   });
 

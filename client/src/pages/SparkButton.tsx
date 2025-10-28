@@ -10,6 +10,13 @@ export default function SparkButton() {
   const [, setLocation] = useLocation();
   const [myButtonPressed, setMyButtonPressed] = useState(false);
   const [partnerButtonPressed, setPartnerButtonPressed] = useState(false);
+  const [coupleIdFromStorage, setCoupleIdFromStorage] = useState<string | null>(null);
+
+  // Get couple ID from localStorage on mount
+  useEffect(() => {
+    const storedCoupleId = localStorage.getItem("sparkitCoupleId");
+    setCoupleIdFromStorage(storedCoupleId);
+  }, []);
 
   // Check authentication via session
   const { data: authData, isLoading: authLoading} = useQuery<{ coupleId: string; partnerRole: string } | null>({
@@ -17,7 +24,8 @@ export default function SparkButton() {
     retry: false,
   });
 
-  const coupleId = authData?.coupleId ?? null;
+  // Use localStorage coupleId as fallback if session auth hasn't loaded yet
+  const coupleId = authData?.coupleId ?? coupleIdFromStorage;
   const partnerRole = authData?.partnerRole ?? null;
 
   // Fetch couple data from database

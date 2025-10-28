@@ -19,8 +19,10 @@ export interface AIGeneratedActivity {
   description: string;
   location: string;
   category: string;
-  estimatedDuration: string;
-  estimatedCost: string;
+  estimated_duration: string;
+  cost_range: string;
+  location_type: string;
+  energy_level: string;
   tips: string[];
   isAIGenerated: true;
 }
@@ -47,8 +49,10 @@ Return ONLY valid JSON with this exact structure (no markdown, no code blocks):
   "description": "Detailed description of what to do (2-3 sentences)",
   "location": "Specific venue or area name in ${city}",
   "category": "One of: Romantic, Adventure, Foodie, Cultural, Active, Entertainment, Creative, or Relaxing",
-  "estimatedDuration": "e.g., '1-2 hours' or '2-3 hours'",
-  "estimatedCost": "e.g., 'Free', '$10-20', '$30-50', '$50+'",
+  "estimated_duration": "e.g., '1-2 hours' or '2-3 hours'",
+  "cost_range": "e.g., 'Free', '$', '$$', '$$$'",
+  "location_type": "indoor or outdoor",
+  "energy_level": "low, medium, or high",
   "tips": ["Tip 1", "Tip 2", "Tip 3"]
 }`;
 

@@ -16,8 +16,8 @@ const signupSchema = z.object({
   partner1Name: z.string().min(2, "Name must be at least 2 characters"),
   partner1Email: z.string().email("Please enter a valid email"),
   partner1Password: z.string().min(6, "Password must be at least 6 characters"),
-  city: z.string().min(2, "City must be at least 2 characters"),
-  state: z.string().min(2, "State must be at least 2 characters"),
+  city: z.string().optional(),
+  state: z.string().optional(),
 });
 
 type SignupForm = z.infer<typeof signupSchema>;
