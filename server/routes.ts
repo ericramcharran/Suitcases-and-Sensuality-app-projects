@@ -1951,6 +1951,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const presserName = partner === 'partner1' ? couple.partner1Name : couple.partner2Name;
       const recipientName = otherPartner === 'partner1' ? couple.partner1Name : couple.partner2Name;
       const recipientPhone = otherPartner === 'partner1' ? couple.partner1Phone : couple.partner2Phone;
+      
+      console.log(`[Button Press] Notification routing:`);
+      console.log(`  - Presser: ${partner} (${presserName})`);
+      console.log(`  - Recipient: ${otherPartner} (${recipientName})`);
+      console.log(`  - Recipient phone: ${recipientPhone}`);
 
       // Send WebSocket message to BOTH partners
       const partner1Client = wsClients.get(`sparkit-${id}-partner1`);
