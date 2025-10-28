@@ -169,13 +169,26 @@ export default function SparkButton() {
 
   // Handle navigation when both partners press
   useEffect(() => {
+    console.log('[Navigation Check]', {
+      myButtonPressed,
+      partnerButtonPressed,
+      hasCouple: !!couple,
+      isPending: useSparkMutation.isPending,
+      willTrigger: myButtonPressed && partnerButtonPressed && couple && !useSparkMutation.isPending
+    });
+    
     if (myButtonPressed && partnerButtonPressed && couple && !useSparkMutation.isPending) {
+      console.log('[Navigation] Both buttons pressed! Will use spark in 800ms');
       const timer = setTimeout(() => {
+        console.log('[Navigation] Calling use-spark mutation now');
         // Use a spark via API - navigation handled in onSuccess/onError
         useSparkMutation.mutate();
       }, 800);
 
-      return () => clearTimeout(timer);
+      return () => {
+        console.log('[Navigation] Clearing timeout (component unmounting or state changed)');
+        clearTimeout(timer);
+      };
     }
   }, [myButtonPressed, partnerButtonPressed, couple, useSparkMutation.isPending]);
 
