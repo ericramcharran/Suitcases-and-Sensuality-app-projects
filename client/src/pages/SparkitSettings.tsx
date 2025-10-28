@@ -23,6 +23,8 @@ export default function SparkitSettings() {
 
   const [partner1Name, setPartner1Name] = useState("");
   const [partner2Name, setPartner2Name] = useState("");
+  const [partner1Phone, setPartner1Phone] = useState("");
+  const [partner2Phone, setPartner2Phone] = useState("");
   const [city, setCity] = useState("");
   const [state, setState] = useState("");
   const [selectedPartner, setSelectedPartner] = useState<"partner1" | "partner2">("partner1");
@@ -45,6 +47,8 @@ export default function SparkitSettings() {
     if (couple) {
       setPartner1Name(couple.partner1Name || "");
       setPartner2Name(couple.partner2Name || "");
+      setPartner1Phone(couple.partner1Phone || "");
+      setPartner2Phone(couple.partner2Phone || "");
       setCity(couple.city || "");
       setState(couple.state || "");
     }
@@ -78,6 +82,36 @@ export default function SparkitSettings() {
         variant: "destructive",
         title: "Update failed",
         description: "Could not update partner names. Please try again.",
+      });
+    },
+  });
+
+  const updatePhonesMutation = useMutation({
+    mutationFn: async () => {
+      const res = await apiRequest("PATCH", `/api/sparkit/couples/${coupleId}/phones`, {
+        partner1Phone: partner1Phone.trim(),
+        partner2Phone: partner2Phone.trim()
+      });
+      
+      if (!res.ok) {
+        const error = await res.json();
+        throw new Error(error.error || "Failed to update phone numbers");
+      }
+      
+      return await res.json();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["/api/sparkit/couples", coupleId] });
+      toast({
+        title: "Phone numbers updated!",
+        description: "You can now send activities via SMS to your partner.",
+      });
+    },
+    onError: () => {
+      toast({
+        variant: "destructive",
+        title: "Update failed",
+        description: "Could not update phone numbers. Please try again.",
       });
     },
   });
@@ -208,6 +242,10 @@ export default function SparkitSettings() {
     }
 
     updateNamesMutation.mutate();
+  };
+
+  const handleSavePhones = () => {
+    updatePhonesMutation.mutate();
   };
 
   const handleSaveLocation = () => {
@@ -364,6 +402,76 @@ export default function SparkitSettings() {
                 <>
                   <Save className="w-4 h-4 mr-2" />
                   Save Names
+                </>
+              )}
+            </Button>
+          </div>
+        </Card>
+
+        {/* Phone Numbers Card for SMS */}
+        <Card className="p-6 mb-6">
+          <div className="flex items-center gap-3 mb-6">
+            <Sparkles className="w-5 h-5 text-nexus-purple" />
+            <h2 className="text-xl font-semibold">Phone Numbers</h2>
+          </div>
+
+          <div className="space-y-6">
+            <p className="text-sm text-gray-600 dark:text-gray-400">
+              Add phone numbers to send activity ideas to each other via text message
+            </p>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <Label htmlFor="partner1Phone" className="text-sm font-medium">
+                  Partner 1 Phone
+                </Label>
+                <Input
+                  id="partner1Phone"
+                  type="tel"
+                  value={partner1Phone}
+                  onChange={(e) => setPartner1Phone(e.target.value)}
+                  placeholder="+1234567890"
+                  data-testid="input-partner1-phone"
+                />
+                <p className="text-xs text-gray-500 dark:text-gray-400">
+                  Include country code (e.g., +1 for US)
+                </p>
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="partner2Phone" className="text-sm font-medium">
+                  Partner 2 Phone
+                </Label>
+                <Input
+                  id="partner2Phone"
+                  type="tel"
+                  value={partner2Phone}
+                  onChange={(e) => setPartner2Phone(e.target.value)}
+                  placeholder="+1234567890"
+                  data-testid="input-partner2-phone"
+                />
+                <p className="text-xs text-gray-500 dark:text-gray-400">
+                  Include country code (e.g., +1 for US)
+                </p>
+              </div>
+            </div>
+
+            {/* Save Button */}
+            <Button
+              onClick={handleSavePhones}
+              disabled={updatePhonesMutation.isPending}
+              className="w-full bg-gradient-to-r from-nexus-purple to-nexus-red hover:opacity-90 transition-opacity"
+              data-testid="button-save-phones"
+            >
+              {updatePhonesMutation.isPending ? (
+                <>
+                  <div className="inline-block animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
+                  Saving...
+                </>
+              ) : (
+                <>
+                  <Save className="w-4 h-4 mr-2" />
+                  Save Phone Numbers
                 </>
               )}
             </Button>

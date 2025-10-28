@@ -1582,6 +1582,29 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Update couple location for AI activity suggestions
+  app.patch("/api/sparkit/couples/:id/phones", async (req, res) => {
+    try {
+      const { id } = req.params;
+      const { partner1Phone, partner2Phone } = req.body;
+
+      const updates: Partial<InsertSparkitCouple> = {
+        partner1Phone: partner1Phone?.trim() || null,
+        partner2Phone: partner2Phone?.trim() || null
+      };
+
+      const updatedCouple = await storage.updateCouple(id, updates);
+      
+      if (!updatedCouple) {
+        return res.status(404).json({ error: "Couple not found" });
+      }
+
+      res.json(updatedCouple);
+    } catch (error) {
+      console.error('Update couple phones error:', error);
+      res.status(500).json({ error: "Failed to update couple phones" });
+    }
+  });
+
   app.patch("/api/sparkit/couples/:id/location", async (req, res) => {
     try {
       const { id } = req.params;
