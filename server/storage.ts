@@ -390,13 +390,13 @@ export class DatabaseStorage implements IStorage {
     }
 
     // STEP 2: Handle premium plans (unlimited sparks)
-    if (couple.subscriptionPlan === 'premium_monthly' || couple.subscriptionPlan === 'premium_yearly') {
-      // Premium users always have sparks available - set to 999 as sentinel for "unlimited"
+    if (couple.subscriptionPlan === 'monthly' || couple.subscriptionPlan === 'yearly') {
+      // Premium users always have sparks available - set to NULL for unlimited
       const result = await db
         .update(sparkitCouples)
         .set({ 
           totalSparksUsed: (couple.totalSparksUsed || 0) + 1,
-          sparksRemaining: 999 // Sentinel value for unlimited
+          sparksRemaining: null as any // NULL = unlimited for premium users
         })
         .where(eq(sparkitCouples.id, id))
         .returning();
