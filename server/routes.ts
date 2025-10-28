@@ -1577,6 +1577,34 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Update couple location for AI activity suggestions
+  app.patch("/api/sparkit/couples/:id/location", async (req, res) => {
+    try {
+      const { id } = req.params;
+      const { city, state } = req.body;
+      
+      if (!city || !state) {
+        return res.status(400).json({ error: "City and state are required" });
+      }
+
+      const updates: Partial<InsertSparkitCouple> = {
+        city: city.trim(),
+        state: state.trim()
+      };
+
+      const updatedCouple = await storage.updateCouple(id, updates);
+      
+      if (!updatedCouple) {
+        return res.status(404).json({ error: "Couple not found" });
+      }
+
+      res.json(updatedCouple);
+    } catch (error) {
+      console.error('Update couple location error:', error);
+      res.status(500).json({ error: "Failed to update couple location" });
+    }
+  });
+
   // Use a spark
   app.post("/api/sparkit/couples/:id/use-spark", async (req, res) => {
     try {

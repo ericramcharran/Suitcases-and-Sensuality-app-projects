@@ -16,6 +16,8 @@ const signupSchema = z.object({
   partner1Name: z.string().min(2, "Name must be at least 2 characters"),
   partner1Email: z.string().email("Please enter a valid email"),
   partner1Password: z.string().min(6, "Password must be at least 6 characters"),
+  city: z.string().min(2, "City must be at least 2 characters"),
+  state: z.string().min(2, "State must be at least 2 characters"),
 });
 
 type SignupForm = z.infer<typeof signupSchema>;
@@ -32,6 +34,8 @@ export default function SparkitCoupleSignup() {
       partner1Name: "",
       partner1Email: "",
       partner1Password: "",
+      city: "",
+      state: "",
     },
   });
 
@@ -266,6 +270,47 @@ export default function SparkitCoupleSignup() {
                   </FormItem>
                 )}
               />
+
+              <div className="space-y-4 pt-2">
+                <div className="text-sm font-medium text-muted-foreground">Your Location (for AI activity suggestions)</div>
+                <div className="grid grid-cols-2 gap-3">
+                  <FormField
+                    control={form.control}
+                    name="city"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>City</FormLabel>
+                        <FormControl>
+                          <Input
+                            {...field}
+                            placeholder="San Francisco"
+                            data-testid="input-city"
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    control={form.control}
+                    name="state"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>State</FormLabel>
+                        <FormControl>
+                          <Input
+                            {...field}
+                            placeholder="CA"
+                            data-testid="input-state"
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+              </div>
 
               <Button
                 type="submit"
