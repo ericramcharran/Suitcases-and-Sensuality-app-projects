@@ -1,19 +1,44 @@
 import { useState } from "react";
 import { useLocation } from "wouter";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { apiRequest } from "@/lib/queryClient";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { Check, Sparkles, Zap } from "lucide-react";
+import { Check, Sparkles, Zap, Crown } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+
+type AuthData = {
+  coupleId: string;
+  partnerRole: 'partner1' | 'partner2';
+};
+
+type SparkitCouple = {
+  id: string;
+  subscriptionPlan: 'free' | 'trial' | 'monthly' | 'yearly';
+  sparksRemaining: number | null;
+};
 
 export default function SparkitPricing() {
   const [, navigate] = useLocation();
   const { toast } = useToast();
   const [selectedPlan, setSelectedPlan] = useState<"monthly" | "yearly">("yearly");
 
-  // Get couple ID from localStorage (same key as SparkButton)
-  const coupleId = localStorage.getItem("sparkitCoupleId");
+  // Get auth data
+  const { data: authData } = useQuery<AuthData>({
+    queryKey: ['/api/sparkit/auth/me'],
+    retry: false,
+  });
+
+  // Get couple data
+  const coupleIdFromStorage = localStorage.getItem("sparkitCoupleId");
+  const coupleId = authData?.coupleId ?? coupleIdFromStorage;
+
+  const { data: couple } = useQuery<SparkitCouple>({
+    queryKey: ["/api/sparkit/couples", coupleId],
+    enabled: !!coupleId,
+  });
+
+  const isPremium = couple?.subscriptionPlan === 'monthly' || couple?.subscriptionPlan === 'yearly';
 
   const subscribeMutation = useMutation({
     mutationFn: async (billingPeriod: "monthly" | "yearly") => {
@@ -89,30 +114,62 @@ export default function SparkitPricing() {
           </p>
         </div>
 
-        {/* Trial Info Card */}
-        <Card className="max-w-3xl mx-auto mb-12 border-2 border-nexus-purple/20 shadow-lg">
-          <CardHeader className="text-center">
-            <div className="flex items-center justify-center gap-2 mb-2">
-              <Zap className="w-6 h-6 text-nexus-purple" />
-              <CardTitle className="text-2xl">Your Trial Is Active!</CardTitle>
-            </div>
-            <CardDescription className="text-base">
-              Enjoying Spark It? Here's what you're getting for free:
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className="grid sm:grid-cols-2 gap-3">
-              {trialFeatures.map((feature, index) => (
-                <div key={index} className="flex items-start gap-2">
-                  <Check className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
-                  <span className="text-sm text-gray-700 dark:text-gray-300">{feature}</span>
-                </div>
-              ))}
-            </div>
-          </CardContent>
-        </Card>
+        {/* Premium Active Card (for premium users) */}
+        {isPremium && (
+          <Card className="max-w-3xl mx-auto mb-12 border-2 border-yellow-500/30 shadow-lg bg-gradient-to-br from-yellow-50 to-orange-50 dark:from-yellow-900/20 dark:to-orange-900/20">
+            <CardHeader className="text-center">
+              <div className="flex items-center justify-center gap-2 mb-2">
+                <Crown className="w-8 h-8 text-yellow-600" />
+                <CardTitle className="text-2xl text-yellow-700 dark:text-yellow-400">You're Premium!</CardTitle>
+              </div>
+              <CardDescription className="text-base text-gray-700 dark:text-gray-300">
+                You have unlimited sparks and access to all premium features. Want to switch plans?
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="text-center">
+                <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
+                  Current Plan: <span className="font-semibold capitalize">{couple?.subscriptionPlan}</span>
+                </p>
+                <Button
+                  onClick={() => navigate("/spark")}
+                  variant="outline"
+                  data-testid="button-back-to-spark"
+                >
+                  Back to Spark Button
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+        )}
 
-        {/* Pricing Toggle */}
+        {/* Trial Info Card (for trial users only) */}
+        {!isPremium && (
+          <Card className="max-w-3xl mx-auto mb-12 border-2 border-nexus-purple/20 shadow-lg">
+            <CardHeader className="text-center">
+              <div className="flex items-center justify-center gap-2 mb-2">
+                <Zap className="w-6 h-6 text-nexus-purple" />
+                <CardTitle className="text-2xl">Your Trial Is Active!</CardTitle>
+              </div>
+              <CardDescription className="text-base">
+                Enjoying Spark It? Here's what you're getting for free:
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="grid sm:grid-cols-2 gap-3">
+                {trialFeatures.map((feature, index) => (
+                  <div key={index} className="flex items-start gap-2">
+                    <Check className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
+                    <span className="text-sm text-gray-700 dark:text-gray-300">{feature}</span>
+                  </div>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+        )}
+
+        {/* Pricing Toggle (only for non-premium users) */}
+        {!isPremium && (
         <div className="flex justify-center mb-8">
           <div className="inline-flex rounded-lg border border-gray-200 dark:border-gray-700 p-1 bg-white dark:bg-gray-800">
             <button
@@ -229,8 +286,10 @@ export default function SparkitPricing() {
             </CardFooter>
           </Card>
         </div>
+        )}
 
-        {/* FAQ Section */}
+        {/* FAQ Section (only for non-premium users) */}
+        {!isPremium && (
         <div className="max-w-3xl mx-auto mt-16">
           <h2 className="text-2xl font-bold text-center mb-8">Frequently Asked Questions</h2>
           <div className="space-y-6">
@@ -257,6 +316,7 @@ export default function SparkitPricing() {
             </div>
           </div>
         </div>
+        )}
 
         {/* Back Button */}
         <div className="text-center mt-12">
