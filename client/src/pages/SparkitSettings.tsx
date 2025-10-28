@@ -207,12 +207,28 @@ export default function SparkitSettings() {
     },
   });
 
-  // Check notification permission status on mount
+  // Check notification permission and subscription status on mount
   useEffect(() => {
     const checkNotificationStatus = async () => {
-      if ('Notification' in window) {
+      if ('Notification' in window && 'serviceWorker' in navigator) {
         const permission = Notification.permission;
-        setNotificationsEnabled(permission === 'granted');
+        if (permission === 'granted') {
+          try {
+            // Get service worker registration directly to check subscription status
+            const registration = await navigator.serviceWorker.getRegistration();
+            if (registration) {
+              const subscription = await registration.pushManager.getSubscription();
+              setNotificationsEnabled(!!subscription);
+            } else {
+              setNotificationsEnabled(false);
+            }
+          } catch (error) {
+            console.error('Error checking subscription status:', error);
+            setNotificationsEnabled(false);
+          }
+        } else {
+          setNotificationsEnabled(false);
+        }
       }
       setCheckingNotifications(false);
     };
@@ -266,12 +282,23 @@ export default function SparkitSettings() {
   const handleDisableNotifications = async () => {
     try {
       const notifManager = NotificationManager.getInstance();
-      await notifManager.unsubscribe();
-      setNotificationsEnabled(false);
-      toast({
-        title: "Notifications disabled",
-        description: "You won't receive push notifications anymore.",
-      });
+      const success = await notifManager.unsubscribeFromPush();
+      
+      if (success) {
+        // Optionally disconnect websocket
+        notifManager.disconnect();
+        setNotificationsEnabled(false);
+        toast({
+          title: "Notifications disabled",
+          description: "You won't receive push notifications anymore.",
+        });
+      } else {
+        toast({
+          variant: "destructive",
+          title: "Error",
+          description: "Could not disable notifications. Please try again.",
+        });
+      }
     } catch (error) {
       console.error('Disable notifications error:', error);
       toast({
