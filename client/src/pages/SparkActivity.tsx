@@ -3,7 +3,7 @@ import { Sparkles, Clock, DollarSign, MapPin, Heart, Share2, Zap, Flame, ThumbsU
 import { useLocation } from "wouter";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { apiRequest, queryClient } from "@/lib/queryClient";
-import { getRandomActivity, type Activity } from "../data/activities";
+import { type Activity } from "../data/activities";
 import { AvatarDisplay } from "@/components/AvatarDisplay";
 import { useToast } from "@/hooks/use-toast";
 import type { SparkitCouple } from "@shared/schema";
@@ -38,11 +38,11 @@ export default function SparkActivity() {
     enabled: !!coupleId,
   });
 
-  // Get a random activity when component mounts or couple data changes
+  // Get activity from couple data (generated on backend)
   useEffect(() => {
-    if (couple) {
-      const newActivity = getRandomActivity(couple.relationshipType);
-      setActivity(newActivity);
+    if (couple && couple.currentActivityData) {
+      console.log('[Activity] Loading activity from couple data:', couple.currentActivityData);
+      setActivity(couple.currentActivityData as Activity);
     }
   }, [couple]);
 

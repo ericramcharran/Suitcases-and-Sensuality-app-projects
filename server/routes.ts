@@ -1711,12 +1711,18 @@ export async function registerRoutes(app: Express): Promise<Server> {
         });
       }
 
-      // Clear button press timestamps after spark is consumed
+      // Generate a random activity for this spark
+      const { getRandomActivity } = await import('../client/src/data/activities.js');
+      const activity = getRandomActivity(couple.relationshipType);
+      console.log(`[Use Spark] Generated activity: ${activity.title}`);
+
+      // Clear button press timestamps and store the activity after spark is consumed
       await storage.updateCouple(id, {
         partner1LastPressed: null as any,
-        partner2LastPressed: null as any
+        partner2LastPressed: null as any,
+        currentActivityData: activity as any
       });
-      console.log('[Use Spark] Cleared button press timestamps');
+      console.log('[Use Spark] Cleared button press timestamps and stored activity');
 
       // Send WebSocket message to BOTH partners to navigate to activity page
       const partner1Client = wsClients.get(`sparkit-${id}-partner1`);
