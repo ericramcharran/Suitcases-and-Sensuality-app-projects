@@ -1957,15 +1957,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         }
       }
 
-      // TODO: Push notifications for Spark It
-      // Push notifications require Spark It users to register subscriptions with composite IDs
-      // like "sparkit-{coupleId}-{partnerRole}". Currently only Executive Society users
-      // have push subscriptions. To enable this:
-      // 1. Add push notification subscription UI for Spark It users
-      // 2. Store subscriptions with the composite userId format
-      // 3. Uncomment the code below to send push notifications
-      
-      /*
+      // Send push notification to other partner
       const otherPartnerUserId = `sparkit-${id}-${otherPartner}`;
       try {
         const subscriptions = await storage.getPushSubscriptions(otherPartnerUserId);
@@ -2004,7 +1996,6 @@ export async function registerRoutes(app: Express): Promise<Server> {
       } catch (pushError) {
         console.error('[Button Press] Push notification error:', pushError);
       }
-      */
       
       console.log(`[Button Press] Response sent successfully`);
       res.json({ success: true });

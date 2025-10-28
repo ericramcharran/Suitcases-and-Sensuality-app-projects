@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
 import { queryClient, apiRequest } from "@/lib/queryClient";
-import { ArrowLeft, Save, User, Sparkles, Crown, Upload, Check, LogOut, MapPin } from "lucide-react";
+import { ArrowLeft, Save, User, Sparkles, Crown, Upload, Check, LogOut, MapPin, Bell, BellOff } from "lucide-react";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -15,6 +15,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { AVATAR_ICONS, getIconAvatarUrl, isIconAvatar, getIconIdFromUrl, type AvatarIcon } from "@/data/avatarIcons";
 import { AvatarUploader } from "@/components/AvatarUploader";
 import { AvatarDisplay } from "@/components/AvatarDisplay";
+import { NotificationManager } from "@/lib/notifications";
 import type { SparkitCouple } from "@shared/schema";
 
 export default function SparkitSettings() {
@@ -28,6 +29,8 @@ export default function SparkitSettings() {
   const [city, setCity] = useState("");
   const [state, setState] = useState("");
   const [selectedPartner, setSelectedPartner] = useState<"partner1" | "partner2">("partner1");
+  const [notificationsEnabled, setNotificationsEnabled] = useState(false);
+  const [checkingNotifications, setCheckingNotifications] = useState(true);
 
   // Check authentication via session
   const { data: authData } = useQuery<{ coupleId: string; partnerRole: string } | null>({
@@ -36,6 +39,7 @@ export default function SparkitSettings() {
   });
 
   const coupleId = authData?.coupleId ?? null;
+  const partnerRole = authData?.partnerRole ?? null;
 
   const { data: couple, isLoading } = useQuery<SparkitCouple>({
     queryKey: ["/api/sparkit/couples", coupleId],
@@ -202,6 +206,81 @@ export default function SparkitSettings() {
       });
     },
   });
+
+  // Check notification permission status on mount
+  useEffect(() => {
+    const checkNotificationStatus = async () => {
+      if ('Notification' in window) {
+        const permission = Notification.permission;
+        setNotificationsEnabled(permission === 'granted');
+      }
+      setCheckingNotifications(false);
+    };
+    
+    checkNotificationStatus();
+  }, []);
+
+  // Handle enabling push notifications
+  const handleEnableNotifications = async () => {
+    if (!coupleId || !partnerRole) {
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: "Could not enable notifications. Please try logging in again.",
+      });
+      return;
+    }
+
+    try {
+      const notifManager = NotificationManager.getInstance();
+      const userId = `sparkit-${coupleId}-${partnerRole}`;
+      
+      // Initialize and subscribe
+      await notifManager.initialize(userId);
+      const success = await notifManager.subscribeToPush(userId);
+      
+      if (success) {
+        setNotificationsEnabled(true);
+        toast({
+          title: "Notifications enabled!",
+          description: "You'll now receive alerts when your partner wants to spark!",
+        });
+      } else {
+        toast({
+          variant: "destructive",
+          title: "Notifications blocked",
+          description: "Please allow notifications in your browser settings.",
+        });
+      }
+    } catch (error) {
+      console.error('Enable notifications error:', error);
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: "Could not enable notifications. Please try again.",
+      });
+    }
+  };
+
+  // Handle disabling push notifications
+  const handleDisableNotifications = async () => {
+    try {
+      const notifManager = NotificationManager.getInstance();
+      await notifManager.unsubscribe();
+      setNotificationsEnabled(false);
+      toast({
+        title: "Notifications disabled",
+        description: "You won't receive push notifications anymore.",
+      });
+    } catch (error) {
+      console.error('Disable notifications error:', error);
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: "Could not disable notifications. Please try again.",
+      });
+    }
+  };
 
   if (!coupleId) {
     return (
@@ -475,6 +554,51 @@ export default function SparkitSettings() {
                 </>
               )}
             </Button>
+          </div>
+        </Card>
+
+        {/* Push Notifications Card */}
+        <Card className="p-6 mb-6">
+          <div className="flex items-center gap-3 mb-6">
+            <Bell className="w-5 h-5 text-nexus-purple" />
+            <h2 className="text-xl font-semibold">Push Notifications</h2>
+          </div>
+
+          <div className="space-y-6">
+            <p className="text-sm text-gray-600 dark:text-gray-400">
+              Get instant notifications when your partner presses the Spark It button
+            </p>
+
+            <div className="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
+              <div className="flex items-center gap-3">
+                {notificationsEnabled ? (
+                  <Bell className="w-5 h-5 text-green-500" />
+                ) : (
+                  <BellOff className="w-5 h-5 text-gray-400" />
+                )}
+                <div>
+                  <p className="font-medium">
+                    {notificationsEnabled ? "Notifications Enabled" : "Notifications Disabled"}
+                  </p>
+                  <p className="text-xs text-gray-500 dark:text-gray-400">
+                    {notificationsEnabled 
+                      ? "You'll receive alerts when your partner wants to spark"
+                      : "Enable to receive instant alerts"}
+                  </p>
+                </div>
+              </div>
+              
+              {!checkingNotifications && (
+                <Button
+                  onClick={notificationsEnabled ? handleDisableNotifications : handleEnableNotifications}
+                  variant={notificationsEnabled ? "outline" : "default"}
+                  className={notificationsEnabled ? "" : "bg-gradient-to-r from-nexus-purple to-nexus-red hover:opacity-90 transition-opacity"}
+                  data-testid={notificationsEnabled ? "button-disable-notifications" : "button-enable-notifications"}
+                >
+                  {notificationsEnabled ? "Disable" : "Enable"}
+                </Button>
+              )}
+            </div>
           </div>
         </Card>
 
