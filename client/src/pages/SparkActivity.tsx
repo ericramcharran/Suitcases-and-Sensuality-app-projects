@@ -691,7 +691,7 @@ export default function SparkActivity() {
               Get Another Spark
             </button>
             
-            {couple?.city && couple?.state && (
+            {couple?.city && couple?.state && import.meta.env.VITE_ENABLE_AI_ACTIVITIES === 'true' && (
               <button
                 onClick={() => getAiActivitiesMutation.mutate()}
                 disabled={getAiActivitiesMutation.isPending}

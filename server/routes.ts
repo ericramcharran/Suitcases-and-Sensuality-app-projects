@@ -1611,6 +1611,12 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Get AI-generated activities based on couple's location
   app.get("/api/sparkit/couples/:id/ai-activities", async (req, res) => {
     try {
+      // Check if AI activities feature is enabled
+      if (process.env.ENABLE_AI_ACTIVITIES !== 'true') {
+        console.log('[AI Activities] Feature is disabled');
+        return res.status(503).json({ error: "AI activities feature is currently disabled" });
+      }
+
       console.log(`[AI Activities] Request for couple ${req.params.id}`);
       const { id } = req.params;
       const couple = await storage.getCoupleById(id);
