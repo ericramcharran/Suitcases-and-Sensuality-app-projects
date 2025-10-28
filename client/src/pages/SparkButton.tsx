@@ -179,7 +179,13 @@ export default function SparkButton() {
   }, [myButtonPressed, partnerButtonPressed, couple, useSparkMutation.isPending]);
 
   const handleMyButtonPress = async () => {
-    if (!couple || (couple.sparksRemaining ?? 0) <= 0) {
+    if (!couple) return;
+    
+    // Check if user is premium (monthly or yearly subscription)
+    const isPremium = couple.subscriptionPlan === 'monthly' || couple.subscriptionPlan === 'yearly';
+    
+    // Only check spark limit for non-premium users (premium users have unlimited sparks)
+    if (!isPremium && (couple.sparksRemaining ?? 0) <= 0) {
       setLocation("/sparkit/pricing");
       return;
     }
