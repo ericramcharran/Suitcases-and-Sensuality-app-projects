@@ -62,7 +62,7 @@ Both applications utilize React 18+ with TypeScript, Vite for bundling, and Wout
 - **User Onboarding (The Executive Society):** Multi-step process including age/ID verification, legal agreement acceptance (Terms, Consent, Privacy, Guidelines) with digital signatures, background checks, email and phone verification, and role-specific flows (subscription, profile creation, personality/relationship assessments). Dominants undergo escrow/financial verification.
 - **Matching & Discovery (The Executive Society):** Sophisticated compatibility algorithm based on personality, relationship style, important traits, and kink compatibility. Features a Tinder-style card swiping interface with filtering options.
 - **Core Features (The Executive Society):** Email (Resend) & optional Phone (Twilio) verification, Digital Signatures, Email Notifications, Web Push Notifications, Real-Time Messaging (WebSocket-enabled chat), Device Permissions Manager, Travel Mode, Verified & Fully Funded Badge for Dominants, Custom Privacy-focused Profile Names.
-- **Spark It! Features:** Simultaneous button press with SMS notification alerts (when one partner presses, the other receives a text if phone number is saved), activity reveal with rating, winner selection, competitive scoreboard, spark counter with freemium/premium tiers, localStorage persistence, in-app video calling for long-distance couples, partner name customization through Settings page, avatar selection and custom upload (premium-only), AI-powered location-based activity discovery, SMS text messaging to send activities to partner.
+- **Spark It! Features:** Simultaneous button press with SMS and browser push notification alerts (when one partner presses, the other receives both a text message if phone number is saved AND a browser push notification if enabled), activity reveal with rating, winner selection, competitive scoreboard, spark counter with freemium/premium tiers, localStorage persistence, in-app video calling for long-distance couples, partner name customization through Settings page, avatar selection and custom upload (premium-only), AI-powered location-based activity discovery, SMS text messaging to send activities to partner.
 - **Spark It! Premium Subscription:** Stripe-powered subscription system with two tiers:
   - **Monthly Plan:** $6.99/month - Unlimited sparks, custom avatars, video calling access
   - **Yearly Plan:** $59.99/year - All monthly features at discounted rate
@@ -84,10 +84,11 @@ Both applications utilize React 18+ with TypeScript, Vite for bundling, and Wout
 
 **System Design Choices:**
 - Both applications share the same Express/Vite server infrastructure.
-- PostgreSQL database with Drizzle ORM for all persistent data (`sparkit_couples`, `sparkit_activity_ratings`, `sparkit_activity_results`, `sparkit_trivia_categories`, `sparkit_trivia_questions`, `sparkit_trivia_contests`, `sparkit_trivia_answers`, `sparkit_video_sessions`, `users` table for Executive Society).
+- PostgreSQL database with Drizzle ORM for all persistent data (`sparkit_couples`, `sparkit_activity_ratings`, `sparkit_activity_results`, `sparkit_trivia_categories`, `sparkit_trivia_questions`, `sparkit_trivia_contests`, `sparkit_trivia_answers`, `sparkit_video_sessions`, `users` table for Executive Society, `push_subscriptions` shared by both apps).
 - In-memory storage abstraction (`MemStorage`) for backend, designed for PostgreSQL migration.
 - `react-signature-canvas` for digital signatures.
-- VAPID and service worker for web push notifications.
+- VAPID and service worker for web push notifications (shared by both Executive Society and Spark It).
+- `push_subscriptions` table supports both Executive Society users (using user IDs) and Spark It couples (using composite IDs: `sparkit-{coupleId}-{partnerRole}`) - no foreign key constraint to allow flexibility.
 - Daily.co integration for video calling with @daily-co/daily-react SDK.
 
 **Spark It! Authentication & State Management:**
