@@ -168,40 +168,41 @@ export default function SparkitPricing() {
           </Card>
         )}
 
-        {/* Pricing Toggle (only for non-premium users) */}
+        {/* Pricing Toggle and Cards (only for non-premium users) */}
         {!isPremium && (
-        <div className="flex justify-center mb-8">
-          <div className="inline-flex rounded-lg border border-gray-200 dark:border-gray-700 p-1 bg-white dark:bg-gray-800">
-            <button
-              onClick={() => setSelectedPlan("monthly")}
-              className={`px-6 py-2 rounded-md text-sm font-medium transition-colors ${
-                selectedPlan === "monthly"
-                  ? "bg-gradient-to-r from-nexus-purple to-nexus-red text-white"
-                  : "text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200"
-              }`}
-              data-testid="button-monthly-plan"
-            >
-              Monthly
-            </button>
-            <button
-              onClick={() => setSelectedPlan("yearly")}
-              className={`px-6 py-2 rounded-md text-sm font-medium transition-colors relative ${
-                selectedPlan === "yearly"
-                  ? "bg-gradient-to-r from-nexus-purple to-nexus-red text-white"
-                  : "text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200"
-              }`}
-              data-testid="button-yearly-plan"
-            >
-              Yearly
-              <span className="absolute -top-2 -right-2 bg-green-500 text-white text-xs px-2 py-0.5 rounded-full">
-                Save $24
-              </span>
-            </button>
+        <>
+          <div className="flex justify-center mb-8">
+            <div className="inline-flex rounded-lg border border-gray-200 dark:border-gray-700 p-1 bg-white dark:bg-gray-800">
+              <button
+                onClick={() => setSelectedPlan("monthly")}
+                className={`px-6 py-2 rounded-md text-sm font-medium transition-colors ${
+                  selectedPlan === "monthly"
+                    ? "bg-gradient-to-r from-nexus-purple to-nexus-red text-white"
+                    : "text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200"
+                }`}
+                data-testid="button-monthly-plan"
+              >
+                Monthly
+              </button>
+              <button
+                onClick={() => setSelectedPlan("yearly")}
+                className={`px-6 py-2 rounded-md text-sm font-medium transition-colors relative ${
+                  selectedPlan === "yearly"
+                    ? "bg-gradient-to-r from-nexus-purple to-nexus-red text-white"
+                    : "text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200"
+                }`}
+                data-testid="button-yearly-plan"
+              >
+                Yearly
+                <span className="absolute -top-2 -right-2 bg-green-500 text-white text-xs px-2 py-0.5 rounded-full">
+                  Save $24
+                </span>
+              </button>
+            </div>
           </div>
-        </div>
 
-        {/* Pricing Cards */}
-        <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+          {/* Pricing Cards */}
+          <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
           {/* Monthly Plan */}
           <Card
             className={`relative transition-all ${
@@ -285,12 +286,10 @@ export default function SparkitPricing() {
               </Button>
             </CardFooter>
           </Card>
-        </div>
-        )}
+          </div>
 
-        {/* FAQ Section (only for non-premium users) */}
-        {!isPremium && (
-        <div className="max-w-3xl mx-auto mt-16">
+          {/* FAQ Section */}
+          <div className="max-w-3xl mx-auto mt-16">
           <h2 className="text-2xl font-bold text-center mb-8">Frequently Asked Questions</h2>
           <div className="space-y-6">
             <div>
@@ -315,7 +314,8 @@ export default function SparkitPricing() {
               </p>
             </div>
           </div>
-        </div>
+          </div>
+        </>
         )}
 
         {/* Back Button */}
