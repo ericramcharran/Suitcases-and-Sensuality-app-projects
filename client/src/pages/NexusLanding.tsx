@@ -90,7 +90,7 @@ export default function NexusLanding() {
       }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 'clamp(10px, 3vw, 15px)' }}>
           <div style={{ width: 'clamp(50px, 12vw, 65px)', height: 'clamp(50px, 12vw, 65px)' }}>
-            <AppIcon size={65} />
+            <AppIcon size={65} showShadow={false} />
           </div>
           <div>
             <h1 style={{ 

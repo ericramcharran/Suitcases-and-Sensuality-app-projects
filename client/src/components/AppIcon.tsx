@@ -1,9 +1,9 @@
-export default function AppIcon({ size = 300 }: { size?: number }) {
+export default function AppIcon({ size = 300, showShadow = false }: { size?: number; showShadow?: boolean }) {
   return (
     <img 
       src="/sparkit-logo.png" 
       alt="Spark It! Logo"
-      className="app-icon-unified" 
+      className={showShadow ? "app-icon-unified" : ""} 
       width={size} 
       height={size}
       style={{ 
