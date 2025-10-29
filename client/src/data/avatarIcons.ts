@@ -4,7 +4,6 @@ import {
   Coffee, 
   Pizza, 
   Apple,
-  Flame, 
   Star, 
   Moon, 
   Sun, 
@@ -97,10 +96,9 @@ export interface AvatarIcon {
 }
 
 export const AVATAR_ICONS: AvatarIcon[] = [
-  // Romantic (10)
+  // Romantic (9)
   { id: "heart", icon: Heart, label: "Heart", category: "romantic" },
   { id: "sparkles", icon: Sparkles, label: "Sparkles", category: "romantic" },
-  { id: "flame", icon: Flame, label: "Flame", category: "romantic" },
   { id: "star", icon: Star, label: "Star", category: "romantic" },
   { id: "moon", icon: Moon, label: "Moon", category: "romantic" },
   { id: "sun", icon: Sun, label: "Sun", category: "romantic" },
