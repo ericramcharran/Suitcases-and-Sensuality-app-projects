@@ -803,24 +803,7 @@ export default function SparkitSettings() {
                 <ScrollArea className="h-64 rounded-md border p-4">
                   <div className="grid grid-cols-6 gap-3">
                     {AVATAR_ICONS.map((icon) => {
-                      const IconComponent = icon.icon;
                       const isSelected = getCurrentAvatar("partner1") === getIconAvatarUrl(icon.id);
-                      
-                      // Assign fun colors based on category
-                      const iconColorClass = {
-                        romantic: "text-pink-500 dark:text-pink-400",
-                        food: "text-orange-500 dark:text-orange-400",
-                        adventure: "text-blue-500 dark:text-blue-400",
-                        entertainment: "text-purple-500 dark:text-purple-400",
-                        nature: "text-green-500 dark:text-green-400",
-                        animals: "text-amber-500 dark:text-amber-400",
-                        luxury: "text-yellow-500 dark:text-yellow-400",
-                        sports: "text-red-500 dark:text-red-400",
-                        hobbies: "text-indigo-500 dark:text-indigo-400",
-                        tech: "text-cyan-500 dark:text-cyan-400",
-                        travel: "text-teal-500 dark:text-teal-400",
-                        symbols: "text-gray-600 dark:text-gray-400",
-                      }[icon.category];
                       
                       return (
                         <button
@@ -835,7 +818,15 @@ export default function SparkitSettings() {
                           data-testid={`icon-avatar-${icon.id}`}
                           aria-label={icon.label}
                         >
-                          <IconComponent className={`w-6 h-6 mx-auto ${iconColorClass}`} />
+                          {icon.imagePath ? (
+                            <img 
+                              src={icon.imagePath} 
+                              alt={icon.label} 
+                              className="w-12 h-12 mx-auto object-contain rounded-md"
+                            />
+                          ) : icon.icon && (
+                            <icon.icon className="w-6 h-6 mx-auto" />
+                          )}
                           {isSelected && (
                             <div className="absolute -top-1 -right-1 bg-nexus-purple rounded-full p-0.5">
                               <Check className="w-3 h-3 text-white" />
@@ -890,24 +881,7 @@ export default function SparkitSettings() {
                 <ScrollArea className="h-64 rounded-md border p-4">
                   <div className="grid grid-cols-6 gap-3">
                     {AVATAR_ICONS.map((icon) => {
-                      const IconComponent = icon.icon;
                       const isSelected = getCurrentAvatar("partner2") === getIconAvatarUrl(icon.id);
-                      
-                      // Assign fun colors based on category
-                      const iconColorClass = {
-                        romantic: "text-pink-500 dark:text-pink-400",
-                        food: "text-orange-500 dark:text-orange-400",
-                        adventure: "text-blue-500 dark:text-blue-400",
-                        entertainment: "text-purple-500 dark:text-purple-400",
-                        nature: "text-green-500 dark:text-green-400",
-                        animals: "text-amber-500 dark:text-amber-400",
-                        luxury: "text-yellow-500 dark:text-yellow-400",
-                        sports: "text-red-500 dark:text-red-400",
-                        hobbies: "text-indigo-500 dark:text-indigo-400",
-                        tech: "text-cyan-500 dark:text-cyan-400",
-                        travel: "text-teal-500 dark:text-teal-400",
-                        symbols: "text-gray-600 dark:text-gray-400",
-                      }[icon.category];
                       
                       return (
                         <button
@@ -922,7 +896,15 @@ export default function SparkitSettings() {
                           data-testid={`icon-avatar-${icon.id}`}
                           aria-label={icon.label}
                         >
-                          <IconComponent className={`w-6 h-6 mx-auto ${iconColorClass}`} />
+                          {icon.imagePath ? (
+                            <img 
+                              src={icon.imagePath} 
+                              alt={icon.label} 
+                              className="w-12 h-12 mx-auto object-contain rounded-md"
+                            />
+                          ) : icon.icon && (
+                            <icon.icon className="w-6 h-6 mx-auto" />
+                          )}
                           {isSelected && (
                             <div className="absolute -top-1 -right-1 bg-nexus-purple rounded-full p-0.5">
                               <Check className="w-3 h-3 text-white" />
