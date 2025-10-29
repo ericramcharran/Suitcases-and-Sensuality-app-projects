@@ -79,7 +79,7 @@ export default function NexusLanding() {
         top: 0,
         left: 0,
         right: 0,
-        padding: '15px 20px',
+        padding: '12px 5vw',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'space-between',
@@ -88,23 +88,26 @@ export default function NexusLanding() {
         borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
         zIndex: 1000
       }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
-          <AppIcon size={50} />
+        <div style={{ display: 'flex', alignItems: 'center', gap: 'clamp(10px, 3vw, 15px)' }}>
+          <div style={{ width: 'clamp(50px, 12vw, 65px)', height: 'clamp(50px, 12vw, 65px)' }}>
+            <AppIcon size={65} />
+          </div>
           <div>
             <h1 style={{ 
-              fontSize: '1.8em', 
+              fontSize: 'clamp(1.2em, 4vw, 1.8em)', 
               fontWeight: '800',
               background: 'var(--nexus-gradient-full)',
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent',
               backgroundClip: 'text',
               margin: 0,
-              letterSpacing: '-0.5px'
+              letterSpacing: '-0.5px',
+              whiteSpace: 'nowrap'
             }}>
               Spark It!
             </h1>
             <p style={{
-              fontSize: '0.9em',
+              fontSize: 'clamp(0.7em, 2.5vw, 0.9em)',
               color: 'rgba(255, 255, 255, 0.8)',
               margin: 0,
               marginTop: '2px'

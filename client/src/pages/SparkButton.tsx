@@ -362,7 +362,7 @@ export default function SparkButton() {
     <div className="nexus-app" data-testid="spark-button-page">
       {/* Header - Mobile Responsive */}
       <div style={{ 
-        padding: '15px', 
+        padding: '12px 4vw', 
         borderBottom: '1px solid rgba(255,255,255,0.1)'
       }}>
         {/* Top row: Logo, Avatars, and Premium Badge */}
@@ -375,19 +375,24 @@ export default function SparkButton() {
           gap: '10px'
         }}>
           {/* Logo */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 'clamp(6px, 2vw, 10px)' }}>
             <img 
               src="/sparkit-logo.png" 
               alt="Spark It!"
-              style={{ width: '40px', height: '40px', objectFit: 'contain' }}
+              style={{ 
+                width: 'clamp(40px, 10vw, 52px)', 
+                height: 'clamp(40px, 10vw, 52px)', 
+                objectFit: 'contain' 
+              }}
             />
             <h2 style={{ 
-              fontSize: '1.2em', 
+              fontSize: 'clamp(1em, 3.5vw, 1.3em)', 
               background: 'var(--nexus-gradient-full)',
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent',
               backgroundClip: 'text',
-              margin: 0
+              margin: 0,
+              whiteSpace: 'nowrap'
             }}>
               Spark It!
             </h2>
