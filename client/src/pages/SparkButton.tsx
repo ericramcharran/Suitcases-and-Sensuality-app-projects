@@ -827,16 +827,37 @@ export default function SparkButton() {
                   ) : myButtonPressed ? (
                     <Check size={80} />
                   ) : (
-                    <img 
-                      src="/sparkit-button-icon.png" 
-                      alt="Lightning"
-                      style={{ 
-                        width: '140px', 
-                        height: '140px',
-                        objectFit: 'contain',
-                        filter: 'drop-shadow(0 4px 12px rgba(255, 255, 255, 0.3))',
-                      }}
-                    />
+                    <div style={{ position: 'relative' }}>
+                      <Zap 
+                        size={100} 
+                        fill="white"
+                        stroke="white"
+                        strokeWidth={2}
+                        style={{
+                          filter: 'drop-shadow(0 0 20px rgba(255, 255, 255, 0.8)) drop-shadow(0 0 40px rgba(255, 215, 0, 0.6))',
+                        }}
+                      />
+                      <Sparkles 
+                        size={24} 
+                        style={{ 
+                          position: 'absolute', 
+                          top: '-10px', 
+                          right: '-10px',
+                          color: '#FFD700',
+                          filter: 'drop-shadow(0 0 8px rgba(255, 215, 0, 0.8))',
+                        }} 
+                      />
+                      <Sparkles 
+                        size={20} 
+                        style={{ 
+                          position: 'absolute', 
+                          bottom: '10px', 
+                          left: '-8px',
+                          color: '#FFA500',
+                          filter: 'drop-shadow(0 0 8px rgba(255, 165, 0, 0.8))',
+                        }} 
+                      />
+                    </div>
                   )}
                   <span style={{ fontSize: '0.55em', letterSpacing: '3px' }}>
                     {bothPressed ? 'SPARK!' : myButtonPressed ? 'READY!' : 'PRESS'}
