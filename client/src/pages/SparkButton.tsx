@@ -105,6 +105,14 @@ export default function SparkButton() {
     const myPressTime = partnerRole === 'partner1' ? couple.partner1LastPressed : couple.partner2LastPressed;
     const fiveMinutes = 5 * 60 * 1000;
 
+    // If both timestamps are null, ensure buttons are fully reset
+    if (!partnerPressTime && !myPressTime) {
+      console.log('[Button State] Both timestamps null - resetting all button states');
+      setPartnerButtonPressed(false);
+      setMyButtonPressed(false);
+      return;
+    }
+
     // Check if partner pressed within last 5 minutes
     if (partnerPressTime) {
       const timeSincePress = Date.now() - new Date(partnerPressTime).getTime();
