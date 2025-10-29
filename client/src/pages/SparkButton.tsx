@@ -73,6 +73,8 @@ export default function SparkButton() {
           console.log('[WebSocket] Spark used - navigating to activity page');
           const navigateTo = message.data.navigateTo;
           if (navigateTo) {
+            // Invalidate cache before navigating so we get fresh activity data
+            queryClient.invalidateQueries({ queryKey: ["/api/sparkit/couples", coupleId] });
             setLocation(navigateTo);
           }
         }
