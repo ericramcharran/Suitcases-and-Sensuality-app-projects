@@ -374,28 +374,42 @@ export default function SparkButton() {
           flexWrap: 'wrap',
           gap: '10px'
         }}>
-          {/* Logo */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: 'clamp(6px, 2vw, 10px)' }}>
+          {/* Logo and Tagline */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: 'clamp(8px, 2.5vw, 12px)' }}>
             <img 
               src="/sparkit-logo.png" 
               alt="Spark It!"
               style={{ 
-                width: 'clamp(40px, 10vw, 52px)', 
-                height: 'clamp(40px, 10vw, 52px)', 
-                objectFit: 'contain' 
+                width: 'clamp(45px, 11vw, 60px)', 
+                height: 'clamp(45px, 11vw, 60px)', 
+                objectFit: 'contain',
+                flexShrink: 0
               }}
             />
-            <h2 style={{ 
-              fontSize: 'clamp(1em, 3.5vw, 1.3em)', 
-              background: 'var(--nexus-gradient-full)',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-              backgroundClip: 'text',
-              margin: 0,
-              whiteSpace: 'nowrap'
-            }}>
-              Spark It!
-            </h2>
+            <div style={{ minWidth: 0 }}>
+              <h2 style={{ 
+                fontSize: 'clamp(1.1em, 4vw, 1.4em)',
+                fontWeight: '800',
+                background: 'var(--nexus-gradient-full)',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+                backgroundClip: 'text',
+                margin: 0,
+                whiteSpace: 'nowrap',
+                letterSpacing: '-0.3px'
+              }}>
+                Spark It!
+              </h2>
+              <p style={{
+                fontSize: 'clamp(0.65em, 2.2vw, 0.75em)',
+                color: 'rgba(255, 255, 255, 0.7)',
+                margin: 0,
+                marginTop: '2px',
+                whiteSpace: 'nowrap'
+              }}>
+                Stop Scrolling. Start Connecting.
+              </p>
+            </div>
           </div>
 
           {/* Avatars and Premium Badge */}
