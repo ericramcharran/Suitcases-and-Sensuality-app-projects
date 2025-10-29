@@ -822,7 +822,22 @@ export default function SparkButton() {
                     pointerEvents: sparksRemaining === 0 && !isPremium ? 'none' : 'auto',
                   }}
                 >
-                  {bothPressed ? <Sparkles size={80} /> : myButtonPressed ? <Check size={80} /> : <Zap size={80} />}
+                  {bothPressed ? (
+                    <Sparkles size={80} />
+                  ) : myButtonPressed ? (
+                    <Check size={80} />
+                  ) : (
+                    <img 
+                      src="/sparkit-button-icon.png" 
+                      alt="Lightning"
+                      style={{ 
+                        width: '140px', 
+                        height: '140px',
+                        objectFit: 'contain',
+                        filter: 'drop-shadow(0 4px 12px rgba(255, 255, 255, 0.3))',
+                      }}
+                    />
+                  )}
                   <span style={{ fontSize: '0.55em', letterSpacing: '3px' }}>
                     {bothPressed ? 'SPARK!' : myButtonPressed ? 'READY!' : 'PRESS'}
                   </span>
