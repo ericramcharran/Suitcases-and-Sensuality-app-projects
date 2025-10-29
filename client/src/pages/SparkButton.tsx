@@ -358,17 +358,21 @@ export default function SparkButton() {
 
   return (
     <div className="nexus-app" data-testid="spark-button-page">
-      {/* Header */}
+      {/* Header - Mobile Responsive */}
       <div style={{ 
-        padding: '20px', 
-        display: 'flex', 
-        justifyContent: 'space-between', 
-        alignItems: 'center',
+        padding: '15px', 
         borderBottom: '1px solid rgba(255,255,255,0.1)'
       }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
+        {/* Top row: Avatars and Title */}
+        <div style={{ 
+          display: 'flex', 
+          alignItems: 'center', 
+          justifyContent: 'center',
+          gap: '10px',
+          marginBottom: '10px'
+        }}>
           {/* Avatars */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
             <AvatarDisplay 
               avatarUrl={couple.partner1AvatarUrl} 
               size="md" 
@@ -386,48 +390,57 @@ export default function SparkButton() {
             )}
           </div>
           
-          {/* Title and names */}
-          <div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-              <h2 style={{ 
-                fontSize: '1.5em', 
-                background: 'var(--nexus-gradient-full)',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-                backgroundClip: 'text'
-              }}>
-                Spark It!
-              </h2>
-              {isPremium && (
-                <div style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '5px',
-                  padding: '4px 12px',
-                  background: 'linear-gradient(135deg, #FFD700 0%, #FFA500 100%)',
-                  borderRadius: '20px',
-                  fontSize: '0.75em',
-                  fontWeight: 'bold',
-                  color: '#000',
-                }} data-testid="badge-premium">
-                  <Crown size={14} />
-                  PREMIUM
-                </div>
-              )}
-            </div>
-            <p style={{ fontSize: '0.9em', color: 'rgba(255,255,255,0.6)', marginTop: '5px' }}>
-              {couple.partner1Name} {couple.partner2Name ? `& ${couple.partner2Name}` : '(waiting for partner)'}
-            </p>
+          {/* Title */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap', justifyContent: 'center' }}>
+            <h2 style={{ 
+              fontSize: '1.3em', 
+              background: 'var(--nexus-gradient-full)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              backgroundClip: 'text',
+              margin: 0
+            }}>
+              Spark It!
+            </h2>
+            {isPremium && (
+              <div style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '4px',
+                padding: '3px 10px',
+                background: 'linear-gradient(135deg, #FFD700 0%, #FFA500 100%)',
+                borderRadius: '15px',
+                fontSize: '0.7em',
+                fontWeight: 'bold',
+                color: '#000',
+              }} data-testid="badge-premium">
+                <Crown size={12} />
+                PREMIUM
+              </div>
+            )}
           </div>
         </div>
-        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '5px' }}>
+
+        {/* Names */}
+        <p style={{ 
+          fontSize: '0.85em', 
+          color: 'rgba(255,255,255,0.6)', 
+          textAlign: 'center',
+          margin: '0 0 10px 0'
+        }}>
+          {couple.partner1Name} {couple.partner2Name ? `& ${couple.partner2Name}` : '(waiting for partner)'}
+        </p>
+
+        {/* Sparks counter */}
+        <div style={{ textAlign: 'center' }}>
           <div data-testid="sparks-remaining" style={{ 
-            display: 'flex', 
+            display: 'inline-flex', 
             alignItems: 'center', 
-            gap: '10px',
-            color: sparksRemaining === 0 && !isPremium ? '#e74c3c' : 'rgba(255,255,255,0.8)'
+            gap: '8px',
+            color: sparksRemaining === 0 && !isPremium ? '#e74c3c' : 'rgba(255,255,255,0.8)',
+            fontSize: '0.9em'
           }}>
-            <Zap size={20} color="#e74c3c" />
+            <Zap size={18} color="#e74c3c" />
             <span>
               {isPremium 
                 ? 'Unlimited Sparks' 
@@ -438,7 +451,7 @@ export default function SparkButton() {
             </span>
           </div>
           {isOnTrial && couple.partner2JoinedAt && (
-            <div style={{ fontSize: '0.85em', color: 'rgba(255,255,255,0.5)' }} data-testid="trial-status">
+            <div style={{ fontSize: '0.75em', color: 'rgba(255,255,255,0.5)', marginTop: '5px' }} data-testid="trial-status">
               Trial: {trialSparksUsed}/10 sparks used • {trialDaysRemaining} days left
             </div>
           )}
