@@ -88,18 +88,30 @@ export default function NexusLanding() {
         borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
         zIndex: 1000
       }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
           <AppIcon size={50} />
-          <h2 style={{ 
-            fontSize: '1.5em', 
-            background: 'var(--nexus-gradient-full)',
-            WebkitBackgroundClip: 'text',
-            WebkitTextFillColor: 'transparent',
-            backgroundClip: 'text',
-            margin: 0
-          }}>
-            Spark It!
-          </h2>
+          <div>
+            <h1 style={{ 
+              fontSize: '1.8em', 
+              fontWeight: '800',
+              background: 'var(--nexus-gradient-full)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              backgroundClip: 'text',
+              margin: 0,
+              letterSpacing: '-0.5px'
+            }}>
+              Spark It!
+            </h1>
+            <p style={{
+              fontSize: '0.9em',
+              color: 'rgba(255, 255, 255, 0.8)',
+              margin: 0,
+              marginTop: '2px'
+            }}>
+              Stop Scrolling. Start Connecting.
+            </p>
+          </div>
         </div>
         <button 
           onClick={handleLogin}
@@ -123,9 +135,7 @@ export default function NexusLanding() {
       {/* Hero Section - No animation, always visible */}
       <section className="hero" style={{ paddingTop: '100px' }}>
         <div className="hero-content">
-          <h1>Spark It!</h1>
-          <p className="hero-tagline">Stop Scrolling. Start Connecting.</p>
-          <p className="hero-subtext">
+          <p className="hero-subtext" style={{ fontSize: '1.3em', marginBottom: '30px' }}>
             Press the button together. One instant activity appears. Zero menus. Zero scrolling. Just spark and go.
           </p>
           <button 
