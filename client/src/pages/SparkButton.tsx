@@ -365,37 +365,24 @@ export default function SparkButton() {
         padding: '15px', 
         borderBottom: '1px solid rgba(255,255,255,0.1)'
       }}>
-        {/* Top row: Avatars and Title */}
+        {/* Top row: Logo, Avatars, and Premium Badge */}
         <div style={{ 
           display: 'flex', 
           alignItems: 'center', 
-          justifyContent: 'center',
-          gap: '10px',
-          marginBottom: '10px'
+          justifyContent: 'space-between',
+          marginBottom: '10px',
+          flexWrap: 'wrap',
+          gap: '10px'
         }}>
-          {/* Avatars */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-            <AvatarDisplay 
-              avatarUrl={couple.partner1AvatarUrl} 
-              size="md" 
-              data-testid="avatar-partner1"
+          {/* Logo */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <img 
+              src="/sparkit-logo.png" 
+              alt="Spark It!"
+              style={{ width: '40px', height: '40px', objectFit: 'contain' }}
             />
-            {couple.partner2Name && (
-              <>
-                <span style={{ color: 'rgba(255,255,255,0.4)', fontSize: '1.2em' }}>&</span>
-                <AvatarDisplay 
-                  avatarUrl={couple.partner2AvatarUrl} 
-                  size="md" 
-                  data-testid="avatar-partner2"
-                />
-              </>
-            )}
-          </div>
-          
-          {/* Title */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap', justifyContent: 'center' }}>
             <h2 style={{ 
-              fontSize: '1.3em', 
+              fontSize: '1.2em', 
               background: 'var(--nexus-gradient-full)',
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent',
@@ -404,6 +391,27 @@ export default function SparkButton() {
             }}>
               Spark It!
             </h2>
+          </div>
+
+          {/* Avatars and Premium Badge */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+              <AvatarDisplay 
+                avatarUrl={couple.partner1AvatarUrl} 
+                size="md" 
+                data-testid="avatar-partner1"
+              />
+              {couple.partner2Name && (
+                <>
+                  <span style={{ color: 'rgba(255,255,255,0.4)', fontSize: '1em' }}>&</span>
+                  <AvatarDisplay 
+                    avatarUrl={couple.partner2AvatarUrl} 
+                    size="md" 
+                    data-testid="avatar-partner2"
+                  />
+                </>
+              )}
+            </div>
             {isPremium && (
               <div style={{
                 display: 'flex',

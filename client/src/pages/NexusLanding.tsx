@@ -73,12 +73,56 @@ export default function NexusLanding() {
 
   return (
     <div className="nexus-app" data-testid="nexus-landing">
+      {/* Header with Logo */}
+      <header style={{
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        right: 0,
+        padding: '15px 20px',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        background: 'rgba(10, 10, 10, 0.9)',
+        backdropFilter: 'blur(10px)',
+        borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
+        zIndex: 1000
+      }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+          <AppIcon size={50} />
+          <h2 style={{ 
+            fontSize: '1.5em', 
+            background: 'var(--nexus-gradient-full)',
+            WebkitBackgroundClip: 'text',
+            WebkitTextFillColor: 'transparent',
+            backgroundClip: 'text',
+            margin: 0
+          }}>
+            Spark It!
+          </h2>
+        </div>
+        <button 
+          onClick={handleLogin}
+          className="login-link"
+          data-testid="button-header-login"
+          style={{
+            background: 'rgba(102, 126, 234, 0.2)',
+            border: '2px solid #667eea',
+            borderRadius: '25px',
+            padding: '8px 20px',
+            color: 'white',
+            cursor: 'pointer',
+            fontSize: '0.95em',
+            fontWeight: '600'
+          }}
+        >
+          Login
+        </button>
+      </header>
+
       {/* Hero Section - No animation, always visible */}
-      <section className="hero">
+      <section className="hero" style={{ paddingTop: '100px' }}>
         <div className="hero-content">
-          <div className="icon-container" style={{ marginBottom: '40px' }}>
-            <AppIcon size={300} />
-          </div>
           <h1>Spark It!</h1>
           <p className="hero-tagline">Stop Scrolling. Start Connecting.</p>
           <p className="hero-subtext">
