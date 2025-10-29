@@ -8,6 +8,8 @@ This Replit project contains two distinct applications: "The Executive Society" 
 
 **Spark It!** is a couples activity app designed to combat decision fatigue. It offers a unique simultaneous button press mechanic where both partners press a button together to receive a single, instant activity suggestion. The business model is freemium (10 total sparks OR 7 days trial, whichever comes first) with premium subscriptions (Monthly: $6.99, Yearly: $59.99). Key features include activity suggestions, trivia challenges, and competitive scoreboard.
 
+**Branding:** The official Spark It! logo is a vibrant lightning bolt with purple-to-red gradient background (`/sparkit-logo.png`), used throughout the app including landing page, PWA icons, and notifications.
+
 ## Project Navigation
 
 **Development Mode Project Selector (Root URL: /)**
