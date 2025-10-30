@@ -1,5 +1,7 @@
 import express, { type Request, Response, NextFunction } from "express";
 import session from "express-session";
+import connectPgSimple from "connect-pg-simple";
+import { db } from "../db";
 import { registerRoutes } from "./routes";
 import { setupVite, serveStatic, log } from "./vite";
 
@@ -7,15 +9,26 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-// Configure session middleware
+// Configure PostgreSQL session store for persistent login across server restarts
+const PgSession = connectPgSimple(session);
+
+// Configure session middleware with PostgreSQL store
 app.use(session({
+  store: new PgSession({
+    conObject: {
+      connectionString: process.env.DATABASE_URL,
+      ssl: process.env.NODE_ENV === 'production' ? { rejectUnauthorized: false } : false
+    },
+    tableName: 'session', // Table name for storing sessions
+    createTableIfMissing: true // Automatically create the session table
+  }),
   secret: process.env.SESSION_SECRET || 'spark-it-secret-key-change-in-production',
   resave: false,
   saveUninitialized: false,
   cookie: {
     secure: process.env.NODE_ENV === 'production',
     httpOnly: true,
-    maxAge: 1000 * 60 * 60 * 24 * 30 // 30 days
+    maxAge: 1000 * 60 * 60 * 24 * 30 // 30 days - users stay logged in for 30 days
   }
 }));
 
