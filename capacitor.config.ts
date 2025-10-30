@@ -3,7 +3,7 @@ import type { CapacitorConfig } from '@capacitor/cli';
 const config: CapacitorConfig = {
   appId: 'com.sparkit.app',
   appName: 'Spark It!',
-  webDir: 'dist',
+  webDir: 'dist/public',
   server: {
     androidScheme: 'https',
     // Allow localhost for testing
