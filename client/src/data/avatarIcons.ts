@@ -35,7 +35,7 @@ export const AVATAR_ICONS: AvatarIcon[] = [
   { id: "popcorn", imagePath: "/avatars/3D_popcorn_avatar_d513df55.png", label: "Popcorn", category: "food" },
   { id: "sundae", imagePath: "/avatars/3D_sundae_avatar_be83a2a4.png", label: "Ice Cream Sundae", category: "food" },
 
-  // Animals (8 total)
+  // Animals (18 total)
   { id: "cat", imagePath: "/avatars/3D_cute_cat_avatar_8d921e25.png", label: "Cat", category: "animals" },
   { id: "dog", imagePath: "/avatars/3D_cute_dog_avatar_aa8865b3.png", label: "Dog", category: "animals" },
   { id: "penguin", imagePath: "/avatars/3D_penguin_avatar_8a02eec0.png", label: "Penguin", category: "animals" },
@@ -44,6 +44,16 @@ export const AVATAR_ICONS: AvatarIcon[] = [
   { id: "panda", imagePath: "/avatars/3D_panda_avatar_59141725.png", label: "Panda", category: "animals" },
   { id: "teddy-bear", imagePath: "/avatars/3D_teddy_bear_avatar_9d1591cf.png", label: "Teddy Bear", category: "animals" },
   { id: "butterfly", imagePath: "/avatars/3D_butterfly_avatar_089a59e1.png", label: "Butterfly", category: "animals" },
+  { id: "bunny", imagePath: "/avatars/Cute_bunny_avatar_9b93236b.png", label: "Bunny", category: "animals" },
+  { id: "koala", imagePath: "/avatars/Cute_koala_avatar_c061b6e8.png", label: "Koala", category: "animals" },
+  { id: "elephant", imagePath: "/avatars/Cute_elephant_avatar_8afb8182.png", label: "Elephant", category: "animals" },
+  { id: "giraffe", imagePath: "/avatars/Cute_giraffe_avatar_d2ac3ce6.png", label: "Giraffe", category: "animals" },
+  { id: "sloth", imagePath: "/avatars/Cute_sloth_avatar_30e153f2.png", label: "Sloth", category: "animals" },
+  { id: "llama", imagePath: "/avatars/Cute_llama_avatar_ba45e826.png", label: "Llama", category: "animals" },
+  { id: "unicorn", imagePath: "/avatars/Cute_unicorn_avatar_150fceb5.png", label: "Unicorn", category: "animals" },
+  { id: "dinosaur", imagePath: "/avatars/Cute_dinosaur_avatar_cac83cc3.png", label: "Dinosaur", category: "animals" },
+  { id: "dolphin", imagePath: "/avatars/Cute_dolphin_avatar_fe494945.png", label: "Dolphin", category: "animals" },
+  { id: "monkey", imagePath: "/avatars/Cute_monkey_avatar_80d6df4f.png", label: "Monkey", category: "animals" },
 
   // Nature (7 total)
   { id: "palmtree", imagePath: "/avatars/3D_palm_tree_avatar_eb2f5b3a.png", label: "Palm Tree", category: "nature" },
