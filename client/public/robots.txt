@@ -1,0 +1,38 @@
+# Spark It! - Robots.txt
+# Allow all search engines to crawl
+
+User-agent: *
+Allow: /
+
+# Disallow authenticated pages (after login)
+Disallow: /spark
+Disallow: /scoreboard
+Disallow: /sparkit/settings
+Disallow: /sparkit/trivia/*
+Disallow: /api/
+
+# Allow landing, login, signup, join pages
+Allow: /sparkit
+Allow: /sparkit/login
+Allow: /sparkit/signup
+Allow: /sparkit/join
+Allow: /sparkit/premium
+
+# Sitemap
+Sitemap: https://sparkit.app/sitemap.xml
+
+# Crawl-delay for respectful crawling
+Crawl-delay: 1
+
+# Specific bot rules
+User-agent: Googlebot
+Allow: /
+
+User-agent: Googlebot-Mobile
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: Slurp
+Allow: /

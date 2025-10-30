@@ -10,6 +10,15 @@ This Replit project contains two distinct applications: "The Executive Society" 
 
 **Branding:** The official Spark It! logo is a vibrant lightning bolt with purple-to-red gradient background (`/sparkit-logo.png`), used throughout the app including landing page, PWA icons, and notifications.
 
+**SEO Optimization (October 2025):**
+- **Meta Tags:** Comprehensive SEO meta tags in `client/index.html` including title, description, keywords, Open Graph, Twitter Cards, and Schema.org structured data
+- **Target Keywords:** couples app, relationship app, date night ideas, activities for couples, decision fatigue, long distance relationship app, couple games, romantic date ideas, quality time together
+- **Search Discovery:** Optimized for "apps for couples 2025", "couples activity app", "date night app", "relationship games", and 40+ related search terms
+- **Sitemap:** `client/public/sitemap.xml` for search engine crawling (landing, login, signup, join, premium pages)
+- **Robots.txt:** `client/public/robots.txt` allows indexing of public pages, blocks authenticated pages, guides crawlers
+- **Rich Results:** Schema.org MobileApplication structured data enables rich search results with ratings, pricing, and app category
+- **Social Sharing:** Open Graph and Twitter Card tags optimize appearance when shared on Facebook, Twitter, LinkedIn, etc.
+
 ## Project Navigation
 
 **Development Mode Project Selector (Root URL: /)**
