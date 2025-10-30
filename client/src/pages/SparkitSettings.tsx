@@ -800,8 +800,8 @@ export default function SparkitSettings() {
               {/* Icon Gallery */}
               <div className="space-y-3">
                 <Label className="text-sm font-medium">Choose an Icon</Label>
-                <ScrollArea className="h-64 rounded-md border p-4">
-                  <div className="grid grid-cols-6 gap-3">
+                <ScrollArea className="h-80 rounded-md border p-4">
+                  <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-4">
                     {AVATAR_ICONS.map((icon) => {
                       const isSelected = getCurrentAvatar("partner1") === getIconAvatarUrl(icon.id);
                       
@@ -811,7 +811,7 @@ export default function SparkitSettings() {
                           onClick={() => handleSelectIconAvatar(icon.id)}
                           disabled={updateAvatarMutation.isPending}
                           className={`
-                            relative p-3 rounded-md border-2 transition-all hover-elevate active-elevate-2
+                            relative p-4 rounded-md border-2 transition-all hover-elevate active-elevate-2
                             ${isSelected ? "border-nexus-purple bg-nexus-purple/10" : "border-gray-200 dark:border-gray-700"}
                             disabled:opacity-50 disabled:cursor-not-allowed
                           `}
@@ -822,10 +822,10 @@ export default function SparkitSettings() {
                             <img 
                               src={icon.imagePath} 
                               alt={icon.label} 
-                              className="w-12 h-12 mx-auto object-contain rounded-md"
+                              className="w-16 h-16 sm:w-20 sm:h-20 mx-auto object-contain rounded-md"
                             />
                           ) : icon.icon && (
-                            <icon.icon className="w-6 h-6 mx-auto" />
+                            <icon.icon className="w-8 h-8 sm:w-10 sm:h-10 mx-auto" />
                           )}
                           {isSelected && (
                             <div className="absolute -top-1 -right-1 bg-nexus-purple rounded-full p-0.5">
@@ -878,8 +878,8 @@ export default function SparkitSettings() {
               {/* Icon Gallery */}
               <div className="space-y-3">
                 <Label className="text-sm font-medium">Choose an Icon</Label>
-                <ScrollArea className="h-64 rounded-md border p-4">
-                  <div className="grid grid-cols-6 gap-3">
+                <ScrollArea className="h-80 rounded-md border p-4">
+                  <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-4">
                     {AVATAR_ICONS.map((icon) => {
                       const isSelected = getCurrentAvatar("partner2") === getIconAvatarUrl(icon.id);
                       
@@ -889,7 +889,7 @@ export default function SparkitSettings() {
                           onClick={() => handleSelectIconAvatar(icon.id)}
                           disabled={updateAvatarMutation.isPending}
                           className={`
-                            relative p-3 rounded-md border-2 transition-all hover-elevate active-elevate-2
+                            relative p-4 rounded-md border-2 transition-all hover-elevate active-elevate-2
                             ${isSelected ? "border-nexus-purple bg-nexus-purple/10" : "border-gray-200 dark:border-gray-700"}
                             disabled:opacity-50 disabled:cursor-not-allowed
                           `}
@@ -900,10 +900,10 @@ export default function SparkitSettings() {
                             <img 
                               src={icon.imagePath} 
                               alt={icon.label} 
-                              className="w-12 h-12 mx-auto object-contain rounded-md"
+                              className="w-16 h-16 sm:w-20 sm:h-20 mx-auto object-contain rounded-md"
                             />
                           ) : icon.icon && (
-                            <icon.icon className="w-6 h-6 mx-auto" />
+                            <icon.icon className="w-8 h-8 sm:w-10 sm:h-10 mx-auto" />
                           )}
                           {isSelected && (
                             <div className="absolute -top-1 -right-1 bg-nexus-purple rounded-full p-0.5">
