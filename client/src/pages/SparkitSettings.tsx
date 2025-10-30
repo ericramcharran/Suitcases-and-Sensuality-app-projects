@@ -182,6 +182,18 @@ export default function SparkitSettings() {
 
   const logoutMutation = useMutation({
     mutationFn: async () => {
+      // Unsubscribe from push notifications before logging out
+      // This prevents notifications from being sent to the wrong user on shared devices
+      try {
+        const notifManager = NotificationManager.getInstance();
+        await notifManager.unsubscribeFromPush();
+        notifManager.disconnect();
+        console.log('[Logout] Successfully unsubscribed from push notifications');
+      } catch (error) {
+        console.error('[Logout] Failed to unsubscribe from push:', error);
+        // Continue with logout even if unsubscribe fails
+      }
+
       const res = await apiRequest("POST", "/api/sparkit/auth/logout", {});
       if (!res.ok) {
         throw new Error("Logout failed");
