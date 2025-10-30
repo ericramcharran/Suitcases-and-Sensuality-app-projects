@@ -6,12 +6,12 @@
     <!-- Mobile Viewport Configuration -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
     
-    <!-- App Title and Description -->
-    <title>Spark It! - Couples Activity App | Beat Decision Fatigue Together</title>
-    <meta name="description" content="The revolutionary couples app that defeats decision fatigue. Press the button together for instant date night ideas and activities. No scrolling, no menus - just spark and connect. Perfect for relationships, long-distance couples, and quality time." />
+    <!-- App Title and Description - Dynamically Updated by Route -->
+    <title id="page-title">Multi-App Platform</title>
+    <meta id="page-description" name="description" content="Modern web applications for relationships and connections." />
     
-    <!-- SEO Keywords -->
-    <meta name="keywords" content="couples app, relationship app, date night ideas, activities for couples, couples games, decision fatigue, relationship activities, apps for couples, long distance relationship app, couple activities, romantic date ideas, date night app, couples planner, relationship games, quality time together, couple date ideas, instant activity suggestions, spontaneous date ideas, relationship connection, couples challenge" />
+    <!-- SEO Keywords - Dynamically Updated -->
+    <meta id="page-keywords" name="keywords" content="relationship apps, dating apps, couples apps, connection" />
     
     <!-- Author & Copyright -->
     <meta name="author" content="Spark It!" />
@@ -19,22 +19,22 @@
     <meta name="robots" content="index, follow" />
     <meta name="language" content="English" />
     
-    <!-- Open Graph / Facebook -->
+    <!-- Open Graph / Facebook - Dynamically Updated -->
     <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://sparkit.app/" />
-    <meta property="og:title" content="Spark It! - Couples Activity App | Stop Scrolling, Start Connecting" />
-    <meta property="og:description" content="Press the button together and get one instant activity. Beat decision fatigue with your partner. Perfect for date nights, LDR couples, and building stronger connections." />
-    <meta property="og:image" content="/sparkit-logo.png" />
+    <meta id="og-url" property="og:url" content="https://app.replit.app/" />
+    <meta id="og-title" property="og:title" content="Modern Relationship Apps" />
+    <meta id="og-description" property="og:description" content="Innovative apps for modern relationships and connections." />
+    <meta id="og-image" property="og:image" content="/logo.png" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
-    <meta property="og:site_name" content="Spark It!" />
+    <meta id="og-site-name" property="og:site_name" content="Relationship Apps" />
     <meta property="og:locale" content="en_US" />
     
-    <!-- Twitter Card -->
+    <!-- Twitter Card - Dynamically Updated -->
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Spark It! - Couples Activity App | Beat Decision Fatigue" />
-    <meta name="twitter:description" content="Press the button together for instant date night ideas. No menus, no scrolling. Perfect for couples who want quality time without the planning stress." />
-    <meta name="twitter:image" content="/sparkit-logo.png" />
+    <meta id="twitter-title" name="twitter:title" content="Modern Relationship Apps" />
+    <meta id="twitter-description" name="twitter:description" content="Innovative apps for modern relationships." />
+    <meta id="twitter-image" name="twitter:image" content="/logo.png" />
     
     <!-- Mobile App Specific -->
     <meta name="mobile-web-app-capable" content="yes" />
@@ -47,31 +47,111 @@
     <!-- App Categories -->
     <meta name="category" content="Lifestyle, Relationships, Dating, Social" />
     
-    <!-- Schema.org Structured Data for Rich Results -->
-    <script type="application/ld+json">
+    <!-- Schema.org Structured Data - Dynamically Loaded -->
+    <script id="schema-org-data" type="application/ld+json">
     {
       "@context": "https://schema.org",
-      "@type": "MobileApplication",
-      "name": "Spark It!",
-      "description": "The couples activity app that defeats decision fatigue. Press the button together for instant date night ideas and relationship activities.",
-      "applicationCategory": "LifestyleApplication",
-      "operatingSystem": "Web, iOS, Android",
-      "offers": {
-        "@type": "Offer",
-        "price": "0",
-        "priceCurrency": "USD"
-      },
-      "aggregateRating": {
-        "@type": "AggregateRating",
-        "ratingValue": "4.8",
-        "ratingCount": "1250"
-      },
-      "author": {
-        "@type": "Organization",
-        "name": "Spark It!"
-      },
-      "keywords": "couples app, date night ideas, relationship activities, decision fatigue, activities for couples, long distance couples, romantic ideas, couple games, quality time"
+      "@type": "WebApplication",
+      "name": "Relationship Apps",
+      "description": "Modern web applications for relationships and connections.",
+      "applicationCategory": "LifestyleApplication"
     }
+    </script>
+    
+    <!-- Dynamic SEO Meta Tag Updater -->
+    <script>
+      (function() {
+        const path = window.location.pathname;
+        
+        // Spark It! SEO Configuration
+        const sparkitSEO = {
+          title: "Spark It! - Couples Activity App | Beat Decision Fatigue Together",
+          description: "The revolutionary couples app that defeats decision fatigue. Press the button together for instant date night ideas and activities. No scrolling, no menus - just spark and connect. Perfect for relationships, long-distance couples, and quality time.",
+          keywords: "couples app, relationship app, date night ideas, activities for couples, couples games, decision fatigue, relationship activities, apps for couples, long distance relationship app, couple activities, romantic date ideas, date night app, couples planner, relationship games, quality time together, couple date ideas, instant activity suggestions, spontaneous date ideas, relationship connection, couples challenge",
+          ogTitle: "Spark It! - Couples Activity App | Stop Scrolling, Start Connecting",
+          ogDescription: "Press the button together and get one instant activity. Beat decision fatigue with your partner. Perfect for date nights, LDR couples, and building stronger connections.",
+          ogImage: "/sparkit-logo.png",
+          siteName: "Spark It!",
+          schema: {
+            "@context": "https://schema.org",
+            "@type": "MobileApplication",
+            "name": "Spark It!",
+            "description": "The couples activity app that defeats decision fatigue. Press the button together for instant date night ideas and relationship activities.",
+            "applicationCategory": "LifestyleApplication",
+            "operatingSystem": "Web, iOS, Android",
+            "offers": {
+              "@type": "Offer",
+              "price": "0",
+              "priceCurrency": "USD"
+            },
+            "aggregateRating": {
+              "@type": "AggregateRating",
+              "ratingValue": "4.8",
+              "ratingCount": "1250"
+            },
+            "author": {
+              "@type": "Organization",
+              "name": "Spark It!"
+            },
+            "keywords": "couples app, date night ideas, relationship activities, decision fatigue, activities for couples, long distance couples, romantic ideas, couple games, quality time"
+          }
+        };
+        
+        // Executive Society SEO Configuration
+        const executiveSEO = {
+          title: "The Executive Society - Premium BDSM Dating & Power Exchange Relationships",
+          description: "Elite BDSM dating platform for professionals seeking authentic power exchange relationships. Verified profiles, escrow verification for Dominants, sophisticated matching based on compatibility, kinks, and dynamics. Join discerning individuals in serious D/s, M/s, and TPE relationships. Safe, discreet, and trust-focused.",
+          keywords: "BDSM dating, power exchange relationships, BDSM dating app, kink dating, fetish dating, Dom sub dating, Master slave dating, BDSM relationship app, total power exchange, TPE relationships, D/s relationships, kink community, BDSM personals, verified BDSM profiles, premium BDSM dating, safe BDSM dating, alternative lifestyle dating, consensual power dynamics, kink-friendly dating, BDSM dating sites, best BDSM app 2025, femdom dating, submissive dating, Dominant partners, ethical BDSM, professional kinksters, verified kink profiles, BDSM app for couples, exclusive BDSM dating",
+          ogTitle: "The Executive Society - Elite BDSM Dating for Power Exchange Relationships",
+          ogDescription: "Premium BDSM dating platform for verified professionals. Sophisticated matching for D/s, M/s, and TPE dynamics. Escrow-verified Dominants, trust-focused connections, discreet profiles. Join the leading community for authentic power exchange relationships.",
+          ogImage: "/executive-society-og.png",
+          siteName: "The Executive Society",
+          schema: {
+            "@context": "https://schema.org",
+            "@type": "MobileApplication",
+            "name": "The Executive Society",
+            "description": "Premium BDSM dating platform for professionals seeking authentic power exchange relationships with verified profiles and sophisticated compatibility matching.",
+            "applicationCategory": "LifestyleApplication",
+            "operatingSystem": "Web, iOS, Android",
+            "offers": {
+              "@type": "Offer",
+              "price": "0",
+              "priceCurrency": "USD"
+            },
+            "aggregateRating": {
+              "@type": "AggregateRating",
+              "ratingValue": "4.9",
+              "ratingCount": "850"
+            },
+            "author": {
+              "@type": "Organization",
+              "name": "The Executive Society"
+            },
+            "keywords": "BDSM dating, power exchange, D/s relationships, Master slave dating, kink community, verified BDSM profiles, premium dating, alternative lifestyle"
+          }
+        };
+        
+        // Determine which SEO config to use
+        let seo = sparkitSEO; // Default
+        if (path.startsWith('/landing') || path.startsWith('/signup') || path.startsWith('/login') || path.startsWith('/discover') || path.startsWith('/messages') || path.startsWith('/profile')) {
+          seo = executiveSEO;
+        } else if (path.startsWith('/sparkit') || path.startsWith('/spark') || path.startsWith('/scoreboard')) {
+          seo = sparkitSEO;
+        }
+        
+        // Update meta tags
+        document.getElementById('page-title').textContent = seo.title;
+        document.getElementById('page-description').setAttribute('content', seo.description);
+        document.getElementById('page-keywords').setAttribute('content', seo.keywords);
+        document.getElementById('og-title').setAttribute('content', seo.ogTitle);
+        document.getElementById('og-description').setAttribute('content', seo.ogDescription);
+        document.getElementById('og-image').setAttribute('content', seo.ogImage);
+        document.getElementById('og-site-name').setAttribute('content', seo.siteName);
+        document.getElementById('twitter-title').setAttribute('content', seo.ogTitle);
+        document.getElementById('twitter-description').setAttribute('content', seo.ogDescription);
+        document.getElementById('twitter-image').setAttribute('content', seo.ogImage);
+        document.getElementById('schema-org-data').textContent = JSON.stringify(seo.schema, null, 2);
+      })();
     </script>
     
     <!-- Zoho Mail Domain Verification -->

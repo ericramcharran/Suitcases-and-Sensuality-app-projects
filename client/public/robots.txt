@@ -1,17 +1,34 @@
-# Spark It! - Robots.txt
-# Allow all search engines to crawl
+# Multi-App Platform - Robots.txt
+# The Executive Society + Spark It!
 
 User-agent: *
 Allow: /
 
-# Disallow authenticated pages (after login)
+# DISALLOW - Authenticated Pages (Privacy Protection)
+# Executive Society - Protected Pages
+Disallow: /discover
+Disallow: /messages
+Disallow: /profile
+Disallow: /settings
+Disallow: /onboarding/*
+Disallow: /verification/*
+
+# Spark It - Protected Pages
 Disallow: /spark
 Disallow: /scoreboard
 Disallow: /sparkit/settings
 Disallow: /sparkit/trivia/*
+
+# API Routes (Private)
 Disallow: /api/
 
-# Allow landing, login, signup, join pages
+# ALLOW - Public Landing & Auth Pages
+# Executive Society
+Allow: /landing
+Allow: /login
+Allow: /signup
+
+# Spark It
 Allow: /sparkit
 Allow: /sparkit/login
 Allow: /sparkit/signup
@@ -19,7 +36,7 @@ Allow: /sparkit/join
 Allow: /sparkit/premium
 
 # Sitemap
-Sitemap: https://sparkit.app/sitemap.xml
+Sitemap: https://app.replit.app/sitemap.xml
 
 # Crawl-delay for respectful crawling
 Crawl-delay: 1

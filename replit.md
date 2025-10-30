@@ -11,13 +11,14 @@ This Replit project contains two distinct applications: "The Executive Society" 
 **Branding:** The official Spark It! logo is a vibrant lightning bolt with purple-to-red gradient background (`/sparkit-logo.png`), used throughout the app including landing page, PWA icons, and notifications.
 
 **SEO Optimization (October 2025):**
-- **Meta Tags:** Comprehensive SEO meta tags in `client/index.html` including title, description, keywords, Open Graph, Twitter Cards, and Schema.org structured data
-- **Target Keywords:** couples app, relationship app, date night ideas, activities for couples, decision fatigue, long distance relationship app, couple games, romantic date ideas, quality time together
-- **Search Discovery:** Optimized for "apps for couples 2025", "couples activity app", "date night app", "relationship games", and 40+ related search terms
-- **Sitemap:** `client/public/sitemap.xml` for search engine crawling (landing, login, signup, join, premium pages)
-- **Robots.txt:** `client/public/robots.txt` allows indexing of public pages, blocks authenticated pages, guides crawlers
-- **Rich Results:** Schema.org MobileApplication structured data enables rich search results with ratings, pricing, and app category
-- **Social Sharing:** Open Graph and Twitter Card tags optimize appearance when shared on Facebook, Twitter, LinkedIn, etc.
+- **Dynamic Meta Tags:** JavaScript-based dynamic SEO in `client/index.html` that updates title, description, keywords, Open Graph, Twitter Cards, and Schema.org based on route
+- **Spark It! Keywords:** couples app, relationship app, date night ideas, activities for couples, decision fatigue, long distance relationship app, couple games, romantic date ideas, quality time together, instant activity suggestions, spontaneous date ideas
+- **Executive Society Keywords:** BDSM dating, power exchange relationships, BDSM dating app, kink dating, fetish dating, Dom sub dating, Master slave dating, TPE relationships, D/s relationships, verified BDSM profiles, premium BDSM dating, safe BDSM dating, alternative lifestyle dating, consensual power dynamics, professional kinksters, exclusive BDSM dating
+- **Search Discovery:** Both apps optimized for their target audiences with 30+ keywords each
+- **Sitemap:** `client/public/sitemap.xml` includes both Executive Society and Spark It! public pages
+- **Robots.txt:** `client/public/robots.txt` allows indexing of public pages for both apps, blocks all authenticated pages
+- **Rich Results:** Separate Schema.org structured data for each app (MobileApplication type) with ratings, pricing, category
+- **Social Sharing:** Dynamic Open Graph and Twitter Card tags ensure proper preview when shared on social media
 
 ## Project Navigation
 
