@@ -59,14 +59,15 @@ function requireSparkitAuth(req: any, res: any, next: any) {
 
 // Middleware to verify couple ID in URL matches session
 function verifyCoupleOwnership(req: any, res: any, next: any) {
-  const coupleIdFromUrl = req.params.id;
+  // Support both :id and :coupleId params
+  const coupleIdFromUrl = req.params.id || req.params.coupleId;
   const sessionCoupleId = req.session.sparkitCoupleId;
   
   if (!sessionCoupleId) {
     return res.status(401).json({ error: "Authentication required" });
   }
   
-  if (coupleIdFromUrl !== sessionCoupleId) {
+  if (coupleIdFromUrl && coupleIdFromUrl !== sessionCoupleId) {
     return res.status(403).json({ error: "Unauthorized: You can only access your own couple's data" });
   }
   
@@ -87,6 +88,33 @@ function verifyCoupleOwnershipBody(req: any, res: any, next: any) {
   }
   
   next();
+}
+
+// Middleware to verify trivia contest ownership
+async function verifyTriviaContestOwnership(req: any, res: any, next: any) {
+  const contestId = req.params.id;
+  const sessionCoupleId = req.session.sparkitCoupleId;
+  
+  if (!sessionCoupleId) {
+    return res.status(401).json({ error: "Authentication required" });
+  }
+  
+  try {
+    const contest = await storage.getTriviaContestById(contestId);
+    
+    if (!contest) {
+      return res.status(404).json({ error: "Contest not found" });
+    }
+    
+    if (contest.coupleId !== sessionCoupleId) {
+      return res.status(403).json({ error: "Unauthorized: You can only access your own couple's trivia contests" });
+    }
+    
+    next();
+  } catch (error) {
+    console.error('Trivia contest ownership verification error:', error);
+    return res.status(500).json({ error: "Failed to verify contest ownership" });
+  }
 }
 
 // Configure multer for image uploads
@@ -1570,7 +1598,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Get couple by ID or code
-  app.get("/api/sparkit/couples/:id", async (req, res) => {
+  app.get("/api/sparkit/couples/:id", requireSparkitAuth, verifyCoupleOwnership, async (req, res) => {
     try {
       const { id } = req.params;
       
@@ -1677,7 +1705,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Get AI-generated activities based on couple's location
-  app.get("/api/sparkit/couples/:id/ai-activities", async (req, res) => {
+  app.get("/api/sparkit/couples/:id/ai-activities", requireSparkitAuth, verifyCoupleOwnership, async (req, res) => {
     try {
       // Check if AI activities feature is enabled
       if (process.env.ENABLE_AI_ACTIVITIES !== 'true') {
@@ -1940,7 +1968,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Get scoreboard stats
-  app.get("/api/sparkit/couples/:id/scoreboard", async (req, res) => {
+  app.get("/api/sparkit/couples/:id/scoreboard", requireSparkitAuth, verifyCoupleOwnership, async (req, res) => {
     try {
       const { id } = req.params;
       const stats = await storage.getScoreboardStats(id);
@@ -2174,7 +2202,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Get trivia contest by ID
-  app.get("/api/sparkit/trivia/contests/:id", async (req, res) => {
+  app.get("/api/sparkit/trivia/contests/:id", requireSparkitAuth, verifyTriviaContestOwnership, async (req, res) => {
     try {
       const { id } = req.params;
       const contest = await storage.getTriviaContestById(id);
@@ -2191,7 +2219,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Get trivia contests by couple ID
-  app.get("/api/sparkit/trivia/couples/:coupleId/contests", async (req, res) => {
+  app.get("/api/sparkit/trivia/couples/:coupleId/contests", requireSparkitAuth, verifyCoupleOwnership, async (req, res) => {
     try {
       const { coupleId } = req.params;
       const contests = await storage.getTriviaContestsByCoupleId(coupleId);
@@ -2260,7 +2288,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Get trivia results (contest with answers)
-  app.get("/api/sparkit/trivia/contests/:id/results", async (req, res) => {
+  app.get("/api/sparkit/trivia/contests/:id/results", requireSparkitAuth, verifyTriviaContestOwnership, async (req, res) => {
     try {
       const { id } = req.params;
       const contest = await storage.getTriviaContestById(id);
