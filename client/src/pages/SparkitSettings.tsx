@@ -186,12 +186,22 @@ export default function SparkitSettings() {
       // This prevents notifications from being sent to the wrong user on shared devices
       try {
         const notifManager = NotificationManager.getInstance();
-        await notifManager.unsubscribeFromPush();
+        
+        // Attempt to unsubscribe from push notifications
+        // unsubscribeFromPush() is safe to call even if not initialized (lazy loads registration)
+        const unsubscribed = await notifManager.unsubscribeFromPush();
+        if (unsubscribed) {
+          console.log('[Logout] Successfully unsubscribed from push notifications');
+        } else {
+          console.log('[Logout] No active push subscription to unsubscribe');
+        }
+        
+        // Disconnect websocket connection (safe even if ws is null)
         notifManager.disconnect();
-        console.log('[Logout] Successfully unsubscribed from push notifications');
+        console.log('[Logout] Disconnected websocket');
       } catch (error) {
-        console.error('[Logout] Failed to unsubscribe from push:', error);
-        // Continue with logout even if unsubscribe fails
+        console.error('[Logout] Failed to cleanup push notifications:', error);
+        // Continue with logout even if cleanup fails - user intent to logout is paramount
       }
 
       const res = await apiRequest("POST", "/api/sparkit/auth/logout", {});
