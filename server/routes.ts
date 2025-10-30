@@ -45,6 +45,50 @@ try {
 // Drizzle ORM automatically converts database snake_case to TypeScript camelCase
 // No transformation needed - just return user objects as-is
 
+// ============================================
+// AUTHENTICATION MIDDLEWARE
+// ============================================
+
+// Middleware to check if user is authenticated (Spark It!)
+function requireSparkitAuth(req: any, res: any, next: any) {
+  if (!req.session.sparkitCoupleId || !req.session.sparkitPartnerRole) {
+    return res.status(401).json({ error: "Authentication required" });
+  }
+  next();
+}
+
+// Middleware to verify couple ID in URL matches session
+function verifyCoupleOwnership(req: any, res: any, next: any) {
+  const coupleIdFromUrl = req.params.id;
+  const sessionCoupleId = req.session.sparkitCoupleId;
+  
+  if (!sessionCoupleId) {
+    return res.status(401).json({ error: "Authentication required" });
+  }
+  
+  if (coupleIdFromUrl !== sessionCoupleId) {
+    return res.status(403).json({ error: "Unauthorized: You can only access your own couple's data" });
+  }
+  
+  next();
+}
+
+// Middleware to verify couple ID in request body matches session
+function verifyCoupleOwnershipBody(req: any, res: any, next: any) {
+  const coupleIdFromBody = req.body.coupleId;
+  const sessionCoupleId = req.session.sparkitCoupleId;
+  
+  if (!sessionCoupleId) {
+    return res.status(401).json({ error: "Authentication required" });
+  }
+  
+  if (coupleIdFromBody && coupleIdFromBody !== sessionCoupleId) {
+    return res.status(403).json({ error: "Unauthorized: You can only modify your own couple's data" });
+  }
+  
+  next();
+}
+
 // Configure multer for image uploads
 const uploadDir = path.join(process.cwd(), 'public', 'uploads');
 if (!fs.existsSync(uploadDir)) {
@@ -1549,7 +1593,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Update couple partner names
-  app.patch("/api/sparkit/couples/:id/names", async (req, res) => {
+  app.patch("/api/sparkit/couples/:id/names", requireSparkitAuth, verifyCoupleOwnership, async (req, res) => {
     try {
       const { id } = req.params;
       
@@ -1582,7 +1626,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Update couple location for AI activity suggestions
-  app.patch("/api/sparkit/couples/:id/phones", async (req, res) => {
+  app.patch("/api/sparkit/couples/:id/phones", requireSparkitAuth, verifyCoupleOwnership, async (req, res) => {
     try {
       const { id } = req.params;
       const { partner1Phone, partner2Phone } = req.body;
@@ -1605,7 +1649,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.patch("/api/sparkit/couples/:id/location", async (req, res) => {
+  app.patch("/api/sparkit/couples/:id/location", requireSparkitAuth, verifyCoupleOwnership, async (req, res) => {
     try {
       const { id } = req.params;
       const { city, state } = req.body;
@@ -1693,7 +1737,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Use a spark
-  app.post("/api/sparkit/couples/:id/use-spark", async (req, res) => {
+  app.post("/api/sparkit/couples/:id/use-spark", requireSparkitAuth, verifyCoupleOwnership, async (req, res) => {
     try {
       const { id } = req.params;
       const couple = await storage.useSpark(id);
@@ -1751,7 +1795,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Create activity rating
-  app.post("/api/sparkit/activity-ratings", async (req, res) => {
+  app.post("/api/sparkit/activity-ratings", requireSparkitAuth, verifyCoupleOwnershipBody, async (req, res) => {
     try {
       const { coupleId, activityId, activityTitle, rating } = req.body;
       
@@ -1774,7 +1818,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Create activity result (winner selection)
-  app.post("/api/sparkit/activity-results", async (req, res) => {
+  app.post("/api/sparkit/activity-results", requireSparkitAuth, verifyCoupleOwnershipBody, async (req, res) => {
     try {
       const { coupleId, activityId, activityTitle, winner } = req.body;
       
@@ -1797,7 +1841,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Generate AI-powered local activity
-  app.post("/api/sparkit/couples/:id/ai-activity", async (req, res) => {
+  app.post("/api/sparkit/couples/:id/ai-activity", requireSparkitAuth, verifyCoupleOwnership, async (req, res) => {
     try {
       const { id } = req.params;
       
@@ -1830,7 +1874,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Send activity via SMS to partner
-  app.post("/api/sparkit/couples/:id/send-sms", async (req, res) => {
+  app.post("/api/sparkit/couples/:id/send-sms", requireSparkitAuth, verifyCoupleOwnership, async (req, res) => {
     try {
       const { id } = req.params;
       const { activityTitle, activityDescription, partnerRole } = req.body;
@@ -2053,7 +2097,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Button reset notification (send WebSocket to partner)
-  app.post("/api/sparkit/couples/:id/button-reset", async (req, res) => {
+  app.post("/api/sparkit/couples/:id/button-reset", requireSparkitAuth, verifyCoupleOwnership, async (req, res) => {
     try {
       const { id } = req.params;
 
@@ -2101,7 +2145,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Create trivia contest (send challenge)
-  app.post("/api/sparkit/trivia/contests", async (req, res) => {
+  app.post("/api/sparkit/trivia/contests", requireSparkitAuth, verifyCoupleOwnershipBody, async (req, res) => {
     try {
       const { coupleId, categoryId, categoryName, questionIds, senderName } = req.body;
       
@@ -2160,7 +2204,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Submit trivia answers
-  app.post("/api/sparkit/trivia/contests/:id/answers", async (req, res) => {
+  app.post("/api/sparkit/trivia/contests/:id/answers", requireSparkitAuth, async (req, res) => {
     try {
       const { id } = req.params;
       const { answers, receiverName } = req.body;
@@ -2244,7 +2288,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Create Spark It! subscription checkout session
-  app.post("/api/sparkit/create-subscription", async (req, res) => {
+  app.post("/api/sparkit/create-subscription", requireSparkitAuth, verifyCoupleOwnershipBody, async (req, res) => {
     try {
       if (!stripe) {
         return res.status(500).json({ error: "Stripe not configured. Please add STRIPE_SECRET_KEY to environment variables." });
@@ -2440,7 +2484,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   // Spark It! Video Room Routes
   // Create a new Daily.co video room for a couple
-  app.post("/api/sparkit/video/create-room", async (req, res) => {
+  app.post("/api/sparkit/video/create-room", requireSparkitAuth, verifyCoupleOwnership, async (req, res) => {
     try {
       const { coupleId } = req.body;
 
@@ -2515,7 +2559,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // End a video session
-  app.post("/api/sparkit/video/end-session", async (req, res) => {
+  app.post("/api/sparkit/video/end-session", requireSparkitAuth, async (req, res) => {
     try {
       const { sessionId } = req.body;
 
@@ -2589,7 +2633,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Get upload URL for custom avatar
-  app.post("/api/sparkit/avatar/upload-url", async (req, res) => {
+  app.post("/api/sparkit/avatar/upload-url", requireSparkitAuth, verifyCoupleOwnershipBody, async (req, res) => {
     try {
       const { coupleId } = req.body;
       
@@ -2613,7 +2657,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Update avatar after upload
-  app.patch("/api/sparkit/couples/:id/avatars", async (req, res) => {
+  app.patch("/api/sparkit/couples/:id/avatars", requireSparkitAuth, verifyCoupleOwnership, async (req, res) => {
     try {
       const { id } = req.params;
       const validatedData = updateAvatarSchema.parse(req.body);
