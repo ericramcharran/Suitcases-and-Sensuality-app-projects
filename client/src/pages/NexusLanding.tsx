@@ -139,7 +139,7 @@ export default function NexusLanding() {
       <section className="hero" style={{ paddingTop: '100px' }}>
         <div className="hero-content">
           <p className="hero-subtext" style={{ fontSize: '1.3em', marginBottom: '30px' }}>
-            Press the button together. One instant activity appears. Zero menus. Zero scrolling. Just spark and go.
+            Press the button together. One instant activity appears. Zero menus. Zero scrolling. Just Spark It! and GO!
           </p>
           <button 
             onClick={handleGetStarted}
