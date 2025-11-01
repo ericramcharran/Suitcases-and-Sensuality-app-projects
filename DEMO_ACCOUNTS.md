@@ -10,32 +10,32 @@ https://app-projects-ericramcharran.replit.app/sparkit/login
 
 ### 1. Devin & Stephanie (Empty Nesters)
 - **Couple Code:** `DEVST1`
-- **Devin:** `devin@sparkitdemo.com` / `demo123`
-- **Stephanie:** `stephanie@sparkitdemo.com` / `demo123`
+- **Devin:** `devin@demo.com` / `demo123`
+- **Stephanie:** `stephanie@demo.com` / `demo123`
 - **Subscription:** Monthly Premium | 999 Sparks
 
 ### 2. Sam & Riley (Engaged)
 - **Couple Code:** `PREMM1`
-- **Sam:** `sam@sparkitdemo.com` / `demo123`
-- **Riley:** `riley@sparkitdemo.com` / `demo123`
+- **Sam:** `sam@demo.com` / `demo123`
+- **Riley:** `riley@demo.com` / `demo123`
 - **Subscription:** Monthly Premium | 999 Sparks
 
 ### 3. Cliff & Christi (Monogamous)
 - **Couple Code:** `PREM02`
-- **Cliff:** `cliff@sparkitdemo.com` / `demo123`
-- **Christi:** `christi@sparkitdemo.com` / `demo123`
+- **Cliff:** `cliff@demo.com` / `demo123`
+- **Christi:** `christi@demo.com` / `demo123`
 - **Subscription:** Monthly Premium | 999 Sparks
 
 ### 4. Keith & Dawn (Empty Nesters)
 - **Couple Code:** `PREM03`
-- **Keith:** `keith@sparkitdemo.com` / `demo123`
-- **Dawn:** `dawn@sparkitdemo.com` / `demo123`
+- **Keith:** `keith@demo.com` / `demo123`
+- **Dawn:** `dawn@demo.com` / `demo123`
 - **Subscription:** Monthly Premium | 999 Sparks
 
 ### 5. Drew & Blake (Monogamous)
 - **Couple Code:** `DREW01`
-- **Drew:** `drew@sparkitdemo.com` / `demo123`
-- **Blake:** `blake@sparkitdemo.com` / `demo123`
+- **Drew:** `drew@demo.com` / `demo123`
+- **Blake:** `blake@demo.com` / `demo123`
 - **Subscription:** Monthly Premium | 999 Sparks
 
 ---
@@ -45,26 +45,26 @@ https://app-projects-ericramcharran.replit.app/sparkit/login
 
 ### 1. Alex & Jordan (Newly Dating)
 - **Couple Code:** `DEMO01`
-- **Alex:** `alex@sparkitdemo.com` / `demo123`
-- **Jordan:** `jordan@sparkitdemo.com` / `demo123`
+- **Alex:** `alex@demo.com` / `demo123`
+- **Jordan:** `jordan@demo.com` / `demo123`
 - **Subscription:** Trial | 20 Sparks Total
 
 ### 2. Taylor & Morgan (Long Distance)
 - **Couple Code:** `DEMO02`
-- **Taylor:** `taylor@sparkitdemo.com` / `demo123`
-- **Morgan:** `morgan@sparkitdemo.com` / `demo123`
+- **Taylor:** `taylor@demo.com` / `demo123`
+- **Morgan:** `morgan@demo.com` / `demo123`
 - **Subscription:** Trial | 20 Sparks Total
 
 ### 3. Casey & Jamie (Couple with Kids)
 - **Couple Code:** `DEMO03`
-- **Casey:** `casey@sparkitdemo.com` / `demo123`
-- **Jamie:** `jamie@sparkitdemo.com` / `demo123`
+- **Casey:** `casey@demo.com` / `demo123`
+- **Jamie:** `jamie@demo.com` / `demo123`
 - **Subscription:** Trial | 20 Sparks Total
 
 ### 4. Quinn & Sage (Polyamorous)
 - **Couple Code:** `DEMO04`
-- **Quinn:** `quinn@sparkitdemo.com` / `demo123`
-- **Sage:** `sage@sparkitdemo.com` / `demo123`
+- **Quinn:** `quinn@demo.com` / `demo123`
+- **Sage:** `sage@demo.com` / `demo123`
 - **Subscription:** Trial | 20 Sparks Total
 
 ---
@@ -72,7 +72,7 @@ https://app-projects-ericramcharran.replit.app/sparkit/login
 ## Summary
 - **Total:** 9 couples (18 individual logins)
 - **All Passwords:** `demo123`
-- **Email Domain:** `@sparkitdemo.com`
+- **Email Domain:** `@demo.com`
 - **Couple Codes:** Easy to remember (DEVST1, PREMM1, PREM02, PREM03, DREW01, DEMO01-04)
 
 ---
