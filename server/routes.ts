@@ -1472,6 +1472,15 @@ export async function registerRoutes(app: Express): Promise<Server> {
       req.session.sparkitCoupleId = couple.id;
       req.session.sparkitPartnerRole = partnerRole;
 
+      // CRITICAL: Save session before responding to prevent race condition
+      // This ensures the session is persisted to the database before the client redirects
+      await new Promise<void>((resolve, reject) => {
+        req.session.save((err) => {
+          if (err) reject(err);
+          else resolve();
+        });
+      });
+
       // Log demo user activity
       await storage.logDemoActivity({
         coupleId: couple.id,
