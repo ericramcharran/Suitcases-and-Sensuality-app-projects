@@ -192,7 +192,7 @@ export default function NexusLanding() {
             <h2>The Solution</h2>
             <p>
               <strong>You both press the button together.</strong> One instant activity appears. 
-              Zero menus. Zero decisions. <strong>Just spark and go.</strong>
+              Zero menus. Zero decisions. <strong>Just Spark It! and go!</strong>
             </p>
           </div>
         </div>
