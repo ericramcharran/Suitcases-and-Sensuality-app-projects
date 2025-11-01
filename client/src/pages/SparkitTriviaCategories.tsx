@@ -27,7 +27,6 @@ export default function SparkitTriviaCategories() {
   const { toast } = useToast();
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [coupleId, setCoupleId] = useState<string | null>(null);
-  const [debugLog, setDebugLog] = useState<string[]>([]);
 
   // Get couple ID from localStorage
   useEffect(() => {
@@ -43,33 +42,21 @@ export default function SparkitTriviaCategories() {
 
   const createContestMutation = useMutation({
     mutationFn: async (categoryId: string) => {
-      const addLog = (msg: string) => {
-        console.log(msg);
-        setDebugLog(prev => [...prev, `${new Date().toLocaleTimeString()}: ${msg}`]);
-      };
-
       const category = triviaCategories.find(c => c.id === categoryId);
       if (!category) throw new Error("Category not found");
-
-      addLog(`[1] Starting - category: ${categoryId}`);
       
       // Fetch random questions from the database API instead of using local file
       const url = `/api/sparkit/trivia/questions/random/${categoryId}?count=5`;
-      addLog(`[2] Fetching: ${url}`);
       
       const questionsRes = await fetch(url, {
         credentials: 'include'
       });
       
-      addLog(`[3] Response status: ${questionsRes.status}`);
-      
       if (!questionsRes.ok) {
         const errorText = await questionsRes.text();
-        addLog(`[4] ERROR: ${questionsRes.status} - ${errorText}`);
         throw new Error(`Failed to fetch trivia questions: ${questionsRes.status}`);
       }
       const questions = await questionsRes.json();
-      addLog(`[5] Fetched ${questions.length} questions`);
       
       if (!questions || questions.length === 0) {
         throw new Error("No questions available for this category");
@@ -82,8 +69,6 @@ export default function SparkitTriviaCategories() {
         ? couple?.partner1Name 
         : couple?.partner2Name;
 
-      addLog(`[6] Creating contest - ${questionIds.length} questions`);
-
       const res = await apiRequest("POST", "/api/sparkit/trivia/contests", {
         coupleId,
         categoryId: category.id,
@@ -93,7 +78,6 @@ export default function SparkitTriviaCategories() {
       });
       
       const data = await res.json();
-      addLog(`[7] SUCCESS - Contest ID: ${data.id}`);
       return data;
     },
     onSuccess: (data) => {
@@ -154,16 +138,6 @@ export default function SparkitTriviaCategories() {
   return (
     <div className="nexus-app min-h-screen p-4">
       <div className="max-w-4xl mx-auto">
-        {/* Debug Panel */}
-        {debugLog.length > 0 && (
-          <Card className="mb-4 bg-black/80 text-green-400 font-mono text-xs">
-            <CardContent className="pt-4 max-h-40 overflow-auto">
-              {debugLog.map((log, i) => (
-                <div key={i}>{log}</div>
-              ))}
-            </CardContent>
-          </Card>
-        )}
         <div className="mb-6">
           <Button
             variant="ghost"
