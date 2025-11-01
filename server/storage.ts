@@ -46,7 +46,7 @@ import {
   sparkitActivityLogs
 } from "@shared/schema";
 import { db } from "./db";
-import { eq, and, desc, or } from "drizzle-orm";
+import { eq, and, desc, or, inArray } from "drizzle-orm";
 
 export interface IStorage {
   // User operations
@@ -118,6 +118,7 @@ export interface IStorage {
   // Spark It! Trivia operations
   getTriviaQuestionsByCategoryId(categoryId: string): Promise<SparkitTriviaQuestion[]>;
   getTriviaQuestionsByCategoryName(categoryName: string): Promise<SparkitTriviaQuestion[]>;
+  getTriviaQuestionsByIds(questionIds: string[]): Promise<any[]>;
   createTriviaContest(contest: InsertSparkitTriviaContest): Promise<SparkitTriviaContest>;
   getTriviaContestById(id: string): Promise<SparkitTriviaContest | undefined>;
   getTriviaContestsByCoupleId(coupleId: string): Promise<SparkitTriviaContest[]>;
@@ -589,6 +590,17 @@ export class DatabaseStorage implements IStorage {
     const result = await db.select()
       .from(sparkitTriviaQuestions)
       .where(eq(sparkitTriviaQuestions.categoryId, category[0].id));
+    return result;
+  }
+
+  async getTriviaQuestionsByIds(questionIds: string[]): Promise<any[]> {
+    if (questionIds.length === 0) {
+      return [];
+    }
+    
+    const result = await db.select()
+      .from(sparkitTriviaQuestions)
+      .where(inArray(sparkitTriviaQuestions.id, questionIds));
     return result;
   }
 

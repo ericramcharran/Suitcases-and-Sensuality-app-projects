@@ -2446,7 +2446,13 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(404).json({ error: "Contest not found" });
       }
 
-      res.json(contest);
+      // Fetch the full question objects for the contest
+      const questions = await storage.getTriviaQuestionsByIds(contest.questionIds as string[]);
+
+      res.json({
+        ...contest,
+        questions
+      });
     } catch (error) {
       console.error('Get trivia contest error:', error);
       res.status(500).json({ error: "Failed to get trivia contest" });

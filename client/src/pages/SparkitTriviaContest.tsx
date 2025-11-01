@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { useLocation, useRoute } from "wouter";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -8,14 +8,23 @@ import { Brain, CheckCircle, XCircle } from "lucide-react";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { apiRequest, queryClient } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
-import { triviaQuestions, type TriviaQuestion } from "../data/triviaQuestions";
+interface DbQuestion {
+  id: string;
+  question: string;
+  correctAnswer: string;
+  wrongAnswer1: string;
+  wrongAnswer2: string;
+  wrongAnswer3: string;
+  difficulty: string;
+}
 
 interface Contest {
   id: string;
   coupleId: string;
   categoryId: string;
   categoryName: string;
-  questionIds: number[];
+  questionIds: string[];
+  questions: DbQuestion[];
   senderName: string;
   status: string;
   score: number | null;
@@ -31,10 +40,10 @@ export default function SparkitTriviaContest() {
   const [receiverName, setReceiverName] = useState("");
   const [started, setStarted] = useState(false);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-  const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
+  const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null);
   const [answers, setAnswers] = useState<Array<{
-    questionId: number;
-    selectedAnswer: number;
+    questionId: string;
+    selectedAnswer: string;
     isCorrect: boolean;
   }>>([]);
 
@@ -45,11 +54,19 @@ export default function SparkitTriviaContest() {
     enabled: !!contestId
   });
 
-  const questions = contest?.questionIds.map(id => 
-    triviaQuestions.find(q => q.id === id)
-  ).filter((q): q is TriviaQuestion => q !== undefined) || [];
-
+  const questions = contest?.questions || [];
   const currentQuestion = questions[currentQuestionIndex];
+  
+  // Convert database format to options array for rendering (memoized to prevent reshuffling on re-renders)
+  const currentOptions = useMemo(() => {
+    if (!currentQuestion) return [];
+    return [
+      currentQuestion.wrongAnswer1,
+      currentQuestion.correctAnswer,
+      currentQuestion.wrongAnswer2,
+      currentQuestion.wrongAnswer3
+    ].sort(() => Math.random() - 0.5);
+  }, [currentQuestion]);
 
   const submitAnswersMutation = useMutation({
     mutationFn: async () => {
@@ -83,15 +100,15 @@ export default function SparkitTriviaContest() {
     setStarted(true);
   };
 
-  const handleAnswerSelect = (answerIndex: number) => {
+  const handleAnswerSelect = (answer: string) => {
     if (selectedAnswer !== null) return;
     
-    setSelectedAnswer(answerIndex);
-    const isCorrect = answerIndex === currentQuestion.correctAnswer;
+    setSelectedAnswer(answer);
+    const isCorrect = answer === currentQuestion.correctAnswer;
     
     const newAnswer = {
       questionId: currentQuestion.id,
-      selectedAnswer: answerIndex,
+      selectedAnswer: answer,
       isCorrect
     };
     
@@ -251,9 +268,9 @@ export default function SparkitTriviaContest() {
             <CardTitle className="text-xl">{currentQuestion.question}</CardTitle>
           </CardHeader>
           <CardContent className="space-y-3">
-            {currentQuestion.options.map((option, index) => {
-              const isSelected = selectedAnswer === index;
-              const isCorrect = index === currentQuestion.correctAnswer;
+            {currentOptions.map((option, index) => {
+              const isSelected = selectedAnswer === option;
+              const isCorrect = option === currentQuestion.correctAnswer;
               const showResult = selectedAnswer !== null;
 
               let buttonClass = "w-full justify-start text-left h-auto py-3 px-4";
@@ -274,7 +291,7 @@ export default function SparkitTriviaContest() {
                   key={index}
                   variant={variant}
                   className={buttonClass}
-                  onClick={() => handleAnswerSelect(index)}
+                  onClick={() => handleAnswerSelect(option)}
                   disabled={selectedAnswer !== null}
                   data-testid={`option-${index}`}
                 >
