@@ -1,0 +1,56 @@
+index-D7Iz7BC0.js:583 [SparkButton DEBUG] authData: undefined
+index-D7Iz7BC0.js:583 [SparkButton DEBUG] coupleIdFromStorage: null
+index-D7Iz7BC0.js:583 [SparkButton DEBUG] Final coupleId: null
+index-D7Iz7BC0.js:583 [SparkButton DEBUG] partnerRole: null
+index-D7Iz7BC0.js:583 [SparkButton DEBUG] couple data: undefined
+index-D7Iz7BC0.js:583 [SparkButton DEBUG] couple isLoading: false
+index-D7Iz7BC0.js:583 [SparkButton DEBUG] couple error: null
+index-D7Iz7BC0.js:583 [Navigation Check] Object
+index-D7Iz7BC0.js:583 [SparkButton DEBUG] authData: undefined
+index-D7Iz7BC0.js:583 [SparkButton DEBUG] coupleIdFromStorage: 75b2797c-15fc-4e66-995d-ceba930d8c35
+index-D7Iz7BC0.js:583 [SparkButton DEBUG] Final coupleId: 75b2797c-15fc-4e66-995d-ceba930d8c35
+index-D7Iz7BC0.js:583 [SparkButton DEBUG] partnerRole: null
+index-D7Iz7BC0.js:583 [SparkButton DEBUG] couple data: undefined
+index-D7Iz7BC0.js:583 [SparkButton DEBUG] couple isLoading: true
+index-D7Iz7BC0.js:583 [SparkButton DEBUG] couple error: null
+index-D7Iz7BC0.js:583 [SparkButton DEBUG] couple data: Object
+index-D7Iz7BC0.js:583 [SparkButton DEBUG] couple isLoading: false
+index-D7Iz7BC0.js:583 [SparkButton DEBUG] couple error: null
+index-D7Iz7BC0.js:583 [Navigation Check] Object
+index-D7Iz7BC0.js:583 [SparkButton DEBUG] authData: Object
+index-D7Iz7BC0.js:583 [SparkButton DEBUG] coupleIdFromStorage: 75b2797c-15fc-4e66-995d-ceba930d8c35
+index-D7Iz7BC0.js:583 [SparkButton DEBUG] Final coupleId: 75b2797c-15fc-4e66-995d-ceba930d8c35
+index-D7Iz7BC0.js:583 [SparkButton DEBUG] partnerRole: partner2
+index-D7Iz7BC0.js:583 [Button State] Both timestamps null - resetting all button states
+index-D7Iz7BC0.js:583 [Navigation Check] Object
+index-D7Iz7BC0.js:583 [WebSocket] Connected for spark synchronization
+index-D7Iz7BC0.js:583 WebSocket disconnected
+index-D7Iz7BC0.js:646 [Logout] No active push subscription to unsubscribe
+index-D7Iz7BC0.js:646 [Logout] Disconnected websocket
+me:1  Failed to load resource: the server responded with a status of 401 ()
+index-D7Iz7BC0.js:583 [SparkButton DEBUG] authData: undefined
+index-D7Iz7BC0.js:583 [SparkButton DEBUG] coupleIdFromStorage: null
+index-D7Iz7BC0.js:583 [SparkButton DEBUG] Final coupleId: null
+index-D7Iz7BC0.js:583 [SparkButton DEBUG] partnerRole: null
+index-D7Iz7BC0.js:583 [SparkButton DEBUG] couple data: undefined
+index-D7Iz7BC0.js:583 [SparkButton DEBUG] couple isLoading: false
+index-D7Iz7BC0.js:583 [SparkButton DEBUG] couple error: null
+index-D7Iz7BC0.js:583 [Navigation Check] {myButtonPressed: false, partnerButtonPressed: false, hasCouple: false, isPending: false, partnerRole: null, …}
+index-D7Iz7BC0.js:583 [SparkButton DEBUG] authData: undefined
+index-D7Iz7BC0.js:583 [SparkButton DEBUG] coupleIdFromStorage: afbed928-4578-4782-b0fc-3656d84d8cdb
+index-D7Iz7BC0.js:583 [SparkButton DEBUG] Final coupleId: afbed928-4578-4782-b0fc-3656d84d8cdb
+index-D7Iz7BC0.js:583 [SparkButton DEBUG] partnerRole: null
+index-D7Iz7BC0.js:583 [SparkButton DEBUG] couple data: undefined
+index-D7Iz7BC0.js:583 [SparkButton DEBUG] couple isLoading: true
+index-D7Iz7BC0.js:583 [SparkButton DEBUG] couple error: null
+index-D7Iz7BC0.js:583 [SparkButton DEBUG] couple data: {id: 'afbed928-4578-4782-b0fc-3656d84d8cdb', partner1Name: 'Devin', partner2Name: null, partner1Email: 'devin@demo.com', partner1Password: '$2b$10$4Rx0w2KyQTpqyWAU69WA/uYyU93clOmv.Yfmejy/xoDKCucgGUNHi', …}
+index-D7Iz7BC0.js:583 [SparkButton DEBUG] couple isLoading: false
+index-D7Iz7BC0.js:583 [SparkButton DEBUG] couple error: null
+index-D7Iz7BC0.js:583 [Navigation Check] {myButtonPressed: false, partnerButtonPressed: false, hasCouple: true, isPending: false, partnerRole: null, …}
+index-D7Iz7BC0.js:583 [SparkButton DEBUG] authData: {coupleId: 'afbed928-4578-4782-b0fc-3656d84d8cdb', partnerRole: 'partner1', partnerName: 'Devin'}
+index-D7Iz7BC0.js:583 [SparkButton DEBUG] coupleIdFromStorage: afbed928-4578-4782-b0fc-3656d84d8cdb
+index-D7Iz7BC0.js:583 [SparkButton DEBUG] Final coupleId: afbed928-4578-4782-b0fc-3656d84d8cdb
+index-D7Iz7BC0.js:583 [SparkButton DEBUG] partnerRole: partner1
+index-D7Iz7BC0.js:583 [Button State] Both timestamps null - resetting all button states
+index-D7Iz7BC0.js:583 [Navigation Check] {myButtonPressed: false, partnerButtonPressed: false, hasCouple: true, isPending: false, partnerRole: 'partner1', …}
+index-D7Iz7BC0.js:583 [WebSocket] Connected for spark synchronization
