@@ -45,8 +45,13 @@ export default function SparkitTriviaCategories() {
       const category = triviaCategories.find(c => c.id === categoryId);
       if (!category) throw new Error("Category not found");
 
-      const questions = getRandomQuestionsByCategory(categoryId, 5);
-      const questionIds = questions.map(q => q.id);
+      // Fetch random questions from the database API instead of using local file
+      const questionsRes = await fetch(`/api/sparkit/trivia/questions/random/${categoryId}?count=5`);
+      if (!questionsRes.ok) {
+        throw new Error("Failed to fetch trivia questions");
+      }
+      const questions = await questionsRes.json();
+      const questionIds = questions.map((q: any) => q.id);
 
       // Use the logged-in partner's name as sender
       const senderName = couple?.loggedInPartnerRole === 'partner1' 

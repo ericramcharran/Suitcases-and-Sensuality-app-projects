@@ -38,6 +38,8 @@ import {
   sparkitCouples,
   sparkitActivityRatings,
   sparkitActivityResults,
+  sparkitTriviaCategories,
+  sparkitTriviaQuestions,
   sparkitTriviaContests,
   sparkitTriviaAnswers,
   sparkitVideoSessions,
@@ -114,6 +116,8 @@ export interface IStorage {
   }>;
   
   // Spark It! Trivia operations
+  getTriviaQuestionsByCategoryId(categoryId: string): Promise<SparkitTriviaQuestion[]>;
+  getTriviaQuestionsByCategoryName(categoryName: string): Promise<SparkitTriviaQuestion[]>;
   createTriviaContest(contest: InsertSparkitTriviaContest): Promise<SparkitTriviaContest>;
   getTriviaContestById(id: string): Promise<SparkitTriviaContest | undefined>;
   getTriviaContestsByCoupleId(coupleId: string): Promise<SparkitTriviaContest[]>;
@@ -563,6 +567,31 @@ export class DatabaseStorage implements IStorage {
   }
 
   // Spark It! Trivia operations
+  async getTriviaQuestionsByCategoryId(categoryId: string): Promise<SparkitTriviaQuestion[]> {
+    const result = await db.select()
+      .from(sparkitTriviaQuestions)
+      .where(eq(sparkitTriviaQuestions.categoryId, categoryId));
+    return result;
+  }
+
+  async getTriviaQuestionsByCategoryName(categoryName: string): Promise<SparkitTriviaQuestion[]> {
+    // First get the category ID by name
+    const category = await db.select()
+      .from(sparkitTriviaCategories)
+      .where(eq(sparkitTriviaCategories.name, categoryName))
+      .limit(1);
+    
+    if (category.length === 0) {
+      return [];
+    }
+    
+    // Then get all questions for this category ID
+    const result = await db.select()
+      .from(sparkitTriviaQuestions)
+      .where(eq(sparkitTriviaQuestions.categoryId, category[0].id));
+    return result;
+  }
+
   async createTriviaContest(insertContest: InsertSparkitTriviaContest): Promise<SparkitTriviaContest> {
     const result = await db.insert(sparkitTriviaContests).values(insertContest).returning();
     return result[0];

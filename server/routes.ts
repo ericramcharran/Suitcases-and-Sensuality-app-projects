@@ -2364,6 +2364,49 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Get random trivia questions by category
+  app.get("/api/sparkit/trivia/questions/random/:categorySlug", async (req, res) => {
+    try {
+      const { categorySlug } = req.params;
+      const count = parseInt(req.query.count as string) || 5;
+      
+      // Map frontend category slugs to database category names
+      const categoryNameMap: Record<string, string> = {
+        'pop-culture': 'Pop Culture',
+        'science': 'Science',
+        'history': 'History',
+        'geography': 'Geography',
+        'food-drink': 'Food & Drink',
+        'sports': 'Sports',
+        'music': 'Music',
+        'literature': 'Art & Literature',
+        'general': 'General Knowledge',
+        'couples': 'General Knowledge'
+      };
+      
+      const categoryName = categoryNameMap[categorySlug];
+      if (!categoryName) {
+        return res.status(404).json({ error: "Category not found" });
+      }
+      
+      // Get all questions for this category by matching category name
+      const questions = await storage.getTriviaQuestionsByCategoryName(categoryName);
+      
+      if (questions.length === 0) {
+        return res.status(404).json({ error: "No questions found for this category" });
+      }
+      
+      // Shuffle and take the requested count
+      const shuffled = [...questions].sort(() => 0.5 - Math.random());
+      const randomQuestions = shuffled.slice(0, Math.min(count, questions.length));
+      
+      res.json(randomQuestions);
+    } catch (error) {
+      console.error('Get random trivia questions error:', error);
+      res.status(500).json({ error: "Failed to get random trivia questions" });
+    }
+  });
+
   // Create trivia contest (send challenge)
   app.post("/api/sparkit/trivia/contests", requireSparkitAuth, verifyCoupleOwnershipBody, async (req, res) => {
     try {
