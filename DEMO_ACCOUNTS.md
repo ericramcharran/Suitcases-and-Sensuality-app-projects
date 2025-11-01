@@ -40,7 +40,7 @@ https://app-projects-ericramcharran.replit.app/sparkit/login
 
 ---
 
-## Trial Accounts (4 couples = 8 logins)
+## Trial Accounts (5 couples = 10 logins)
 **Features:** 20 total sparks, limited features
 
 ### 1. Alex & Jordan (Newly Dating)
@@ -67,13 +67,19 @@ https://app-projects-ericramcharran.replit.app/sparkit/login
 - **Sage:** `sage@demo.com` / `demo123`
 - **Subscription:** Trial | 20 Sparks Total
 
+### 5. Avery & Kaitlyn (Long Term Dating)
+- **Couple Code:** `DEMO05`
+- **Avery:** `avery@demo.com` / `demo123`
+- **Kaitlyn:** `kaitlyn@demo.com` / `demo123`
+- **Subscription:** Trial | 20 Sparks Total
+
 ---
 
 ## Summary
-- **Total:** 9 couples (18 individual logins)
+- **Total:** 10 couples (20 individual logins)
 - **All Passwords:** `demo123`
 - **Email Domain:** `@demo.com`
-- **Couple Codes:** Easy to remember (DEVST1, PREMM1, PREM02, PREM03, DREW01, DEMO01-04)
+- **Couple Codes:** Easy to remember (DEVST1, PREMM1, PREM02, PREM03, DREW01, DEMO01-05)
 
 ---
 

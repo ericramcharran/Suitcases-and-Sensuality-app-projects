@@ -87,6 +87,16 @@ const DEMO_ACCOUNTS = [
     subscriptionPlan: "trial",
     sparksRemaining: 20,
   },
+  {
+    coupleCode: "DEMO05",
+    partner1Name: "Avery",
+    partner2Name: "Kaitlyn",
+    partner1Email: "avery@demo.com",
+    partner2Email: "kaitlyn@demo.com",
+    subscriptionPlan: "trial",
+    sparksRemaining: 20,
+    relationshipType: "long_term_dating",
+  },
 ];
 
 export async function seedDemoAccounts() {
@@ -121,7 +131,7 @@ export async function seedDemoAccounts() {
             subscriptionPlan: account.subscriptionPlan as any,
             sparksRemaining: account.sparksRemaining,
             subscriptionStatus: "active",
-            relationshipType: "monogamous",
+            relationshipType: account.relationshipType || "monogamous",
             partner2JoinedAt: new Date(),
           })
           .where(eq(sparkitCouples.id, existing[0].id));
@@ -142,7 +152,7 @@ export async function seedDemoAccounts() {
           sparksRemaining: account.sparksRemaining,
           lastSparkReset: new Date(),
           partner2JoinedAt: new Date(),
-          relationshipType: "monogamous",
+          relationshipType: account.relationshipType || "monogamous",
         });
         
         console.log(`  ✅ Created ${account.coupleCode} (${account.partner1Email})`);
