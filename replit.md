@@ -47,7 +47,7 @@ Both applications use React 18+ with TypeScript, Vite for bundling, and Wouter f
 -   **Spark It! Premium Subscription:** Stripe-powered monthly ($6.99) and yearly ($59.99) plans offering unlimited sparks, custom avatars, and video calling. A trial system provides 10 total sparks OR 7 days. Premium features are gated.
 -   **Spark It! Activity Database:** 253 activities across 19 categories (In-Person, Long-Distance, Boredom Buster, Polyamorous).
 -   **Spark It! AI Activity Discovery (Feature Flag Controlled):** OpenAI GPT-4 Turbo powered location-based activity suggestions using Replit AI Integrations.
--   **Spark It! Trivia System:** 225+ trivia questions across 10 categories.
+-   **Spark It! Trivia System:** 225+ trivia questions across 10 categories with real-time WebSocket notifications when partner completes a challenge.
 -   **Spark It! Video Calling:** Daily.co integration for embedded video calls.
 
 **System Design Choices:**
@@ -57,9 +57,11 @@ Both applications use React 18+ with TypeScript, Vite for bundling, and Wouter f
 -   `react-signature-canvas` for digital signatures.
 -   VAPID and service worker for web push notifications (shared).
 -   `push_subscriptions` table supports both applications.
+-   WebSocket infrastructure for real-time updates (spark button synchronization, trivia completion notifications).
 -   Daily.co integration for video calling.
 -   Session-based authentication for Spark It! with PostgreSQL store and 30-day cookie persistence.
 -   `localStorage` for `sparkitCoupleId` to enable client-side couple context.
+-   Trivia challenges use WebSocket + polling fallback for real-time completion notifications.
 
 ## External Dependencies
 
