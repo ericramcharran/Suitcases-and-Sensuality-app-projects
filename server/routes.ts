@@ -1495,7 +1495,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Create a new couple (first partner signs up)
   app.post("/api/sparkit/couples", async (req, res) => {
     try {
-      const { partner1Name, partner1Email, partner1Password, city, state, relationshipType } = req.body;
+      const { partner1Name, partner1Email, partner1Password, city, state, relationshipType, coupleCode: customCoupleCode, subscriptionPlan } = req.body;
       
       if (!partner1Name || !partner1Email || !partner1Password) {
         return res.status(400).json({ error: "Name, email, and password are required" });
@@ -1510,14 +1510,32 @@ export async function registerRoutes(app: Express): Promise<Server> {
       // Hash password before storing
       const hashedPassword = await bcrypt.hash(partner1Password, 10);
 
-      // Generate unique couple code
-      let coupleCode = generateCoupleCode();
-      let codeExists = await storage.getCoupleByCode(coupleCode);
+      // Generate or validate custom couple code
+      let coupleCode: string;
       
-      // Ensure code is unique
-      while (codeExists) {
+      if (customCoupleCode) {
+        // Validate custom code format (6 alphanumeric characters)
+        if (!/^[A-Z0-9]{6}$/.test(customCoupleCode)) {
+          return res.status(400).json({ error: "Couple code must be exactly 6 uppercase alphanumeric characters" });
+        }
+        
+        // Check if custom code already exists
+        const codeExists = await storage.getCoupleByCode(customCoupleCode);
+        if (codeExists) {
+          return res.status(400).json({ error: "This couple code is already in use. Please choose a different code." });
+        }
+        
+        coupleCode = customCoupleCode;
+      } else {
+        // Generate unique couple code automatically
         coupleCode = generateCoupleCode();
-        codeExists = await storage.getCoupleByCode(coupleCode);
+        let codeExists = await storage.getCoupleByCode(coupleCode);
+        
+        // Ensure code is unique
+        while (codeExists) {
+          coupleCode = generateCoupleCode();
+          codeExists = await storage.getCoupleByCode(coupleCode);
+        }
       }
 
       const couple = await storage.createCouple({
@@ -1526,7 +1544,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         partner1Email,
         partner1Password: hashedPassword,
         partner2Name: null,
-        subscriptionPlan: 'trial', // Start with trial for immediate premium features access
+        subscriptionPlan: subscriptionPlan || 'trial', // Accept custom subscription plan or default to trial
         sparksRemaining: 10, // Trial gets 10 total sparks
         lastSparkReset: new Date(),
         stripeCustomerId: null,
