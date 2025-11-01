@@ -1,5 +1,5 @@
 import { db } from "./db";
-import { sparkitCouples } from "../db/schema";
+import { sparkitCouples } from "@shared/schema";
 import { eq, or } from "drizzle-orm";
 import bcrypt from "bcrypt";
 
