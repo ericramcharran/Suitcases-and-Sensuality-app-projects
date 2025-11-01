@@ -1538,14 +1538,17 @@ export async function registerRoutes(app: Express): Promise<Server> {
         }
       }
 
+      const planType = subscriptionPlan || 'trial';
+      const initialSparks = planType === 'trial' ? 20 : 999; // Trial gets 20 sparks, Premium gets 999 (effectively unlimited)
+      
       const couple = await storage.createCouple({
         coupleCode,
         partner1Name,
         partner1Email,
         partner1Password: hashedPassword,
         partner2Name: null,
-        subscriptionPlan: subscriptionPlan || 'trial', // Accept custom subscription plan or default to trial
-        sparksRemaining: 10, // Trial gets 10 total sparks
+        subscriptionPlan: planType,
+        sparksRemaining: initialSparks,
         lastSparkReset: new Date(),
         stripeCustomerId: null,
         stripeSubscriptionId: null,
