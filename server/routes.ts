@@ -2384,8 +2384,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Get trivia contest by ID
-  app.get("/api/sparkit/trivia/contests/:id", requireSparkitAuth, verifyTriviaContestOwnership, async (req, res) => {
+  // Get trivia contest by ID (PUBLIC - anyone with link can access)
+  app.get("/api/sparkit/trivia/contests/:id", async (req, res) => {
     try {
       const { id } = req.params;
       const contest = await storage.getTriviaContestById(id);
@@ -2414,8 +2414,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Submit trivia answers
-  app.post("/api/sparkit/trivia/contests/:id/answers", requireSparkitAuth, async (req, res) => {
+  // Submit trivia answers (PUBLIC - anyone with link can submit)
+  app.post("/api/sparkit/trivia/contests/:id/answers", async (req, res) => {
     try {
       const { id } = req.params;
       const { answers, receiverName } = req.body;
@@ -2470,8 +2470,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Get trivia results (contest with answers)
-  app.get("/api/sparkit/trivia/contests/:id/results", requireSparkitAuth, verifyTriviaContestOwnership, async (req, res) => {
+  // Get trivia results (contest with answers) (PUBLIC - anyone with link can view)
+  app.get("/api/sparkit/trivia/contests/:id/results", async (req, res) => {
     try {
       const { id } = req.params;
       const contest = await storage.getTriviaContestById(id);
