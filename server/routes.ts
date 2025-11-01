@@ -2442,8 +2442,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
       for (const answer of answers) {
         await storage.createTriviaAnswer({
           contestId: id,
-          questionId: answer.questionId,
-          selectedAnswer: answer.selectedAnswer,
+          coupleId: contest.coupleId,
+          partner: 'guest', // Person taking the challenge (not logged in)
+          questionId: String(answer.questionId),
+          selectedAnswer: String(answer.selectedAnswer),
           isCorrect: answer.isCorrect
         });
         
