@@ -2370,6 +2370,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const { categorySlug } = req.params;
       const count = parseInt(req.query.count as string) || 5;
       
+      console.log('[Trivia Questions API] Request for category:', categorySlug, 'count:', count);
+      
       // Map frontend category slugs to database category names
       const categoryNameMap: Record<string, string> = {
         'pop-culture': 'Pop Culture',
@@ -2385,14 +2387,19 @@ export async function registerRoutes(app: Express): Promise<Server> {
       };
       
       const categoryName = categoryNameMap[categorySlug];
+      console.log('[Trivia Questions API] Mapped to category name:', categoryName);
+      
       if (!categoryName) {
+        console.error('[Trivia Questions API] Category slug not found:', categorySlug);
         return res.status(404).json({ error: "Category not found" });
       }
       
       // Get all questions for this category by matching category name
       const questions = await storage.getTriviaQuestionsByCategoryName(categoryName);
+      console.log('[Trivia Questions API] Found questions:', questions.length);
       
       if (questions.length === 0) {
+        console.error('[Trivia Questions API] No questions for category:', categoryName);
         return res.status(404).json({ error: "No questions found for this category" });
       }
       
@@ -2400,9 +2407,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const shuffled = [...questions].sort(() => 0.5 - Math.random());
       const randomQuestions = shuffled.slice(0, Math.min(count, questions.length));
       
+      console.log('[Trivia Questions API] Returning', randomQuestions.length, 'questions');
       res.json(randomQuestions);
     } catch (error) {
-      console.error('Get random trivia questions error:', error);
+      console.error('[Trivia Questions API] Error:', error);
       res.status(500).json({ error: "Failed to get random trivia questions" });
     }
   });
