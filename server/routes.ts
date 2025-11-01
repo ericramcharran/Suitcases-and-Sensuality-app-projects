@@ -912,6 +912,48 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Admin endpoint to view demo user activity logs
+  app.get("/api/admin/demo-activity", async (req, res) => {
+    try {
+      const { window = '24h', severity, eventType, coupleCode, limit = '50', offset = '0' } = req.query;
+      
+      // Parse and validate query params
+      const parsedLimit = Math.min(parseInt(limit as string) || 50, 200); // Max 200 per request
+      const parsedOffset = parseInt(offset as string) || 0;
+      
+      // Validate window parameter
+      if (window && !['24h', '7d', '30d'].includes(window as string)) {
+        return res.status(400).json({ error: "Invalid window parameter. Use: 24h, 7d, or 30d" });
+      }
+
+      // Fetch logs with filters
+      const logs = await storage.getDemoActivityLogs({
+        window: window as '24h' | '7d' | '30d',
+        severity: severity as string,
+        eventType: eventType as string,
+        coupleCode: coupleCode as string,
+        limit: parsedLimit,
+        offset: parsedOffset
+      });
+
+      res.json({
+        logs,
+        count: logs.length,
+        filters: {
+          window,
+          severity,
+          eventType,
+          coupleCode,
+          limit: parsedLimit,
+          offset: parsedOffset
+        }
+      });
+    } catch (error) {
+      console.error('Error fetching demo activity logs:', error);
+      res.status(500).json({ error: "Failed to fetch demo activity logs" });
+    }
+  });
+
   // Get potential matches for a user
   app.get("/api/matches/potential/:userId", async (req, res) => {
     try {
@@ -1430,6 +1472,21 @@ export async function registerRoutes(app: Express): Promise<Server> {
       req.session.sparkitCoupleId = couple.id;
       req.session.sparkitPartnerRole = partnerRole;
 
+      // Log demo user activity
+      await storage.logDemoActivity({
+        coupleId: couple.id,
+        coupleCode: couple.coupleCode,
+        partnerRole,
+        actorEmail: email,
+        eventType: 'auth',
+        eventName: 'login',
+        eventSource: 'auth',
+        eventPayload: {
+          partner: partnerRole,
+          partnerName: partnerRole === 'partner1' ? couple.partner1Name : couple.partner2Name
+        }
+      });
+
       res.json({ 
         coupleId: couple.id, 
         partnerRole,
@@ -1444,6 +1501,26 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Logout for Spark It!
   app.post("/api/sparkit/auth/logout", async (req, res) => {
     try {
+      const coupleId = req.session.sparkitCoupleId;
+      const partnerRole = req.session.sparkitPartnerRole;
+
+      // Log demo user activity before clearing session
+      if (coupleId && partnerRole) {
+        const couple = await storage.getCoupleById(coupleId);
+        if (couple) {
+          const email = partnerRole === 'partner1' ? couple.partner1Email : couple.partner2Email;
+          await storage.logDemoActivity({
+            coupleId,
+            coupleCode: couple.coupleCode,
+            partnerRole,
+            actorEmail: email,
+            eventType: 'auth',
+            eventName: 'logout',
+            eventSource: 'auth'
+          });
+        }
+      }
+
       req.session.sparkitCoupleId = undefined;
       req.session.sparkitPartnerRole = undefined;
       res.json({ success: true });
@@ -1557,6 +1634,23 @@ export async function registerRoutes(app: Express): Promise<Server> {
         relationshipType: relationshipType || 'monogamous'
       });
 
+      // Log demo user activity
+      await storage.logDemoActivity({
+        coupleId: couple.id,
+        coupleCode: couple.coupleCode,
+        partnerRole: 'partner1',
+        actorEmail: partner1Email,
+        eventType: 'auth',
+        eventName: 'signup',
+        eventSource: 'signup',
+        eventPayload: {
+          partner: 'partner1',
+          partnerName: partner1Name,
+          subscriptionPlan: planType,
+          relationshipType: relationshipType || 'monogamous'
+        }
+      });
+
       // Auto-login after signup
       req.session.sparkitCoupleId = couple.id;
       req.session.sparkitPartnerRole = 'partner1';
@@ -1596,15 +1690,31 @@ export async function registerRoutes(app: Express): Promise<Server> {
       // Hash password before storing
       const hashedPassword = await bcrypt.hash(partner2Password, 10);
 
-      // When partner 2 joins, start the trial period with 10 total sparks
+      // When partner 2 joins, start the trial period with 20 total sparks
       const updatedCouple = await storage.updateCouple(couple.id, {
         partner2Name,
         partner2Email,
         partner2Password: hashedPassword,
         partner2JoinedAt: new Date(),
         subscriptionPlan: 'trial',
-        sparksRemaining: 10, // Trial gets 10 total sparks
+        sparksRemaining: 20, // Trial gets 20 total sparks
         totalSparksUsed: 0 // Reset counter
+      });
+
+      // Log demo user activity
+      await storage.logDemoActivity({
+        coupleId: updatedCouple!.id,
+        coupleCode: updatedCouple!.coupleCode,
+        partnerRole: 'partner2',
+        actorEmail: partner2Email,
+        eventType: 'auth',
+        eventName: 'join_couple',
+        eventSource: 'signup',
+        eventPayload: {
+          partner: 'partner2',
+          partnerName: partner2Name,
+          partner1Name: updatedCouple!.partner1Name
+        }
       });
 
       // Auto-login after joining
@@ -1835,6 +1945,24 @@ export async function registerRoutes(app: Express): Promise<Server> {
         console.log('[Use Spark] Sending navigation message to partner2');
         partner2Client.send(navigationMessage);
       }
+
+      // Log demo user activity - use partner1 email as default since this is a couple action
+      const actorEmail = couple.partner1Email || couple.partner2Email;
+      await storage.logDemoActivity({
+        coupleId: id,
+        coupleCode: couple.coupleCode,
+        partnerRole: null,  // Both partners involved in activity reveal
+        actorEmail,
+        eventType: 'spark',
+        eventName: 'activity_reveal',
+        eventSource: 'spark',
+        eventPayload: {
+          activityTitle: activity.title,
+          activityCategory: activity.category,
+          sparksRemaining: couple.sparksRemaining,
+          subscriptionPlan: couple.subscriptionPlan
+        }
+      });
 
       res.json(couple);
     } catch (error) {
@@ -2136,6 +2264,27 @@ export async function registerRoutes(app: Express): Promise<Server> {
       } catch (pushError) {
         console.error('[Button Press] Push notification error:', pushError);
       }
+
+      // Log demo user activity
+      const actorEmail = partner === 'partner1' ? couple.partner1Email : couple.partner2Email;
+      await storage.logDemoActivity({
+        coupleId: id,
+        coupleCode: couple.coupleCode,
+        partnerRole: partner,
+        actorEmail,
+        eventType: 'spark',
+        eventName: 'button_press',
+        eventSource: 'spark',
+        eventPayload: {
+          partner,
+          presserName,
+          notificationsSent: {
+            websocket: !!(partner1Client || partner2Client),
+            sms: !!recipientPhone,
+            push: subscriptions?.length > 0
+          }
+        }
+      });
       
       console.log(`[Button Press] Response sent successfully`);
       res.json({ success: true });

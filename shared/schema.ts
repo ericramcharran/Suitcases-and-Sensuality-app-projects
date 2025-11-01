@@ -238,6 +238,21 @@ export const sparkitVideoSessions = pgTable("sparkit_video_sessions", {
   createdAt: timestamp("created_at").defaultNow(),
 });
 
+export const sparkitActivityLogs = pgTable("sparkit_activity_logs", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  coupleId: varchar("couple_id").references(() => sparkitCouples.id), // Nullable for signup events
+  coupleCode: text("couple_code"), // For demo identification (DEVST1, DEMO01, etc.)
+  partnerRole: text("partner_role"), // 'partner1' or 'partner2' (who performed the action)
+  actorEmail: text("actor_email"), // Email of the person performing the action
+  eventType: text("event_type").notNull(), // 'auth', 'spark', 'feature', 'error'
+  eventName: text("event_name").notNull(), // 'login', 'button_press', 'activity_reveal', etc.
+  eventSource: text("event_source"), // 'signup', 'spark', 'trivia', 'video', 'scoreboard'
+  eventPayload: jsonb("event_payload"), // Structured data about the event
+  errorSeverity: text("error_severity"), // 'low', 'medium', 'high', 'critical' (only for errors)
+  errorMessage: text("error_message"), // Error details if applicable
+  createdAt: timestamp("created_at").defaultNow(),
+});
+
 export const insertVerificationCodeSchema = createInsertSchema(verificationCodes).omit({
   id: true,
   createdAt: true,
@@ -334,6 +349,11 @@ export const insertSparkitVideoSessionSchema = createInsertSchema(sparkitVideoSe
   createdAt: true,
 });
 
+export const insertSparkitActivityLogSchema = createInsertSchema(sparkitActivityLogs).omit({
+  id: true,
+  createdAt: true,
+});
+
 // Update partner names schema (for PATCH /api/sparkit/couples/:id/names)
 export const updateCoupleNamesSchema = z.object({
   partner1Name: z.string().min(1).max(50).optional(),
@@ -381,3 +401,5 @@ export type InsertSparkitTriviaAnswer = z.infer<typeof insertSparkitTriviaAnswer
 export type SparkitTriviaAnswer = typeof sparkitTriviaAnswers.$inferSelect;
 export type InsertSparkitVideoSession = z.infer<typeof insertSparkitVideoSessionSchema>;
 export type SparkitVideoSession = typeof sparkitVideoSessions.$inferSelect;
+export type InsertSparkitActivityLog = z.infer<typeof insertSparkitActivityLogSchema>;
+export type SparkitActivityLog = typeof sparkitActivityLogs.$inferSelect;

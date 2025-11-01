@@ -25,6 +25,8 @@ import {
   type InsertSparkitTriviaAnswer,
   type SparkitVideoSession,
   type InsertSparkitVideoSession,
+  type SparkitActivityLog,
+  type InsertSparkitActivityLog,
   users, 
   matches,
   personalityAnswers,
@@ -38,7 +40,8 @@ import {
   sparkitActivityResults,
   sparkitTriviaContests,
   sparkitTriviaAnswers,
-  sparkitVideoSessions
+  sparkitVideoSessions,
+  sparkitActivityLogs
 } from "@shared/schema";
 import { db } from "./db";
 import { eq, and, desc, or } from "drizzle-orm";
@@ -123,6 +126,17 @@ export interface IStorage {
   getVideoSessionById(id: string): Promise<SparkitVideoSession | undefined>;
   getActiveVideoSessionByCoupleId(coupleId: string): Promise<SparkitVideoSession | undefined>;
   updateVideoSession(id: string, updates: Partial<InsertSparkitVideoSession>): Promise<SparkitVideoSession | undefined>;
+  
+  // Spark It! Activity Logging for Demo Users
+  logDemoActivity(log: InsertSparkitActivityLog): Promise<SparkitActivityLog | null>;
+  getDemoActivityLogs(filters: {
+    window?: '24h' | '7d' | '30d';
+    severity?: string;
+    eventType?: string;
+    coupleCode?: string;
+    limit?: number;
+    offset?: number;
+  }): Promise<SparkitActivityLog[]>;
 }
 
 export class DatabaseStorage implements IStorage {
@@ -620,6 +634,109 @@ export class DatabaseStorage implements IStorage {
       .where(eq(sparkitVideoSessions.id, id))
       .returning();
     return result[0];
+  }
+
+  // Spark It! Activity Logging for Demo Users
+  async logDemoActivity(log: InsertSparkitActivityLog): Promise<SparkitActivityLog | null> {
+    const demoCodes = ['DEVST1', 'PREMM1', 'PREM02', 'PREM03', 'DREW01', 'DEMO01', 'DEMO02', 'DEMO03', 'DEMO04'];
+    
+    // Normalize email to lowercase for consistent demo detection
+    const normalizedEmail = log.actorEmail?.toLowerCase();
+    
+    // Check if this is a demo user (email ends with @demo.com OR couple code is in demo list)
+    const isDemoUser = (normalizedEmail && normalizedEmail.endsWith('@demo.com')) || 
+                      (log.coupleCode && demoCodes.includes(log.coupleCode));
+    
+    if (!isDemoUser) {
+      return null; // Not a demo user, don't log
+    }
+
+    // Insert the activity log
+    const result = await db.insert(sparkitActivityLogs).values(log).returning();
+    
+    // If high or critical error, also log to console for immediate visibility
+    if (log.errorSeverity && ['high', 'critical'].includes(log.errorSeverity)) {
+      console.error(`🚨 DEMO USER ERROR [${log.errorSeverity.toUpperCase()}]:`, {
+        couple: log.coupleCode,
+        email: log.actorEmail,
+        event: log.eventName,
+        error: log.errorMessage,
+        payload: log.eventPayload
+      });
+    }
+    
+    return result[0];
+  }
+
+  async getDemoActivityLogs(filters: {
+    window?: '24h' | '7d' | '30d';
+    severity?: string;
+    eventType?: string;
+    coupleCode?: string;
+    limit?: number;
+    offset?: number;
+  }): Promise<SparkitActivityLog[]> {
+    const { gt, lte, sql, inArray } = await import("drizzle-orm");
+    const demoCodes = ['DEVST1', 'PREMM1', 'PREM02', 'PREM03', 'DREW01', 'DEMO01', 'DEMO02', 'DEMO03', 'DEMO04'];
+    
+    // Build time window filter
+    const now = new Date();
+    let timeFilter;
+    
+    if (filters.window === '24h') {
+      const dayAgo = new Date(now.getTime() - 24 * 60 * 60 * 1000);
+      timeFilter = gt(sparkitActivityLogs.createdAt, dayAgo);
+    } else if (filters.window === '7d') {
+      const weekAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
+      timeFilter = gt(sparkitActivityLogs.createdAt, weekAgo);
+    } else if (filters.window === '30d') {
+      const monthAgo = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
+      timeFilter = gt(sparkitActivityLogs.createdAt, monthAgo);
+    }
+
+    // Build conditions array
+    const conditions: any[] = [];
+    
+    // Filter to only demo couple codes
+    if (filters.coupleCode) {
+      conditions.push(eq(sparkitActivityLogs.coupleCode, filters.coupleCode));
+    } else {
+      // If no specific couple code, show all demo couples
+      conditions.push(inArray(sparkitActivityLogs.coupleCode, demoCodes));
+    }
+    
+    if (timeFilter) {
+      conditions.push(timeFilter);
+    }
+    
+    if (filters.severity) {
+      conditions.push(eq(sparkitActivityLogs.errorSeverity, filters.severity));
+    }
+    
+    if (filters.eventType) {
+      conditions.push(eq(sparkitActivityLogs.eventType, filters.eventType));
+    }
+
+    // Build query
+    let query = db.select()
+      .from(sparkitActivityLogs)
+      .orderBy(desc(sparkitActivityLogs.createdAt));
+
+    // Apply conditions
+    if (conditions.length > 0) {
+      query = query.where(and(...conditions)) as any;
+    }
+
+    // Apply pagination
+    if (filters.limit) {
+      query = query.limit(filters.limit) as any;
+    }
+    
+    if (filters.offset) {
+      query = query.offset(filters.offset) as any;
+    }
+
+    return await query;
   }
 }
 
