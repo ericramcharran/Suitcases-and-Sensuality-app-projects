@@ -1,7 +1,7 @@
 import { useLocation, useRoute } from "wouter";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Share2, Copy, CheckCircle, MessageSquare, ArrowLeft, Trophy } from "lucide-react";
+import { Share2, Copy, CheckCircle, MessageSquare, ArrowLeft, Trophy, Zap } from "lucide-react";
 import { useState, useEffect } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { useQuery } from "@tanstack/react-query";
@@ -16,6 +16,7 @@ export default function SparkitTriviaShare() {
   const [partnerRole, setPartnerRole] = useState<string | null>(null);
   const [challengeAccepted, setChallengeAccepted] = useState(false);
   const [acceptedByName, setAcceptedByName] = useState<string | null>(null);
+  const [countdown, setCountdown] = useState<number | null>(null);
   const [challengeCompleted, setChallengeCompleted] = useState(false);
   const [completionData, setCompletionData] = useState<{
     receiverName: string;
@@ -56,6 +57,7 @@ export default function SparkitTriviaShare() {
       console.log('[Trivia Share] Contest accepted via polling');
       setChallengeAccepted(true);
       setAcceptedByName(contestStatus.receiverName);
+      setCountdown(3); // Start countdown to redirect
     }
 
     // Check if challenge was completed
@@ -75,6 +77,24 @@ export default function SparkitTriviaShare() {
     }
   }, [contestStatus, challengeAccepted, challengeCompleted, toast]);
 
+  // Handle countdown and auto-redirect when challenge is accepted
+  useEffect(() => {
+    if (countdown === null) return;
+
+    if (countdown === 0) {
+      // Redirect to results page
+      setLocation(`/sparkit/trivia/results/${contestId}`);
+      return;
+    }
+
+    // Countdown timer
+    const timer = setTimeout(() => {
+      setCountdown(countdown - 1);
+    }, 1000);
+
+    return () => clearTimeout(timer);
+  }, [countdown, contestId, setLocation]);
+
   // Initialize WebSocket listener for trivia acceptance and completion
   useEffect(() => {
     if (!coupleId || !partnerRole) return;
@@ -92,6 +112,7 @@ export default function SparkitTriviaShare() {
       if (data.contestId === contestId) {
         setChallengeAccepted(true);
         setAcceptedByName(data.receiverName);
+        setCountdown(3); // Start countdown to redirect
 
         toast({
           title: "Challenge Accepted!",
@@ -268,24 +289,30 @@ export default function SparkitTriviaShare() {
             </CardContent>
           </Card>
         ) : challengeAccepted && acceptedByName ? (
-          <Card className="mb-6 bg-gradient-to-r from-purple-500/20 to-red-500/20 border-purple-500/30 animate-in fade-in slide-in-from-bottom-4">
-            <CardContent className="pt-6">
-              <div className="flex items-start gap-3">
-                <div className="flex-shrink-0">
-                  <div className="w-12 h-12 rounded-full bg-gradient-to-r from-purple-500 to-red-500 flex items-center justify-center">
-                    <CheckCircle className="w-6 h-6 text-white" />
-                  </div>
+          <Card className="mb-6 bg-gradient-to-r from-purple-500 to-red-500 text-white animate-in fade-in zoom-in-95 duration-500">
+            <CardContent className="pt-8 pb-8">
+              <div className="text-center">
+                <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-white/20 mb-4 animate-pulse">
+                  {countdown !== null && countdown > 0 ? (
+                    <span className="text-4xl font-bold">{countdown}</span>
+                  ) : (
+                    <Zap className="w-10 h-10" />
+                  )}
                 </div>
-                <div className="flex-1">
-                  <h3 className="font-semibold text-lg mb-1">Challenge Accepted!</h3>
-                  <p className="text-sm text-muted-foreground mb-3">
-                    {acceptedByName} is currently answering the questions...
+                <h3 className="text-2xl font-bold mb-2">Challenge Accepted!</h3>
+                <p className="text-lg mb-4">
+                  {acceptedByName} is ready to compete!
+                </p>
+                {countdown !== null && countdown > 0 ? (
+                  <p className="text-sm opacity-90">
+                    Get ready to see the results in {countdown}...
                   </p>
-                  <div className="flex items-center gap-2 text-sm text-purple-600">
-                    <div className="w-2 h-2 rounded-full bg-purple-600 animate-pulse" />
-                    <span className="font-medium">In Progress</span>
+                ) : (
+                  <div className="flex items-center justify-center gap-2">
+                    <div className="w-2 h-2 rounded-full bg-white animate-pulse" />
+                    <span className="font-medium">Taking you to results...</span>
                   </div>
-                </div>
+                )}
               </div>
             </CardContent>
           </Card>
