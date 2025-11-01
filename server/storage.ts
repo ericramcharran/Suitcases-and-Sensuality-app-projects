@@ -155,6 +155,19 @@ export class DatabaseStorage implements IStorage {
     return await db.select().from(users);
   }
 
+  // Get Spark It couple by Stripe customer ID
+  async getCoupleByStripeCustomerId(stripeCustomerId: string): Promise<SparkitCouple | undefined> {
+    const result = await db.select()
+      .from(sparkitCouples)
+      .where(eq(sparkitCouples.stripeCustomerId, stripeCustomerId));
+    return result[0];
+  }
+
+  // Get all Spark It couples (use with caution - for admin only, add pagination in production)
+  async getAllCouples(): Promise<SparkitCouple[]> {
+    return await db.select().from(sparkitCouples);
+  }
+
   // Match operations
   async createMatch(insertMatch: InsertMatch): Promise<Match> {
     // Check if there's a reciprocal like
@@ -367,6 +380,9 @@ export class DatabaseStorage implements IStorage {
   }
 
   async useSpark(id: string): Promise<SparkitCouple | undefined> {
+    const { gt, sql } = await import("drizzle-orm");
+    
+    // Fetch couple data first
     const couple = await this.getCoupleById(id);
     if (!couple) return undefined;
 
@@ -378,7 +394,7 @@ export class DatabaseStorage implements IStorage {
         : 0;
 
       // Check if trial has expired (10 sparks OR 7 days)
-      if (totalUsed >= 10 || daysOnTrial >= 7) {
+      if (totalUsed >= 20 || daysOnTrial >= 7) {
         // Trial expired - set sparks to 0 and return
         const result = await db
           .update(sparkitCouples)
@@ -389,42 +405,48 @@ export class DatabaseStorage implements IStorage {
       }
     }
 
-    // STEP 2: Handle premium plans (unlimited sparks)
+    // STEP 2: Handle premium plans (unlimited sparks) - ATOMIC UPDATE
     if (couple.subscriptionPlan === 'monthly' || couple.subscriptionPlan === 'yearly') {
-      // Premium users always have sparks available - set to NULL for unlimited
+      // Premium users always have sparks available
       const result = await db
         .update(sparkitCouples)
         .set({ 
-          totalSparksUsed: (couple.totalSparksUsed || 0) + 1,
-          sparksRemaining: null as any // NULL = unlimited for premium users
+          totalSparksUsed: sql`COALESCE(${sparkitCouples.totalSparksUsed}, 0) + 1`,
+          sparksRemaining: 999 // Keep at 999 for premium
         })
         .where(eq(sparkitCouples.id, id))
         .returning();
       return result[0];
     }
 
-    // STEP 3: For trial plan, consume a spark if available (NO daily reset for trial)
+    // STEP 3: For trial plan, consume a spark if available - ATOMIC UPDATE
     if (couple.subscriptionPlan === 'trial') {
-      if ((couple.sparksRemaining ?? 0) > 0) {
-        const result = await db
-          .update(sparkitCouples)
-          .set({ 
-            sparksRemaining: (couple.sparksRemaining ?? 0) - 1,
-            totalSparksUsed: (couple.totalSparksUsed || 0) + 1
-          })
-          .where(eq(sparkitCouples.id, id))
-          .returning();
-        return result[0];
+      // Use atomic UPDATE with WHERE clause to prevent race conditions
+      const result = await db
+        .update(sparkitCouples)
+        .set({ 
+          sparksRemaining: sql`${sparkitCouples.sparksRemaining} - 1`,
+          totalSparksUsed: sql`COALESCE(${sparkitCouples.totalSparksUsed}, 0) + 1`
+        })
+        .where(
+          and(
+            eq(sparkitCouples.id, id),
+            gt(sparkitCouples.sparksRemaining, 0) // Only update if sparks > 0
+          )
+        )
+        .returning();
+      
+      // If no rows updated, fetch current state to return
+      if (result.length === 0) {
+        return await this.getCoupleById(id);
       }
-      // No sparks remaining
-      return couple;
+      return result[0];
     }
 
     // STEP 4: Check if we need to reset daily sparks (for free plans only)
     const today = new Date().toDateString();
     const lastReset = couple.lastSparkReset ? new Date(couple.lastSparkReset).toDateString() : null;
     
-    let currentSparksRemaining = couple.sparksRemaining ?? 0;
     if (lastReset !== today) {
       // Reset daily sparks AND consume one spark atomically
       const result = await db
@@ -432,27 +454,33 @@ export class DatabaseStorage implements IStorage {
         .set({ 
           sparksRemaining: 2, // 3 - 1 (reset to 3, then immediately use 1)
           lastSparkReset: new Date(),
-          totalSparksUsed: (couple.totalSparksUsed || 0) + 1
+          totalSparksUsed: sql`COALESCE(${sparkitCouples.totalSparksUsed}, 0) + 1`
         })
         .where(eq(sparkitCouples.id, id))
         .returning();
       return result[0];
     }
 
-    // STEP 5: For free plans, use a spark if available
-    if (currentSparksRemaining > 0) {
-      const result = await db
-        .update(sparkitCouples)
-        .set({ 
-          sparksRemaining: currentSparksRemaining - 1,
-          totalSparksUsed: (couple.totalSparksUsed || 0) + 1
-        })
-        .where(eq(sparkitCouples.id, id))
-        .returning();
-      return result[0];
+    // STEP 5: For free plans, use a spark if available - ATOMIC UPDATE
+    const result = await db
+      .update(sparkitCouples)
+      .set({ 
+        sparksRemaining: sql`${sparkitCouples.sparksRemaining} - 1`,
+        totalSparksUsed: sql`COALESCE(${sparkitCouples.totalSparksUsed}, 0) + 1`
+      })
+      .where(
+        and(
+          eq(sparkitCouples.id, id),
+          gt(sparkitCouples.sparksRemaining, 0) // Only update if sparks > 0
+        )
+      )
+      .returning();
+    
+    // If no rows updated, fetch current state to return
+    if (result.length === 0) {
+      return await this.getCoupleById(id);
     }
-
-    return couple;
+    return result[0];
   }
 
   async resetDailySparks(id: string): Promise<SparkitCouple | undefined> {
@@ -500,19 +528,23 @@ export class DatabaseStorage implements IStorage {
     ties: number;
     totalActivities: number;
   }> {
-    const results = await db.select()
-      .from(sparkitActivityResults)
-      .where(eq(sparkitActivityResults.coupleId, coupleId));
-
-    const partner1Wins = results.filter(r => r.winner === 'partner1').length;
-    const partner2Wins = results.filter(r => r.winner === 'partner2').length;
-    const ties = results.filter(r => r.winner === 'tie').length;
+    const { sql } = await import("drizzle-orm");
+    
+    // Use SQL aggregation for better performance - single query instead of fetch + filter
+    const result = await db.select({
+      partner1Wins: sql<number>`COUNT(CASE WHEN ${sparkitActivityResults.winner} = 'partner1' THEN 1 END)`,
+      partner2Wins: sql<number>`COUNT(CASE WHEN ${sparkitActivityResults.winner} = 'partner2' THEN 1 END)`,
+      ties: sql<number>`COUNT(CASE WHEN ${sparkitActivityResults.winner} = 'tie' THEN 1 END)`,
+      totalActivities: sql<number>`COUNT(*)`
+    })
+    .from(sparkitActivityResults)
+    .where(eq(sparkitActivityResults.coupleId, coupleId));
 
     return {
-      partner1Wins,
-      partner2Wins,
-      ties,
-      totalActivities: results.length
+      partner1Wins: Number(result[0].partner1Wins) || 0,
+      partner2Wins: Number(result[0].partner2Wins) || 0,
+      ties: Number(result[0].ties) || 0,
+      totalActivities: Number(result[0].totalActivities) || 0
     };
   }
 
