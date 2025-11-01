@@ -2470,6 +2470,42 @@ export async function registerRoutes(app: Express): Promise<Server> {
         receiverName
       });
 
+      // Get couple data to send notification to the sender
+      const couple = await storage.getCoupleById(contest.coupleId);
+      
+      if (couple) {
+        // Determine sender's phone number
+        let senderPhone: string | null = null;
+        if (contest.senderName === couple.partner1Name && couple.partner1Phone) {
+          senderPhone = couple.partner1Phone;
+        } else if (contest.senderName === couple.partner2Name && couple.partner2Phone) {
+          senderPhone = couple.partner2Phone;
+        }
+
+        // Send SMS notification to the sender
+        if (senderPhone) {
+          const resultsUrl = `${process.env.REPLIT_DEV_DOMAIN || 'http://localhost:5000'}/sparkit/trivia/results/${id}`;
+          const message = `🎉 ${receiverName} completed your ${contest.categoryName} trivia challenge! They scored ${correctCount}/5. View results: ${resultsUrl}`;
+          
+          try {
+            const smsResult = await sendSMS({ 
+              to: senderPhone, 
+              message 
+            });
+            
+            if (smsResult.success) {
+              console.log(`[Trivia Complete] SMS sent to ${contest.senderName} at ${senderPhone}`);
+            } else {
+              console.log(`[Trivia Complete] SMS failed: ${smsResult.error}`);
+            }
+          } catch (smsError) {
+            console.error('[Trivia Complete] SMS error:', smsError);
+          }
+        } else {
+          console.log(`[Trivia Complete] No phone number for sender ${contest.senderName}`);
+        }
+      }
+
       res.json({
         contest: updatedContest,
         score: correctCount,
