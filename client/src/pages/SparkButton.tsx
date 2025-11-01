@@ -29,12 +29,27 @@ export default function SparkButton() {
   const coupleId = authData?.coupleId ?? coupleIdFromStorage;
   const partnerRole = authData?.partnerRole ?? null;
 
+  // DEBUG: Log auth state
+  useEffect(() => {
+    console.log('[SparkButton DEBUG] authData:', authData);
+    console.log('[SparkButton DEBUG] coupleIdFromStorage:', coupleIdFromStorage);
+    console.log('[SparkButton DEBUG] Final coupleId:', coupleId);
+    console.log('[SparkButton DEBUG] partnerRole:', partnerRole);
+  }, [authData, coupleIdFromStorage, coupleId, partnerRole]);
+
   // Fetch couple data from database
-  const { data: couple, isLoading } = useQuery<SparkitCouple>({
+  const { data: couple, isLoading, error: coupleError } = useQuery<SparkitCouple>({
     queryKey: ["/api/sparkit/couples", coupleId],
     enabled: !!coupleId,
     refetchInterval: 5000, // Refresh every 5 seconds to check for partner joining
   });
+
+  // DEBUG: Log couple query results
+  useEffect(() => {
+    console.log('[SparkButton DEBUG] couple data:', couple);
+    console.log('[SparkButton DEBUG] couple isLoading:', isLoading);
+    console.log('[SparkButton DEBUG] couple error:', coupleError);
+  }, [couple, isLoading, coupleError]);
 
   // WebSocket connection for real-time button press synchronization
   useEffect(() => {
