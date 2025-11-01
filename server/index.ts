@@ -10,6 +10,11 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
+// CRITICAL: Trust proxy so secure cookies work in production
+// Replit uses a proxy for HTTPS, so we need to trust it
+// Without this, secure cookies are silently dropped in production
+app.set('trust proxy', 1);
+
 // Configure PostgreSQL session store for persistent login across server restarts
 const PgSession = connectPgSimple(session);
 
