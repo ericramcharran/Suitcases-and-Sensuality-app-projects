@@ -1,11 +1,30 @@
 import { useState, useEffect, useMemo } from "react";
-import { Shield, Heart, Sparkles, Star, Lock, Crown, Flower2 } from "lucide-react";
+import { Shield, Lock, Key, Link as LinkIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useLocation } from "wouter";
 import { motion, useReducedMotion } from "framer-motion";
 import { Link } from "wouter";
 import animatedLogo from "@assets/crop animate logo_1760889514164.mp4";
+
+// BDSM-themed custom SVG icons
+const RopeKnot = ({ className }: { className?: string }) => (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" className={className}>
+    <path d="M6 6 Q 12 2, 18 6 Q 22 12, 18 18 Q 12 22, 6 18 Q 2 12, 6 6 Z" strokeWidth="2" strokeLinecap="round"/>
+    <circle cx="12" cy="12" r="3" strokeWidth="2"/>
+    <path d="M 9 9 L 15 15 M 15 9 L 9 15" strokeWidth="2" strokeLinecap="round"/>
+  </svg>
+);
+
+const CollarLeash = ({ className }: { className?: string }) => (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" className={className}>
+    <circle cx="12" cy="8" r="6" strokeWidth="2.5"/>
+    <circle cx="12" cy="8" r="2" fill="currentColor"/>
+    <path d="M 12 10 L 12 22" strokeWidth="2" strokeLinecap="round"/>
+    <circle cx="9" cy="8" r="0.8" fill="currentColor"/>
+    <circle cx="15" cy="8" r="0.8" fill="currentColor"/>
+  </svg>
+);
 
 export default function Landing() {
   const [, setLocation] = useLocation();
@@ -16,14 +35,14 @@ export default function Landing() {
 
   // Memoize particle configuration to prevent re-creation on each render
   const particles = useMemo(() => {
-    const icons = [Heart, Flower2, Star, Sparkles, Lock, Crown];
+    const icons = [Lock, Key, LinkIcon, RopeKnot, CollarLeash, Shield];
     const colors = [
       'text-rose-400/80',
-      'text-pink-400/80',
-      'text-purple-400/80',
-      'text-blue-400/80',
-      'text-indigo-400/80',
-      'text-fuchsia-400/80'
+      'text-rose-500/80',
+      'text-rose-400/70',
+      'text-rose-500/70',
+      'text-rose-400/90',
+      'text-rose-500/90'
     ];
     
     return Array.from({ length: 24 }, (_, i) => ({
@@ -56,7 +75,7 @@ export default function Landing() {
   }, [isAnimating, destination, setLocation]);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-pink-50 via-purple-50 to-blue-50 dark:from-gray-950 dark:via-purple-950/20 dark:to-blue-950/20 flex flex-col justify-center items-center px-4 sm:px-6 py-8 sm:py-12 relative">
+    <div className="min-h-screen bg-gradient-to-br from-rose-950/20 via-background to-background dark:from-gray-950 dark:via-rose-950/10 dark:to-background flex flex-col justify-center items-center px-4 sm:px-6 py-8 sm:py-12 relative">
       {/* Animated background particles */}
       {!shouldReduceMotion && (
         <div className="absolute inset-0 pointer-events-none overflow-hidden">
@@ -122,12 +141,16 @@ export default function Landing() {
                     ease: "easeOut"
                   }}
                 >
-                  {i % 3 === 0 ? (
-                    <Heart className="w-8 h-8 text-pink-400" fill="currentColor" />
-                  ) : i % 3 === 1 ? (
-                    <Star className="w-8 h-8 text-purple-400" fill="currentColor" />
+                  {i % 5 === 0 ? (
+                    <Lock className="w-8 h-8 text-rose-400" />
+                  ) : i % 5 === 1 ? (
+                    <Key className="w-8 h-8 text-rose-400" />
+                  ) : i % 5 === 2 ? (
+                    <LinkIcon className="w-8 h-8 text-rose-400" />
+                  ) : i % 5 === 3 ? (
+                    <RopeKnot className="w-8 h-8 text-rose-400" />
                   ) : (
-                    <Sparkles className="w-8 h-8 text-blue-400" />
+                    <CollarLeash className="w-8 h-8 text-rose-400" />
                   )}
                 </motion.div>
               );
