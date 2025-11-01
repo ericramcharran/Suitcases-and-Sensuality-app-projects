@@ -66,7 +66,13 @@ export function AvatarDisplay({
       if (avatarIcon.imagePath) {
         return (
           <Avatar className={`${sizeClass} ${className}`} data-testid={testId || `avatar-icon-${iconId}`}>
-            <img src={avatarIcon.imagePath} alt={avatarIcon.label} className="object-cover" />
+            <img 
+              src={avatarIcon.imagePath} 
+              alt={avatarIcon.label} 
+              className="object-cover" 
+              loading="lazy"
+              decoding="async"
+            />
             <AvatarFallback className="bg-gradient-to-br from-nexus-purple/20 to-nexus-red/20">
               <FallbackIcon className={iconSize} />
             </AvatarFallback>
@@ -117,7 +123,13 @@ export function AvatarDisplay({
   // Custom uploaded avatar
   return (
     <Avatar className={`${sizeClass} ${className}`} data-testid={testId || "avatar-custom"}>
-      <img src={avatarUrl} alt="Avatar" className="object-cover" />
+      <img 
+        src={avatarUrl} 
+        alt="Avatar" 
+        className="object-cover" 
+        loading="lazy"
+        decoding="async"
+      />
       <AvatarFallback className="bg-gradient-to-br from-nexus-purple/20 to-nexus-red/20">
         <FallbackIcon className={iconSize} />
       </AvatarFallback>
