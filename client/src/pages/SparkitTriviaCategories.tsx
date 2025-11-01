@@ -48,7 +48,9 @@ export default function SparkitTriviaCategories() {
       console.log('[Trivia] Fetching questions for category:', categoryId);
       
       // Fetch random questions from the database API instead of using local file
-      const questionsRes = await fetch(`/api/sparkit/trivia/questions/random/${categoryId}?count=5`);
+      const questionsRes = await fetch(`/api/sparkit/trivia/questions/random/${categoryId}?count=5`, {
+        credentials: 'include'
+      });
       if (!questionsRes.ok) {
         const errorText = await questionsRes.text();
         console.error('[Trivia] Failed to fetch questions:', questionsRes.status, errorText);
