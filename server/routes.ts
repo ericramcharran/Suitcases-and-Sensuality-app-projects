@@ -2501,6 +2501,79 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Start/accept trivia challenge (PUBLIC - anyone with link can start)
+  app.post("/api/sparkit/trivia/contests/:id/start", async (req, res) => {
+    try {
+      const { id } = req.params;
+      const { receiverName } = req.body;
+
+      if (!receiverName) {
+        return res.status(400).json({ error: "receiverName is required" });
+      }
+
+      const contest = await storage.getTriviaContestById(id);
+      if (!contest) {
+        return res.status(404).json({ error: "Contest not found" });
+      }
+
+      if (contest.status === 'completed') {
+        return res.status(400).json({ error: "Contest has already been completed" });
+      }
+
+      // Atomically update receiverName only if it's not already set
+      // This prevents race conditions from concurrent acceptance attempts
+      const updatedContest = await storage.startTriviaContest(id, receiverName);
+
+      // If update failed, someone else already accepted
+      if (!updatedContest) {
+        return res.status(400).json({ 
+          error: "Contest has already been started"
+        });
+      }
+
+      // Get couple data to send notification to the sender
+      const couple = await storage.getCoupleById(contest.coupleId);
+      
+      if (couple) {
+        // Determine sender's partner role
+        let senderPartnerRole: 'partner1' | 'partner2' | null = null;
+        
+        if (contest.senderName === couple.partner1Name) {
+          senderPartnerRole = 'partner1';
+        } else if (contest.senderName === couple.partner2Name) {
+          senderPartnerRole = 'partner2';
+        }
+
+        // Send WebSocket notification to the sender
+        if (senderPartnerRole) {
+          const senderUserId = `sparkit-${contest.coupleId}-${senderPartnerRole}`;
+          const senderClient = (global as any).webSocketClients?.get(senderUserId);
+          
+          if (senderClient && senderClient.readyState === 1) {
+            const wsMessage = JSON.stringify({
+              type: 'trivia-accepted',
+              data: {
+                contestId: id,
+                categoryName: contest.categoryName,
+                receiverName
+              }
+            });
+            
+            senderClient.send(wsMessage);
+            console.log(`[Trivia Started] WebSocket notification sent to ${contest.senderName}: ${receiverName} started the challenge`);
+          } else {
+            console.log(`[Trivia Started] Sender ${contest.senderName} not connected via WebSocket`);
+          }
+        }
+      }
+
+      res.json({ success: true, message: "Challenge started" });
+    } catch (error) {
+      console.error('Start trivia contest error:', error);
+      res.status(500).json({ error: "Failed to start trivia contest" });
+    }
+  });
+
   // Submit trivia answers (PUBLIC - anyone with link can submit)
   app.post("/api/sparkit/trivia/contests/:id/answers", async (req, res) => {
     try {

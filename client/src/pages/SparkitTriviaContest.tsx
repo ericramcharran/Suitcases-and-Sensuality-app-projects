@@ -88,7 +88,7 @@ export default function SparkitTriviaContest() {
     }
   });
 
-  const handleStart = () => {
+  const handleStart = async () => {
     if (!receiverName.trim()) {
       toast({
         title: "Name required",
@@ -97,7 +97,34 @@ export default function SparkitTriviaContest() {
       });
       return;
     }
-    setStarted(true);
+
+    try {
+      // Notify backend that challenge has been accepted
+      await apiRequest("POST", `/api/sparkit/trivia/contests/${contestId}/start`, {
+        receiverName
+      });
+      
+      setStarted(true);
+    } catch (error: any) {
+      console.error('Failed to start challenge:', error);
+      
+      // If challenge was already started by someone else, block them
+      if (error.message?.includes('already been started')) {
+        toast({
+          title: "Challenge Already Started",
+          description: "Someone else has already accepted this challenge",
+          variant: "destructive"
+        });
+        return;
+      }
+      
+      // For other errors (network, server errors), show error but don't proceed
+      toast({
+        title: "Connection Error",
+        description: "Failed to start challenge. Please check your connection and try again.",
+        variant: "destructive"
+      });
+    }
   };
 
   const handleAnswerSelect = (answer: string) => {

@@ -14,6 +14,8 @@ export default function SparkitTriviaShare() {
   const [copied, setCopied] = useState(false);
   const [coupleId, setCoupleId] = useState<string | null>(null);
   const [partnerRole, setPartnerRole] = useState<string | null>(null);
+  const [challengeAccepted, setChallengeAccepted] = useState(false);
+  const [acceptedByName, setAcceptedByName] = useState<string | null>(null);
   const [challengeCompleted, setChallengeCompleted] = useState(false);
   const [completionData, setCompletionData] = useState<{
     receiverName: string;
@@ -45,9 +47,19 @@ export default function SparkitTriviaShare() {
     refetchInterval: 5000, // Poll every 5 seconds
   });
 
-  // Check if contest was completed (either via WebSocket or polling)
+  // Check if contest was accepted or completed (via polling as fallback)
   useEffect(() => {
-    if (contestStatus && contestStatus.status === 'completed' && !challengeCompleted) {
+    if (!contestStatus) return;
+
+    // Check if challenge was accepted (receiverName set but not yet completed)
+    if (contestStatus.receiverName && contestStatus.status === 'pending' && !challengeAccepted) {
+      console.log('[Trivia Share] Contest accepted via polling');
+      setChallengeAccepted(true);
+      setAcceptedByName(contestStatus.receiverName);
+    }
+
+    // Check if challenge was completed
+    if (contestStatus.status === 'completed' && !challengeCompleted) {
       console.log('[Trivia Share] Contest completed via polling');
       setChallengeCompleted(true);
       setCompletionData({
@@ -57,13 +69,13 @@ export default function SparkitTriviaShare() {
       });
 
       toast({
-        title: "Challenge Completed! 🎉",
+        title: "Challenge Completed!",
         description: `${contestStatus.receiverName} scored ${contestStatus.score}/5!`,
       });
     }
-  }, [contestStatus, challengeCompleted, toast]);
+  }, [contestStatus, challengeAccepted, challengeCompleted, toast]);
 
-  // Initialize WebSocket listener for trivia completion
+  // Initialize WebSocket listener for trivia acceptance and completion
   useEffect(() => {
     if (!coupleId || !partnerRole) return;
 
@@ -72,6 +84,21 @@ export default function SparkitTriviaShare() {
     
     // Initialize WebSocket connection
     notifManager.initialize(userId);
+
+    // Handle trivia acceptance notification
+    const handleTriviaAccepted = (data: any) => {
+      console.log('[Trivia Share] Received trivia-accepted event:', data);
+      
+      if (data.contestId === contestId) {
+        setChallengeAccepted(true);
+        setAcceptedByName(data.receiverName);
+
+        toast({
+          title: "Challenge Accepted!",
+          description: `${data.receiverName} is taking your ${data.categoryName} challenge!`,
+        });
+      }
+    };
 
     // Handle trivia completion notification
     const handleTriviaCompleted = (data: any) => {
@@ -92,17 +119,19 @@ export default function SparkitTriviaShare() {
         });
 
         toast({
-          title: "Challenge Completed! 🎉",
+          title: "Challenge Completed!",
           description: `${data.receiverName} scored ${data.score}/${data.totalQuestions}!`,
         });
       }
     };
 
-    // Register the handler
+    // Register the handlers
+    notifManager.on('trivia-accepted', handleTriviaAccepted);
     notifManager.on('trivia-completed', handleTriviaCompleted);
 
     // Cleanup on unmount
     return () => {
+      notifManager.off('trivia-accepted');
       notifManager.off('trivia-completed');
     };
   }, [coupleId, partnerRole, contestId, challengeCompleted, toast]);
@@ -235,6 +264,28 @@ export default function SparkitTriviaShare() {
                 >
                   View Results
                 </Button>
+              </div>
+            </CardContent>
+          </Card>
+        ) : challengeAccepted && acceptedByName ? (
+          <Card className="mb-6 bg-gradient-to-r from-purple-500/20 to-red-500/20 border-purple-500/30 animate-in fade-in slide-in-from-bottom-4">
+            <CardContent className="pt-6">
+              <div className="flex items-start gap-3">
+                <div className="flex-shrink-0">
+                  <div className="w-12 h-12 rounded-full bg-gradient-to-r from-purple-500 to-red-500 flex items-center justify-center">
+                    <CheckCircle className="w-6 h-6 text-white" />
+                  </div>
+                </div>
+                <div className="flex-1">
+                  <h3 className="font-semibold text-lg mb-1">Challenge Accepted!</h3>
+                  <p className="text-sm text-muted-foreground mb-3">
+                    {acceptedByName} is currently answering the questions...
+                  </p>
+                  <div className="flex items-center gap-2 text-sm text-purple-600">
+                    <div className="w-2 h-2 rounded-full bg-purple-600 animate-pulse" />
+                    <span className="font-medium">In Progress</span>
+                  </div>
+                </div>
               </div>
             </CardContent>
           </Card>

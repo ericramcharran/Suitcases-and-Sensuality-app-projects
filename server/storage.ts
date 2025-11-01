@@ -46,7 +46,7 @@ import {
   sparkitActivityLogs
 } from "@shared/schema";
 import { db } from "./db";
-import { eq, and, desc, or, inArray } from "drizzle-orm";
+import { eq, and, desc, or, inArray, isNull } from "drizzle-orm";
 
 export interface IStorage {
   // User operations
@@ -125,6 +125,7 @@ export interface IStorage {
   createTriviaAnswer(answer: InsertSparkitTriviaAnswer): Promise<SparkitTriviaAnswer>;
   getTriviaAnswersByContestId(contestId: string): Promise<SparkitTriviaAnswer[]>;
   updateTriviaContest(id: string, updates: Partial<InsertSparkitTriviaContest>): Promise<SparkitTriviaContest | undefined>;
+  startTriviaContest(id: string, receiverName: string): Promise<SparkitTriviaContest | null>;
   
   // Spark It! Video Session operations
   createVideoSession(session: InsertSparkitVideoSession): Promise<SparkitVideoSession>;
@@ -649,6 +650,24 @@ export class DatabaseStorage implements IStorage {
       .where(eq(sparkitTriviaContests.id, id))
       .returning();
     return result[0];
+  }
+
+  async startTriviaContest(id: string, receiverName: string): Promise<SparkitTriviaContest | null> {
+    // Atomically update receiverName only if it's not already set
+    // This prevents race conditions from concurrent acceptance attempts
+    const result = await db
+      .update(sparkitTriviaContests)
+      .set({ receiverName })
+      .where(
+        and(
+          eq(sparkitTriviaContests.id, id),
+          isNull(sparkitTriviaContests.receiverName)
+        )
+      )
+      .returning();
+    
+    // If no rows were updated, someone else already accepted
+    return result.length > 0 ? result[0] : null;
   }
 
   // Spark It! Video Session operations
