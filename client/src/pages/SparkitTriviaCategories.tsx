@@ -48,12 +48,17 @@ export default function SparkitTriviaCategories() {
       const questions = getRandomQuestionsByCategory(categoryId, 5);
       const questionIds = questions.map(q => q.id);
 
+      // Use the logged-in partner's name as sender
+      const senderName = couple?.loggedInPartnerRole === 'partner1' 
+        ? couple?.partner1Name 
+        : couple?.partner2Name;
+
       return await apiRequest("POST", "/api/sparkit/trivia/contests", {
         coupleId,
         categoryId: category.id,
         categoryName: category.name,
         questionIds,
-        senderName: couple?.partner1Name || "Partner 1"
+        senderName: senderName || "Partner"
       });
     },
     onSuccess: (data) => {
@@ -130,7 +135,11 @@ export default function SparkitTriviaCategories() {
             </div>
             <h1 className="text-3xl font-bold mb-2">Trivia Challenge</h1>
             <p className="text-muted-foreground">
-              Choose a category to challenge {couple.partner2Name || "your partner"}!
+              Choose a category to challenge {
+                couple.loggedInPartnerRole === 'partner1' 
+                  ? couple.partner2Name 
+                  : couple.partner1Name
+              }!
             </p>
           </div>
         </div>

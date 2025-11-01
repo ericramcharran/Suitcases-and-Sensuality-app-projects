@@ -1753,7 +1753,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(404).json({ error: "Couple not found" });
       }
 
-      res.json(couple);
+      // Include which partner is logged in
+      res.json({
+        ...couple,
+        loggedInPartnerRole: req.session.sparkitPartnerRole
+      });
     } catch (error) {
       console.error('Get couple error:', error);
       res.status(500).json({ error: "Failed to get couple" });
