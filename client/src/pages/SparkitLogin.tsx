@@ -148,24 +148,37 @@ export default function SparkitLogin() {
             </form>
           </Form>
 
-          <div className="mt-6 text-center space-y-4">
-            <div className="pt-4 border-t space-y-2">
-              <p className="text-xs text-muted-foreground">
-                Don't have an account?{" "}
-                <Link href="/sparkit/signup">
-                  <span className="text-purple-600 hover:underline cursor-pointer" data-testid="link-signup">
-                    Create account
-                  </span>
-                </Link>
-              </p>
-              <p className="text-xs text-muted-foreground">
-                Have a code?{" "}
-                <Link href="/sparkit/join">
-                  <span className="text-purple-600 hover:underline cursor-pointer" data-testid="link-join">
-                    Join a couple
-                  </span>
-                </Link>
-              </p>
+          <div className="mt-6 space-y-3">
+            <div className="relative">
+              <div className="absolute inset-0 flex items-center">
+                <div className="w-full border-t"></div>
+              </div>
+              <div className="relative flex justify-center text-xs uppercase">
+                <span className="bg-card px-2 text-muted-foreground">Or</span>
+              </div>
+            </div>
+
+            <div className="space-y-3">
+              <Link href="/sparkit/signup">
+                <Button
+                  variant="outline"
+                  className="w-full border-purple-200 hover:bg-purple-50 dark:border-purple-800 dark:hover:bg-purple-950"
+                  data-testid="link-signup"
+                >
+                  <Sparkles className="w-4 h-4 mr-2" />
+                  Create New Account
+                </Button>
+              </Link>
+
+              <Link href="/sparkit/join">
+                <Button
+                  variant="outline"
+                  className="w-full border-rose-200 hover:bg-rose-50 dark:border-rose-800 dark:hover:bg-rose-950"
+                  data-testid="link-join"
+                >
+                  Have a Couple Code? Join Here
+                </Button>
+              </Link>
             </div>
           </div>
         </CardContent>
