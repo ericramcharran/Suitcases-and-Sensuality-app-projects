@@ -162,6 +162,7 @@ export const sparkitCouples = pgTable("sparkit_couples", {
   partner1LastPressed: timestamp("partner1_last_pressed"), // Track when partner1 last pressed button
   partner2LastPressed: timestamp("partner2_last_pressed"), // Track when partner2 last pressed button
   currentActivityData: jsonb("current_activity_data"), // Current activity for both partners to see (generated on backend)
+  recentActivityIds: jsonb("recent_activity_ids").$type<number[]>().default(sql`'[]'`), // Track last 15 activity IDs to prevent duplicates
   createdAt: timestamp("created_at").defaultNow(),
 });
 

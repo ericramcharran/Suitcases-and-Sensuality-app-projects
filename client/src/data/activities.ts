@@ -3865,13 +3865,26 @@ export const activities: Activity[] = [
   }
 ];
 
-export function getRandomActivity(relationshipType?: string | null): Activity {
+export function getRandomActivity(relationshipType?: string | null, recentActivityIds: number[] = []): Activity {
   // Filter out polyamorous activities unless the couple is polyamorous
   let availableActivities = activities;
   
   if (relationshipType !== 'polyamorous') {
     // Exclude polyamorous category for non-polyamorous couples
     availableActivities = activities.filter(activity => activity.category !== 'Polyamorous');
+  }
+  
+  // Filter out recently used activities to prevent duplicates
+  if (recentActivityIds.length > 0) {
+    const filteredActivities = availableActivities.filter(
+      activity => !recentActivityIds.includes(activity.id)
+    );
+    
+    // Only use filtered list if we still have enough activities left
+    // If we've used too many recent activities, reset and allow duplicates
+    if (filteredActivities.length > 0) {
+      availableActivities = filteredActivities;
+    }
   }
   
   // Defensive check: ensure we have activities available

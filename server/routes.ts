@@ -1927,18 +1927,27 @@ export async function registerRoutes(app: Express): Promise<Server> {
         });
       }
 
-      // Generate a random activity for this spark
+      // Get recent activity IDs to prevent duplicates
+      const recentActivityIds = (couple.recentActivityIds as number[]) || [];
+      console.log(`[Use Spark] Recent activity IDs (${recentActivityIds.length}):`, recentActivityIds);
+
+      // Generate a random activity for this spark (excluding recent ones)
       const { getRandomActivity } = await import('../client/src/data/activities.js');
-      const activity = getRandomActivity(couple.relationshipType);
-      console.log(`[Use Spark] Generated activity: ${activity.title}`);
+      const activity = getRandomActivity(couple.relationshipType, recentActivityIds);
+      console.log(`[Use Spark] Generated activity: ${activity.title} (ID: ${activity.id})`);
+
+      // Update recent activity IDs (keep last 15)
+      const updatedRecentIds = [...recentActivityIds, activity.id].slice(-15);
+      console.log(`[Use Spark] Updated recent IDs (${updatedRecentIds.length}):`, updatedRecentIds);
 
       // Clear button press timestamps and store the activity after spark is consumed
       await storage.updateCouple(id, {
         partner1LastPressed: null as any,
         partner2LastPressed: null as any,
-        currentActivityData: activity as any
+        currentActivityData: activity as any,
+        recentActivityIds: updatedRecentIds as any
       });
-      console.log('[Use Spark] Cleared button press timestamps and stored activity');
+      console.log('[Use Spark] Cleared button press timestamps, stored activity, and updated recent IDs');
 
       // Send WebSocket message to BOTH partners to navigate to activity page
       const partner1Client = wsClients.get(`sparkit-${id}-partner1`);
