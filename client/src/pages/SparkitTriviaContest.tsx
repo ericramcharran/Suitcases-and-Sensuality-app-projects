@@ -4,7 +4,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Brain, CheckCircle, XCircle } from "lucide-react";
+import { Brain, CheckCircle, XCircle, Zap, Trophy, Target } from "lucide-react";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { apiRequest, queryClient } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
@@ -173,50 +173,81 @@ export default function SparkitTriviaContest() {
 
   if (!started) {
     return (
-      <div className="nexus-app min-h-screen flex items-center justify-center p-4">
-        <Card className="w-full max-w-md">
-          <CardHeader>
-            <div className="text-center">
-              <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gradient-to-r from-purple-500 to-red-500 mb-4">
-                <Brain className="w-8 h-8 text-white" />
+      <div className="nexus-app min-h-screen flex items-center justify-center p-4 bg-gradient-to-br from-purple-500/10 via-transparent to-red-500/10">
+        <div className="w-full max-w-md">
+          <div className="text-center mb-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
+            <div className="relative inline-block mb-6">
+              <div className="absolute inset-0 bg-gradient-to-r from-purple-500 to-red-500 rounded-full blur-xl opacity-50 animate-pulse" />
+              <div className="relative inline-flex items-center justify-center w-24 h-24 rounded-full bg-gradient-to-r from-purple-500 to-red-500 shadow-lg">
+                <Brain className="w-12 h-12 text-white animate-pulse" />
               </div>
-              <CardTitle className="text-2xl mb-2">Trivia Challenge!</CardTitle>
-              <CardDescription>
-                {contest.senderName} has challenged you to a trivia contest in{" "}
-                <strong>{contest.categoryName}</strong>
-              </CardDescription>
             </div>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <div className="space-y-2">
-              <Label htmlFor="receiverName">Your Name</Label>
-              <Input
-                id="receiverName"
-                value={receiverName}
-                onChange={(e) => setReceiverName(e.target.value)}
-                placeholder="Enter your name"
-                data-testid="input-receiver-name"
-              />
+            <h1 className="text-4xl font-bold mb-3 bg-gradient-to-r from-purple-600 to-red-600 bg-clip-text text-transparent">
+              You've Been Challenged!
+            </h1>
+            <div className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-purple-500/20 to-red-500/20 rounded-full border border-purple-500/30 backdrop-blur-sm">
+              <span className="text-lg font-semibold">{contest.senderName}</span>
+              <span className="text-muted-foreground">→</span>
+              <span className="text-lg font-semibold text-purple-600">{contest.categoryName}</span>
             </div>
+          </div>
 
-            <div className="bg-muted rounded-lg p-4 space-y-2 text-sm">
-              <p className="font-semibold">Challenge Details:</p>
-              <ul className="space-y-1 text-muted-foreground">
-                <li>• 5 questions about {contest.categoryName}</li>
-                <li>• Choose the best answer for each</li>
-                <li>• See your score at the end</li>
-              </ul>
-            </div>
+          <Card className="backdrop-blur-sm bg-card/95 shadow-xl border-purple-500/20 animate-in fade-in slide-in-from-bottom-6 duration-700">
+            <CardContent className="pt-6 space-y-6">
+              <div className="space-y-3">
+                <Label htmlFor="receiverName" className="text-base font-semibold">
+                  Enter Your Name to Accept
+                </Label>
+                <Input
+                  id="receiverName"
+                  value={receiverName}
+                  onChange={(e) => setReceiverName(e.target.value)}
+                  placeholder="Your name here..."
+                  className="h-12 text-lg border-purple-500/30 focus:border-purple-500"
+                  data-testid="input-receiver-name"
+                />
+              </div>
 
-            <Button 
-              onClick={handleStart}
-              className="w-full"
-              data-testid="button-start-challenge"
-            >
-              Start Challenge
-            </Button>
-          </CardContent>
-        </Card>
+              <div className="relative overflow-hidden rounded-lg bg-gradient-to-r from-purple-500/10 to-red-500/10 p-6 border border-purple-500/20">
+                <div className="absolute top-0 right-0 w-32 h-32 bg-purple-500/20 rounded-full blur-3xl" />
+                <div className="relative space-y-3">
+                  <div className="flex items-center gap-2 text-lg font-semibold">
+                    <CheckCircle className="w-5 h-5 text-purple-600" />
+                    <span>Challenge Rules</span>
+                  </div>
+                  <ul className="space-y-2 text-sm">
+                    <li className="flex items-start gap-2">
+                      <CheckCircle className="w-4 h-4 text-purple-600 mt-0.5 flex-shrink-0" />
+                      <span>5 challenging questions about {contest.categoryName}</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <Zap className="w-4 h-4 text-purple-600 mt-0.5 flex-shrink-0" />
+                      <span>Choose wisely - only one answer per question!</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <Trophy className="w-4 h-4 text-purple-600 mt-0.5 flex-shrink-0" />
+                      <span>Beat {contest.senderName}'s score and claim victory!</span>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+
+              <Button 
+                onClick={handleStart}
+                size="lg"
+                className="w-full text-lg font-semibold bg-gradient-to-r from-purple-600 to-red-600 shadow-lg"
+                data-testid="button-start-challenge"
+              >
+                <Target className="w-5 h-5 mr-2" />
+                Accept Challenge
+              </Button>
+
+              <p className="text-center text-xs text-muted-foreground">
+                Think you can beat {contest.senderName}? Let's find out!
+              </p>
+            </CardContent>
+          </Card>
+        </div>
       </div>
     );
   }
