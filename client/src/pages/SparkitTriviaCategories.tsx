@@ -45,18 +45,35 @@ export default function SparkitTriviaCategories() {
       const category = triviaCategories.find(c => c.id === categoryId);
       if (!category) throw new Error("Category not found");
 
+      console.log('[Trivia] Fetching questions for category:', categoryId);
+      
       // Fetch random questions from the database API instead of using local file
       const questionsRes = await fetch(`/api/sparkit/trivia/questions/random/${categoryId}?count=5`);
       if (!questionsRes.ok) {
-        throw new Error("Failed to fetch trivia questions");
+        const errorText = await questionsRes.text();
+        console.error('[Trivia] Failed to fetch questions:', questionsRes.status, errorText);
+        throw new Error(`Failed to fetch trivia questions: ${questionsRes.status}`);
       }
       const questions = await questionsRes.json();
+      console.log('[Trivia] Fetched questions:', questions.length);
+      
+      if (!questions || questions.length === 0) {
+        throw new Error("No questions available for this category");
+      }
+      
       const questionIds = questions.map((q: any) => q.id);
 
       // Use the logged-in partner's name as sender
       const senderName = couple?.loggedInPartnerRole === 'partner1' 
         ? couple?.partner1Name 
         : couple?.partner2Name;
+
+      console.log('[Trivia] Creating contest with:', {
+        coupleId,
+        categoryId: category.id,
+        questionCount: questionIds.length,
+        senderName: senderName || "Partner"
+      });
 
       const res = await apiRequest("POST", "/api/sparkit/trivia/contests", {
         coupleId,
@@ -66,13 +83,16 @@ export default function SparkitTriviaCategories() {
         senderName: senderName || "Partner"
       });
       
-      return await res.json();
+      const data = await res.json();
+      console.log('[Trivia] Contest created:', data.id);
+      return data;
     },
     onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ["/api/sparkit/trivia/contests"] });
       setLocation(`/sparkit/trivia/share/${data.id}`);
     },
     onError: (error: Error) => {
+      console.error('[Trivia] Contest creation error:', error);
       toast({
         title: "Failed to create challenge",
         description: error.message,

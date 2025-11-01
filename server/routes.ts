@@ -2410,13 +2410,33 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Create trivia contest (send challenge)
   app.post("/api/sparkit/trivia/contests", requireSparkitAuth, verifyCoupleOwnershipBody, async (req, res) => {
     try {
+      console.log('[Trivia API] Creating contest. Session:', {
+        coupleId: req.session.sparkitCoupleId,
+        partnerRole: req.session.sparkitPartnerRole
+      });
+      console.log('[Trivia API] Request body:', {
+        coupleId: req.body.coupleId,
+        categoryId: req.body.categoryId,
+        categoryName: req.body.categoryName,
+        questionCount: req.body.questionIds?.length,
+        senderName: req.body.senderName
+      });
+
       const { coupleId, categoryId, categoryName, questionIds, senderName } = req.body;
       
       if (!coupleId || !categoryId || !categoryName || !questionIds || !senderName) {
+        console.error('[Trivia API] Missing required fields:', {
+          hasCoupleId: !!coupleId,
+          hasCategoryId: !!categoryId,
+          hasCategoryName: !!categoryName,
+          hasQuestionIds: !!questionIds,
+          hasSenderName: !!senderName
+        });
         return res.status(400).json({ error: "Missing required fields" });
       }
 
       if (!Array.isArray(questionIds) || questionIds.length !== 5) {
+        console.error('[Trivia API] Invalid questionIds:', questionIds);
         return res.status(400).json({ error: "questionIds must be an array of 5 question IDs" });
       }
 
@@ -2429,9 +2449,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
         status: 'pending'
       });
 
+      console.log('[Trivia API] Contest created successfully:', contest.id);
       res.json(contest);
     } catch (error) {
-      console.error('Create trivia contest error:', error);
+      console.error('[Trivia API] Create trivia contest error:', error);
       res.status(500).json({ error: "Failed to create trivia contest" });
     }
   });
