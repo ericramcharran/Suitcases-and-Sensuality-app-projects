@@ -366,8 +366,149 @@ export default function SparkButton() {
     trialDaysRemaining = Math.max(0, 7 - daysSinceJoin);
   }
 
+  // Check if trial has expired
+  const trialExpired = isOnTrial && sparksRemaining === 0;
+
   return (
     <div className="nexus-app" data-testid="spark-button-page">
+      {/* Trial Expired Modal - Blocks all interaction */}
+      {trialExpired && (
+        <div style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          background: 'rgba(0, 0, 0, 0.95)',
+          zIndex: 9999,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          padding: '20px',
+        }} data-testid="modal-trial-expired">
+          <div style={{
+            maxWidth: '600px',
+            width: '100%',
+            background: 'linear-gradient(135deg, rgba(138, 43, 226, 0.15) 0%, rgba(231, 76, 60, 0.15) 100%)',
+            border: '3px solid #e74c3c',
+            borderRadius: '20px',
+            padding: '40px',
+            textAlign: 'center',
+            boxShadow: '0 20px 60px rgba(231, 76, 60, 0.6)',
+          }}>
+            <div style={{
+              width: '80px',
+              height: '80px',
+              margin: '0 auto 30px',
+              background: 'linear-gradient(135deg, #e74c3c 0%, #c0392b 100%)',
+              borderRadius: '50%',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              boxShadow: '0 10px 30px rgba(231, 76, 60, 0.5)',
+            }}>
+              <Zap size={50} fill="white" stroke="white" />
+            </div>
+
+            <h2 style={{
+              fontSize: '2.2em',
+              fontWeight: 'bold',
+              marginBottom: '20px',
+              background: 'linear-gradient(135deg, #e74c3c 0%, #FFD700 100%)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              backgroundClip: 'text',
+            }}>
+              Trial Limit Reached!
+            </h2>
+
+            <p style={{
+              fontSize: '1.2em',
+              color: 'rgba(255, 255, 255, 0.9)',
+              marginBottom: '30px',
+              lineHeight: '1.6',
+            }}>
+              {trialDaysRemaining === 0 
+                ? "Your 7-day trial has ended. Upgrade to Premium to continue using Spark It! and enjoy unlimited sparks, custom avatars, and video calling!"
+                : "You've used all 20 trial sparks! Upgrade to Premium for unlimited sparks and exclusive features."}
+            </p>
+
+            <div style={{
+              background: 'rgba(255, 215, 0, 0.1)',
+              border: '2px solid #FFD700',
+              borderRadius: '15px',
+              padding: '25px',
+              marginBottom: '35px',
+            }}>
+              <h3 style={{
+                fontSize: '1.4em',
+                color: '#FFD700',
+                marginBottom: '15px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: '10px',
+              }}>
+                <Crown size={24} />
+                Premium Features
+              </h3>
+              <ul style={{
+                listStyle: 'none',
+                padding: 0,
+                margin: 0,
+                textAlign: 'left',
+                fontSize: '1em',
+                color: 'rgba(255, 255, 255, 0.85)',
+              }}>
+                <li style={{ marginBottom: '10px', display: 'flex', alignItems: 'center', gap: '10px' }}>
+                  <Zap size={18} color="#FFD700" />
+                  <span>Unlimited Sparks - Never run out!</span>
+                </li>
+                <li style={{ marginBottom: '10px', display: 'flex', alignItems: 'center', gap: '10px' }}>
+                  <Sparkles size={18} color="#FFD700" />
+                  <span>Custom Avatars - Personalize your profile</span>
+                </li>
+                <li style={{ marginBottom: '10px', display: 'flex', alignItems: 'center', gap: '10px' }}>
+                  <Users size={18} color="#FFD700" />
+                  <span>Video Calling - Connect face-to-face</span>
+                </li>
+              </ul>
+            </div>
+
+            <button
+              onClick={() => setLocation("/sparkit/pricing")}
+              className="cta-button"
+              style={{
+                background: 'linear-gradient(135deg, #FFD700 0%, #FFA500 100%)',
+                color: '#000',
+                padding: '18px 45px',
+                fontSize: '1.3em',
+                fontWeight: 'bold',
+                border: 'none',
+                borderRadius: '30px',
+                cursor: 'pointer',
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '12px',
+                boxShadow: '0 10px 30px rgba(255, 215, 0, 0.4)',
+                transition: 'all 0.3s',
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.transform = 'scale(1.05)';
+                e.currentTarget.style.boxShadow = '0 15px 40px rgba(255, 215, 0, 0.6)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = 'scale(1)';
+                e.currentTarget.style.boxShadow = '0 10px 30px rgba(255, 215, 0, 0.4)';
+              }}
+              data-testid="button-upgrade-required"
+            >
+              <Crown size={24} />
+              Upgrade to Premium
+            </button>
+          </div>
+        </div>
+      )}
       {/* Header - Mobile Responsive */}
       <div style={{ 
         padding: '12px 4vw', 
