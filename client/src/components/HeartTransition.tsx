@@ -1,4 +1,4 @@
-import { Heart, Sparkles, Star } from "lucide-react";
+import { Lock, Key, Link, Circle } from "lucide-react";
 import { useEffect } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 
@@ -22,16 +22,16 @@ export default function HeartTransition({ duration = 10000, onComplete }: HeartT
 
   if (shouldReduceMotion) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-pink-50 via-purple-50 to-blue-50 dark:from-background dark:via-background dark:to-background flex items-center justify-center p-10">
-        <Heart className="w-24 h-24 text-primary" fill="currentColor" />
+      <div className="min-h-screen bg-gradient-to-br from-rose-950/20 via-background to-background dark:from-background dark:via-background dark:to-background flex items-center justify-center p-10">
+        <Lock className="w-24 h-24 text-primary" />
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-pink-50 via-purple-50 to-blue-50 dark:from-gray-950 dark:via-purple-950/20 dark:to-blue-950/20 flex items-center justify-center p-10 relative overflow-hidden">
+    <div className="min-h-screen bg-gradient-to-br from-rose-950/20 via-background to-background dark:from-gray-950 dark:via-rose-950/10 dark:to-background flex items-center justify-center p-10 relative overflow-hidden">
       
-      {/* Rotating sparkle ring */}
+      {/* Rotating lock and key ring */}
       <motion.div
         className="absolute inset-0 flex items-center justify-center"
         animate={{ rotate: 360 }}
@@ -40,6 +40,7 @@ export default function HeartTransition({ duration = 10000, onComplete }: HeartT
         {Array.from({ length: 12 }).map((_, i) => {
           const angle = (i / 12) * Math.PI * 2;
           const radius = 250;
+          const Icon = i % 2 === 0 ? Lock : Key;
           return (
             <motion.div
               key={i}
@@ -58,13 +59,13 @@ export default function HeartTransition({ duration = 10000, onComplete }: HeartT
                 delay: i * 0.1,
               }}
             >
-              <Sparkles className="w-6 h-6 text-yellow-400" />
+              <Icon className="w-6 h-6 text-rose-400/80" />
             </motion.div>
           );
         })}
       </motion.div>
 
-      {/* Floating hearts */}
+      {/* Floating chains and links */}
       {Array.from({ length: 8 }).map((_, i) => {
         const side = i % 4;
         let startX, startY;
@@ -98,15 +99,15 @@ export default function HeartTransition({ duration = 10000, onComplete }: HeartT
               ease: "easeInOut",
             }}
           >
-            <Heart 
-              className="w-8 h-8 text-pink-400" 
-              fill="currentColor"
+            <Link 
+              className="w-8 h-8 text-rose-400/70" 
+              strokeWidth={2}
             />
           </motion.div>
         );
       })}
 
-      {/* Pulsing background circles */}
+      {/* Pulsing background circles - representing collars */}
       {[0, 1, 2].map((i) => (
         <motion.div
           key={`circle-${i}`}
@@ -114,7 +115,7 @@ export default function HeartTransition({ duration = 10000, onComplete }: HeartT
           style={{
             width: 100 + i * 100,
             height: 100 + i * 100,
-            border: "2px solid rgba(236, 72, 153, 0.3)",
+            border: "2px solid rgba(225, 29, 72, 0.3)",
           }}
           animate={{
             scale: [1, 1.3, 1],
@@ -129,7 +130,7 @@ export default function HeartTransition({ duration = 10000, onComplete }: HeartT
         />
       ))}
 
-      {/* Center heart container */}
+      {/* Center lock container */}
       <div className="relative flex items-center justify-center w-full max-w-md aspect-[9/16]">
         
         {/* Dramatic ripple waves */}
@@ -149,16 +150,14 @@ export default function HeartTransition({ duration = 10000, onComplete }: HeartT
               ease: "easeOut",
             }}
           >
-            <Heart 
+            <Lock 
               className="w-32 h-32 text-primary"
-              fill="none"
-              strokeWidth={3}
-              stroke="currentColor"
+              strokeWidth={2}
             />
           </motion.div>
         ))}
 
-        {/* Orbiting stars */}
+        {/* Orbiting keys */}
         <motion.div
           className="absolute inset-0"
           animate={{ rotate: -360 }}
@@ -169,7 +168,7 @@ export default function HeartTransition({ duration = 10000, onComplete }: HeartT
             const radius = 120;
             return (
               <motion.div
-                key={`star-${i}`}
+                key={`key-${i}`}
                 className="absolute"
                 style={{
                   left: `calc(50% + ${Math.cos(angle) * radius}px)`,
@@ -185,13 +184,13 @@ export default function HeartTransition({ duration = 10000, onComplete }: HeartT
                   delay: i * 0.2,
                 }}
               >
-                <Star className="w-6 h-6 text-purple-400" fill="currentColor" />
+                <Key className="w-6 h-6 text-rose-400/80" />
               </motion.div>
             );
           })}
         </motion.div>
 
-        {/* Main beating heart with glow */}
+        {/* Main pulsing lock with glow */}
         <motion.div
           className="relative z-10"
           animate={{
@@ -214,22 +213,21 @@ export default function HeartTransition({ duration = 10000, onComplete }: HeartT
               repeat: Infinity,
             }}
           >
-            <Heart 
+            <Lock 
               className="w-32 h-32 text-primary" 
-              fill="currentColor"
             />
           </motion.div>
           
-          {/* Solid heart */}
-          <Heart 
+          {/* Solid lock */}
+          <Lock 
             className="w-32 h-32 text-primary relative" 
-            fill="currentColor"
           />
         </motion.div>
 
-        {/* Particle burst from center */}
+        {/* Particle burst from center - alternating locks and chains */}
         {Array.from({ length: 16 }).map((_, i) => {
           const angle = (i / 16) * Math.PI * 2;
+          const Icon = i % 3 === 0 ? Lock : i % 3 === 1 ? Key : Link;
           return (
             <motion.div
               key={`burst-${i}`}
@@ -248,11 +246,7 @@ export default function HeartTransition({ duration = 10000, onComplete }: HeartT
                 ease: "easeOut",
               }}
             >
-              {i % 2 === 0 ? (
-                <Sparkles className="w-4 h-4 text-blue-400" />
-              ) : (
-                <Heart className="w-4 h-4 text-pink-400" fill="currentColor" />
-              )}
+              <Icon className="w-4 h-4 text-rose-400/70" />
             </motion.div>
           );
         })}
@@ -262,7 +256,7 @@ export default function HeartTransition({ duration = 10000, onComplete }: HeartT
       <motion.div
         className="absolute inset-0 pointer-events-none"
         style={{
-          background: "radial-gradient(circle at center, transparent 40%, rgba(236, 72, 153, 0.1) 100%)",
+          background: "radial-gradient(circle at center, transparent 40%, rgba(225, 29, 72, 0.1) 100%)",
         }}
         animate={{
           opacity: [0.3, 0.6, 0.3],
