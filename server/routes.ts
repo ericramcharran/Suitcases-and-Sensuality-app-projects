@@ -2552,12 +2552,40 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const couple = await storage.getCoupleById(contest.coupleId);
       
       if (couple) {
-        // Determine sender's phone number
+        // Determine sender's partner role
+        let senderPartnerRole: 'partner1' | 'partner2' | null = null;
         let senderPhone: string | null = null;
-        if (contest.senderName === couple.partner1Name && couple.partner1Phone) {
+        
+        if (contest.senderName === couple.partner1Name) {
+          senderPartnerRole = 'partner1';
           senderPhone = couple.partner1Phone;
-        } else if (contest.senderName === couple.partner2Name && couple.partner2Phone) {
+        } else if (contest.senderName === couple.partner2Name) {
+          senderPartnerRole = 'partner2';
           senderPhone = couple.partner2Phone;
+        }
+
+        // Send WebSocket notification to the sender
+        if (senderPartnerRole) {
+          const senderWsId = `sparkit-${contest.coupleId}-${senderPartnerRole}`;
+          const senderClient = wsClients.get(senderWsId);
+          
+          if (senderClient && senderClient.readyState === WebSocket.OPEN) {
+            const wsMessage = JSON.stringify({
+              type: 'trivia-completed',
+              data: {
+                contestId: id,
+                categoryName: contest.categoryName,
+                receiverName,
+                score: correctCount,
+                totalQuestions: 5
+              }
+            });
+            
+            senderClient.send(wsMessage);
+            console.log(`[Trivia Complete] WebSocket notification sent to ${contest.senderName}`);
+          } else {
+            console.log(`[Trivia Complete] Sender ${contest.senderName} not connected via WebSocket`);
+          }
         }
 
         // Send SMS notification to the sender

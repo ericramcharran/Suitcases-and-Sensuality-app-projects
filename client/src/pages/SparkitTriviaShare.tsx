@@ -1,10 +1,11 @@
 import { useLocation, useRoute } from "wouter";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Share2, Copy, CheckCircle, MessageSquare, ArrowLeft } from "lucide-react";
+import { Share2, Copy, CheckCircle, MessageSquare, ArrowLeft, Trophy } from "lucide-react";
 import { useState, useEffect } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { useQuery } from "@tanstack/react-query";
+import { NotificationManager } from "@/lib/notifications";
 
 export default function SparkitTriviaShare() {
   const [, params] = useRoute("/sparkit/trivia/share/:contestId");
@@ -12,14 +13,23 @@ export default function SparkitTriviaShare() {
   const { toast } = useToast();
   const [copied, setCopied] = useState(false);
   const [coupleId, setCoupleId] = useState<string | null>(null);
+  const [partnerRole, setPartnerRole] = useState<string | null>(null);
+  const [challengeCompleted, setChallengeCompleted] = useState(false);
+  const [completionData, setCompletionData] = useState<{
+    receiverName: string;
+    score: number;
+    totalQuestions: number;
+  } | null>(null);
 
   const contestId = params?.contestId;
   const contestUrl = `${window.location.origin}/sparkit/trivia/contest/${contestId}`;
 
-  // Get couple ID from localStorage
+  // Get couple ID and partner role from localStorage
   useEffect(() => {
     const storedCoupleId = localStorage.getItem("sparkitCoupleId");
+    const storedPartnerRole = localStorage.getItem("sparkitPartnerRole");
     setCoupleId(storedCoupleId);
+    setPartnerRole(storedPartnerRole);
   }, []);
 
   // Fetch couple data from database
@@ -27,6 +37,75 @@ export default function SparkitTriviaShare() {
     queryKey: ["/api/sparkit/couples", coupleId],
     enabled: !!coupleId,
   });
+
+  // Poll contest status as fallback for WebSocket reconnection scenarios
+  const { data: contestStatus } = useQuery({
+    queryKey: [`/api/sparkit/trivia/contests/${contestId}`],
+    enabled: !!contestId && !challengeCompleted,
+    refetchInterval: 5000, // Poll every 5 seconds
+  });
+
+  // Check if contest was completed (either via WebSocket or polling)
+  useEffect(() => {
+    if (contestStatus && contestStatus.status === 'completed' && !challengeCompleted) {
+      console.log('[Trivia Share] Contest completed via polling');
+      setChallengeCompleted(true);
+      setCompletionData({
+        receiverName: contestStatus.receiverName,
+        score: contestStatus.score,
+        totalQuestions: 5
+      });
+
+      toast({
+        title: "Challenge Completed! 🎉",
+        description: `${contestStatus.receiverName} scored ${contestStatus.score}/5!`,
+      });
+    }
+  }, [contestStatus, challengeCompleted, toast]);
+
+  // Initialize WebSocket listener for trivia completion
+  useEffect(() => {
+    if (!coupleId || !partnerRole) return;
+
+    const notifManager = NotificationManager.getInstance();
+    const userId = `sparkit-${coupleId}-${partnerRole}`;
+    
+    // Initialize WebSocket connection
+    notifManager.initialize(userId);
+
+    // Handle trivia completion notification
+    const handleTriviaCompleted = (data: any) => {
+      console.log('[Trivia Share] Received trivia-completed event:', data);
+      
+      // Guard against duplicate events
+      if (challengeCompleted) {
+        console.log('[Trivia Share] Already completed, ignoring duplicate event');
+        return;
+      }
+      
+      if (data.contestId === contestId) {
+        setChallengeCompleted(true);
+        setCompletionData({
+          receiverName: data.receiverName,
+          score: data.score,
+          totalQuestions: data.totalQuestions
+        });
+
+        toast({
+          title: "Challenge Completed! 🎉",
+          description: `${data.receiverName} scored ${data.score}/${data.totalQuestions}!`,
+        });
+      }
+    };
+
+    // Register the handler
+    notifManager.on('trivia-completed', handleTriviaCompleted);
+
+    // Cleanup on unmount
+    return () => {
+      notifManager.off('trivia-completed');
+    };
+  }, [coupleId, partnerRole, contestId, challengeCompleted, toast]);
 
   const handleCopy = async () => {
     try {
@@ -137,17 +216,41 @@ export default function SparkitTriviaShare() {
           </CardContent>
         </Card>
 
-        <Card className="bg-gradient-to-r from-purple-500/10 to-red-500/10 border-purple-500/20">
-          <CardContent className="pt-6">
-            <h3 className="font-semibold mb-2">What happens next?</h3>
-            <ul className="space-y-2 text-sm text-muted-foreground">
-              <li>• Your partner clicks the link and answers 5 trivia questions</li>
-              <li>• Their score is saved automatically</li>
-              <li>• You can view the results together afterwards</li>
-              <li>• Keep challenging each other to see who wins!</li>
-            </ul>
-          </CardContent>
-        </Card>
+        {challengeCompleted && completionData ? (
+          <Card className="mb-6 bg-gradient-to-r from-purple-500 to-red-500 text-white">
+            <CardContent className="pt-6">
+              <div className="text-center">
+                <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-white/20 mb-4">
+                  <Trophy className="w-8 h-8" />
+                </div>
+                <h3 className="text-2xl font-bold mb-2">Challenge Complete!</h3>
+                <p className="text-lg mb-4">
+                  {completionData.receiverName} scored {completionData.score}/{completionData.totalQuestions}!
+                </p>
+                <Button
+                  onClick={() => setLocation(`/sparkit/trivia/results/${contestId}`)}
+                  variant="outline"
+                  className="bg-white text-purple-600 hover:bg-white/90"
+                  data-testid="button-view-results"
+                >
+                  View Results
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+        ) : (
+          <Card className="mb-6 bg-gradient-to-r from-purple-500/10 to-red-500/10 border-purple-500/20">
+            <CardContent className="pt-6">
+              <h3 className="font-semibold mb-2">Waiting for your partner...</h3>
+              <ul className="space-y-2 text-sm text-muted-foreground">
+                <li>• Your partner will click the link and answer 5 trivia questions</li>
+                <li>• Their score will be saved automatically</li>
+                <li>• You'll get notified when they complete it</li>
+                <li>• Then you can view the results together!</li>
+              </ul>
+            </CardContent>
+          </Card>
+        )}
 
         <div className="mt-6 flex gap-3">
           <Button
