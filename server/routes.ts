@@ -2693,6 +2693,20 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(503).json({ message: "Video service not configured" });
       }
 
+      // Check if couple has premium subscription (video calling is premium-only)
+      const couple = await storage.getCoupleById(coupleId);
+      if (!couple) {
+        return res.status(404).json({ message: "Couple not found" });
+      }
+
+      const isPremium = couple.subscriptionPlan === 'monthly' || couple.subscriptionPlan === 'yearly';
+      if (!isPremium) {
+        return res.status(403).json({ 
+          message: "Premium subscription required for video calling",
+          error: "Video calling is a premium feature. Please upgrade to continue."
+        });
+      }
+
       // Check if couple already has an active video session
       const existingSession = await storage.getActiveVideoSessionByCoupleId(coupleId);
       if (existingSession) {
