@@ -12,6 +12,8 @@ This Replit project hosts two distinct applications: "The Executive Society" and
 
 Preferred communication style: Simple, everyday language.
 
+**Publishing Notifications:** Always notify the user whenever code changes require republishing to production.
+
 ## System Architecture
 
 The project integrates both applications within a single Express/Vite server infrastructure, maintaining separate styling and branding for each.
