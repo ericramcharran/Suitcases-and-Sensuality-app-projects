@@ -8,10 +8,15 @@ async function seedTrivia() {
   console.log("🌱 Seeding trivia data...");
 
   try {
-    // Clear existing data
-    console.log("Clearing existing trivia data...");
-    await db.delete(sparkitTriviaQuestions);
-    await db.delete(sparkitTriviaCategories);
+    // Check if trivia data already exists
+    const existingCategories = await db.select().from(sparkitTriviaCategories).limit(1);
+    
+    if (existingCategories.length > 0) {
+      console.log("✓ Trivia data already seeded, skipping...");
+      return;
+    }
+    
+    console.log("Seeding trivia categories and questions...");
 
     // Insert categories
     console.log("Inserting trivia categories...");
@@ -68,13 +73,5 @@ async function seedTrivia() {
   }
 }
 
-// Run the seed function
-seedTrivia()
-  .then(() => {
-    console.log("\n✅ Trivia seeding complete!");
-    process.exit(0);
-  })
-  .catch((error) => {
-    console.error("❌ Seed failed:", error);
-    process.exit(1);
-  });
+// Export the seed function so it can be called from server startup
+export { seedTrivia };

@@ -576,13 +576,18 @@ export class DatabaseStorage implements IStorage {
   }
 
   async getTriviaQuestionsByCategoryName(categoryName: string): Promise<SparkitTriviaQuestion[]> {
+    console.log('[Storage] getTriviaQuestionsByCategoryName called with:', categoryName);
+    
     // First get the category ID by name
     const category = await db.select()
       .from(sparkitTriviaCategories)
       .where(eq(sparkitTriviaCategories.name, categoryName))
       .limit(1);
     
+    console.log('[Storage] Found categories:', category.length, category.length > 0 ? category[0].name : 'none');
+    
     if (category.length === 0) {
+      console.log('[Storage] No category found for name:', categoryName);
       return [];
     }
     
@@ -590,6 +595,8 @@ export class DatabaseStorage implements IStorage {
     const result = await db.select()
       .from(sparkitTriviaQuestions)
       .where(eq(sparkitTriviaQuestions.categoryId, category[0].id));
+    
+    console.log('[Storage] Found questions:', result.length);
     return result;
   }
 
