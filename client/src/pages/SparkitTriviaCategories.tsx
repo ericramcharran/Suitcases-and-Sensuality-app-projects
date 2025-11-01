@@ -53,13 +53,15 @@ export default function SparkitTriviaCategories() {
         ? couple?.partner1Name 
         : couple?.partner2Name;
 
-      return await apiRequest("POST", "/api/sparkit/trivia/contests", {
+      const res = await apiRequest("POST", "/api/sparkit/trivia/contests", {
         coupleId,
         categoryId: category.id,
         categoryName: category.name,
         questionIds,
         senderName: senderName || "Partner"
       });
+      
+      return await res.json();
     },
     onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ["/api/sparkit/trivia/contests"] });
