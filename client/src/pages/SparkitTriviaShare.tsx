@@ -2,19 +2,31 @@ import { useLocation, useRoute } from "wouter";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Share2, Copy, CheckCircle, MessageSquare, ArrowLeft } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useToast } from "@/hooks/use-toast";
+import { useQuery } from "@tanstack/react-query";
 
 export default function SparkitTriviaShare() {
   const [, params] = useRoute("/sparkit/trivia/share/:contestId");
   const [, setLocation] = useLocation();
   const { toast } = useToast();
   const [copied, setCopied] = useState(false);
+  const [coupleId, setCoupleId] = useState<string | null>(null);
 
   const contestId = params?.contestId;
   const contestUrl = `${window.location.origin}/sparkit/trivia/contest/${contestId}`;
-  const coupleData = localStorage.getItem("sparkitCoupleData");
-  const couple = coupleData ? JSON.parse(coupleData) : null;
+
+  // Get couple ID from localStorage
+  useEffect(() => {
+    const storedCoupleId = localStorage.getItem("sparkitCoupleId");
+    setCoupleId(storedCoupleId);
+  }, []);
+
+  // Fetch couple data from database
+  const { data: couple } = useQuery({
+    queryKey: ["/api/sparkit/couples", coupleId],
+    enabled: !!coupleId,
+  });
 
   const handleCopy = async () => {
     try {
@@ -65,7 +77,11 @@ export default function SparkitTriviaShare() {
           </div>
           <h1 className="text-3xl font-bold mb-2">Challenge Created!</h1>
           <p className="text-muted-foreground">
-            Share this challenge with {couple?.partner2Name || "your partner"}
+            Share this challenge with {
+              couple?.loggedInPartnerRole === 'partner1' 
+                ? couple?.partner2Name 
+                : couple?.partner1Name
+            } or anyone else!
           </p>
         </div>
 
