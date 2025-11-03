@@ -2454,6 +2454,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         categoryName,
         questionIds,
         senderName,
+        senderPartnerRole: req.session.sparkitPartnerRole!, // 'partner1' or 'partner2'
         status: 'pending'
       });
 
@@ -2520,9 +2521,12 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(400).json({ error: "Contest has already been completed" });
       }
 
-      // Atomically update receiverName only if it's not already set
+      // Determine receiver's partner role (opposite of sender)
+      const receiverPartnerRole = contest.senderPartnerRole === 'partner1' ? 'partner2' : 'partner1';
+
+      // Atomically update receiverName, receiverPartnerRole, and status
       // This prevents race conditions from concurrent acceptance attempts
-      const updatedContest = await storage.startTriviaContest(id, receiverName);
+      const updatedContest = await storage.startTriviaContest(id, receiverName, receiverPartnerRole);
 
       // If update failed, someone else already accepted
       if (!updatedContest) {
@@ -2574,18 +2578,15 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Submit trivia answers (PUBLIC - anyone with link can submit)
-  app.post("/api/sparkit/trivia/contests/:id/answers", async (req, res) => {
+  // Submit trivia answers (AUTHENTICATED - logged in partner submits)
+  app.post("/api/sparkit/trivia/contests/:id/answers", requireSparkitAuth, async (req, res) => {
     try {
       const { id } = req.params;
-      const { answers, receiverName } = req.body;
+      const { answers } = req.body;
+      const submitterPartnerRole = req.session.sparkitPartnerRole!; // 'partner1' or 'partner2'
 
       if (!answers || !Array.isArray(answers) || answers.length !== 5) {
         return res.status(400).json({ error: "answers must be an array of 5 answers" });
-      }
-
-      if (!receiverName) {
-        return res.status(400).json({ error: "receiverName is required" });
       }
 
       const contest = await storage.getTriviaContestById(id);
@@ -2593,8 +2594,19 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(404).json({ error: "Contest not found" });
       }
 
-      if (contest.status !== 'pending') {
+      if (contest.status === 'completed') {
         return res.status(400).json({ error: "Contest has already been completed" });
+      }
+
+      // Determine if submitter is sender or receiver
+      const isSender = contest.senderPartnerRole === submitterPartnerRole;
+      
+      // Check if this partner already submitted
+      if (isSender && contest.senderScore !== null) {
+        return res.status(400).json({ error: "You have already submitted your answers" });
+      }
+      if (!isSender && contest.receiverScore !== null) {
+        return res.status(400).json({ error: "You have already submitted your answers" });
       }
 
       // Save all answers
@@ -2603,7 +2615,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         await storage.createTriviaAnswer({
           contestId: id,
           coupleId: contest.coupleId,
-          partner: 'guest', // Person taking the challenge (not logged in)
+          partner: submitterPartnerRole, // Store actual partner role
           questionId: String(answer.questionId),
           selectedAnswer: String(answer.selectedAnswer),
           isCorrect: answer.isCorrect
@@ -2614,74 +2626,60 @@ export async function registerRoutes(app: Express): Promise<Server> {
         }
       }
 
-      // Update contest with score and status
-      const updatedContest = await storage.updateTriviaContest(id, {
-        status: 'completed',
-        score: correctCount,
-        receiverName
-      });
+      // Update contest with this partner's score
+      const updates: any = {};
+      if (isSender) {
+        updates.senderScore = correctCount;
+      } else {
+        updates.receiverScore = correctCount;
+      }
 
-      // Get couple data to send notification to the sender
-      const couple = await storage.getCoupleById(contest.coupleId);
+      // Check if both partners have now submitted
+      const bothSubmitted = (isSender && contest.receiverScore !== null) || 
+                           (!isSender && contest.senderScore !== null);
       
-      if (couple) {
-        // Determine sender's partner role
-        let senderPartnerRole: 'partner1' | 'partner2' | null = null;
-        let senderPhone: string | null = null;
-        
-        if (contest.senderName === couple.partner1Name) {
-          senderPartnerRole = 'partner1';
-          senderPhone = couple.partner1Phone;
-        } else if (contest.senderName === couple.partner2Name) {
-          senderPartnerRole = 'partner2';
-          senderPhone = couple.partner2Phone;
-        }
+      if (bothSubmitted) {
+        updates.status = 'completed';
+        updates.score = correctCount; // For backwards compatibility
+      }
 
-        // Send WebSocket notification to the sender
-        if (senderPartnerRole) {
-          const senderWsId = `sparkit-${contest.coupleId}-${senderPartnerRole}`;
-          const senderClient = wsClients.get(senderWsId);
+      const updatedContest = await storage.updateTriviaContest(id, updates);
+
+      // Send notification only when BOTH partners have submitted (contest completed)
+      if (bothSubmitted) {
+        const couple = await storage.getCoupleById(contest.coupleId);
+      
+        if (couple) {
+          // Send WebSocket notification to BOTH partners
+          const senderWsId = `sparkit-${contest.coupleId}-${contest.senderPartnerRole}`;
+          const receiverWsId = `sparkit-${contest.coupleId}-${contest.receiverPartnerRole}`;
           
+          const wsMessage = JSON.stringify({
+            type: 'trivia-completed',
+            data: {
+              contestId: id,
+              categoryName: contest.categoryName,
+              senderName: contest.senderName,
+              receiverName: contest.receiverName,
+              senderScore: updatedContest.senderScore,
+              receiverScore: updatedContest.receiverScore,
+              totalQuestions: 5
+            }
+          });
+
+          // Notify sender
+          const senderClient = wsClients.get(senderWsId);
           if (senderClient && senderClient.readyState === WebSocket.OPEN) {
-            const wsMessage = JSON.stringify({
-              type: 'trivia-completed',
-              data: {
-                contestId: id,
-                categoryName: contest.categoryName,
-                receiverName,
-                score: correctCount,
-                totalQuestions: 5
-              }
-            });
-            
             senderClient.send(wsMessage);
             console.log(`[Trivia Complete] WebSocket notification sent to ${contest.senderName}`);
-          } else {
-            console.log(`[Trivia Complete] Sender ${contest.senderName} not connected via WebSocket`);
           }
-        }
 
-        // Send SMS notification to the sender
-        if (senderPhone) {
-          const resultsUrl = `${process.env.REPLIT_DEV_DOMAIN || 'http://localhost:5000'}/sparkit/trivia/results/${id}`;
-          const message = `🎉 ${receiverName} completed your ${contest.categoryName} trivia challenge! They scored ${correctCount}/5. View results: ${resultsUrl}`;
-          
-          try {
-            const smsResult = await sendSMS({ 
-              to: senderPhone, 
-              message 
-            });
-            
-            if (smsResult.success) {
-              console.log(`[Trivia Complete] SMS sent to ${contest.senderName} at ${senderPhone}`);
-            } else {
-              console.log(`[Trivia Complete] SMS failed: ${smsResult.error}`);
-            }
-          } catch (smsError) {
-            console.error('[Trivia Complete] SMS error:', smsError);
+          // Notify receiver
+          const receiverClient = wsClients.get(receiverWsId);
+          if (receiverClient && receiverClient.readyState === WebSocket.OPEN) {
+            receiverClient.send(wsMessage);
+            console.log(`[Trivia Complete] WebSocket notification sent to ${contest.receiverName}`);
           }
-        } else {
-          console.log(`[Trivia Complete] No phone number for sender ${contest.senderName}`);
         }
       }
 

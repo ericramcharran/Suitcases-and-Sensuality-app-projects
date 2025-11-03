@@ -82,8 +82,8 @@ export default function SparkitTriviaShare() {
     if (countdown === null) return;
 
     if (countdown === 0) {
-      // Redirect to results page
-      setLocation(`/sparkit/trivia/results/${contestId}`);
+      // Redirect to contest page so sender can also answer the questions
+      setLocation(`/sparkit/trivia/contest/${contestId}`);
       return;
     }
 
@@ -305,12 +305,12 @@ export default function SparkitTriviaShare() {
                 </p>
                 {countdown !== null && countdown > 0 ? (
                   <p className="text-sm opacity-90">
-                    Get ready to see the results in {countdown}...
+                    Get ready to compete in {countdown}...
                   </p>
                 ) : (
                   <div className="flex items-center justify-center gap-2">
                     <div className="w-2 h-2 rounded-full bg-white animate-pulse" />
-                    <span className="font-medium">Taking you to results...</span>
+                    <span className="font-medium">Starting your challenge...</span>
                   </div>
                 )}
               </div>

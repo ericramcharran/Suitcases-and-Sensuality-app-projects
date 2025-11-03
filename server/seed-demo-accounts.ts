@@ -50,6 +50,16 @@ const DEMO_ACCOUNTS = [
     subscriptionPlan: "monthly",
     sparksRemaining: 999,
   },
+  {
+    coupleCode: "BRCHR1",
+    partner1Name: "Brett",
+    partner2Name: "Christina",
+    partner1Email: "brett@demo.com",
+    partner2Email: "christina@demo.com",
+    subscriptionPlan: "monthly",
+    sparksRemaining: 999,
+    relationshipType: "long_distance",
+  },
   // Trial accounts (10-20 sparks)
   {
     coupleCode: "DEMO01",

@@ -125,7 +125,7 @@ export interface IStorage {
   createTriviaAnswer(answer: InsertSparkitTriviaAnswer): Promise<SparkitTriviaAnswer>;
   getTriviaAnswersByContestId(contestId: string): Promise<SparkitTriviaAnswer[]>;
   updateTriviaContest(id: string, updates: Partial<InsertSparkitTriviaContest>): Promise<SparkitTriviaContest | undefined>;
-  startTriviaContest(id: string, receiverName: string): Promise<SparkitTriviaContest | null>;
+  startTriviaContest(id: string, receiverName: string, receiverPartnerRole: string): Promise<SparkitTriviaContest | null>;
   
   // Spark It! Video Session operations
   createVideoSession(session: InsertSparkitVideoSession): Promise<SparkitVideoSession>;
@@ -652,12 +652,16 @@ export class DatabaseStorage implements IStorage {
     return result[0];
   }
 
-  async startTriviaContest(id: string, receiverName: string): Promise<SparkitTriviaContest | null> {
-    // Atomically update receiverName only if it's not already set
+  async startTriviaContest(id: string, receiverName: string, receiverPartnerRole: string): Promise<SparkitTriviaContest | null> {
+    // Atomically update receiverName and receiverPartnerRole only if not already set
     // This prevents race conditions from concurrent acceptance attempts
     const result = await db
       .update(sparkitTriviaContests)
-      .set({ receiverName })
+      .set({ 
+        receiverName,
+        receiverPartnerRole,
+        status: 'in_progress' // Both partners can now answer
+      })
       .where(
         and(
           eq(sparkitTriviaContests.id, id),

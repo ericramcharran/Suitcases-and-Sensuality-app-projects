@@ -47,7 +47,7 @@ Both applications use React 18+ with TypeScript, Vite for bundling, and Wouter f
 -   **Spark It! Premium Subscription:** Stripe-powered monthly ($6.99) and yearly ($59.99) plans offering unlimited sparks, custom avatars, and video calling. A trial system provides 10 total sparks OR 7 days. Premium features are gated.
 -   **Spark It! Activity Database:** 253 activities across 19 categories (In-Person, Long-Distance, Boredom Buster, Polyamorous).
 -   **Spark It! AI Activity Discovery (Feature Flag Controlled):** OpenAI GPT-4 Turbo powered location-based activity suggestions using Replit AI Integrations.
--   **Spark It! Trivia System:** 225+ trivia questions across 10 categories with real-time WebSocket notifications when partner completes a challenge.
+-   **Spark It! Trivia System:** 225+ trivia questions across 10 categories. Head-to-head competition where both partners answer the same questions. Real-time WebSocket notifications for challenge acceptance and completion.
 -   **Spark It! Video Calling:** Daily.co integration for embedded video calls.
 
 **System Design Choices:**
@@ -62,6 +62,17 @@ Both applications use React 18+ with TypeScript, Vite for bundling, and Wouter f
 -   Session-based authentication for Spark It! with PostgreSQL store and 30-day cookie persistence.
 -   `localStorage` for `sparkitCoupleId` to enable client-side couple context.
 -   Trivia challenges use WebSocket + polling fallback for real-time completion notifications.
+
+## Demo Accounts
+
+**Spark It! Demo Couples** (password: demo123):
+- **DEVST1**: Devin & Stephanie (monthly, 999 sparks)
+- **PREMM1**: Sam & Riley (monthly, 999 sparks)
+- **PREM02**: Cliff & Christi (monthly, 999 sparks)
+- **PREM03**: Keith & Dawn (yearly, 999 sparks)
+- **DREW01**: Drew & Blake (monthly, 999 sparks)
+- **BRCHR1**: Brett & Christina (monthly, 999 sparks, long-distance relationship)
+- **DEMO01-05**: Trial accounts (20 sparks each)
 
 ## External Dependencies
 
