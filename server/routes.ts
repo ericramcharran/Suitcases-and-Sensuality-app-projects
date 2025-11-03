@@ -2502,27 +2502,50 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Start/accept trivia challenge (PUBLIC - anyone with link can start)
-  app.post("/api/sparkit/trivia/contests/:id/start", async (req, res) => {
+  // Start/accept trivia challenge (AUTHENTICATED - receiver must be logged in)
+  app.post("/api/sparkit/trivia/contests/:id/start", requireSparkitAuth, async (req, res) => {
     try {
       const { id } = req.params;
-      const { receiverName } = req.body;
+      const receiverPartnerRole = req.session.sparkitPartnerRole!; // Get from session
+      const receiverCoupleId = req.session.sparkitCoupleId!; // Get from session
 
-      if (!receiverName) {
-        return res.status(400).json({ error: "receiverName is required" });
-      }
+      console.log('🎯 /start called for contest:', id, 'by partner:', receiverPartnerRole, 'couple:', receiverCoupleId);
 
       const contest = await storage.getTriviaContestById(id);
       if (!contest) {
+        console.log('❌ Contest not found:', id);
         return res.status(404).json({ error: "Contest not found" });
+      }
+
+      console.log('✅ Contest found:', {
+        id: contest.id,
+        status: contest.status,
+        senderPartnerRole: contest.senderPartnerRole,
+        receiverPartnerRole: contest.receiverPartnerRole,
+        receiverName: contest.receiverName
+      });
+
+      // Verify receiver is from the same couple as sender
+      if (contest.coupleId !== receiverCoupleId) {
+        return res.status(403).json({ error: "You can only accept challenges from your own couple" });
+      }
+
+      // Verify receiver is not the sender
+      if (contest.senderPartnerRole === receiverPartnerRole) {
+        return res.status(400).json({ error: "You cannot accept your own challenge" });
       }
 
       if (contest.status === 'completed') {
         return res.status(400).json({ error: "Contest has already been completed" });
       }
 
-      // Determine receiver's partner role (opposite of sender)
-      const receiverPartnerRole = contest.senderPartnerRole === 'partner1' ? 'partner2' : 'partner1';
+      // Get couple data to determine receiver name
+      const couple = await storage.getCoupleById(receiverCoupleId);
+      if (!couple) {
+        return res.status(404).json({ error: "Couple not found" });
+      }
+
+      const receiverName = receiverPartnerRole === 'partner1' ? couple.partner1Name : couple.partner2Name;
 
       // Atomically update receiverName, receiverPartnerRole, and status
       // This prevents race conditions from concurrent acceptance attempts
@@ -2535,40 +2558,27 @@ export async function registerRoutes(app: Express): Promise<Server> {
         });
       }
 
-      // Get couple data to send notification to the sender
-      const couple = await storage.getCoupleById(contest.coupleId);
-      
-      if (couple) {
-        // Determine sender's partner role
-        let senderPartnerRole: 'partner1' | 'partner2' | null = null;
-        
-        if (contest.senderName === couple.partner1Name) {
-          senderPartnerRole = 'partner1';
-        } else if (contest.senderName === couple.partner2Name) {
-          senderPartnerRole = 'partner2';
-        }
+      // Send WebSocket notification to the sender (couple already loaded above)
+      // Determine sender's partner role (opposite of receiver)
+      const senderPartnerRole = receiverPartnerRole === 'partner1' ? 'partner2' : 'partner1';
 
-        // Send WebSocket notification to the sender
-        if (senderPartnerRole) {
-          const senderUserId = `sparkit-${contest.coupleId}-${senderPartnerRole}`;
-          const senderClient = (global as any).webSocketClients?.get(senderUserId);
-          
-          if (senderClient && senderClient.readyState === 1) {
-            const wsMessage = JSON.stringify({
-              type: 'trivia-accepted',
-              data: {
-                contestId: id,
-                categoryName: contest.categoryName,
-                receiverName
-              }
-            });
-            
-            senderClient.send(wsMessage);
-            console.log(`[Trivia Started] WebSocket notification sent to ${contest.senderName}: ${receiverName} started the challenge`);
-          } else {
-            console.log(`[Trivia Started] Sender ${contest.senderName} not connected via WebSocket`);
+      const senderUserId = `sparkit-${contest.coupleId}-${senderPartnerRole}`;
+      const senderClient = (global as any).webSocketClients?.get(senderUserId);
+      
+      if (senderClient && senderClient.readyState === 1) {
+        const wsMessage = JSON.stringify({
+          type: 'trivia-accepted',
+          data: {
+            contestId: id,
+            categoryName: contest.categoryName,
+            receiverName
           }
-        }
+        });
+        
+        senderClient.send(wsMessage);
+        console.log(`[Trivia Started] WebSocket notification sent to ${contest.senderName}: ${receiverName} started the challenge`);
+      } else {
+        console.log(`[Trivia Started] Sender ${contest.senderName} not connected via WebSocket`);
       }
 
       res.json({ success: true, message: "Challenge started" });
@@ -2585,14 +2595,26 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const { answers } = req.body;
       const submitterPartnerRole = req.session.sparkitPartnerRole!; // 'partner1' or 'partner2'
 
+      console.log('📝 /answers called for contest:', id, 'by partner:', submitterPartnerRole);
+
       if (!answers || !Array.isArray(answers) || answers.length !== 5) {
         return res.status(400).json({ error: "answers must be an array of 5 answers" });
       }
 
       const contest = await storage.getTriviaContestById(id);
       if (!contest) {
+        console.log('❌ Contest not found:', id);
         return res.status(404).json({ error: "Contest not found" });
       }
+
+      console.log('✅ Contest found for answers:', {
+        id: contest.id,
+        status: contest.status,
+        senderPartnerRole: contest.senderPartnerRole,
+        receiverPartnerRole: contest.receiverPartnerRole,
+        senderScore: contest.senderScore,
+        receiverScore: contest.receiverScore
+      });
 
       if (contest.status === 'completed') {
         return res.status(400).json({ error: "Contest has already been completed" });
@@ -2600,6 +2622,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
       // Determine if submitter is sender or receiver
       const isSender = contest.senderPartnerRole === submitterPartnerRole;
+      console.log('🤔 Submitter is:', isSender ? 'SENDER' : 'RECEIVER');
       
       // Check if this partner already submitted
       if (isSender && contest.senderScore !== null) {

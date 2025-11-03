@@ -24,6 +24,10 @@ export default function SparkitLogin() {
   const [showPassword, setShowPassword] = useState(false);
   const { toast } = useToast();
 
+  // Get returnUrl from query params
+  const urlParams = new URLSearchParams(window.location.search);
+  const returnUrl = urlParams.get('returnUrl');
+
   const form = useForm<LoginForm>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
@@ -42,13 +46,16 @@ export default function SparkitLogin() {
       return await res.json();
     },
     onSuccess: (data) => {
-      // Store couple ID in localStorage for the activity pages
+      // Store couple ID and partner role in localStorage
       localStorage.setItem("sparkitCoupleId", data.coupleId);
+      localStorage.setItem("sparkitPartnerRole", data.partnerRole);
       
       toast({
         description: `Welcome back, ${data.partnerName}!`,
       });
-      setLocation("/spark");
+      
+      // Redirect to returnUrl if provided, otherwise to /spark
+      setLocation(returnUrl || "/spark");
     },
     onError: (error: any) => {
       toast({

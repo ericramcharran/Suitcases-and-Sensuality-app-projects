@@ -12,9 +12,13 @@ interface Contest {
   categoryName: string;
   questionIds: number[];
   senderName: string;
+  senderPartnerRole: string;
+  receiverName: string;
+  receiverPartnerRole: string | null;
+  senderScore: number | null;
+  receiverScore: number | null;
   status: string;
   score: number;
-  receiverName: string;
   createdAt: string;
 }
 
@@ -39,9 +43,19 @@ export default function SparkitTriviaResults() {
 
   const contestId = params?.contestId;
 
-  const { data, isLoading } = useQuery<ResultsData>({
+  // Poll for results every 2 seconds if contest not completed yet
+  const { data, isLoading, error } = useQuery<ResultsData>({
     queryKey: [`/api/sparkit/trivia/contests/${contestId}/results`],
-    enabled: !!contestId
+    enabled: !!contestId,
+    refetchInterval: (query) => {
+      // If we get a "not yet completed" error, poll every 2 seconds
+      if (query.state.error) {
+        return 2000;
+      }
+      // If successful, stop polling
+      return false;
+    },
+    retry: true
   });
 
   const handleShare = () => {
@@ -66,7 +80,29 @@ export default function SparkitTriviaResults() {
     );
   }
 
+  // Check if error is "not yet completed" (waiting for partner)
+  const isWaitingForPartner = error && (error as any).message?.includes("not yet completed");
+
   if (!data) {
+    if (isWaitingForPartner) {
+      return (
+        <div className="nexus-app min-h-screen flex items-center justify-center p-4">
+          <Card className="w-full max-w-md text-center">
+            <CardContent className="pt-6">
+              <div className="w-16 h-16 border-4 border-purple-500 border-t-transparent rounded-full animate-spin mx-auto mb-6" />
+              <CardTitle className="mb-2">Waiting for Partner</CardTitle>
+              <CardDescription className="mb-4">
+                Waiting for your partner to complete the challenge...
+              </CardDescription>
+              <p className="text-sm text-muted-foreground">
+                Results will appear automatically when they're done
+              </p>
+            </CardContent>
+          </Card>
+        </div>
+      );
+    }
+
     return (
       <div className="nexus-app min-h-screen flex items-center justify-center p-4">
         <Card className="w-full max-w-md">

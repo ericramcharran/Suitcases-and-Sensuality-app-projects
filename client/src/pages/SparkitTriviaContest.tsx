@@ -26,8 +26,12 @@ interface Contest {
   questionIds: string[];
   questions: DbQuestion[];
   senderName: string;
+  senderPartnerRole: string;
+  receiverPartnerRole: string | null;
   status: string;
   score: number | null;
+  senderScore: number | null;
+  receiverScore: number | null;
   receiverName: string | null;
   createdAt: string;
 }
@@ -37,7 +41,6 @@ export default function SparkitTriviaContest() {
   const [, setLocation] = useLocation();
   const { toast } = useToast();
   
-  const [receiverName, setReceiverName] = useState("");
   const [started, setStarted] = useState(false);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null);
@@ -49,10 +52,36 @@ export default function SparkitTriviaContest() {
 
   const contestId = params?.contestId;
 
+  // Check if user is logged in (has session)
+  useEffect(() => {
+    const checkAuth = async () => {
+      const coupleId = localStorage.getItem('sparkitCoupleId');
+      if (!coupleId) {
+        // Not logged in - redirect to login with return URL
+        const returnUrl = encodeURIComponent(window.location.pathname);
+        setLocation(`/sparkit/login?returnUrl=${returnUrl}`);
+      }
+    };
+    checkAuth();
+  }, [setLocation]);
+
   const { data: contest, isLoading } = useQuery<Contest>({
     queryKey: [`/api/sparkit/trivia/contests/${contestId}`],
     enabled: !!contestId
   });
+
+  // Determine if current user is the sender or receiver
+  const myPartnerRole = localStorage.getItem('sparkitPartnerRole');
+  const isSender = contest && myPartnerRole === contest.senderPartnerRole;
+  // Receiver is anyone who is NOT the sender (initially receiverPartnerRole will be null)
+  const isReceiver = contest && myPartnerRole !== contest.senderPartnerRole;
+  
+  // Auto-start for sender when challenge has been accepted (skip "Accept Challenge" button)
+  useEffect(() => {
+    if (contest && isSender && contest.status === 'in_progress' && !started) {
+      setStarted(true);
+    }
+  }, [contest, isSender, started]);
 
   const questions = contest?.questions || [];
   const currentQuestion = questions[currentQuestionIndex];
@@ -71,8 +100,7 @@ export default function SparkitTriviaContest() {
   const submitAnswersMutation = useMutation({
     mutationFn: async () => {
       return await apiRequest("POST", `/api/sparkit/trivia/contests/${contestId}/answers`, {
-        answers,
-        receiverName
+        answers
       });
     },
     onSuccess: () => {
@@ -89,30 +117,28 @@ export default function SparkitTriviaContest() {
   });
 
   const handleStart = async () => {
-    if (!receiverName.trim()) {
-      toast({
-        title: "Name required",
-        description: "Please enter your name to start the challenge",
-        variant: "destructive"
-      });
-      return;
-    }
-
     try {
-      // Notify backend that challenge has been accepted
-      await apiRequest("POST", `/api/sparkit/trivia/contests/${contestId}/start`, {
-        receiverName
-      });
+      // Notify backend that challenge has been accepted (no body needed - auth from session)
+      await apiRequest("POST", `/api/sparkit/trivia/contests/${contestId}/start`, {});
       
       setStarted(true);
     } catch (error: any) {
       console.error('Failed to start challenge:', error);
       
-      // If challenge was already started by someone else, block them
+      // Handle specific error cases
       if (error.message?.includes('already been started')) {
         toast({
           title: "Challenge Already Started",
           description: "Someone else has already accepted this challenge",
+          variant: "destructive"
+        });
+        return;
+      }
+      
+      if (error.message?.includes('cannot accept your own challenge')) {
+        toast({
+          title: "Invalid Action",
+          description: "You cannot accept your own challenge",
           variant: "destructive"
         });
         return;
@@ -198,7 +224,8 @@ export default function SparkitTriviaContest() {
     );
   }
 
-  if (!started) {
+  // Only show "Accept Challenge" UI if user is the receiver and hasn't started yet
+  if (!started && isReceiver) {
     return (
       <div className="nexus-app min-h-screen flex items-center justify-center p-4 bg-gradient-to-br from-purple-500/10 via-transparent to-red-500/10">
         <div className="w-full max-w-md">
@@ -221,20 +248,6 @@ export default function SparkitTriviaContest() {
 
           <Card className="backdrop-blur-sm bg-card/95 shadow-xl border-purple-500/20 animate-in fade-in slide-in-from-bottom-6 duration-700">
             <CardContent className="pt-6 space-y-6">
-              <div className="space-y-3">
-                <Label htmlFor="receiverName" className="text-base font-semibold">
-                  Enter Your Name to Accept
-                </Label>
-                <Input
-                  id="receiverName"
-                  value={receiverName}
-                  onChange={(e) => setReceiverName(e.target.value)}
-                  placeholder="Your name here..."
-                  className="h-12 text-lg border-purple-500/30 focus:border-purple-500"
-                  data-testid="input-receiver-name"
-                />
-              </div>
-
               <div className="relative overflow-hidden rounded-lg bg-gradient-to-r from-purple-500/10 to-red-500/10 p-6 border border-purple-500/20">
                 <div className="absolute top-0 right-0 w-32 h-32 bg-purple-500/20 rounded-full blur-3xl" />
                 <div className="relative space-y-3">
