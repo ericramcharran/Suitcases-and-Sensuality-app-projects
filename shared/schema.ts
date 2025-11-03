@@ -211,10 +211,14 @@ export const sparkitTriviaContests = pgTable("sparkit_trivia_contests", {
   categoryId: text("category_id").notNull(), // Changed from varchar to text to match data
   categoryName: text("category_name").notNull(),
   senderName: text("sender_name").notNull(), // Name of partner who created the challenge
-  receiverName: text("receiver_name"), // Name of partner who completed the challenge
+  senderPartnerRole: text("sender_partner_role").notNull(), // 'partner1' or 'partner2' who sent
+  receiverName: text("receiver_name"), // Name of partner who accepted the challenge
+  receiverPartnerRole: text("receiver_partner_role"), // 'partner1' or 'partner2' who received
   questionIds: jsonb("question_ids").$type<string[]>().notNull(), // Array of 5 question IDs
-  score: integer("score"), // Score achieved (out of 5)
-  status: text("status").default('pending'), // 'pending', 'completed'
+  senderScore: integer("sender_score"), // Sender's score (out of 5)
+  receiverScore: integer("receiver_score"), // Receiver's score (out of 5)
+  score: integer("score"), // DEPRECATED: kept for backwards compatibility
+  status: text("status").default('pending'), // 'pending', 'in_progress', 'completed'
   createdAt: timestamp("created_at").defaultNow(),
 });
 
