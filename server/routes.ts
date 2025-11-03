@@ -2509,21 +2509,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const receiverPartnerRole = req.session.sparkitPartnerRole!; // Get from session
       const receiverCoupleId = req.session.sparkitCoupleId!; // Get from session
 
-      console.log('🎯 /start called for contest:', id, 'by partner:', receiverPartnerRole, 'couple:', receiverCoupleId);
-
       const contest = await storage.getTriviaContestById(id);
       if (!contest) {
-        console.log('❌ Contest not found:', id);
         return res.status(404).json({ error: "Contest not found" });
       }
-
-      console.log('✅ Contest found:', {
-        id: contest.id,
-        status: contest.status,
-        senderPartnerRole: contest.senderPartnerRole,
-        receiverPartnerRole: contest.receiverPartnerRole,
-        receiverName: contest.receiverName
-      });
 
       // Verify receiver is from the same couple as sender
       if (contest.coupleId !== receiverCoupleId) {
@@ -2595,26 +2584,14 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const { answers } = req.body;
       const submitterPartnerRole = req.session.sparkitPartnerRole!; // 'partner1' or 'partner2'
 
-      console.log('📝 /answers called for contest:', id, 'by partner:', submitterPartnerRole);
-
       if (!answers || !Array.isArray(answers) || answers.length !== 5) {
         return res.status(400).json({ error: "answers must be an array of 5 answers" });
       }
 
       const contest = await storage.getTriviaContestById(id);
       if (!contest) {
-        console.log('❌ Contest not found:', id);
         return res.status(404).json({ error: "Contest not found" });
       }
-
-      console.log('✅ Contest found for answers:', {
-        id: contest.id,
-        status: contest.status,
-        senderPartnerRole: contest.senderPartnerRole,
-        receiverPartnerRole: contest.receiverPartnerRole,
-        senderScore: contest.senderScore,
-        receiverScore: contest.receiverScore
-      });
 
       if (contest.status === 'completed') {
         return res.status(400).json({ error: "Contest has already been completed" });
@@ -2622,7 +2599,6 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
       // Determine if submitter is sender or receiver
       const isSender = contest.senderPartnerRole === submitterPartnerRole;
-      console.log('🤔 Submitter is:', isSender ? 'SENDER' : 'RECEIVER');
       
       // Check if this partner already submitted
       if (isSender && contest.senderScore !== null) {
