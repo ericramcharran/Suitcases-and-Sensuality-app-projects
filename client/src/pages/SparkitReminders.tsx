@@ -59,11 +59,7 @@ export default function SparkitReminders() {
   // Save preferences mutation
   const saveMutation = useMutation({
     mutationFn: async (data: { enabled: boolean; reminderTime: string; notificationMethod: string }) => {
-      return await apiRequest('/api/sparkit/reminders/preferences', {
-        method: 'PUT',
-        body: JSON.stringify(data),
-        headers: { 'Content-Type': 'application/json' }
-      });
+      return await apiRequest('PUT', '/api/sparkit/reminders/preferences', data);
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['/api/sparkit/reminders/preferences'] });
