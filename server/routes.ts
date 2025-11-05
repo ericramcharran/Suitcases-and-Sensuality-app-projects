@@ -1765,6 +1765,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   // Get couple by ID or code
   app.get("/api/sparkit/couples/:id", requireSparkitAuth, verifyCoupleOwnership, async (req, res) => {
+    // CRITICAL: Prevent all caching to ensure users always get fresh subscription data
+    res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, private');
+    res.setHeader('Pragma', 'no-cache');
+    res.setHeader('Expires', '0');
+    
     try {
       const { id } = req.params;
       
