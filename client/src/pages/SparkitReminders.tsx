@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useQuery, useMutation } from "@tanstack/react-query";
+import { useLocation } from "wouter";
 import { apiRequest, queryClient } from "@/lib/queryClient";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -29,6 +30,7 @@ interface DailyContentPreview {
 
 export default function SparkitReminders() {
   const { toast } = useToast();
+  const [, setLocation] = useLocation();
   const [hasChanges, setHasChanges] = useState(false);
 
   // Fetch current preferences
@@ -128,7 +130,7 @@ export default function SparkitReminders() {
               <Button
                 variant="outline"
                 size="icon"
-                onClick={() => window.history.back()}
+                onClick={() => setLocation("/spark")}
                 data-testid="button-back"
                 className="border-2"
               >
