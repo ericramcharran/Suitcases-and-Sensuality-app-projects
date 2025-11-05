@@ -126,10 +126,11 @@ export default function SparkitReminders() {
                 <CardTitle>Daily Reminders</CardTitle>
               </div>
               <Button
-                variant="ghost"
+                variant="outline"
                 size="icon"
                 onClick={() => window.history.back()}
                 data-testid="button-back"
+                className="border-2"
               >
                 <ArrowLeft className="h-5 w-5" />
               </Button>

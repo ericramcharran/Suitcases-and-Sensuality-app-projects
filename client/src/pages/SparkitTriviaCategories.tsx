@@ -140,9 +140,9 @@ export default function SparkitTriviaCategories() {
       <div className="max-w-4xl mx-auto">
         <div className="mb-6">
           <Button
-            variant="ghost"
+            variant="outline"
             onClick={() => setLocation("/spark")}
-            className="mb-4"
+            className="mb-4 border-2"
             data-testid="button-back"
           >
             <ArrowLeft className="w-4 h-4 mr-2" />

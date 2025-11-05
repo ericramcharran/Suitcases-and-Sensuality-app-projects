@@ -50,7 +50,7 @@ export default function UserData() {
     <div className="min-h-screen bg-background p-4 sm:p-6">
       <button
         onClick={() => setLocation("/profile")}
-        className="mb-6 text-muted-foreground flex items-center gap-1 hover-elevate active-elevate-2 px-2 py-2 rounded-md"
+        className="mb-6 text-muted-foreground flex items-center gap-1 hover-elevate active-elevate-2 px-3 py-2 rounded-md border-2 border-border"
       >
         <ArrowLeft className="w-5 h-5" />
         Back

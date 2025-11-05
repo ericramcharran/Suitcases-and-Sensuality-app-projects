@@ -167,14 +167,14 @@ export default function Scoreboard() {
           className="cta-button"
           style={{
             background: 'rgba(255,255,255,0.1)',
-            border: '2px solid rgba(255,255,255,0.2)',
+            border: '3px solid rgba(255,255,255,0.4)',
             padding: '10px 15px',
             display: 'flex',
             alignItems: 'center'
           }}
           data-testid="button-back"
         >
-          <ArrowLeft size={20} />
+          <ArrowLeft size={22} />
         </button>
         <h2 style={{ 
           fontSize: '1.3em', 

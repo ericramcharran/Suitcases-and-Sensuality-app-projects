@@ -95,9 +95,10 @@ export default function ProfileName() {
         <div className="p-4 border-b border-border bg-background flex items-center gap-3">
           <Button
             size="icon"
-            variant="ghost"
+            variant="outline"
             onClick={() => setLocation("/profile")}
             data-testid="button-back"
+            className="border-2"
           >
             <ArrowLeft className="w-5 h-5" />
           </Button>

@@ -191,9 +191,9 @@ export default function SparkitTriviaShare() {
     <div className="nexus-app min-h-screen p-4">
       <div className="max-w-2xl mx-auto">
         <Button
-          variant="ghost"
+          variant="outline"
           onClick={() => setLocation("/spark")}
-          className="mb-4"
+          className="mb-4 border-2"
           data-testid="button-back"
         >
           <ArrowLeft className="w-4 h-4 mr-2" />

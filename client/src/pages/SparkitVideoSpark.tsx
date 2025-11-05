@@ -114,7 +114,7 @@ export default function SparkitVideoSpark() {
       <div className="max-w-6xl mx-auto">
         <div className="flex items-center justify-between mb-6">
           <Button
-            variant="ghost"
+            variant="outline"
             onClick={() => {
               if (sessionId) {
                 endSessionMutation.mutate();
@@ -122,7 +122,7 @@ export default function SparkitVideoSpark() {
                 navigate('/spark');
               }
             }}
-            className="text-white hover:bg-white/10"
+            className="text-white hover:bg-white/10 border-2 border-white/40"
             data-testid="button-back"
           >
             <ArrowLeft className="h-5 w-5 mr-2" />

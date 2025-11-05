@@ -77,9 +77,9 @@ export default function PrivacyPolicy() {
           <Button
             data-testid="button-back"
             onClick={() => setLocation(-1 as any)}
-            variant="ghost"
+            variant="outline"
             size="sm"
-            className="mb-4"
+            className="mb-4 border-2"
           >
             <ArrowLeft className="w-4 h-4 mr-2" />
             Back

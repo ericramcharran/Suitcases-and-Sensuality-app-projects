@@ -453,10 +453,11 @@ export default function SparkitSettings() {
         {/* Header */}
         <div className="flex items-center gap-4 mb-8">
           <Button
-            variant="ghost"
+            variant="outline"
             size="icon"
             onClick={() => setLocation("/spark")}
             data-testid="button-back"
+            className="border-2"
           >
             <ArrowLeft className="w-5 h-5" />
           </Button>
