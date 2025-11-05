@@ -1030,6 +1030,26 @@ export default function SparkitSettings() {
                 <span className="font-medium">{couple.sparksRemaining} / 10</span>
               </div>
             )}
+            <div className="pt-3 mt-3 border-t border-gray-200 dark:border-gray-700">
+              <p className="text-xs text-gray-500 dark:text-gray-400 mb-2 font-semibold">Session Debug Info:</p>
+              <div className="flex justify-between text-xs">
+                <span className="text-gray-600 dark:text-gray-400">Couple ID:</span>
+                <span className="font-mono">{couple.id.slice(0, 8)}...</span>
+              </div>
+              <div className="flex justify-between text-xs mt-1">
+                <span className="text-gray-600 dark:text-gray-400">localStorage ID:</span>
+                <span className="font-mono">
+                  {(() => {
+                    try {
+                      const storedId = typeof window !== 'undefined' ? window.localStorage.getItem("sparkitCoupleId") : null;
+                      return storedId ? `${storedId.slice(0, 8)}...` : 'none';
+                    } catch {
+                      return 'unavailable';
+                    }
+                  })()}
+                </span>
+              </div>
+            </div>
           </div>
         </Card>
 
