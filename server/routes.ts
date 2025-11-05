@@ -3150,5 +3150,92 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Spark It! Daily Reminders - Get reminder preferences for couple
+  app.get("/api/sparkit/reminders/preferences", requireSparkitAuth, async (req, res) => {
+    try {
+      const coupleId = req.session.sparkitCoupleId!;
+      
+      let preferences = await storage.getReminderPreferences(coupleId);
+      
+      // If no preferences exist, create default ones
+      if (!preferences) {
+        preferences = await storage.createReminderPreferences({
+          coupleId,
+          enabled: true,
+          reminderTime: '09:00',
+          notificationMethod: 'sms'
+        });
+      }
+      
+      res.json(preferences);
+    } catch (error) {
+      console.error('Get reminder preferences error:', error);
+      res.status(500).json({ error: "Failed to get reminder preferences" });
+    }
+  });
+
+  // Spark It! Daily Reminders - Update reminder preferences
+  app.put("/api/sparkit/reminders/preferences", requireSparkitAuth, async (req, res) => {
+    try {
+      const coupleId = req.session.sparkitCoupleId!;
+      const { enabled, reminderTime, notificationMethod } = req.body;
+      
+      // Validate reminder time format (HH:MM)
+      if (reminderTime && !/^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/.test(reminderTime)) {
+        return res.status(400).json({ error: "Invalid time format. Use HH:MM (e.g., '09:00')" });
+      }
+      
+      // Validate notification method
+      if (notificationMethod && !['sms', 'email', 'push', 'all'].includes(notificationMethod)) {
+        return res.status(400).json({ error: "Invalid notification method. Use 'sms', 'email', 'push', or 'all'" });
+      }
+      
+      // Get or create preferences
+      let preferences = await storage.getReminderPreferences(coupleId);
+      
+      if (!preferences) {
+        // Create new preferences
+        preferences = await storage.createReminderPreferences({
+          coupleId,
+          enabled: enabled ?? true,
+          reminderTime: reminderTime ?? '09:00',
+          notificationMethod: notificationMethod ?? 'sms'
+        });
+      } else {
+        // Update existing preferences
+        const updates: any = {};
+        if (enabled !== undefined) updates.enabled = enabled;
+        if (reminderTime) updates.reminderTime = reminderTime;
+        if (notificationMethod) updates.notificationMethod = notificationMethod;
+        
+        preferences = await storage.updateReminderPreferences(coupleId, updates);
+      }
+      
+      res.json(preferences);
+    } catch (error) {
+      console.error('Update reminder preferences error:', error);
+      res.status(500).json({ error: "Failed to update reminder preferences" });
+    }
+  });
+
+  // Spark It! Daily Reminders - Preview today's content
+  app.get("/api/sparkit/reminders/preview", requireSparkitAuth, async (req, res) => {
+    try {
+      // Get random content of each type
+      const question = await storage.getRandomDailyContent('question');
+      const activity = await storage.getRandomDailyContent('activity');
+      const conversationStarter = await storage.getRandomDailyContent('conversation_starter');
+      
+      res.json({
+        question: question?.content || null,
+        activity: activity?.content || null,
+        conversationStarter: conversationStarter?.content || null
+      });
+    } catch (error) {
+      console.error('Get daily content preview error:', error);
+      res.status(500).json({ error: "Failed to get daily content preview" });
+    }
+  });
+
   return httpServer;
 }

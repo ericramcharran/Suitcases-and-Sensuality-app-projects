@@ -27,6 +27,10 @@ import {
   type InsertSparkitVideoSession,
   type SparkitActivityLog,
   type InsertSparkitActivityLog,
+  type SparkitDailyContent,
+  type InsertSparkitDailyContent,
+  type SparkitReminderPreferences,
+  type InsertSparkitReminderPreferences,
   users, 
   matches,
   personalityAnswers,
@@ -43,7 +47,9 @@ import {
   sparkitTriviaContests,
   sparkitTriviaAnswers,
   sparkitVideoSessions,
-  sparkitActivityLogs
+  sparkitActivityLogs,
+  sparkitDailyContent,
+  sparkitReminderPreferences
 } from "@shared/schema";
 import { db } from "./db";
 import { eq, and, desc, or, inArray, isNull } from "drizzle-orm";
@@ -143,6 +149,12 @@ export interface IStorage {
     limit?: number;
     offset?: number;
   }): Promise<SparkitActivityLog[]>;
+  
+  // Spark It! Daily Reminder operations
+  getReminderPreferences(coupleId: string): Promise<SparkitReminderPreferences | undefined>;
+  createReminderPreferences(preferences: InsertSparkitReminderPreferences): Promise<SparkitReminderPreferences>;
+  updateReminderPreferences(coupleId: string, updates: Partial<InsertSparkitReminderPreferences>): Promise<SparkitReminderPreferences | undefined>;
+  getRandomDailyContent(type?: string): Promise<SparkitDailyContent | undefined>;
 }
 
 export class DatabaseStorage implements IStorage {
@@ -808,6 +820,51 @@ export class DatabaseStorage implements IStorage {
     }
 
     return await query;
+  }
+  
+  // Spark It! Daily Reminder operations
+  async getReminderPreferences(coupleId: string): Promise<SparkitReminderPreferences | undefined> {
+    const result = await db.select()
+      .from(sparkitReminderPreferences)
+      .where(eq(sparkitReminderPreferences.coupleId, coupleId));
+    return result[0];
+  }
+  
+  async createReminderPreferences(preferences: InsertSparkitReminderPreferences): Promise<SparkitReminderPreferences> {
+    const result = await db.insert(sparkitReminderPreferences)
+      .values(preferences)
+      .returning();
+    return result[0];
+  }
+  
+  async updateReminderPreferences(coupleId: string, updates: Partial<InsertSparkitReminderPreferences>): Promise<SparkitReminderPreferences | undefined> {
+    const updateData = {
+      ...updates,
+      updatedAt: new Date()
+    };
+    
+    const result = await db.update(sparkitReminderPreferences)
+      .set(updateData as any)
+      .where(eq(sparkitReminderPreferences.coupleId, coupleId))
+      .returning();
+    return result[0];
+  }
+  
+  async getRandomDailyContent(type?: string): Promise<SparkitDailyContent | undefined> {
+    let query = db.select()
+      .from(sparkitDailyContent)
+      .where(eq(sparkitDailyContent.active, true));
+    
+    if (type) {
+      query = query.where(eq(sparkitDailyContent.type, type)) as any;
+    }
+    
+    const results = await query;
+    if (results.length === 0) return undefined;
+    
+    // Pick a random item from the results
+    const randomIndex = Math.floor(Math.random() * results.length);
+    return results[randomIndex];
   }
 }
 
