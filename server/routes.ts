@@ -1476,6 +1476,16 @@ export async function registerRoutes(app: Express): Promise<Server> {
       // Check if email belongs to partner 1 or partner 2
       const couple = await storage.getCoupleByPartnerEmail(email);
       
+      console.log(`[LOGIN DEBUG] Email: ${email}`);
+      console.log(`[LOGIN DEBUG] Found couple:`, couple ? {
+        id: couple.id,
+        coupleCode: couple.coupleCode,
+        partner1Email: couple.partner1Email,
+        partner2Email: couple.partner2Email,
+        subscriptionPlan: couple.subscriptionPlan,
+        sparksRemaining: couple.sparksRemaining
+      } : 'null');
+      
       if (!couple) {
         return res.status(401).json({ error: "Invalid email or password" });
       }
