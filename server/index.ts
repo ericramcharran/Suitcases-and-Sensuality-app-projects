@@ -6,6 +6,7 @@ import { registerRoutes } from "./routes";
 import { setupVite, serveStatic, log } from "./vite";
 import { seedDemoAccounts } from "./seed-demo-accounts";
 import { seedTrivia } from "./seed-trivia";
+import { dailyReminderScheduler } from "./scheduler";
 
 const app = express();
 app.use(express.json());
@@ -81,6 +82,9 @@ app.use((req, res, next) => {
   
   // Seed trivia questions on startup (for both dev and production)
   await seedTrivia();
+
+  // Start daily reminder scheduler
+  dailyReminderScheduler.start();
 
   app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
     const status = err.status || err.statusCode || 500;
