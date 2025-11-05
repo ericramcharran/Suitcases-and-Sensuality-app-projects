@@ -27,6 +27,7 @@ import SparkitTriviaContest from "@/pages/SparkitTriviaContest";
 import SparkitTriviaResults from "@/pages/SparkitTriviaResults";
 import SparkitVideoSpark from "@/pages/SparkitVideoSpark";
 import SparkitSettings from "@/pages/SparkitSettings";
+import SparkitReminders from "@/pages/SparkitReminders";
 import Home from "@/pages/Home";
 import About from "@/pages/About";
 import Features from "@/pages/Features";
@@ -172,6 +173,9 @@ function App() {
               </Route>
               <Route path="/sparkit/settings">
                 <PageTransition><SparkitSettings /></PageTransition>
+              </Route>
+              <Route path="/sparkit/reminders">
+                <PageTransition><SparkitReminders /></PageTransition>
               </Route>
               <Route path="/sparkit/premium">
                 <PageTransition><SparkitPremium /></PageTransition>

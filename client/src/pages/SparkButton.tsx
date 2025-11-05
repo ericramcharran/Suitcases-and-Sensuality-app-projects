@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Zap, Users, Check, UserPlus, Brain, Trophy, Settings, Crown, Sparkles, Send, Share2 } from "lucide-react";
+import { Zap, Users, Check, UserPlus, Brain, Trophy, Settings, Crown, Sparkles, Send, Share2, Bell } from "lucide-react";
 import { useLocation } from "wouter";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { apiRequest, queryClient } from "@/lib/queryClient";
@@ -805,6 +805,27 @@ export default function SparkButton() {
                 <Sparkles size={14} strokeWidth={3} />
               </span>
             )}
+          </button>
+          <button
+            onClick={() => setLocation("/sparkit/reminders")}
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '10px',
+              padding: '12px 24px',
+              borderRadius: '30px',
+              background: 'rgba(255, 255, 255, 0.1)',
+              border: '2px solid rgba(255, 255, 255, 0.3)',
+              color: 'white',
+              cursor: 'pointer',
+              fontSize: '1em',
+              transition: 'all 0.3s',
+            }}
+            data-testid="button-reminders"
+            title="Manage daily reminders"
+          >
+            <Bell size={20} />
+            Daily Reminders
           </button>
         </div>
       )}
