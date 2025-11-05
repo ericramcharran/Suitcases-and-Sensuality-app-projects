@@ -107,11 +107,10 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <ErrorBoundary>
-        <TooltipProvider>
-          <div className="min-h-screen">
-            <ScrollToTop />
-            <AnimatePresence mode="wait">
-              <Switch location={location} key={location}>
+        <div className="min-h-screen">
+          <ScrollToTop />
+          <AnimatePresence mode="wait">
+            <Switch location={location} key={location}>
               <Route path="/">
                 <PageTransition><ComingSoon /></PageTransition>
               </Route>
@@ -395,7 +394,6 @@ function App() {
             </AnimatePresence>
           </div>
           <Toaster />
-        </TooltipProvider>
       </ErrorBoundary>
     </QueryClientProvider>
   );
