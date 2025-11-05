@@ -61,13 +61,13 @@ export default function AdminAnnounce() {
   };
 
   return (
-    <div className="min-h-screen bg-background p-4 md:p-8">
+    <div className="min-h-screen nexus-bg p-4 md:p-8">
       <div className="max-w-2xl mx-auto">
-        <Card>
+        <Card className="nexus-card">
           <CardHeader>
             <div className="flex items-center gap-2">
-              <Bell className="w-5 h-5 text-primary" />
-              <CardTitle>Send Announcement</CardTitle>
+              <Bell className="w-5 h-5 nexus-gradient-text" />
+              <CardTitle className="nexus-gradient-text">Spark It! Admin</CardTitle>
             </div>
             <CardDescription>
               Send push notifications to all Spark It! users who have enabled notifications
@@ -126,7 +126,7 @@ export default function AdminAnnounce() {
             <Button 
               onClick={handleSend} 
               disabled={sending}
-              className="w-full"
+              className="w-full nexus-button"
               data-testid="button-send"
             >
               {sending ? "Sending..." : "Send Announcement"}

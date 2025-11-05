@@ -64,7 +64,7 @@ Both applications use React 18+ with TypeScript, Vite for bundling, and Wouter f
 -   `localStorage` for `sparkitCoupleId` to enable client-side couple context.
 -   Trivia challenges use WebSocket + polling fallback for real-time completion notifications.
 -   Daily reminder scheduler runs automatically on server startup, checking for reminders to send every minute.
--   Admin announcement system allows broadcasting push notifications to all Spark It! users who have enabled notifications (accessible at `/admin/announce` with ADMIN_EMAIL authentication).
+-   Admin announcement system allows broadcasting push notifications to all Spark It! users who have enabled notifications (accessible at `/sparkit/admin/announce` with ADMIN_EMAIL authentication).
 
 ## Demo Accounts
 

@@ -181,7 +181,7 @@ function App() {
               <Route path="/sparkit/premium">
                 <PageTransition><SparkitPremium /></PageTransition>
               </Route>
-              <Route path="/admin/announce">
+              <Route path="/sparkit/admin/announce">
                 <PageTransition><AdminAnnounce /></PageTransition>
               </Route>
               <Route path="/spark">
