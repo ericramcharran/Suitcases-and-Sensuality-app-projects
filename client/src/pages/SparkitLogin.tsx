@@ -2,7 +2,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { useMutation } from "@tanstack/react-query";
-import { apiRequest } from "@/lib/queryClient";
+import { apiRequest, queryClient } from "@/lib/queryClient";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -46,6 +46,9 @@ export default function SparkitLogin() {
       return await res.json();
     },
     onSuccess: (data) => {
+      // Clear all cached query data to prevent showing stale data from previous accounts
+      queryClient.clear();
+      
       // Store couple ID and partner role in localStorage
       localStorage.setItem("sparkitCoupleId", data.coupleId);
       localStorage.setItem("sparkitPartnerRole", data.partnerRole);
