@@ -17,10 +17,14 @@ This Replit project hosts two distinct applications: "The Executive Society" and
 - Updated `routes.ts`: Added `no-cache` headers to couple data endpoint
 - Removed `TooltipProvider` from `App.tsx` temporarily (was causing React hook errors after cache clearing)
 
-**Push/Email Notifications Default Enabled**: Changed notification preferences to be enabled by default for new signups.
+**Push/Email Notifications Default Enabled**: Changed notification preferences to be enabled by default for ALL users (new and existing).
 - Updated `schema.ts`: Changed `notificationMethod` default from `'sms'` to `'all'` (enables push, email, and SMS)
-- Updated `routes.ts`: Automatically create reminder preferences when couples sign up with all notification methods enabled
-- Admin endpoint available at `/admin/enable-push-notifications` to enable notifications for existing production accounts
+- Updated `routes.ts`: 
+  - Automatically create reminder preferences at signup with all notification methods enabled
+  - GET endpoint now auto-creates preferences with `'all'` if none exist (fixes existing production accounts)
+  - PUT endpoint defaults to `'all'` when creating new preferences
+- This means when any existing production user (like sam from PREMM1) visits the reminder settings page, preferences are automatically created with push and email enabled
+- Admin endpoint available at `/admin/enable-push-notifications` to bulk-enable notifications for existing production accounts (optional, as GET endpoint now handles it automatically)
 
 ## User Preferences
 

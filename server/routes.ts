@@ -3216,13 +3216,13 @@ export async function registerRoutes(app: Express): Promise<Server> {
       
       let preferences = await storage.getReminderPreferences(coupleId);
       
-      // If no preferences exist, create default ones
+      // If no preferences exist, create default ones with all notifications enabled
       if (!preferences) {
         preferences = await storage.createReminderPreferences({
           coupleId,
           enabled: true,
           reminderTime: '09:00',
-          notificationMethod: 'sms'
+          notificationMethod: 'all' // Default to all notification methods (push, email, SMS)
         });
       }
       
@@ -3253,12 +3253,12 @@ export async function registerRoutes(app: Express): Promise<Server> {
       let preferences = await storage.getReminderPreferences(coupleId);
       
       if (!preferences) {
-        // Create new preferences
+        // Create new preferences with all notifications enabled by default
         preferences = await storage.createReminderPreferences({
           coupleId,
           enabled: enabled ?? true,
           reminderTime: reminderTime ?? '09:00',
-          notificationMethod: notificationMethod ?? 'sms'
+          notificationMethod: notificationMethod ?? 'all' // Default to all notification methods (push, email, SMS)
         });
       } else {
         // Update existing preferences
