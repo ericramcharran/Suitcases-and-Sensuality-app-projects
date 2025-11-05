@@ -1797,26 +1797,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(404).json({ error: "Couple not found" });
       }
 
-      console.log('========================================');
-      console.log('✅ COUPLE DATA FROM DATABASE:');
-      console.log('   Couple Code:', couple.coupleCode);
-      console.log('   Subscription Plan:', couple.subscriptionPlan);
-      console.log('   Sparks Remaining:', couple.sparksRemaining);
-      console.log('   Subscription Status:', couple.subscriptionStatus);
-      console.log('========================================');
-
       // Include which partner is logged in
       const response = {
         ...couple,
         loggedInPartnerRole: req.session.sparkitPartnerRole
       };
-      
-      console.log('========================================');
-      console.log('📤 SENDING TO BROWSER:');
-      console.log('   Couple Code:', response.coupleCode);
-      console.log('   Subscription Plan:', response.subscriptionPlan);
-      console.log('   Sparks Remaining:', response.sparksRemaining);
-      console.log('========================================');
       
       res.json(response);
     } catch (error) {

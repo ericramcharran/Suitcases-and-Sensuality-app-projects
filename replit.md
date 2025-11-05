@@ -8,6 +8,15 @@ This Replit project hosts two distinct applications: "The Executive Society" and
 
 **Spark It!** is a couples activity app created to alleviate decision fatigue. It features a unique simultaneous button press mechanic for instant activity suggestions. The app operates on a freemium model with premium subscriptions, offering activity suggestions, trivia challenges, and a competitive scoreboard.
 
+## Recent Fixes (November 5, 2025)
+
+**Data Freshness Fix**: Resolved critical caching issue where premium accounts displayed incorrect trial subscription data. 
+- Updated `queryClient.ts`: Changed `staleTime` from `Infinity` to `0` to ensure fresh data fetching
+- Updated `SparkButton.tsx`: Added `gcTime: 0` and `staleTime: 0` to couple data query for real-time subscription updates
+- Updated `sw.js`: Service worker now only caches images/icons/manifest, never HTML/JS/CSS/API responses
+- Updated `routes.ts`: Added `no-cache` headers to couple data endpoint
+- Removed `TooltipProvider` from `App.tsx` temporarily (was causing React hook errors after cache clearing)
+
 ## User Preferences
 
 Preferred communication style: Simple, everyday language.
