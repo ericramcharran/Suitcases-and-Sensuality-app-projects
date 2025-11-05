@@ -1469,6 +1469,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
     try {
       const { email, password } = req.body;
       
+      console.log('🔐 Login attempt:', { email });
+      
       if (!email || !password) {
         return res.status(400).json({ error: "Email and password are required" });
       }
@@ -1477,20 +1479,28 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const couple = await storage.getCoupleByPartnerEmail(email);
       
       if (!couple) {
+        console.log('❌ No couple found for email:', email);
         return res.status(401).json({ error: "Invalid email or password" });
       }
+
+      console.log('✅ Found couple:', { coupleCode: couple.coupleCode, partner1Email: couple.partner1Email, partner2Email: couple.partner2Email });
 
       // Determine which partner is logging in and verify password
       let partnerRole: 'partner1' | 'partner2' | null = null;
       if (couple.partner1Email === email && couple.partner1Password) {
+        console.log('🔍 Checking partner1 password...');
         const isValid = await bcrypt.compare(password, couple.partner1Password);
+        console.log('Partner1 password valid:', isValid);
         if (isValid) partnerRole = 'partner1';
       } else if (couple.partner2Email === email && couple.partner2Password) {
+        console.log('🔍 Checking partner2 password...');
         const isValid = await bcrypt.compare(password, couple.partner2Password);
+        console.log('Partner2 password valid:', isValid);
         if (isValid) partnerRole = 'partner2';
       }
 
       if (!partnerRole) {
+        console.log('❌ Password verification failed');
         return res.status(401).json({ error: "Invalid email or password" });
       }
 
