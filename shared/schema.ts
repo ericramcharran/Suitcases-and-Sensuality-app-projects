@@ -258,6 +258,26 @@ export const sparkitActivityLogs = pgTable("sparkit_activity_logs", {
   createdAt: timestamp("created_at").defaultNow(),
 });
 
+export const sparkitDailyContent = pgTable("sparkit_daily_content", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  type: text("type").notNull(), // 'question', 'activity', 'conversation_starter'
+  content: text("content").notNull(), // The actual text of the question/activity/prompt
+  category: text("category"), // Optional category (e.g., 'relationship', 'fun', 'deep', 'light')
+  active: boolean("active").default(true), // Whether this content is active in rotation
+  createdAt: timestamp("created_at").defaultNow(),
+});
+
+export const sparkitReminderPreferences = pgTable("sparkit_reminder_preferences", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  coupleId: varchar("couple_id").notNull().unique().references(() => sparkitCouples.id),
+  enabled: boolean("enabled").default(true), // Whether reminders are enabled
+  reminderTime: text("reminder_time").default('09:00'), // Time to send daily reminder (HH:MM format)
+  notificationMethod: text("notification_method").default('sms'), // 'sms', 'email', 'push', 'all'
+  lastSentAt: timestamp("last_sent_at"), // Track when last reminder was sent
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
 export const insertVerificationCodeSchema = createInsertSchema(verificationCodes).omit({
   id: true,
   createdAt: true,
@@ -359,6 +379,17 @@ export const insertSparkitActivityLogSchema = createInsertSchema(sparkitActivity
   createdAt: true,
 });
 
+export const insertSparkitDailyContentSchema = createInsertSchema(sparkitDailyContent).omit({
+  id: true,
+  createdAt: true,
+});
+
+export const insertSparkitReminderPreferencesSchema = createInsertSchema(sparkitReminderPreferences).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+
 // Update partner names schema (for PATCH /api/sparkit/couples/:id/names)
 export const updateCoupleNamesSchema = z.object({
   partner1Name: z.string().min(1).max(50).optional(),
@@ -408,3 +439,7 @@ export type InsertSparkitVideoSession = z.infer<typeof insertSparkitVideoSession
 export type SparkitVideoSession = typeof sparkitVideoSessions.$inferSelect;
 export type InsertSparkitActivityLog = z.infer<typeof insertSparkitActivityLogSchema>;
 export type SparkitActivityLog = typeof sparkitActivityLogs.$inferSelect;
+export type InsertSparkitDailyContent = z.infer<typeof insertSparkitDailyContentSchema>;
+export type SparkitDailyContent = typeof sparkitDailyContent.$inferSelect;
+export type InsertSparkitReminderPreferences = z.infer<typeof insertSparkitReminderPreferencesSchema>;
+export type SparkitReminderPreferences = typeof sparkitReminderPreferences.$inferSelect;
