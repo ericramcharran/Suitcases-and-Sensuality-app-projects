@@ -1323,6 +1323,23 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Verify if user has valid push subscription in database
+  app.get("/api/push/verify/:userId", async (req, res) => {
+    try {
+      const { userId } = req.params;
+      
+      if (!userId) {
+        return res.status(400).json({ error: "userId is required" });
+      }
+
+      const subscriptions = await storage.getPushSubscriptions(userId);
+      res.json({ valid: subscriptions.length > 0 });
+    } catch (error) {
+      console.error('Verify subscription error:', error);
+      res.status(500).json({ error: "Failed to verify subscription" });
+    }
+  });
+
   // Send notification to specific user
   app.post("/api/push/send", async (req, res) => {
     if (!pushNotificationsEnabled) {

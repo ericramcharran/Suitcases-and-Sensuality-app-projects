@@ -232,15 +232,40 @@ export default function SparkitSettings() {
   // Check notification permission and subscription status on mount
   useEffect(() => {
     const checkNotificationStatus = async () => {
+      if (!coupleId || !partnerRole) {
+        setCheckingNotifications(false);
+        return;
+      }
+
       if ('Notification' in window) {
         const permission = Notification.permission;
         if (permission === 'granted') {
           try {
-            // Use NotificationManager to check subscription status
-            // (it now lazily gets registration if needed)
             const notifManager = NotificationManager.getInstance();
-            const isSubscribed = await notifManager.isSubscribed();
-            setNotificationsEnabled(isSubscribed);
+            const browserHasSubscription = await notifManager.isSubscribed();
+            
+            if (browserHasSubscription) {
+              // Verify subscription is still valid on backend
+              const userId = `sparkit-${coupleId}-${partnerRole}`;
+              const verifyResponse = await fetch(`/api/push/verify/${userId}`);
+              
+              if (verifyResponse.ok) {
+                const { valid } = await verifyResponse.json();
+                if (valid) {
+                  setNotificationsEnabled(true);
+                } else {
+                  // Backend says invalid - clear browser subscription
+                  console.log('Subscription exists in browser but not on server, cleaning up...');
+                  await notifManager.unsubscribeFromPush();
+                  setNotificationsEnabled(false);
+                }
+              } else {
+                // Can't verify, assume not enabled
+                setNotificationsEnabled(false);
+              }
+            } else {
+              setNotificationsEnabled(false);
+            }
           } catch (error) {
             console.error('Error checking subscription status:', error);
             setNotificationsEnabled(false);
@@ -253,7 +278,7 @@ export default function SparkitSettings() {
     };
     
     checkNotificationStatus();
-  }, []);
+  }, [coupleId, partnerRole]);
 
   // Handle enabling push notifications
   const handleEnableNotifications = async () => {
