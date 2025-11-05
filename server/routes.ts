@@ -3385,44 +3385,65 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // TEMPORARY: Admin route to fix production database
-  app.get('/admin/fix-premm1-production', async (req, res) => {
+  // TEMPORARY: Admin route to enable push notifications for all demo couples
+  app.get('/admin/enable-push-notifications', async (req, res) => {
     try {
-      console.log('🔧 Admin: Fixing PREMM1 production data...');
+      console.log('🔧 Admin: Enabling push notifications for all couples...');
       
-      // Find couple by code
-      const couple = await storage.getCoupleByCode('PREMM1');
-      if (!couple) {
-        return res.status(404).json({ error: 'PREMM1 not found' });
+      const couples = await storage.getAllCouples();
+      const results = [];
+      
+      for (const couple of couples) {
+        try {
+          // Get or create reminder preferences
+          let prefs = await storage.getReminderPreferences(couple.id);
+          
+          if (!prefs) {
+            // Create new preferences with push enabled
+            prefs = await storage.createReminderPreferences({
+              coupleId: couple.id,
+              enabled: true,
+              reminderTime: '09:00',
+              notificationMethod: 'all' // Enable all: SMS, email, push
+            });
+            results.push({
+              coupleCode: couple.coupleCode,
+              action: 'created',
+              enabled: true,
+              notificationMethod: 'all'
+            });
+          } else {
+            // Update existing preferences
+            prefs = await storage.updateReminderPreferences(couple.id, {
+              enabled: true,
+              notificationMethod: 'all'
+            });
+            results.push({
+              coupleCode: couple.coupleCode,
+              action: 'updated',
+              enabled: true,
+              notificationMethod: 'all'
+            });
+          }
+        } catch (error) {
+          console.error(`Failed to update ${couple.coupleCode}:`, error);
+          results.push({
+            coupleCode: couple.coupleCode,
+            action: 'error',
+            error: String(error)
+          });
+        }
       }
       
-      console.log('📋 Current PREMM1 data:', {
-        id: couple.id,
-        subscriptionPlan: couple.subscriptionPlan,
-        sparksRemaining: couple.sparksRemaining,
-        subscriptionStatus: couple.subscriptionStatus
-      });
-      
-      // Update PREMM1 to premium monthly
-      const result = await storage.updateCouple(couple.id, {
-        subscriptionPlan: 'monthly',
-        subscriptionStatus: 'active',
-        sparksRemaining: 999
-      });
-      
-      console.log('✅ Updated PREMM1:', result);
+      console.log('✅ Push notifications enabled for all couples');
       
       res.json({ 
         success: true, 
-        message: 'PREMM1 updated to Premium Monthly with 999 sparks',
-        before: {
-          subscriptionPlan: couple.subscriptionPlan,
-          sparksRemaining: couple.sparksRemaining
-        },
-        after: result
+        message: 'Push notifications enabled for all couples',
+        results
       });
     } catch (error) {
-      console.error('❌ Fix production error:', error);
+      console.error('❌ Enable push notifications error:', error);
       res.status(500).json({ error: String(error) });
     }
   });
