@@ -3290,7 +3290,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
       
       // Send to each couple who has push subscriptions
       for (const couple of couples) {
-        const subscriptions = await storage.getPushSubscriptions(couple.id);
+        // Get subscriptions for both partners
+        const partner1Subscriptions = await storage.getPushSubscriptions(`sparkit-${couple.id}-partner1`);
+        const partner2Subscriptions = await storage.getPushSubscriptions(`sparkit-${couple.id}-partner2`);
+        const subscriptions = [...partner1Subscriptions, ...partner2Subscriptions];
         
         if (subscriptions.length === 0) {
           continue;
