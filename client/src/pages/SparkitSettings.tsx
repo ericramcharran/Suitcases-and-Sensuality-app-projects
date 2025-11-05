@@ -293,6 +293,21 @@ export default function SparkitSettings() {
     }
 
     try {
+      // Check current permission status
+      if ('Notification' in window) {
+        const currentPermission = Notification.permission;
+        
+        // If already denied, provide instructions
+        if (currentPermission === 'denied') {
+          toast({
+            variant: "destructive",
+            title: "Notifications blocked",
+            description: "You previously blocked notifications. To enable them, click the lock icon in your browser's address bar and allow notifications, then try again.",
+          });
+          return;
+        }
+      }
+
       const notifManager = NotificationManager.getInstance();
       const userId = `sparkit-${coupleId}-${partnerRole}`;
       
@@ -309,8 +324,8 @@ export default function SparkitSettings() {
       } else {
         toast({
           variant: "destructive",
-          title: "Notifications blocked",
-          description: "Please allow notifications in your browser settings.",
+          title: "Notifications not enabled",
+          description: "Please click 'Allow' when your browser asks for notification permission.",
         });
       }
     } catch (error) {
