@@ -1,4 +1,4 @@
-const CACHE_NAME = 'executive-society-v2-20251105';
+const CACHE_NAME = 'executive-society-v3-no-html-cache';
 const STATIC_ASSETS = [
   '/',
   '/manifest.json',
@@ -31,7 +31,7 @@ self.addEventListener('activate', (event) => {
   );
 });
 
-// Fetch event - network first, fall back to cache
+// Fetch event - network first, fall back to cache ONLY for images/icons
 self.addEventListener('fetch', (event) => {
   // Skip non-GET requests
   if (event.request.method !== 'GET') {
@@ -43,14 +43,17 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
+  // NEVER cache HTML/JS/CSS/API - only cache images and icons
+  const url = new URL(event.request.url);
+  const isCacheable = /\.(png|jpg|jpeg|gif|svg|ico|webp)$/i.test(url.pathname) || 
+                      url.pathname === '/manifest.json';
+
   event.respondWith(
     fetch(event.request)
       .then((response) => {
-        // Clone the response
-        const responseToCache = response.clone();
-        
-        // Cache successful responses
-        if (response.status === 200) {
+        // Only cache images and manifest
+        if (isCacheable && response.status === 200) {
+          const responseToCache = response.clone();
           caches.open(CACHE_NAME)
             .then((cache) => cache.put(event.request, responseToCache));
         }
@@ -58,11 +61,12 @@ self.addEventListener('fetch', (event) => {
         return response;
       })
       .catch(() => {
-        // If network fails, try cache
-        return caches.match(event.request)
-          .then((cachedResponse) => {
-            if (cachedResponse) {
-              return cachedResponse;
+        // If network fails, try cache (only for images/manifest)
+        if (isCacheable) {
+          return caches.match(event.request)
+            .then((cachedResponse) => {
+              if (cachedResponse) {
+                return cachedResponse;
             }
             
             // If not in cache, return offline page for navigation requests

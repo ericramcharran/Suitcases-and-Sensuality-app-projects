@@ -34,6 +34,8 @@ export default function SparkButton() {
     queryKey: ["/api/sparkit/couples", coupleId],
     enabled: !!coupleId,
     refetchInterval: 5000, // Refresh every 5 seconds to check for partner joining
+    gcTime: 0, // Don't cache in memory
+    staleTime: 0, // Always fetch fresh data
   });
 
   // WebSocket connection for real-time button press synchronization
