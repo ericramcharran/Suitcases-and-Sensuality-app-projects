@@ -1017,6 +1017,10 @@ export default function SparkitSettings() {
               <span className="font-mono font-semibold">{couple.coupleCode}</span>
             </div>
             <div className="flex justify-between">
+              <span className="text-gray-600 dark:text-gray-400">Logged in as:</span>
+              <span className="font-medium">{partnerRole === 'partner1' ? couple.partner1Email : couple.partner2Email}</span>
+            </div>
+            <div className="flex justify-between">
               <span className="text-gray-600 dark:text-gray-400">Plan:</span>
               <span className="font-medium capitalize">{couple.subscriptionPlan}</span>
             </div>

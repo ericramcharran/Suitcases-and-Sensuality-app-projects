@@ -46,8 +46,19 @@ export default function SparkitLogin() {
       return await res.json();
     },
     onSuccess: (data) => {
-      // Clear all cached query data to prevent showing stale data from previous accounts
-      queryClient.clear();
+      // Clear only user-specific cached data (couple and auth queries)
+      // Preserve notification subscriptions and other non-user-specific data
+      queryClient.removeQueries({ 
+        predicate: (query) => {
+          const key = query.queryKey[0];
+          return typeof key === 'string' && (
+            key.includes('/api/sparkit/couples') || 
+            key.includes('/api/sparkit/auth/me') ||
+            key.includes('/api/sparkit/activities') ||
+            key.includes('/api/trivia')
+          );
+        }
+      });
       
       // Store couple ID and partner role in localStorage
       localStorage.setItem("sparkitCoupleId", data.coupleId);
