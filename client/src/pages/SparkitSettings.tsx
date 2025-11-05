@@ -412,8 +412,18 @@ export default function SparkitSettings() {
   };
 
   const handleSelectIconAvatar = (iconId: string) => {
+    // Check if couple data is loaded first
+    if (!couple || isLoading) {
+      toast({
+        variant: "destructive",
+        title: "Loading",
+        description: "Please wait for your account data to load...",
+      });
+      return;
+    }
+
     // Check if user has premium access (monthly or yearly subscription only)
-    const hasPremiumAccess = couple?.subscriptionPlan === 'monthly' || couple?.subscriptionPlan === 'yearly';
+    const hasPremiumAccess = couple.subscriptionPlan === 'monthly' || couple.subscriptionPlan === 'yearly';
     
     if (!hasPremiumAccess) {
       toast({
@@ -429,8 +439,18 @@ export default function SparkitSettings() {
   };
 
   const handleGetUploadParameters = async () => {
+    // Check if couple data is loaded first
+    if (!couple || isLoading) {
+      toast({
+        variant: "destructive",
+        title: "Loading",
+        description: "Please wait for your account data to load...",
+      });
+      throw new Error("Data still loading");
+    }
+
     // Check if user has premium access (monthly or yearly subscription only)
-    const hasPremiumAccess = couple?.subscriptionPlan === 'monthly' || couple?.subscriptionPlan === 'yearly';
+    const hasPremiumAccess = couple.subscriptionPlan === 'monthly' || couple.subscriptionPlan === 'yearly';
     
     if (!hasPremiumAccess) {
       toast({
