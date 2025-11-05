@@ -51,9 +51,18 @@ try {
 
 // Middleware to check if user is authenticated (Spark It!)
 function requireSparkitAuth(req: any, res: any, next: any) {
+  console.log('🔍 Auth check - Session:', {
+    sessionID: req.sessionID,
+    sparkitCoupleId: req.session?.sparkitCoupleId,
+    sparkitPartnerRole: req.session?.sparkitPartnerRole,
+    cookie: req.headers.cookie ? 'present' : 'missing'
+  });
+  
   if (!req.session.sparkitCoupleId || !req.session.sparkitPartnerRole) {
+    console.log('❌ Auth failed - missing session data');
     return res.status(401).json({ error: "Authentication required" });
   }
+  console.log('✅ Auth passed');
   next();
 }
 
