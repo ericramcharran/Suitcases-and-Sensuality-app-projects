@@ -8,7 +8,7 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
-import { Bell, Clock, Mail, MessageSquare, Smartphone, Sparkles } from "lucide-react";
+import { ArrowLeft, Bell, Clock, Mail, MessageSquare, Smartphone, Sparkles } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 
 interface ReminderPreferences {
@@ -120,9 +120,19 @@ export default function SparkitReminders() {
         {/* Header */}
         <Card>
           <CardHeader>
-            <div className="flex items-center gap-2">
-              <Bell className="h-6 w-6 text-primary" />
-              <CardTitle>Daily Reminders</CardTitle>
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <Bell className="h-6 w-6 text-primary" />
+                <CardTitle>Daily Reminders</CardTitle>
+              </div>
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={() => window.history.back()}
+                data-testid="button-back"
+              >
+                <ArrowLeft className="h-5 w-5" />
+              </Button>
             </div>
             <CardDescription>
               Stay connected with daily questions, activities, and conversation starters delivered right to you
@@ -200,6 +210,12 @@ export default function SparkitReminders() {
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
+                  <SelectItem value="push" data-testid="option-push">
+                    <div className="flex items-center gap-2">
+                      <Smartphone className="h-4 w-4" />
+                      <span>Push Notification</span>
+                    </div>
+                  </SelectItem>
                   <SelectItem value="sms" data-testid="option-sms">
                     <div className="flex items-center gap-2">
                       <MessageSquare className="h-4 w-4" />
@@ -210,12 +226,6 @@ export default function SparkitReminders() {
                     <div className="flex items-center gap-2">
                       <Mail className="h-4 w-4" />
                       <span>Email</span>
-                    </div>
-                  </SelectItem>
-                  <SelectItem value="push" data-testid="option-push">
-                    <div className="flex items-center gap-2">
-                      <Smartphone className="h-4 w-4" />
-                      <span>Push Notification</span>
                     </div>
                   </SelectItem>
                   <SelectItem value="all" data-testid="option-all">
