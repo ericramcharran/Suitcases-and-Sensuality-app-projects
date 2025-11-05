@@ -6,6 +6,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
 import { Bell } from "lucide-react";
+import "../nexus-styles.css";
 
 export default function AdminAnnounce() {
   const [email, setEmail] = useState("");
