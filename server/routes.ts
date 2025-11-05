@@ -3248,12 +3248,14 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   // Admin: Send announcement to all Spark It! users with push notifications
   app.post("/api/admin/sparkit/announce", async (req, res) => {
+    console.log('📢 Admin announcement endpoint called');
     try {
       // Verify admin access using Authorization header
       const authHeader = req.headers.authorization;
       const adminEmail = process.env.ADMIN_EMAIL;
       
       if (!authHeader || !adminEmail) {
+        console.log('❌ Unauthorized: Missing auth header or admin email');
         return res.status(403).json({ error: "Unauthorized" });
       }
       
@@ -3262,21 +3264,26 @@ export async function registerRoutes(app: Express): Promise<Server> {
       
       // Verify token matches admin email (simple approach for demo)
       if (token !== adminEmail) {
+        console.log('❌ Unauthorized: Token mismatch');
         return res.status(403).json({ error: "Unauthorized" });
       }
       
       const { title, body, url } = req.body;
+      console.log(`✅ Admin authenticated. Announcement: "${title}"`);
       
       if (!pushNotificationsEnabled) {
+        console.log('❌ Push notifications not configured');
         return res.status(503).json({ error: "Push notifications not configured" });
       }
       
       if (!title || !body) {
+        console.log('❌ Missing title or body');
         return res.status(400).json({ error: "Title and body are required" });
       }
       
       // Get all Spark It! couples
       const couples = await storage.getAllCouples();
+      console.log(`📊 Found ${couples.length} couples`);
       
       let sentCount = 0;
       let failedCount = 0;
@@ -3288,6 +3295,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
         if (subscriptions.length === 0) {
           continue;
         }
+        
+        console.log(`📱 Sending to ${couple.partner1Name} & ${couple.partner2Name} (${subscriptions.length} subscriptions)`);
         
         const payload = JSON.stringify({
           title,
@@ -3309,16 +3318,20 @@ export async function registerRoutes(app: Express): Promise<Server> {
           try {
             await webpush.sendNotification(pushSubscription, payload);
             sentCount++;
+            console.log(`  ✅ Sent to subscription ${sub.endpoint.substring(0, 50)}...`);
           } catch (error: any) {
             // Remove invalid subscriptions
             if (error.statusCode === 404 || error.statusCode === 410) {
               await storage.deletePushSubscription(sub.endpoint);
+              console.log(`  🗑️  Removed invalid subscription (${error.statusCode})`);
             }
             failedCount++;
-            console.error('Push notification error:', error);
+            console.error('  ❌ Push notification error:', error.message);
           }
         }
       }
+      
+      console.log(`📊 Announcement complete: ${sentCount} sent, ${failedCount} failed, ${couples.length} couples`);
       
       res.json({ 
         success: true, 
