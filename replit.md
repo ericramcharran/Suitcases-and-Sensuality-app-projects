@@ -17,6 +17,11 @@ This Replit project hosts two distinct applications: "The Executive Society" and
 - Updated `routes.ts`: Added `no-cache` headers to couple data endpoint
 - Removed `TooltipProvider` from `App.tsx` temporarily (was causing React hook errors after cache clearing)
 
+**Push/Email Notifications Default Enabled**: Changed notification preferences to be enabled by default for new signups.
+- Updated `schema.ts`: Changed `notificationMethod` default from `'sms'` to `'all'` (enables push, email, and SMS)
+- Updated `routes.ts`: Automatically create reminder preferences when couples sign up with all notification methods enabled
+- Admin endpoint available at `/admin/enable-push-notifications` to enable notifications for existing production accounts
+
 ## User Preferences
 
 Preferred communication style: Simple, everyday language.

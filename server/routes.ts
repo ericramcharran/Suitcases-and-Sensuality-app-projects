@@ -1679,6 +1679,19 @@ export async function registerRoutes(app: Express): Promise<Server> {
         relationshipType: relationshipType || 'monogamous'
       });
 
+      // Create default reminder preferences with push and email enabled
+      try {
+        await storage.createReminderPreferences({
+          coupleId: couple.id,
+          enabled: true,
+          reminderTime: '09:00',
+          notificationMethod: 'all' // Enable push, email, and SMS by default
+        });
+      } catch (error) {
+        console.error('Failed to create reminder preferences:', error);
+        // Don't fail signup if preferences creation fails
+      }
+
       // Log demo user activity
       await storage.logDemoActivity({
         coupleId: couple.id,
