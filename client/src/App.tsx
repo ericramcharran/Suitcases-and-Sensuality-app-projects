@@ -28,6 +28,7 @@ import SparkitTriviaResults from "@/pages/SparkitTriviaResults";
 import SparkitVideoSpark from "@/pages/SparkitVideoSpark";
 import SparkitSettings from "@/pages/SparkitSettings";
 import SparkitReminders from "@/pages/SparkitReminders";
+import AdminAnnounce from "@/pages/AdminAnnounce";
 import Home from "@/pages/Home";
 import About from "@/pages/About";
 import Features from "@/pages/Features";
@@ -179,6 +180,9 @@ function App() {
               </Route>
               <Route path="/sparkit/premium">
                 <PageTransition><SparkitPremium /></PageTransition>
+              </Route>
+              <Route path="/admin/announce">
+                <PageTransition><AdminAnnounce /></PageTransition>
               </Route>
               <Route path="/spark">
                 <PageTransition><SparkButton /></PageTransition>

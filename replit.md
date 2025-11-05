@@ -49,6 +49,7 @@ Both applications use React 18+ with TypeScript, Vite for bundling, and Wouter f
 -   **Spark It! AI Activity Discovery (Feature Flag Controlled):** OpenAI GPT-4 Turbo powered location-based activity suggestions using Replit AI Integrations.
 -   **Spark It! Trivia System:** 225+ trivia questions across 10 categories. Head-to-head competition where both partners answer the same questions. Real-time WebSocket notifications for challenge acceptance and completion.
 -   **Spark It! Video Calling:** Daily.co integration for embedded video calls.
+-   **Spark It! Daily Reminders:** Automated daily reminder system with 45 seeded content entries (questions, activities, conversation starters). Couples configure reminder time and delivery method (SMS, email, push, or all). Scheduler runs every minute, sends once per day at configured time, tracks delivery success to prevent duplicates. SMS via Twilio fully implemented; email and push are placeholder stubs for future implementation.
 
 **System Design Choices:**
 -   Shared Express/Vite server infrastructure.
@@ -62,6 +63,8 @@ Both applications use React 18+ with TypeScript, Vite for bundling, and Wouter f
 -   Session-based authentication for Spark It! with PostgreSQL store and 30-day cookie persistence.
 -   `localStorage` for `sparkitCoupleId` to enable client-side couple context.
 -   Trivia challenges use WebSocket + polling fallback for real-time completion notifications.
+-   Daily reminder scheduler runs automatically on server startup, checking for reminders to send every minute.
+-   Admin announcement system allows broadcasting push notifications to all Spark It! users who have enabled notifications (accessible at `/admin/announce` with ADMIN_EMAIL authentication).
 
 ## Demo Accounts
 

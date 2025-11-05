@@ -3237,5 +3237,91 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Admin: Send announcement to all Spark It! users with push notifications
+  app.post("/api/admin/sparkit/announce", async (req, res) => {
+    try {
+      // Verify admin access using Authorization header
+      const authHeader = req.headers.authorization;
+      const adminEmail = process.env.ADMIN_EMAIL;
+      
+      if (!authHeader || !adminEmail) {
+        return res.status(403).json({ error: "Unauthorized" });
+      }
+      
+      // Extract token from "Bearer <token>" format
+      const token = authHeader.startsWith('Bearer ') ? authHeader.substring(7) : authHeader;
+      
+      // Verify token matches admin email (simple approach for demo)
+      if (token !== adminEmail) {
+        return res.status(403).json({ error: "Unauthorized" });
+      }
+      
+      const { title, body, url } = req.body;
+      
+      if (!pushNotificationsEnabled) {
+        return res.status(503).json({ error: "Push notifications not configured" });
+      }
+      
+      if (!title || !body) {
+        return res.status(400).json({ error: "Title and body are required" });
+      }
+      
+      // Get all Spark It! couples
+      const couples = await storage.getAllCouples();
+      
+      let sentCount = 0;
+      let failedCount = 0;
+      
+      // Send to each couple who has push subscriptions
+      for (const couple of couples) {
+        const subscriptions = await storage.getPushSubscriptions(couple.id);
+        
+        if (subscriptions.length === 0) {
+          continue;
+        }
+        
+        const payload = JSON.stringify({
+          title,
+          body,
+          icon: '/sparkit-icon-192.png',
+          badge: '/sparkit-icon-192.png',
+          url: url || '/sparkit'
+        });
+        
+        for (const sub of subscriptions) {
+          const pushSubscription = {
+            endpoint: sub.endpoint,
+            keys: {
+              p256dh: sub.p256dh,
+              auth: sub.auth
+            }
+          };
+          
+          try {
+            await webpush.sendNotification(pushSubscription, payload);
+            sentCount++;
+          } catch (error: any) {
+            // Remove invalid subscriptions
+            if (error.statusCode === 404 || error.statusCode === 410) {
+              await storage.deletePushSubscription(sub.endpoint);
+            }
+            failedCount++;
+            console.error('Push notification error:', error);
+          }
+        }
+      }
+      
+      res.json({ 
+        success: true, 
+        sent: sentCount,
+        failed: failedCount,
+        totalCouples: couples.length
+      });
+    } catch (error) {
+      console.error('Send announcement error:', error);
+      res.status(500).json({ error: "Failed to send announcement" });
+    }
+  });
+
   return httpServer;
 }
