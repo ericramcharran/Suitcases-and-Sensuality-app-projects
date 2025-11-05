@@ -1785,15 +1785,32 @@ export async function registerRoutes(app: Express): Promise<Server> {
         ? await storage.getCoupleByCode(id.toUpperCase())
         : await storage.getCoupleById(id);
       
+      console.log(`[GET COUPLE DEBUG] Requested ID: ${id}`);
+      console.log(`[GET COUPLE DEBUG] Found couple:`, couple ? {
+        id: couple.id,
+        coupleCode: couple.coupleCode,
+        subscriptionPlan: couple.subscriptionPlan,
+        sparksRemaining: couple.sparksRemaining
+      } : 'null');
+      
       if (!couple) {
         return res.status(404).json({ error: "Couple not found" });
       }
 
       // Include which partner is logged in
-      res.json({
+      const response = {
         ...couple,
         loggedInPartnerRole: req.session.sparkitPartnerRole
+      };
+      
+      console.log(`[GET COUPLE DEBUG] Sending response:`, {
+        id: response.id,
+        coupleCode: response.coupleCode,
+        subscriptionPlan: response.subscriptionPlan,
+        sparksRemaining: response.sparksRemaining
       });
+      
+      res.json(response);
     } catch (error) {
       console.error('Get couple error:', error);
       res.status(500).json({ error: "Failed to get couple" });
