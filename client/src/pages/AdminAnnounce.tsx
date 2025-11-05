@@ -15,8 +15,12 @@ export default function AdminAnnounce() {
   const [url, setUrl] = useState("/sparkit/reminders");
   const [sending, setSending] = useState(false);
   const { toast } = useToast();
+  
+  // Version check to ensure fresh code
+  const VERSION = "v1.1";
 
   const handleSend = async () => {
+    console.log(`[AdminAnnounce ${VERSION}] Sending announcement...`);
     if (!email || !title || !body) {
       toast({
         title: "Missing Information",
@@ -28,6 +32,7 @@ export default function AdminAnnounce() {
 
     setSending(true);
     try {
+      console.log(`[AdminAnnounce ${VERSION}] Making request to /api/admin/sparkit/announce`);
       const response = await fetch("/api/admin/sparkit/announce", {
         method: "POST",
         headers: { 
@@ -38,6 +43,7 @@ export default function AdminAnnounce() {
       });
 
       const data = await response.json();
+      console.log(`[AdminAnnounce ${VERSION}] Response:`, data);
 
       if (!response.ok) {
         throw new Error(data.error || "Failed to send announcement");
@@ -66,9 +72,12 @@ export default function AdminAnnounce() {
       <div className="max-w-2xl mx-auto">
         <Card className="nexus-card">
           <CardHeader>
-            <div className="flex items-center gap-2">
-              <Bell className="w-5 h-5 nexus-gradient-text" />
-              <CardTitle className="nexus-gradient-text">Spark It! Admin</CardTitle>
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <Bell className="w-5 h-5 nexus-gradient-text" />
+                <CardTitle className="nexus-gradient-text">Spark It! Admin</CardTitle>
+              </div>
+              <span className="text-xs text-muted-foreground">{VERSION}</span>
             </div>
             <CardDescription>
               Send push notifications to all Spark It! users who have enabled notifications
