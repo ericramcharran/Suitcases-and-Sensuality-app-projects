@@ -1476,16 +1476,6 @@ export async function registerRoutes(app: Express): Promise<Server> {
       // Check if email belongs to partner 1 or partner 2
       const couple = await storage.getCoupleByPartnerEmail(email);
       
-      console.log(`[LOGIN DEBUG] Email: ${email}`);
-      console.log(`[LOGIN DEBUG] Found couple:`, couple ? {
-        id: couple.id,
-        coupleCode: couple.coupleCode,
-        partner1Email: couple.partner1Email,
-        partner2Email: couple.partner2Email,
-        subscriptionPlan: couple.subscriptionPlan,
-        sparksRemaining: couple.sparksRemaining
-      } : 'null');
-      
       if (!couple) {
         return res.status(401).json({ error: "Invalid email or password" });
       }
@@ -1785,32 +1775,15 @@ export async function registerRoutes(app: Express): Promise<Server> {
         ? await storage.getCoupleByCode(id.toUpperCase())
         : await storage.getCoupleById(id);
       
-      console.log(`[GET COUPLE DEBUG] Requested ID: ${id}`);
-      console.log(`[GET COUPLE DEBUG] Found couple:`, couple ? {
-        id: couple.id,
-        coupleCode: couple.coupleCode,
-        subscriptionPlan: couple.subscriptionPlan,
-        sparksRemaining: couple.sparksRemaining
-      } : 'null');
-      
       if (!couple) {
         return res.status(404).json({ error: "Couple not found" });
       }
 
       // Include which partner is logged in
-      const response = {
+      res.json({
         ...couple,
         loggedInPartnerRole: req.session.sparkitPartnerRole
-      };
-      
-      console.log(`[GET COUPLE DEBUG] Sending response:`, {
-        id: response.id,
-        coupleCode: response.coupleCode,
-        subscriptionPlan: response.subscriptionPlan,
-        sparksRemaining: response.sparksRemaining
       });
-      
-      res.json(response);
     } catch (error) {
       console.error('Get couple error:', error);
       res.status(500).json({ error: "Failed to get couple" });

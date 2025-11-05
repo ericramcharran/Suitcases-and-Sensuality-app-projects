@@ -46,30 +46,35 @@ export default function SparkitLogin() {
       return await res.json();
     },
     onSuccess: (data) => {
-      // Clear only user-specific cached data (couple and auth queries)
-      // Preserve notification subscriptions and other non-user-specific data
-      queryClient.removeQueries({ 
-        predicate: (query) => {
-          const key = query.queryKey[0];
-          return typeof key === 'string' && (
-            key.includes('/api/sparkit/couples') || 
-            key.includes('/api/sparkit/auth/me') ||
-            key.includes('/api/sparkit/activities') ||
-            key.includes('/api/trivia')
-          );
-        }
-      });
-      
-      // Store couple ID and partner role in localStorage
+      // Store couple ID and partner role in localStorage FIRST
       localStorage.setItem("sparkitCoupleId", data.coupleId);
       localStorage.setItem("sparkitPartnerRole", data.partnerRole);
+      
+      // Clear ALL cached query data to force fresh fetch
+      queryClient.clear();
       
       toast({
         description: `Welcome back, ${data.partnerName}!`,
       });
       
-      // Redirect to returnUrl if provided, otherwise to /spark
-      setLocation(returnUrl || "/spark");
+      // Sanitize returnUrl to prevent open redirect - only allow same-origin relative paths
+      let safeRedirect = "/spark";
+      if (returnUrl) {
+        try {
+          // Parse the URL to check if it's a valid relative path
+          const url = new URL(returnUrl, window.location.origin);
+          // Only allow if it's the same origin and is a relative path
+          if (url.origin === window.location.origin && returnUrl.startsWith("/") && !returnUrl.startsWith("//")) {
+            safeRedirect = returnUrl;
+          }
+        } catch {
+          // Invalid URL, use default
+          safeRedirect = "/spark";
+        }
+      }
+      
+      // Force a full page reload to ensure fresh data
+      window.location.href = safeRedirect;
     },
     onError: (error: any) => {
       toast({
