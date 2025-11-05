@@ -68,14 +68,22 @@ Both applications use React 18+ with TypeScript, Vite for bundling, and Wouter f
 
 ## Demo Accounts
 
-**Spark It! Demo Couples** (password: demo123):
-- **DEVST1**: Devin & Stephanie (monthly, 999 sparks)
-- **PREMM1**: Sam & Riley (monthly, 999 sparks)
-- **PREM02**: Cliff & Christi (monthly, 999 sparks)
-- **PREM03**: Keith & Dawn (yearly, 999 sparks)
-- **DREW01**: Drew & Blake (monthly, 999 sparks)
-- **BRCHR1**: Brett & Christina (monthly, 999 sparks, long-distance relationship)
-- **DEMO01-05**: Trial accounts (20 sparks each)
+**Spark It! Demo Couples** (all passwords: demo123)
+
+**Premium Accounts (999 sparks, unlimited access):**
+- **DEVST1**: Devin (`devin@demo.com`) & Stephanie (`stephanie@demo.com`) - Monthly Premium
+- **PREMM1**: Sam (`sam@demo.com`) & Riley (`riley@demo.com`) - Monthly Premium
+- **PREM02**: Cliff (`cliff@demo.com`) & Christi (`christi@demo.com`) - Monthly Premium
+- **PREM03**: Keith (`keith@demo.com`) & Dawn (`dawn@demo.com`) - Yearly Premium
+- **DREW01**: Drew (`drew@demo.com`) & Blake (`blake@demo.com`) - Monthly Premium
+- **BRCHR1**: Brett (`brett@demo.com`) & Christina (`christina@demo.com`) - Monthly Premium, Long-Distance
+- **DEMO05**: Avery (`avery@demo.com`) & Kaitlyn (`kaitlyn@demo.com`) - Monthly Premium, Long-Term Dating
+
+**Trial Accounts (20 sparks each):**
+- **DEMO01**: Alex (`alex@demo.com`) & Jordan (`jordan@demo.com`)
+- **DEMO02**: Taylor (`taylor@demo.com`) & Morgan (`morgan@demo.com`)
+- **DEMO03**: Casey (`casey@demo.com`) & Jamie (`jamie@demo.com`)
+- **DEMO04**: Quinn (`quinn@demo.com`) & Sage (`sage@demo.com`)
 
 ## External Dependencies
 

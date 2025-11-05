@@ -103,8 +103,8 @@ const DEMO_ACCOUNTS = [
     partner2Name: "Kaitlyn",
     partner1Email: "avery@demo.com",
     partner2Email: "kaitlyn@demo.com",
-    subscriptionPlan: "trial",
-    sparksRemaining: 20,
+    subscriptionPlan: "monthly",
+    sparksRemaining: 999,
     relationshipType: "long_term_dating",
   },
 ];
