@@ -71,7 +71,7 @@ Both applications use React 18+ with TypeScript, Vite for bundling, and Wouter f
 **Spark It! Demo Couples** (all passwords: demo123)
 
 **Premium Accounts (999 sparks, unlimited access):**
-- **DEVST1**: Devin (`devin@demo.com`) & Stephanie (`stephanie@demo.com`) - Monthly Premium
+- **DEVST1**: Devin (`devin1@demo.com`) & Stephanie (`stephanie1@demo.com`) - Monthly Premium
 - **PREMM1**: Sam (`sam@demo.com`) & Riley (`riley@demo.com`) - Monthly Premium
 - **PREM02**: Cliff (`cliff@demo.com`) & Christi (`christi@demo.com`) - Monthly Premium
 - **PREM03**: Keith (`keith@demo.com`) & Dawn (`dawn@demo.com`) - Yearly Premium
