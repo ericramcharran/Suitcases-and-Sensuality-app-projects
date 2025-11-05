@@ -1,4 +1,4 @@
-const CACHE_NAME = 'executive-society-v1';
+const CACHE_NAME = 'executive-society-v2-20251105';
 const STATIC_ASSETS = [
   '/',
   '/manifest.json',
