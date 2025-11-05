@@ -3385,5 +3385,47 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // TEMPORARY: Admin route to fix production database
+  app.get('/admin/fix-premm1-production', async (req, res) => {
+    try {
+      console.log('🔧 Admin: Fixing PREMM1 production data...');
+      
+      // Find couple by code
+      const couple = await storage.getCoupleByCode('PREMM1');
+      if (!couple) {
+        return res.status(404).json({ error: 'PREMM1 not found' });
+      }
+      
+      console.log('📋 Current PREMM1 data:', {
+        id: couple.id,
+        subscriptionPlan: couple.subscriptionPlan,
+        sparksRemaining: couple.sparksRemaining,
+        subscriptionStatus: couple.subscriptionStatus
+      });
+      
+      // Update PREMM1 to premium monthly
+      const result = await storage.updateCouple(couple.id, {
+        subscriptionPlan: 'monthly',
+        subscriptionStatus: 'active',
+        sparksRemaining: 999
+      });
+      
+      console.log('✅ Updated PREMM1:', result);
+      
+      res.json({ 
+        success: true, 
+        message: 'PREMM1 updated to Premium Monthly with 999 sparks',
+        before: {
+          subscriptionPlan: couple.subscriptionPlan,
+          sparksRemaining: couple.sparksRemaining
+        },
+        after: result
+      });
+    } catch (error) {
+      console.error('❌ Fix production error:', error);
+      res.status(500).json({ error: String(error) });
+    }
+  });
+
   return httpServer;
 }
