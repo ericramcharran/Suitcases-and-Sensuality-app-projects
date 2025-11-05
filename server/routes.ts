@@ -1783,6 +1783,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
     try {
       const { id } = req.params;
       
+      console.log('📊 GET /api/sparkit/couples/:id - Request:', { id, sessionCoupleId: req.session.sparkitCoupleId });
+      
       // Check if parameter is a couple code (6 chars, alphanumeric) or ID (UUID)
       const isCode = /^[A-Z0-9]{6}$/.test(id.toUpperCase());
       
@@ -1791,14 +1793,30 @@ export async function registerRoutes(app: Express): Promise<Server> {
         : await storage.getCoupleById(id);
       
       if (!couple) {
+        console.log('❌ Couple not found');
         return res.status(404).json({ error: "Couple not found" });
       }
 
+      console.log('✅ Couple data from database:', {
+        coupleCode: couple.coupleCode,
+        subscriptionPlan: couple.subscriptionPlan,
+        sparksRemaining: couple.sparksRemaining,
+        subscriptionStatus: couple.subscriptionStatus
+      });
+
       // Include which partner is logged in
-      res.json({
+      const response = {
         ...couple,
         loggedInPartnerRole: req.session.sparkitPartnerRole
+      };
+      
+      console.log('📤 Sending response:', {
+        coupleCode: response.coupleCode,
+        subscriptionPlan: response.subscriptionPlan,
+        sparksRemaining: response.sparksRemaining
       });
+      
+      res.json(response);
     } catch (error) {
       console.error('Get couple error:', error);
       res.status(500).json({ error: "Failed to get couple" });
