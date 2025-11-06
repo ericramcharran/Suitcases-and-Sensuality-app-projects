@@ -277,9 +277,6 @@ export default function SparkitReminders() {
                 <Sparkles className="h-5 w-5 text-primary" />
                 <CardTitle className="text-lg">Today's Preview</CardTitle>
               </div>
-              <CardDescription>
-                Here's a sample of the kind of content you'll receive
-              </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
               {preview.question && (
