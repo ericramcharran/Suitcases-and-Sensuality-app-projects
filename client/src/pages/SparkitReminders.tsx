@@ -34,6 +34,12 @@ export default function SparkitReminders() {
   const [, setLocation] = useLocation();
   const [hasChanges, setHasChanges] = useState(false);
 
+  // Check authentication via session to get partnerRole
+  const { data: authData } = useQuery<{ coupleId: string; partnerRole: string } | null>({
+    queryKey: ["/api/sparkit/auth/me"],
+    retry: false,
+  });
+
   // Fetch current preferences
   const { data: preferences, isLoading: prefsLoading } = useQuery<ReminderPreferences>({
     queryKey: ['/api/sparkit/reminders/preferences']
@@ -63,7 +69,7 @@ export default function SparkitReminders() {
   // Check push subscription status on load and auto-request if needed
   useEffect(() => {
     const checkAndRequestPushIfNeeded = async () => {
-      if (!preferences) return;
+      if (!preferences || !authData) return;
 
       const isSubscribed = await notificationManager.isSubscribed();
       setPushSubscribed(isSubscribed);
@@ -82,7 +88,7 @@ export default function SparkitReminders() {
         // Only auto-request if permission is 'default' (not already denied)
         if (Notification.permission === 'default') {
           console.log('🔔 Auto-requesting push permission on page load...');
-          await requestPushPermission(preferences.coupleId);
+          await requestPushPermission(preferences.coupleId, authData.partnerRole);
         } else if (Notification.permission === 'denied') {
           console.log('⚠️ Notification permission was previously denied');
           toast({
@@ -95,11 +101,12 @@ export default function SparkitReminders() {
     };
     
     checkAndRequestPushIfNeeded();
-  }, [preferences]);
+  }, [preferences, authData]);
 
   // Request push notification permission and subscribe
-  const requestPushPermission = async (coupleId: string): Promise<boolean> => {
-    console.log('🔔 Requesting push notification permission for couple:', coupleId);
+  const requestPushPermission = async (coupleId: string, partnerRole: string): Promise<boolean> => {
+    const userId = `sparkit-${coupleId}-${partnerRole}`;
+    console.log('🔔 Requesting push notification permission for user:', userId);
     
     if (!('Notification' in window)) {
       console.error('❌ Browser does not support notifications');
@@ -126,8 +133,11 @@ export default function SparkitReminders() {
     }
 
     try {
+      // Initialize notification manager with correct userId format
+      await notificationManager.initialize(userId);
+      
       // Subscribe to push notifications (this will request permission if needed)
-      const success = await notificationManager.subscribeToPush(coupleId);
+      const success = await notificationManager.subscribeToPush(userId);
       
       if (success) {
         console.log('✅ Successfully subscribed to push notifications');
@@ -180,8 +190,10 @@ export default function SparkitReminders() {
     if ((notificationMethod === 'push' || notificationMethod === 'all') && !pushSubscribed) {
       console.log('🔔 Push notifications selected but not subscribed, requesting permission...');
       const coupleId = preferences?.coupleId;
-      if (!coupleId) {
-        console.error('❌ No couple ID available');
+      const partnerRole = authData?.partnerRole;
+      
+      if (!coupleId || !partnerRole) {
+        console.error('❌ No couple ID or partner role available');
         toast({
           variant: "destructive",
           title: "Error",
@@ -190,7 +202,7 @@ export default function SparkitReminders() {
         return;
       }
 
-      const granted = await requestPushPermission(coupleId);
+      const granted = await requestPushPermission(coupleId, partnerRole);
       if (!granted) {
         console.log('❌ Push permission denied, not saving preferences');
         return; // Don't save if permission was denied
