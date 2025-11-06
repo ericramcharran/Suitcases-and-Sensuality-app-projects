@@ -883,7 +883,7 @@ export default function SparkitSettings() {
 
               {/* Icon Gallery */}
               <div className="space-y-3">
-                <Label className="text-sm font-medium">Choose an Icon</Label>
+                <Label className="text-sm font-medium">Avatars</Label>
                 <ScrollArea className="h-80 rounded-md border p-4">
                   <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-4">
                     {AVATAR_ICONS.map((icon) => {
@@ -906,6 +906,7 @@ export default function SparkitSettings() {
                             <img 
                               src={icon.imagePath} 
                               alt={icon.label} 
+                              loading="lazy"
                               className="w-16 h-16 sm:w-20 sm:h-20 mx-auto object-contain rounded-md"
                             />
                           ) : icon.icon && (
@@ -961,7 +962,7 @@ export default function SparkitSettings() {
 
               {/* Icon Gallery */}
               <div className="space-y-3">
-                <Label className="text-sm font-medium">Choose an Icon</Label>
+                <Label className="text-sm font-medium">Avatars</Label>
                 <ScrollArea className="h-80 rounded-md border p-4">
                   <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-4">
                     {AVATAR_ICONS.map((icon) => {
@@ -984,6 +985,7 @@ export default function SparkitSettings() {
                             <img 
                               src={icon.imagePath} 
                               alt={icon.label} 
+                              loading="lazy"
                               className="w-16 h-16 sm:w-20 sm:h-20 mx-auto object-contain rounded-md"
                             />
                           ) : icon.icon && (

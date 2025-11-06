@@ -10,10 +10,17 @@ This Replit project hosts two distinct applications: "The Executive Society" and
 
 ## Recent Fixes (November 6, 2025)
 
+**Avatar Gallery Performance Optimization**: Improved avatar selection loading speed in Settings.
+- Renamed "Choose an Icon" to "Avatars" for clarity
+- Added lazy loading (`loading="lazy"`) to all 82 avatar images
+- Images now load only as they come into view when scrolling, significantly improving page load time
+- Applied to both Partner 1 and Partner 2 avatar galleries
+
 **Trivia Content Expansion**: Added 100 new trivia questions (IDs 226-325), bringing total to 325+ questions.
 - Evenly distributed across all 10 categories (Pop Culture, Science & Nature, History, Geography, Food & Drink, Sports, Music, Literature, General Knowledge, Love & Relationships)
 - Each category received 10 additional questions
 - Provides more variety and replayability for couples' trivia challenges
+- Each contest uses 5 random questions from the selected category's pool of 35 questions
 
 **Consistent Back Button Styling**: Unified all back buttons across Spark It! app with white outline highlight and narrower spacing.
 - Applied consistent styling: white border (`border-white/40`), white glow shadow, backdrop blur, and subtle background
