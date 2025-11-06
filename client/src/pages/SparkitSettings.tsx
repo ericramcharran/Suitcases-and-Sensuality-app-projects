@@ -517,7 +517,7 @@ export default function SparkitSettings() {
             variant="outline"
             onClick={() => setLocation("/spark")}
             data-testid="button-back"
-            className="mb-4 border-2"
+            className="mb-4 border-2 border-white/40 shadow-[0_0_15px_rgba(255,255,255,0.3)] hover:shadow-[0_0_20px_rgba(255,255,255,0.4)] backdrop-blur-sm bg-white/5"
           >
             <ArrowLeft className="w-4 h-4 mr-2" />
             Back
