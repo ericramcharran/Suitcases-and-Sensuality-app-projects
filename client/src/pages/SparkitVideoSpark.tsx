@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import VideoCall from '@/components/VideoCall';
 import { apiRequest } from '@/lib/queryClient';
-import { ArrowLeft, Heart, Timer, MapPin, DollarSign, Flame, Sparkles } from 'lucide-react';
+import { ArrowLeft, Heart, Timer, MapPin, DollarSign, Flame, Sparkles, Settings } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 
 interface Activity {
@@ -127,6 +127,15 @@ export default function SparkitVideoSpark() {
           >
             <ArrowLeft className="h-5 w-5 mr-1" />
             Back to Spark It!
+          </Button>
+          <Button
+            variant="outline"
+            size="icon"
+            onClick={() => navigate("/sparkit/settings")}
+            className="text-white border-2 border-white/40 shadow-[0_0_15px_rgba(255,255,255,0.3)] hover:shadow-[0_0_20px_rgba(255,255,255,0.4)] backdrop-blur-sm bg-white/5"
+            data-testid="button-settings"
+          >
+            <Settings className="h-5 w-5" />
           </Button>
         </div>
 

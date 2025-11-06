@@ -4,7 +4,7 @@ import { useLocation } from "wouter";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Sparkles, Check, Zap, Palette, Flame, BarChart3, BookText, Target, Brain, Crown } from "lucide-react";
+import { Sparkles, Check, Zap, Palette, Flame, BarChart3, BookText, Target, Brain, Crown, Settings } from "lucide-react";
 import { apiRequest, queryClient } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
 
@@ -85,6 +85,15 @@ export default function SparkitPremium() {
   return (
     <div className="nexus-app min-h-screen bg-gradient-to-br from-purple-900 via-purple-800 to-red-600 p-4">
       <div className="max-w-6xl mx-auto py-12">
+        <Button
+          variant="outline"
+          size="icon"
+          onClick={() => navigate("/sparkit/settings")}
+          className="absolute top-4 right-4 text-white border-2 border-white/40 shadow-[0_0_15px_rgba(255,255,255,0.3)] hover:shadow-[0_0_20px_rgba(255,255,255,0.4)] backdrop-blur-sm bg-white/5"
+          data-testid="button-settings"
+        >
+          <Settings className="h-5 w-5" />
+        </Button>
         {/* Header */}
         <div className="text-center mb-12">
           <div className="flex items-center justify-center gap-2 mb-4">

@@ -4,7 +4,7 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { apiRequest } from "@/lib/queryClient";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { Check, Sparkles, Zap, Crown } from "lucide-react";
+import { Check, Sparkles, Zap, Crown, Settings } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
 type AuthData = {
@@ -100,6 +100,15 @@ export default function SparkitPricing() {
 
   return (
     <div className="nexus-app" data-testid="pricing-page">
+      <Button
+        variant="outline"
+        size="icon"
+        onClick={() => navigate("/sparkit/settings")}
+        className="absolute top-4 right-4 border-2 border-white/40 shadow-[0_0_15px_rgba(255,255,255,0.3)] hover:shadow-[0_0_20px_rgba(255,255,255,0.4)] backdrop-blur-sm bg-white/5"
+        data-testid="button-settings"
+      >
+        <Settings className="h-5 w-5" />
+      </Button>
       <section className="hero" style={{ minHeight: '100vh', padding: '40px 20px' }}>
         <div className="hero-content" style={{ maxWidth: '1200px' }}>
           {/* Header */}

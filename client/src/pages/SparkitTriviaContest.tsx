@@ -4,7 +4,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Brain, CheckCircle, XCircle, Zap, Trophy, Target } from "lucide-react";
+import { Brain, CheckCircle, XCircle, Zap, Trophy, Target, Settings } from "lucide-react";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { apiRequest, queryClient } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
@@ -308,6 +308,17 @@ export default function SparkitTriviaContest() {
   return (
     <div className="nexus-app min-h-screen p-4">
       <div className="max-w-2xl mx-auto">
+        <div className="mb-4 flex items-center justify-end">
+          <Button
+            variant="outline"
+            size="icon"
+            onClick={() => setLocation("/sparkit/settings")}
+            className="border-2 border-white/40 shadow-[0_0_15px_rgba(255,255,255,0.3)] hover:shadow-[0_0_20px_rgba(255,255,255,0.4)] backdrop-blur-sm bg-white/5"
+            data-testid="button-settings"
+          >
+            <Settings className="h-5 w-5" />
+          </Button>
+        </div>
         <div className="mb-6 flex items-center justify-between">
           <div className="text-sm text-muted-foreground">
             Question {currentQuestionIndex + 1} of {questions.length}

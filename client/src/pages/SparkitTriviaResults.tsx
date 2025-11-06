@@ -1,7 +1,7 @@
 import { useLocation, useRoute } from "wouter";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Trophy, Star, ArrowLeft, Share2 } from "lucide-react";
+import { Trophy, Star, ArrowLeft, Share2, Settings } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { triviaQuestions } from "../data/triviaQuestions";
 
@@ -146,15 +146,26 @@ export default function SparkitTriviaResults() {
   return (
     <div className="nexus-app min-h-screen p-4">
       <div className="max-w-2xl mx-auto">
-        <Button
-          variant="outline"
-          onClick={() => setLocation("/spark")}
-          className="mb-4 border-2 border-white/40 shadow-[0_0_15px_rgba(255,255,255,0.3)] hover:shadow-[0_0_20px_rgba(255,255,255,0.4)] backdrop-blur-sm bg-white/5"
-          data-testid="button-back"
-        >
-          <ArrowLeft className="w-4 h-4 mr-1" />
-          Back to Home
-        </Button>
+        <div className="flex items-center justify-between mb-4">
+          <Button
+            variant="outline"
+            onClick={() => setLocation("/spark")}
+            className="border-2 border-white/40 shadow-[0_0_15px_rgba(255,255,255,0.3)] hover:shadow-[0_0_20px_rgba(255,255,255,0.4)] backdrop-blur-sm bg-white/5"
+            data-testid="button-back"
+          >
+            <ArrowLeft className="w-4 h-4 mr-1" />
+            Back to Home
+          </Button>
+          <Button
+            variant="outline"
+            size="icon"
+            onClick={() => setLocation("/sparkit/settings")}
+            className="border-2 border-white/40 shadow-[0_0_15px_rgba(255,255,255,0.3)] hover:shadow-[0_0_20px_rgba(255,255,255,0.4)] backdrop-blur-sm bg-white/5"
+            data-testid="button-settings"
+          >
+            <Settings className="h-5 w-5" />
+          </Button>
+        </div>
 
         <div className="text-center mb-8">
           <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-gradient-to-r from-purple-500 to-red-500 mb-4">

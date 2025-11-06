@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { useToast } from "@/hooks/use-toast";
-import { Heart, Sparkles, MessageCircle, Eye, EyeOff } from "lucide-react";
+import { Heart, Sparkles, MessageCircle, Eye, EyeOff, Settings } from "lucide-react";
 import { Link, useLocation } from "wouter";
 
 const joinSchema = z.object({
@@ -105,6 +105,15 @@ export default function SparkitJoinCouple() {
   if (joined) {
     return (
       <div className="nexus-app min-h-screen flex items-center justify-center p-4 bg-gradient-to-br from-purple-50 to-rose-50">
+        <Button
+          variant="outline"
+          size="icon"
+          onClick={() => setLocation("/sparkit/settings")}
+          className="absolute top-4 right-4 border-2 border-white/40 shadow-[0_0_15px_rgba(255,255,255,0.3)] hover:shadow-[0_0_20px_rgba(255,255,255,0.4)] backdrop-blur-sm bg-white/5"
+          data-testid="button-settings"
+        >
+          <Settings className="h-5 w-5" />
+        </Button>
         <Card className="w-full max-w-md">
           <CardHeader className="text-center">
             <div className="mx-auto mb-4 w-16 h-16 rounded-full bg-gradient-to-r from-purple-500 to-rose-500 flex items-center justify-center">
@@ -144,6 +153,15 @@ export default function SparkitJoinCouple() {
 
   return (
     <div className="nexus-app min-h-screen flex items-center justify-center p-4 bg-gradient-to-br from-purple-50 to-rose-50">
+      <Button
+        variant="outline"
+        size="icon"
+        onClick={() => setLocation("/sparkit/settings")}
+        className="absolute top-4 right-4 border-2 border-white/40 shadow-[0_0_15px_rgba(255,255,255,0.3)] hover:shadow-[0_0_20px_rgba(255,255,255,0.4)] backdrop-blur-sm bg-white/5"
+        data-testid="button-settings"
+      >
+        <Settings className="h-5 w-5" />
+      </Button>
       <Card className="w-full max-w-md">
         <CardHeader className="text-center">
           <div className="mx-auto mb-4 w-16 h-16 rounded-full bg-gradient-to-r from-purple-500 to-rose-500 flex items-center justify-center">

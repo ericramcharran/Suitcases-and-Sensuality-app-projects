@@ -9,7 +9,7 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
-import { ArrowLeft, Bell, Clock, Mail, MessageSquare, Smartphone, Sparkles } from "lucide-react";
+import { ArrowLeft, Bell, Clock, Mail, MessageSquare, Smartphone, Sparkles, Settings } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 
 interface ReminderPreferences {
@@ -127,15 +127,26 @@ export default function SparkitReminders() {
                 <Bell className="h-6 w-6 text-primary" />
                 <CardTitle>Daily Reminders</CardTitle>
               </div>
-              <Button
-                variant="outline"
-                size="icon"
-                onClick={() => setLocation("/spark")}
-                data-testid="button-back"
-                className="border-2 border-white/40 shadow-[0_0_15px_rgba(255,255,255,0.3)] hover:shadow-[0_0_20px_rgba(255,255,255,0.4)] backdrop-blur-sm bg-white/5"
-              >
-                <ArrowLeft className="h-5 w-5" />
-              </Button>
+              <div className="flex items-center gap-2">
+                <Button
+                  variant="outline"
+                  size="icon"
+                  onClick={() => setLocation("/sparkit/settings")}
+                  data-testid="button-settings"
+                  className="border-2 border-white/40 shadow-[0_0_15px_rgba(255,255,255,0.3)] hover:shadow-[0_0_20px_rgba(255,255,255,0.4)] backdrop-blur-sm bg-white/5"
+                >
+                  <Settings className="h-5 w-5" />
+                </Button>
+                <Button
+                  variant="outline"
+                  size="icon"
+                  onClick={() => setLocation("/spark")}
+                  data-testid="button-back"
+                  className="border-2 border-white/40 shadow-[0_0_15px_rgba(255,255,255,0.3)] hover:shadow-[0_0_20px_rgba(255,255,255,0.4)] backdrop-blur-sm bg-white/5"
+                >
+                  <ArrowLeft className="h-5 w-5" />
+                </Button>
+              </div>
             </div>
             <CardDescription>
               Stay connected with daily questions, activities, and conversation starters delivered right to you

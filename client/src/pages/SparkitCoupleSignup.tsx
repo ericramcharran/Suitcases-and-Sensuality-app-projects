@@ -9,8 +9,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { useToast } from "@/hooks/use-toast";
-import { Sparkles, Copy, Check, Share2, Eye, EyeOff } from "lucide-react";
-import { Link } from "wouter";
+import { Sparkles, Copy, Check, Share2, Eye, EyeOff, Settings } from "lucide-react";
+import { Link, useLocation } from "wouter";
 
 const signupSchema = z.object({
   partner1Name: z.string().min(2, "Name must be at least 2 characters"),
@@ -23,6 +23,7 @@ const signupSchema = z.object({
 type SignupForm = z.infer<typeof signupSchema>;
 
 export default function SparkitCoupleSignup() {
+  const [, setLocation] = useLocation();
   const [couple, setCouple] = useState<any>(null);
   const [copied, setCopied] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
@@ -104,6 +105,15 @@ export default function SparkitCoupleSignup() {
   if (couple) {
     return (
       <div className="nexus-app min-h-screen flex items-center justify-center p-4 bg-gradient-to-br from-purple-50 to-rose-50">
+        <Button
+          variant="outline"
+          size="icon"
+          onClick={() => setLocation("/sparkit/settings")}
+          className="absolute top-4 right-4 border-2 border-white/40 shadow-[0_0_15px_rgba(255,255,255,0.3)] hover:shadow-[0_0_20px_rgba(255,255,255,0.4)] backdrop-blur-sm bg-white/5"
+          data-testid="button-settings"
+        >
+          <Settings className="h-5 w-5" />
+        </Button>
         <Card className="w-full max-w-md">
           <CardHeader className="text-center">
             <div className="mx-auto mb-4 w-16 h-16 rounded-full bg-gradient-to-r from-purple-500 to-rose-500 flex items-center justify-center">
@@ -188,6 +198,15 @@ export default function SparkitCoupleSignup() {
 
   return (
     <div className="nexus-app min-h-screen flex items-center justify-center p-4 bg-gradient-to-br from-purple-50 to-rose-50">
+      <Button
+        variant="outline"
+        size="icon"
+        onClick={() => setLocation("/sparkit/settings")}
+        className="absolute top-4 right-4 border-2 border-white/40 shadow-[0_0_15px_rgba(255,255,255,0.3)] hover:shadow-[0_0_20px_rgba(255,255,255,0.4)] backdrop-blur-sm bg-white/5"
+        data-testid="button-settings"
+      >
+        <Settings className="h-5 w-5" />
+      </Button>
       <Card className="w-full max-w-md">
         <CardHeader className="text-center">
           <div className="mx-auto mb-4 w-16 h-16 rounded-full bg-gradient-to-r from-purple-500 to-rose-500 flex items-center justify-center">
