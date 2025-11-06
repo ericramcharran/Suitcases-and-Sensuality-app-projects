@@ -1354,8 +1354,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
       
       for (const sub of allSubscriptions) {
         uniqueUserIds.add(sub.userId);
-        // If userId doesn't start with "sparkit-" or doesn't have the correct format, delete it
-        if (!sub.userId.startsWith('sparkit-') || sub.userId.split('-').length !== 3) {
+        // Only delete if userId doesn't start with "sparkit-" (bare coupleIds)
+        // Valid format is: sparkit-{uuid}-partner1 or sparkit-{uuid}-partner2
+        if (!sub.userId.startsWith('sparkit-')) {
           console.log(`🧹 Deleting invalid subscription: ${sub.userId} (endpoint: ${sub.endpoint.substring(0, 50)}...)`);
           await storage.deletePushSubscription(sub.endpoint);
           cleanedCount++;

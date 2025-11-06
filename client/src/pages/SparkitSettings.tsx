@@ -319,39 +319,54 @@ export default function SparkitSettings() {
 
       // If already granted, just subscribe
       if (currentPermission === 'granted') {
+        console.log('🔔 Permission already granted, subscribing to push...');
         const notifManager = NotificationManager.getInstance();
         const userId = `sparkit-${coupleId}-${partnerRole}`;
+        console.log('🔔 Using userId:', userId);
+        console.log('🔔 Initializing notification manager...');
         await notifManager.initialize(userId);
+        console.log('🔔 Subscribing to push...');
         const success = await notifManager.subscribeToPush(userId);
+        console.log('🔔 Subscribe result:', success);
         
         if (success) {
-          setNotificationsEnabled(true);
-          toast({
-            title: "Notifications enabled!",
-            description: "You'll now receive alerts when your partner wants to spark!",
-          });
-        }
-        return;
-      }
-
-      // Request permission
-      console.log('Requesting notification permission...');
-      const permission = await Notification.requestPermission();
-      console.log('Permission result:', permission);
-      
-      if (permission === 'granted') {
-        const notifManager = NotificationManager.getInstance();
-        const userId = `sparkit-${coupleId}-${partnerRole}`;
-        await notifManager.initialize(userId);
-        const success = await notifManager.subscribeToPush(userId);
-        
-        if (success) {
+          console.log('✅ Push notifications enabled successfully!');
           setNotificationsEnabled(true);
           toast({
             title: "Notifications enabled!",
             description: "You'll now receive alerts when your partner wants to spark!",
           });
         } else {
+          console.error('❌ Subscribe returned false');
+        }
+        return;
+      }
+
+      // Request permission
+      console.log('🔔 Requesting notification permission...');
+      const permission = await Notification.requestPermission();
+      console.log('🔔 Permission result:', permission);
+      
+      if (permission === 'granted') {
+        console.log('🔔 Permission granted, subscribing to push...');
+        const notifManager = NotificationManager.getInstance();
+        const userId = `sparkit-${coupleId}-${partnerRole}`;
+        console.log('🔔 Using userId:', userId);
+        console.log('🔔 Initializing notification manager...');
+        await notifManager.initialize(userId);
+        console.log('🔔 Subscribing to push...');
+        const success = await notifManager.subscribeToPush(userId);
+        console.log('🔔 Subscribe result:', success);
+        
+        if (success) {
+          console.log('✅ Push notifications enabled successfully!');
+          setNotificationsEnabled(true);
+          toast({
+            title: "Notifications enabled!",
+            description: "You'll now receive alerts when your partner wants to spark!",
+          });
+        } else {
+          console.error('❌ Subscribe returned false');
           toast({
             variant: "destructive",
             title: "Subscription failed",
@@ -359,12 +374,14 @@ export default function SparkitSettings() {
           });
         }
       } else if (permission === 'denied') {
+        console.log('❌ Permission denied by user');
         toast({
           variant: "destructive",
           title: "Permission denied",
           description: "You denied notification permission. To enable later, click the lock icon in your browser's address bar and change notification settings to 'Allow'.",
         });
       } else {
+        console.log('⚠️ Permission dismissed by user');
         // Permission was dismissed (user clicked X or ignored)
         toast({
           variant: "destructive",
