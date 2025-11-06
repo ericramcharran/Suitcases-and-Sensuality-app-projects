@@ -8,16 +8,27 @@ This Replit project hosts two distinct applications: "The Executive Society" and
 
 **Spark It!** is a couples activity app created to alleviate decision fatigue. It features a unique simultaneous button press mechanic for instant activity suggestions. The app operates on a freemium model with premium subscriptions, offering activity suggestions, trivia challenges, and a competitive scoreboard.
 
-## Recent Fixes (November 5, 2025)
+## Recent Fixes (November 6, 2025)
 
-**Data Freshness Fix**: Resolved critical caching issue where premium accounts displayed incorrect trial subscription data. 
+**Trivia Content Expansion**: Added 100 new trivia questions (IDs 226-325), bringing total to 325+ questions.
+- Evenly distributed across all 10 categories (Pop Culture, Science & Nature, History, Geography, Food & Drink, Sports, Music, Literature, General Knowledge, Love & Relationships)
+- Each category received 10 additional questions
+- Provides more variety and replayability for couples' trivia challenges
+
+**Consistent Back Button Styling**: Unified all back buttons across Spark It! app with white outline highlight and narrower spacing.
+- Applied consistent styling: white border (`border-white/40`), white glow shadow, backdrop blur, and subtle background
+- Reduced spacing between arrow and "Back" text (changed `mr-2` to `mr-1` for tighter appearance)
+- Updated 11 pages: SparkitSettings, SparkitTriviaShare, SparkitTriviaResults, SparkitVideoSpark, SparkitTriviaCategories, AboutApp, PrivacyPolicy, Scoreboard, SparkitReminders, Download
+- Creates cohesive "cut out" appearance across the entire app
+
+**Data Freshness Fix** (November 5, 2025): Resolved critical caching issue where premium accounts displayed incorrect trial subscription data. 
 - Updated `queryClient.ts`: Changed `staleTime` from `Infinity` to `0` to ensure fresh data fetching
 - Updated `SparkButton.tsx`: Added `gcTime: 0` and `staleTime: 0` to couple data query for real-time subscription updates
 - Updated `sw.js`: Service worker now only caches images/icons/manifest, never HTML/JS/CSS/API responses
 - Updated `routes.ts`: Added `no-cache` headers to couple data endpoint
 - Removed `TooltipProvider` from `App.tsx` temporarily (was causing React hook errors after cache clearing)
 
-**Push/Email Notifications Default Enabled**: Changed notification preferences to be enabled by default for ALL users (new and existing).
+**Push/Email Notifications Default Enabled** (November 5, 2025): Changed notification preferences to be enabled by default for ALL users (new and existing).
 - Updated `schema.ts`: Changed `notificationMethod` default from `'sms'` to `'all'` (enables push, email, and SMS)
 - Updated `routes.ts`: 
   - Automatically create reminder preferences at signup with all notification methods enabled

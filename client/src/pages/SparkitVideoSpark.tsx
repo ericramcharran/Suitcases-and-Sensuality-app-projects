@@ -122,10 +122,10 @@ export default function SparkitVideoSpark() {
                 navigate('/spark');
               }
             }}
-            className="text-white hover:bg-white/10 border-2 border-white/40"
+            className="text-white border-2 border-white/40 shadow-[0_0_15px_rgba(255,255,255,0.3)] hover:shadow-[0_0_20px_rgba(255,255,255,0.4)] backdrop-blur-sm bg-white/5"
             data-testid="button-back"
           >
-            <ArrowLeft className="h-5 w-5 mr-2" />
+            <ArrowLeft className="h-5 w-5 mr-1" />
             Back to Spark It!
           </Button>
         </div>

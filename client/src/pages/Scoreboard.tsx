@@ -166,11 +166,19 @@ export default function Scoreboard() {
           onClick={() => setLocation("/spark")}
           className="cta-button"
           style={{
-            background: 'rgba(255,255,255,0.1)',
-            border: '3px solid rgba(255,255,255,0.4)',
+            background: 'rgba(255,255,255,0.05)',
+            border: '2px solid rgba(255,255,255,0.4)',
             padding: '10px 15px',
             display: 'flex',
-            alignItems: 'center'
+            alignItems: 'center',
+            boxShadow: '0 0 15px rgba(255,255,255,0.3)',
+            backdropFilter: 'blur(8px)'
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.boxShadow = '0 0 20px rgba(255,255,255,0.4)';
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.boxShadow = '0 0 15px rgba(255,255,255,0.3)';
           }}
           data-testid="button-back"
         >

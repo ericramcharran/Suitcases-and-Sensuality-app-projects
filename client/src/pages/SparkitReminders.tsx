@@ -132,7 +132,7 @@ export default function SparkitReminders() {
                 size="icon"
                 onClick={() => setLocation("/spark")}
                 data-testid="button-back"
-                className="border-2"
+                className="border-2 border-white/40 shadow-[0_0_15px_rgba(255,255,255,0.3)] hover:shadow-[0_0_20px_rgba(255,255,255,0.4)] backdrop-blur-sm bg-white/5"
               >
                 <ArrowLeft className="h-5 w-5" />
               </Button>
