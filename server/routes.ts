@@ -1,8 +1,10 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
-import { insertUserSchema, insertPersonalityAnswersSchema, insertRelationshipAnswersSchema, insertPushSubscriptionSchema, updateCoupleNamesSchema, updateAvatarSchema, type InsertSparkitCouple } from "@shared/schema";
+import { insertUserSchema, insertPersonalityAnswersSchema, insertRelationshipAnswersSchema, insertPushSubscriptionSchema, updateCoupleNamesSchema, updateAvatarSchema, type InsertSparkitCouple, pushSubscriptions } from "@shared/schema";
 import { z } from "zod";
+import { eq } from "drizzle-orm";
+import { db } from "./db";
 import multer from "multer";
 import path from "path";
 import fs from "fs";
@@ -1333,10 +1335,39 @@ export async function registerRoutes(app: Express): Promise<Server> {
       }
 
       const subscriptions = await storage.getPushSubscriptions(userId);
+      console.log(`🔔 Verification check for ${userId}: ${subscriptions.length} subscriptions found`);
       res.json({ valid: subscriptions.length > 0 });
     } catch (error) {
       console.error('Verify subscription error:', error);
       res.status(500).json({ error: "Failed to verify subscription" });
+    }
+  });
+
+  // Admin endpoint to cleanup invalid push subscriptions (ones with bare coupleId instead of sparkit-{coupleId}-{partnerRole})
+  app.post("/api/push/cleanup-invalid", async (req, res) => {
+    try {
+      // Query all subscriptions directly from the database
+      const allSubscriptions = await db.select().from(pushSubscriptions);
+      
+      let cleanedCount = 0;
+      const uniqueUserIds = new Set<string>();
+      
+      for (const sub of allSubscriptions) {
+        uniqueUserIds.add(sub.userId);
+        // If userId doesn't start with "sparkit-" or doesn't have the correct format, delete it
+        if (!sub.userId.startsWith('sparkit-') || sub.userId.split('-').length !== 3) {
+          console.log(`🧹 Deleting invalid subscription: ${sub.userId} (endpoint: ${sub.endpoint.substring(0, 50)}...)`);
+          await storage.deletePushSubscription(sub.endpoint);
+          cleanedCount++;
+        }
+      }
+      
+      console.log(`✅ Cleaned up ${cleanedCount} invalid push subscriptions`);
+      console.log(`📊 Unique user IDs in database: ${Array.from(uniqueUserIds).join(', ')}`);
+      res.json({ cleaned: cleanedCount, message: `Removed ${cleanedCount} invalid subscriptions`, uniqueUserIds: Array.from(uniqueUserIds) });
+    } catch (error) {
+      console.error('Cleanup error:', error);
+      res.status(500).json({ error: "Failed to cleanup subscriptions" });
     }
   });
 
