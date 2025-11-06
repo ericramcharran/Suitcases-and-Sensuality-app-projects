@@ -34,8 +34,15 @@ export class NotificationManager {
 
     try {
       if ('serviceWorker' in navigator) {
-        this.registration = await navigator.serviceWorker.register('/sw.js');
-        console.log('Service Worker registered');
+        // Force browser to always fetch latest sw.js without caching
+        this.registration = await navigator.serviceWorker.register('/sw.js', {
+          updateViaCache: 'none'
+        });
+        console.log('Service Worker registered successfully');
+        
+        // Wait for service worker to be ready
+        await navigator.serviceWorker.ready;
+        console.log('Service Worker is ready');
       }
 
       this.connectWebSocket(userId);
