@@ -1,5 +1,5 @@
 // Trivia Questions Database
-// 225+ questions across 10 categories for competitive couple engagement
+// 325+ questions across 10 categories for competitive couple engagement
 
 export interface TriviaQuestion {
   id: number;
@@ -268,6 +268,126 @@ export const triviaQuestions: TriviaQuestion[] = [
   { id: 223, category: 'couples', question: 'What is the most popular month for weddings in the US?', options: ['May', 'June', 'September', 'October'], correctAnswer: 2, difficulty: 'medium' },
   { id: 224, category: 'couples', question: 'What flower is most associated with romance?', options: ['Tulip', 'Rose', 'Lily', 'Daisy'], correctAnswer: 1, difficulty: 'easy' },
   { id: 225, category: 'couples', question: 'What is the traditional gift for a first wedding anniversary?', options: ['Paper', 'Wood', 'Cotton', 'Leather'], correctAnswer: 0, difficulty: 'hard' },
+
+  // ADDITIONAL POP CULTURE (10 more questions)
+  { id: 226, category: 'pop-culture', question: 'What is the name of the fictional African country in "Black Panther"?', options: ['Zamunda', 'Wakanda', 'Genosha', 'Latveria'], correctAnswer: 1, difficulty: 'easy' },
+  { id: 227, category: 'pop-culture', question: 'Which actor played the Joker in "The Dark Knight"?', options: ['Jack Nicholson', 'Heath Ledger', 'Joaquin Phoenix', 'Jared Leto'], correctAnswer: 1, difficulty: 'medium' },
+  { id: 228, category: 'pop-culture', question: 'What does "LOL" stand for?', options: ['Lots of Love', 'Laugh Out Loud', 'Living Online', 'Love Our Lives'], correctAnswer: 1, difficulty: 'easy' },
+  { id: 229, category: 'pop-culture', question: 'Which sitcom features the character Sheldon Cooper?', options: ['Friends', 'How I Met Your Mother', 'The Big Bang Theory', 'Two and a Half Men'], correctAnswer: 2, difficulty: 'easy' },
+  { id: 230, category: 'pop-culture', question: 'Who directed "Jurassic Park"?', options: ['George Lucas', 'Steven Spielberg', 'James Cameron', 'Ridley Scott'], correctAnswer: 1, difficulty: 'medium' },
+  { id: 231, category: 'pop-culture', question: 'What year did Facebook launch?', options: ['2002', '2003', '2004', '2005'], correctAnswer: 2, difficulty: 'medium' },
+  { id: 232, category: 'pop-culture', question: 'In "Star Wars," what is Han Solo\'s ship called?', options: ['Enterprise', 'Millennium Falcon', 'Serenity', 'Galactica'], correctAnswer: 1, difficulty: 'easy' },
+  { id: 233, category: 'pop-culture', question: 'Which streaming service produced "The Crown"?', options: ['Netflix', 'Hulu', 'Amazon Prime', 'HBO Max'], correctAnswer: 0, difficulty: 'easy' },
+  { id: 234, category: 'pop-culture', question: 'What is Superman\'s weakness?', options: ['Silver', 'Kryptonite', 'Gold', 'Iron'], correctAnswer: 1, difficulty: 'easy' },
+  { id: 235, category: 'pop-culture', question: 'Which social media platform has a ghost as its logo?', options: ['Instagram', 'TikTok', 'Snapchat', 'WhatsApp'], correctAnswer: 2, difficulty: 'easy' },
+
+  // ADDITIONAL SCIENCE & NATURE (10 more questions)
+  { id: 236, category: 'science', question: 'What is the smallest bone in the human body?', options: ['Stapes', 'Femur', 'Radius', 'Patella'], correctAnswer: 0, difficulty: 'hard' },
+  { id: 237, category: 'science', question: 'How many moons does Mars have?', options: ['0', '1', '2', '3'], correctAnswer: 2, difficulty: 'medium' },
+  { id: 238, category: 'science', question: 'What is the chemical formula for table salt?', options: ['NaCl', 'KCl', 'CaCl2', 'MgCl2'], correctAnswer: 0, difficulty: 'medium' },
+  { id: 239, category: 'science', question: 'What type of animal is a dolphin?', options: ['Fish', 'Mammal', 'Reptile', 'Amphibian'], correctAnswer: 1, difficulty: 'easy' },
+  { id: 240, category: 'science', question: 'What planet is closest to the Sun?', options: ['Venus', 'Earth', 'Mercury', 'Mars'], correctAnswer: 2, difficulty: 'easy' },
+  { id: 241, category: 'science', question: 'How many elements are on the periodic table?', options: ['108', '112', '118', '124'], correctAnswer: 2, difficulty: 'hard' },
+  { id: 242, category: 'science', question: 'What is the largest internal organ in the human body?', options: ['Heart', 'Brain', 'Liver', 'Lungs'], correctAnswer: 2, difficulty: 'medium' },
+  { id: 243, category: 'science', question: 'What is the freezing point of water in Celsius?', options: ['-10°C', '0°C', '10°C', '32°C'], correctAnswer: 1, difficulty: 'easy' },
+  { id: 244, category: 'science', question: 'What gas makes up most of the Sun?', options: ['Oxygen', 'Nitrogen', 'Hydrogen', 'Helium'], correctAnswer: 2, difficulty: 'medium' },
+  { id: 245, category: 'science', question: 'How many wings does a bee have?', options: ['2', '4', '6', '8'], correctAnswer: 1, difficulty: 'medium' },
+
+  // ADDITIONAL HISTORY (10 more questions)
+  { id: 246, category: 'history', question: 'What year did the American Civil War end?', options: ['1863', '1864', '1865', '1866'], correctAnswer: 2, difficulty: 'medium' },
+  { id: 247, category: 'history', question: 'Who was the first woman to fly solo across the Atlantic?', options: ['Amelia Earhart', 'Sally Ride', 'Valentina Tereshkova', 'Bessie Coleman'], correctAnswer: 0, difficulty: 'medium' },
+  { id: 248, category: 'history', question: 'What ancient city was destroyed by a volcanic eruption in 79 AD?', options: ['Athens', 'Rome', 'Pompeii', 'Sparta'], correctAnswer: 2, difficulty: 'easy' },
+  { id: 249, category: 'history', question: 'Who invented the printing press?', options: ['Johannes Gutenberg', 'Benjamin Franklin', 'Thomas Edison', 'Leonardo da Vinci'], correctAnswer: 0, difficulty: 'medium' },
+  { id: 250, category: 'history', question: 'What year did the stock market crash, starting the Great Depression?', options: ['1927', '1928', '1929', '1930'], correctAnswer: 2, difficulty: 'medium' },
+  { id: 251, category: 'history', question: 'Who was the first emperor of China?', options: ['Confucius', 'Qin Shi Huang', 'Genghis Khan', 'Sun Tzu'], correctAnswer: 1, difficulty: 'hard' },
+  { id: 252, category: 'history', question: 'What year did India gain independence from Britain?', options: ['1945', '1946', '1947', '1948'], correctAnswer: 2, difficulty: 'medium' },
+  { id: 253, category: 'history', question: 'Who discovered penicillin?', options: ['Louis Pasteur', 'Alexander Fleming', 'Jonas Salk', 'Marie Curie'], correctAnswer: 1, difficulty: 'medium' },
+  { id: 254, category: 'history', question: 'What was the first country to use paper money?', options: ['India', 'Japan', 'China', 'Egypt'], correctAnswer: 2, difficulty: 'hard' },
+  { id: 255, category: 'history', question: 'Who was known as the "Iron Lady"?', options: ['Margaret Thatcher', 'Indira Gandhi', 'Golda Meir', 'Angela Merkel'], correctAnswer: 0, difficulty: 'medium' },
+
+  // ADDITIONAL GEOGRAPHY (10 more questions)
+  { id: 256, category: 'geography', question: 'What is the capital of Egypt?', options: ['Alexandria', 'Cairo', 'Luxor', 'Giza'], correctAnswer: 1, difficulty: 'easy' },
+  { id: 257, category: 'geography', question: 'Which U.S. state is known as the "Sunshine State"?', options: ['California', 'Texas', 'Florida', 'Hawaii'], correctAnswer: 2, difficulty: 'easy' },
+  { id: 258, category: 'geography', question: 'What is the tallest mountain in the world?', options: ['K2', 'Mount Kilimanjaro', 'Mount Everest', 'Denali'], correctAnswer: 2, difficulty: 'easy' },
+  { id: 259, category: 'geography', question: 'Which country has the most natural lakes?', options: ['United States', 'Russia', 'Canada', 'Finland'], correctAnswer: 2, difficulty: 'hard' },
+  { id: 260, category: 'geography', question: 'What is the capital of Brazil?', options: ['Rio de Janeiro', 'São Paulo', 'Brasília', 'Salvador'], correctAnswer: 2, difficulty: 'medium' },
+  { id: 261, category: 'geography', question: 'Which desert is the driest in the world?', options: ['Sahara', 'Gobi', 'Atacama', 'Mojave'], correctAnswer: 2, difficulty: 'hard' },
+  { id: 262, category: 'geography', question: 'What is the smallest continent?', options: ['Europe', 'Australia', 'Antarctica', 'South America'], correctAnswer: 1, difficulty: 'easy' },
+  { id: 263, category: 'geography', question: 'Which river is the longest in Europe?', options: ['Danube', 'Rhine', 'Volga', 'Thames'], correctAnswer: 2, difficulty: 'hard' },
+  { id: 264, category: 'geography', question: 'What country is home to the ancient city of Petra?', options: ['Egypt', 'Jordan', 'Israel', 'Syria'], correctAnswer: 1, difficulty: 'medium' },
+  { id: 265, category: 'geography', question: 'Which country is both in Europe and Asia?', options: ['Russia', 'Turkey', 'Egypt', 'Both A and B'], correctAnswer: 3, difficulty: 'medium' },
+
+  // ADDITIONAL FOOD & DRINK (10 more questions)
+  { id: 266, category: 'food-drink', question: 'What is the main ingredient in traditional Japanese miso?', options: ['Rice', 'Soybeans', 'Seaweed', 'Fish'], correctAnswer: 1, difficulty: 'medium' },
+  { id: 267, category: 'food-drink', question: 'What country is famous for inventing pizza?', options: ['France', 'Greece', 'Italy', 'Spain'], correctAnswer: 2, difficulty: 'easy' },
+  { id: 268, category: 'food-drink', question: 'What is the main ingredient in bread?', options: ['Rice', 'Corn', 'Wheat', 'Oats'], correctAnswer: 2, difficulty: 'easy' },
+  { id: 269, category: 'food-drink', question: 'What type of alcohol is in a mojito?', options: ['Vodka', 'Rum', 'Gin', 'Tequila'], correctAnswer: 1, difficulty: 'medium' },
+  { id: 270, category: 'food-drink', question: 'What is caviar?', options: ['Fish eggs', 'Snail eggs', 'Bird eggs', 'Frog eggs'], correctAnswer: 0, difficulty: 'easy' },
+  { id: 271, category: 'food-drink', question: 'What nut is used to make pesto?', options: ['Walnut', 'Almond', 'Pine nut', 'Cashew'], correctAnswer: 2, difficulty: 'medium' },
+  { id: 272, category: 'food-drink', question: 'What is the most stolen food in the world?', options: ['Chocolate', 'Cheese', 'Caviar', 'Truffles'], correctAnswer: 1, difficulty: 'hard' },
+  { id: 273, category: 'food-drink', question: 'What fruit is a cross between a tangerine and a grapefruit?', options: ['Orange', 'Tangelo', 'Clementine', 'Pomelo'], correctAnswer: 1, difficulty: 'hard' },
+  { id: 274, category: 'food-drink', question: 'What is the national dish of Spain?', options: ['Tapas', 'Paella', 'Gazpacho', 'Churros'], correctAnswer: 1, difficulty: 'medium' },
+  { id: 275, category: 'food-drink', question: 'What type of pastry is a croissant?', options: ['Choux', 'Puff', 'Laminated', 'Phyllo'], correctAnswer: 2, difficulty: 'hard' },
+
+  // ADDITIONAL SPORTS (10 more questions)
+  { id: 276, category: 'sports', question: 'How many players are on a basketball team on the court?', options: ['4', '5', '6', '7'], correctAnswer: 1, difficulty: 'easy' },
+  { id: 277, category: 'sports', question: 'What sport is Serena Williams famous for?', options: ['Basketball', 'Volleyball', 'Tennis', 'Soccer'], correctAnswer: 2, difficulty: 'easy' },
+  { id: 278, category: 'sports', question: 'How many innings are in a standard baseball game?', options: ['7', '8', '9', '10'], correctAnswer: 2, difficulty: 'easy' },
+  { id: 279, category: 'sports', question: 'What is the national sport of Canada?', options: ['Hockey', 'Lacrosse', 'Baseball', 'Both A and B'], correctAnswer: 3, difficulty: 'hard' },
+  { id: 280, category: 'sports', question: 'How long is a marathon?', options: ['20.2 miles', '24.2 miles', '26.2 miles', '28.2 miles'], correctAnswer: 2, difficulty: 'medium' },
+  { id: 281, category: 'sports', question: 'What do you call three strikes in a row in bowling?', options: ['Hat trick', 'Triple', 'Turkey', 'Strike out'], correctAnswer: 2, difficulty: 'medium' },
+  { id: 282, category: 'sports', question: 'In which sport would you perform a slam dunk?', options: ['Volleyball', 'Basketball', 'Tennis', 'Handball'], correctAnswer: 1, difficulty: 'easy' },
+  { id: 283, category: 'sports', question: 'What is the highest possible score in a single frame of bowling?', options: ['10', '20', '30', '40'], correctAnswer: 2, difficulty: 'medium' },
+  { id: 284, category: 'sports', question: 'Which country has won the most FIFA World Cups?', options: ['Germany', 'Argentina', 'Brazil', 'Italy'], correctAnswer: 2, difficulty: 'medium' },
+  { id: 285, category: 'sports', question: 'What is the only sport to have been played on the moon?', options: ['Baseball', 'Golf', 'Frisbee', 'Football'], correctAnswer: 1, difficulty: 'medium' },
+
+  // ADDITIONAL MUSIC (10 more questions)
+  { id: 286, category: 'music', question: 'Who is known as the "King of Rock and Roll"?', options: ['Chuck Berry', 'Elvis Presley', 'Little Richard', 'Buddy Holly'], correctAnswer: 1, difficulty: 'easy' },
+  { id: 287, category: 'music', question: 'What instrument has 88 keys?', options: ['Organ', 'Piano', 'Accordion', 'Synthesizer'], correctAnswer: 1, difficulty: 'easy' },
+  { id: 288, category: 'music', question: 'Which band sang "Bohemian Rhapsody"?', options: ['The Beatles', 'Led Zeppelin', 'Queen', 'Pink Floyd'], correctAnswer: 2, difficulty: 'easy' },
+  { id: 289, category: 'music', question: 'What is the lowest male singing voice?', options: ['Tenor', 'Baritone', 'Bass', 'Alto'], correctAnswer: 2, difficulty: 'medium' },
+  { id: 290, category: 'music', question: 'Who is the best-selling female artist of all time?', options: ['Madonna', 'Mariah Carey', 'Whitney Houston', 'Celine Dion'], correctAnswer: 0, difficulty: 'medium' },
+  { id: 291, category: 'music', question: 'What year did MTV launch?', options: ['1979', '1980', '1981', '1982'], correctAnswer: 2, difficulty: 'hard' },
+  { id: 292, category: 'music', question: 'Which instrument is Jimi Hendrix famous for playing?', options: ['Drums', 'Bass', 'Guitar', 'Keyboard'], correctAnswer: 2, difficulty: 'easy' },
+  { id: 293, category: 'music', question: 'What does "DJ" stand for?', options: ['Digital Jockey', 'Disc Jockey', 'Dance Jockey', 'Dynamic Jockey'], correctAnswer: 1, difficulty: 'easy' },
+  { id: 294, category: 'music', question: 'Who sang "Like a Virgin"?', options: ['Cyndi Lauper', 'Madonna', 'Whitney Houston', 'Janet Jackson'], correctAnswer: 1, difficulty: 'easy' },
+  { id: 295, category: 'music', question: 'How many strings does a standard guitar have?', options: ['4', '5', '6', '7'], correctAnswer: 2, difficulty: 'easy' },
+
+  // ADDITIONAL LITERATURE (10 more questions)
+  { id: 296, category: 'literature', question: 'Who wrote "The Chronicles of Narnia"?', options: ['J.R.R. Tolkien', 'C.S. Lewis', 'Philip Pullman', 'Roald Dahl'], correctAnswer: 1, difficulty: 'medium' },
+  { id: 297, category: 'literature', question: 'What is the first book of the Bible?', options: ['Exodus', 'Genesis', 'Leviticus', 'Numbers'], correctAnswer: 1, difficulty: 'easy' },
+  { id: 298, category: 'literature', question: 'Who wrote "The Hobbit"?', options: ['C.S. Lewis', 'J.K. Rowling', 'J.R.R. Tolkien', 'George R.R. Martin'], correctAnswer: 2, difficulty: 'easy' },
+  { id: 299, category: 'literature', question: 'What is the name of Hamlet\'s castle?', options: ['Camelot', 'Elsinore', 'Winterfell', 'Hogwarts'], correctAnswer: 1, difficulty: 'hard' },
+  { id: 300, category: 'literature', question: 'Who wrote "The Little Prince"?', options: ['Jules Verne', 'Victor Hugo', 'Antoine de Saint-Exupéry', 'Albert Camus'], correctAnswer: 2, difficulty: 'medium' },
+  { id: 301, category: 'literature', question: 'What is the name of the whale in "Moby Dick"?', options: ['Moby', 'Dick', 'Moby Dick', 'The White Whale'], correctAnswer: 2, difficulty: 'easy' },
+  { id: 302, category: 'literature', question: 'Who wrote "Alice\'s Adventures in Wonderland"?', options: ['Lewis Carroll', 'Roald Dahl', 'Dr. Seuss', 'Beatrix Potter'], correctAnswer: 0, difficulty: 'medium' },
+  { id: 303, category: 'literature', question: 'What book features the character Atticus Finch?', options: ['The Grapes of Wrath', 'Of Mice and Men', 'To Kill a Mockingbird', 'The Great Gatsby'], correctAnswer: 2, difficulty: 'medium' },
+  { id: 304, category: 'literature', question: 'Who wrote "Wuthering Heights"?', options: ['Charlotte Brontë', 'Emily Brontë', 'Jane Austen', 'Mary Shelley'], correctAnswer: 1, difficulty: 'medium' },
+  { id: 305, category: 'literature', question: 'What is the longest Shakespeare play?', options: ['Macbeth', 'Othello', 'Hamlet', 'King Lear'], correctAnswer: 2, difficulty: 'hard' },
+
+  // ADDITIONAL GENERAL KNOWLEDGE (10 more questions)
+  { id: 306, category: 'general', question: 'How many degrees are in a circle?', options: ['180', '270', '360', '450'], correctAnswer: 2, difficulty: 'easy' },
+  { id: 307, category: 'general', question: 'What is the largest country in South America?', options: ['Argentina', 'Peru', 'Brazil', 'Colombia'], correctAnswer: 2, difficulty: 'easy' },
+  { id: 308, category: 'general', question: 'How many seconds are in an hour?', options: ['1,800', '2,400', '3,000', '3,600'], correctAnswer: 3, difficulty: 'medium' },
+  { id: 309, category: 'general', question: 'What is the study of weather called?', options: ['Geology', 'Meteorology', 'Oceanography', 'Climatology'], correctAnswer: 1, difficulty: 'medium' },
+  { id: 310, category: 'general', question: 'How many sides does a pentagon have?', options: ['4', '5', '6', '7'], correctAnswer: 1, difficulty: 'easy' },
+  { id: 311, category: 'general', question: 'What is the capital of Russia?', options: ['St. Petersburg', 'Moscow', 'Kiev', 'Minsk'], correctAnswer: 1, difficulty: 'easy' },
+  { id: 312, category: 'general', question: 'How many centimeters are in a meter?', options: ['10', '50', '100', '1,000'], correctAnswer: 2, difficulty: 'easy' },
+  { id: 313, category: 'general', question: 'What is the square root of 144?', options: ['10', '11', '12', '13'], correctAnswer: 2, difficulty: 'medium' },
+  { id: 314, category: 'general', question: 'What is the largest land animal?', options: ['Hippopotamus', 'Rhinoceros', 'African Elephant', 'Giraffe'], correctAnswer: 2, difficulty: 'easy' },
+  { id: 315, category: 'general', question: 'How many years are in a decade?', options: ['5', '10', '15', '20'], correctAnswer: 1, difficulty: 'easy' },
+
+  // ADDITIONAL LOVE & RELATIONSHIPS (10 more questions)
+  { id: 316, category: 'couples', question: 'What is the traditional gift for a 25th wedding anniversary?', options: ['Silver', 'Gold', 'Pearl', 'Diamond'], correctAnswer: 0, difficulty: 'medium' },
+  { id: 317, category: 'couples', question: 'What symbol is most associated with love?', options: ['Star', 'Heart', 'Ring', 'Rose'], correctAnswer: 1, difficulty: 'easy' },
+  { id: 318, category: 'couples', question: 'What is the average length of a first kiss?', options: ['5 seconds', '10 seconds', '15 seconds', '20 seconds'], correctAnswer: 1, difficulty: 'medium' },
+  { id: 319, category: 'couples', question: 'What percentage of marriages in the US end in divorce?', options: ['30-40%', '40-50%', '50-60%', '60-70%'], correctAnswer: 1, difficulty: 'medium' },
+  { id: 320, category: 'couples', question: 'What is the traditional gift for a 10th wedding anniversary?', options: ['Tin', 'Steel', 'Bronze', 'Aluminum'], correctAnswer: 0, difficulty: 'hard' },
+  { id: 321, category: 'couples', question: 'What day is known as "Singles Awareness Day"?', options: ['February 13', 'February 14', 'February 15', 'February 16'], correctAnswer: 2, difficulty: 'medium' },
+  { id: 322, category: 'couples', question: 'What is the average age of marriage in the US?', options: ['23-25', '25-27', '27-29', '29-31'], correctAnswer: 2, difficulty: 'medium' },
+  { id: 323, category: 'couples', question: 'What percentage of people believe in love at first sight?', options: ['30%', '40%', '50%', '60%'], correctAnswer: 3, difficulty: 'hard' },
+  { id: 324, category: 'couples', question: 'What is the traditional color of wedding dresses in China?', options: ['White', 'Red', 'Gold', 'Pink'], correctAnswer: 1, difficulty: 'medium' },
+  { id: 325, category: 'couples', question: 'What ring finger is the wedding ring traditionally worn on?', options: ['Index finger', 'Middle finger', 'Ring finger', 'Pinky finger'], correctAnswer: 2, difficulty: 'easy' },
 ];
 
 // Helper function to get random questions from a category
