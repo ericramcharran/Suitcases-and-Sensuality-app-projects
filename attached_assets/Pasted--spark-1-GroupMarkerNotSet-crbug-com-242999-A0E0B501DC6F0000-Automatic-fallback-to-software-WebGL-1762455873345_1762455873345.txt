@@ -1,0 +1,64 @@
+/spark:1 [GroupMarkerNotSet(crbug.com/242999)!:A0E0B501DC6F0000]Automatic fallback to software WebGL has been deprecated. Please use the --enable-unsafe-swiftshader (about:flags#enable-unsafe-swiftshader) flag to opt in to lower security guarantees for trusted content.
+index-CLZxmq7P.js:583 [Navigation Check] Object
+index-CLZxmq7P.js:583 [Button State] Both timestamps null - resetting all button states
+index-CLZxmq7P.js:583 [Navigation Check] Object
+index-CLZxmq7P.js:583 [WebSocket] Connected for spark synchronization
+index-CLZxmq7P.js:583 WebSocket disconnected
+index-CLZxmq7P.js:646 Current notification permission: granted
+index-CLZxmq7P.js:605 Failed to initialize notifications: TypeError: Failed to register a ServiceWorker for scope ('https://app-projects-ericramcharran.replit.app/') with script ('https://app-projects-ericramcharran.replit.app/sw.js'): ServiceWorker script evaluation failed
+initialize @ index-CLZxmq7P.js:605
+index-CLZxmq7P.js:605 Service worker not registered
+subscribeToPush @ index-CLZxmq7P.js:605
+index-CLZxmq7P.js:646 Current notification permission: granted
+index-CLZxmq7P.js:605 Failed to initialize notifications: TypeError: Failed to register a ServiceWorker for scope ('https://app-projects-ericramcharran.replit.app/') with script ('https://app-projects-ericramcharran.replit.app/sw.js'): ServiceWorker script evaluation failed
+initialize @ index-CLZxmq7P.js:605
+index-CLZxmq7P.js:605 Service worker not registered
+subscribeToPush @ index-CLZxmq7P.js:605
+index-CLZxmq7P.js:646 Current notification permission: granted
+index-CLZxmq7P.js:605 Failed to initialize notifications: TypeError: Failed to register a ServiceWorker for scope ('https://app-projects-ericramcharran.replit.app/') with script ('https://app-projects-ericramcharran.replit.app/sw.js'): ServiceWorker script evaluation failed
+initialize @ index-CLZxmq7P.js:605
+index-CLZxmq7P.js:605 Service worker not registered
+subscribeToPush @ index-CLZxmq7P.js:605
+index-CLZxmq7P.js:646 Current notification permission: granted
+index-CLZxmq7P.js:605 Failed to initialize notifications: TypeError: Failed to register a ServiceWorker for scope ('https://app-projects-ericramcharran.replit.app/') with script ('https://app-projects-ericramcharran.replit.app/sw.js'): ServiceWorker script evaluation failed
+initialize @ index-CLZxmq7P.js:605
+index-CLZxmq7P.js:605 Service worker not registered
+subscribeToPush @ index-CLZxmq7P.js:605
+index-CLZxmq7P.js:646 Current notification permission: granted
+index-CLZxmq7P.js:605 Failed to initialize notifications: TypeError: Failed to register a ServiceWorker for scope ('https://app-projects-ericramcharran.replit.app/') with script ('https://app-projects-ericramcharran.replit.app/sw.js'): ServiceWorker script evaluation failed
+initialize @ index-CLZxmq7P.js:605
+index-CLZxmq7P.js:605 Service worker not registered
+subscribeToPush @ index-CLZxmq7P.js:605
+index-CLZxmq7P.js:646 Current notification permission: granted
+sw.js:77 Uncaught SyntaxError: Unexpected token ')' (at sw.js:77:8)
+index-CLZxmq7P.js:605 Failed to initialize notifications: TypeError: Failed to register a ServiceWorker for scope ('https://app-projects-ericramcharran.replit.app/') with script ('https://app-projects-ericramcharran.replit.app/sw.js'): ServiceWorker script evaluation failed
+initialize @ index-CLZxmq7P.js:605
+await in initialize
+U @ index-CLZxmq7P.js:646
+BO @ index-CLZxmq7P.js:37
+zO @ index-CLZxmq7P.js:37
+$O @ index-CLZxmq7P.js:37
+oS @ index-CLZxmq7P.js:37
+l5 @ index-CLZxmq7P.js:37
+(anonymous) @ index-CLZxmq7P.js:37
+rw @ index-CLZxmq7P.js:40
+MP @ index-CLZxmq7P.js:37
+Jg @ index-CLZxmq7P.js:37
+Tb @ index-CLZxmq7P.js:37
+sL @ index-CLZxmq7P.js:37
+index-CLZxmq7P.js:605 Service worker not registered
+subscribeToPush @ index-CLZxmq7P.js:605
+await in subscribeToPush
+U @ index-CLZxmq7P.js:646
+await in U
+BO @ index-CLZxmq7P.js:37
+zO @ index-CLZxmq7P.js:37
+$O @ index-CLZxmq7P.js:37
+oS @ index-CLZxmq7P.js:37
+l5 @ index-CLZxmq7P.js:37
+(anonymous) @ index-CLZxmq7P.js:37
+rw @ index-CLZxmq7P.js:40
+MP @ index-CLZxmq7P.js:37
+Jg @ index-CLZxmq7P.js:37
+Tb @ index-CLZxmq7P.js:37
+sL @ index-CLZxmq7P.js:37

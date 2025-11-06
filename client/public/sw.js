@@ -67,13 +67,14 @@ self.addEventListener('fetch', (event) => {
             .then((cachedResponse) => {
               if (cachedResponse) {
                 return cachedResponse;
-            }
+              }
             
-            // If not in cache, return offline page for navigation requests
-            if (event.request.mode === 'navigate') {
-              return caches.match('/');
-            }
-          });
+              // If not in cache, return offline page for navigation requests
+              if (event.request.mode === 'navigate') {
+                return caches.match('/');
+              }
+            });
+        }
       })
   );
 });
