@@ -11,6 +11,7 @@ import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
 import { ArrowLeft, Bell, Clock, Mail, MessageSquare, Smartphone, Sparkles, Settings } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
+import { notificationManager } from "@/lib/notifications";
 
 interface ReminderPreferences {
   id: string;
@@ -47,6 +48,7 @@ export default function SparkitReminders() {
   const [enabled, setEnabled] = useState(true);
   const [reminderTime, setReminderTime] = useState('09:00');
   const [notificationMethod, setNotificationMethod] = useState<'sms' | 'email' | 'push' | 'all'>('sms');
+  const [pushSubscribed, setPushSubscribed] = useState(false);
 
   // Update local state when preferences load
   useEffect(() => {
@@ -57,6 +59,99 @@ export default function SparkitReminders() {
       setHasChanges(false); // Reset changes flag when loading saved preferences
     }
   }, [preferences]);
+
+  // Check push subscription status on load and auto-request if needed
+  useEffect(() => {
+    const checkAndRequestPushIfNeeded = async () => {
+      if (!preferences) return;
+
+      const isSubscribed = await notificationManager.isSubscribed();
+      setPushSubscribed(isSubscribed);
+      console.log('🔔 Push notification status:', isSubscribed ? 'Subscribed' : 'Not subscribed');
+
+      // If preferences say they want push/all but they're not subscribed, auto-request permission
+      if ((preferences.notificationMethod === 'push' || preferences.notificationMethod === 'all') && !isSubscribed) {
+        console.log('🔔 User has push/all selected but not subscribed - auto-requesting permission...');
+        
+        // Check if browser supports notifications
+        if (!('Notification' in window)) {
+          console.error('❌ Browser does not support notifications');
+          return;
+        }
+
+        // Only auto-request if permission is 'default' (not already denied)
+        if (Notification.permission === 'default') {
+          console.log('🔔 Auto-requesting push permission on page load...');
+          await requestPushPermission(preferences.coupleId);
+        } else if (Notification.permission === 'denied') {
+          console.log('⚠️ Notification permission was previously denied');
+          toast({
+            title: "Notifications blocked",
+            description: "Push notifications are blocked. Please enable them in your browser settings to receive reminders.",
+            variant: "destructive"
+          });
+        }
+      }
+    };
+    
+    checkAndRequestPushIfNeeded();
+  }, [preferences]);
+
+  // Request push notification permission and subscribe
+  const requestPushPermission = async (coupleId: string): Promise<boolean> => {
+    console.log('🔔 Requesting push notification permission for couple:', coupleId);
+    
+    if (!('Notification' in window)) {
+      console.error('❌ Browser does not support notifications');
+      toast({
+        variant: "destructive",
+        title: "Not supported",
+        description: "Your browser doesn't support push notifications. Please use SMS or email instead."
+      });
+      return false;
+    }
+
+    // Check current permission status
+    const currentPermission = Notification.permission;
+    console.log('🔔 Current notification permission:', currentPermission);
+
+    if (currentPermission === 'denied') {
+      console.error('❌ Notification permission previously denied');
+      toast({
+        variant: "destructive",
+        title: "Permission denied",
+        description: "You've blocked notifications. Please enable them in your browser settings, then try again."
+      });
+      return false;
+    }
+
+    try {
+      // Subscribe to push notifications (this will request permission if needed)
+      const success = await notificationManager.subscribeToPush(coupleId);
+      
+      if (success) {
+        console.log('✅ Successfully subscribed to push notifications');
+        setPushSubscribed(true);
+        return true;
+      } else {
+        console.error('❌ Failed to subscribe to push notifications');
+        toast({
+          variant: "destructive",
+          title: "Permission required",
+          description: "Please allow notifications to use push reminders. You can still use SMS or email."
+        });
+        return false;
+      }
+    } catch (error) {
+      console.error('❌ Error requesting push permission:', error);
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: "Failed to enable push notifications. Please try again or use SMS/email instead."
+      });
+      return false;
+    }
+  };
 
   // Save preferences mutation
   const saveMutation = useMutation({
@@ -80,7 +175,29 @@ export default function SparkitReminders() {
     }
   });
 
-  const handleSave = () => {
+  const handleSave = async () => {
+    // If user selected push or all, ensure they have push permission
+    if ((notificationMethod === 'push' || notificationMethod === 'all') && !pushSubscribed) {
+      console.log('🔔 Push notifications selected but not subscribed, requesting permission...');
+      const coupleId = preferences?.coupleId;
+      if (!coupleId) {
+        console.error('❌ No couple ID available');
+        toast({
+          variant: "destructive",
+          title: "Error",
+          description: "Unable to enable push notifications. Please refresh and try again."
+        });
+        return;
+      }
+
+      const granted = await requestPushPermission(coupleId);
+      if (!granted) {
+        console.log('❌ Push permission denied, not saving preferences');
+        return; // Don't save if permission was denied
+      }
+    }
+
+    // Save preferences
     saveMutation.mutate({
       enabled,
       reminderTime,
