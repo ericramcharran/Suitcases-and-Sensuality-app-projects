@@ -512,15 +512,15 @@ export default function SparkitSettings() {
     <div className="nexus-app min-h-screen bg-gradient-to-br from-nexus-purple/20 to-nexus-red/20">
       <div className="max-w-2xl mx-auto p-4 py-8">
         {/* Header */}
-        <div className="flex items-center gap-4 mb-8">
+        <div className="mb-8">
           <Button
             variant="outline"
-            size="icon"
             onClick={() => setLocation("/spark")}
             data-testid="button-back"
-            className="border-2"
+            className="mb-4 border-2"
           >
-            <ArrowLeft className="w-5 h-5" />
+            <ArrowLeft className="w-4 h-4 mr-2" />
+            Back
           </Button>
           <h1 className="text-3xl font-bold bg-gradient-to-r from-nexus-purple to-nexus-red bg-clip-text text-transparent">
             Settings
