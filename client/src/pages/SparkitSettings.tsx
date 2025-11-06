@@ -293,39 +293,83 @@ export default function SparkitSettings() {
     }
 
     try {
-      // Check current permission status
-      if ('Notification' in window) {
-        const currentPermission = Notification.permission;
-        
-        // If already denied, provide instructions
-        if (currentPermission === 'denied') {
-          toast({
-            variant: "destructive",
-            title: "Notifications blocked",
-            description: "You previously blocked notifications. To enable them, click the lock icon in your browser's address bar and allow notifications, then try again.",
-          });
-          return;
-        }
-      }
-
-      const notifManager = NotificationManager.getInstance();
-      const userId = `sparkit-${coupleId}-${partnerRole}`;
-      
-      // Initialize and subscribe
-      await notifManager.initialize(userId);
-      const success = await notifManager.subscribeToPush(userId);
-      
-      if (success) {
-        setNotificationsEnabled(true);
-        toast({
-          title: "Notifications enabled!",
-          description: "You'll now receive alerts when your partner wants to spark!",
-        });
-      } else {
+      // Check if notifications are supported
+      if (!('Notification' in window)) {
         toast({
           variant: "destructive",
-          title: "Notifications not enabled",
-          description: "Please click 'Allow' when your browser asks for notification permission.",
+          title: "Not supported",
+          description: "Your browser doesn't support notifications.",
+        });
+        return;
+      }
+
+      // Check current permission status
+      const currentPermission = Notification.permission;
+      console.log('Current notification permission:', currentPermission);
+      
+      // If already denied, provide clear instructions
+      if (currentPermission === 'denied') {
+        toast({
+          variant: "destructive",
+          title: "Notifications blocked",
+          description: "You previously blocked notifications. Click the lock/info icon in your browser's address bar, find notification settings, and change it to 'Allow'.",
+        });
+        return;
+      }
+
+      // If already granted, just subscribe
+      if (currentPermission === 'granted') {
+        const notifManager = NotificationManager.getInstance();
+        const userId = `sparkit-${coupleId}-${partnerRole}`;
+        await notifManager.initialize(userId);
+        const success = await notifManager.subscribeToPush(userId);
+        
+        if (success) {
+          setNotificationsEnabled(true);
+          toast({
+            title: "Notifications enabled!",
+            description: "You'll now receive alerts when your partner wants to spark!",
+          });
+        }
+        return;
+      }
+
+      // Request permission
+      console.log('Requesting notification permission...');
+      const permission = await Notification.requestPermission();
+      console.log('Permission result:', permission);
+      
+      if (permission === 'granted') {
+        const notifManager = NotificationManager.getInstance();
+        const userId = `sparkit-${coupleId}-${partnerRole}`;
+        await notifManager.initialize(userId);
+        const success = await notifManager.subscribeToPush(userId);
+        
+        if (success) {
+          setNotificationsEnabled(true);
+          toast({
+            title: "Notifications enabled!",
+            description: "You'll now receive alerts when your partner wants to spark!",
+          });
+        } else {
+          toast({
+            variant: "destructive",
+            title: "Subscription failed",
+            description: "Permission granted but subscription failed. Please try again.",
+          });
+        }
+      } else if (permission === 'denied') {
+        toast({
+          variant: "destructive",
+          title: "Permission denied",
+          description: "You denied notification permission. To enable later, click the lock icon in your browser's address bar and change notification settings to 'Allow'.",
+        });
+      } else {
+        // Permission was dismissed (user clicked X or ignored)
+        toast({
+          variant: "destructive",
+          title: "Permission required",
+          description: "You need to allow notifications. Click 'Enable' again and select 'Allow' when prompted.",
         });
       }
     } catch (error) {
@@ -333,7 +377,7 @@ export default function SparkitSettings() {
       toast({
         variant: "destructive",
         title: "Error",
-        description: "Could not enable notifications. Please try again.",
+        description: `Could not enable notifications: ${error instanceof Error ? error.message : 'Unknown error'}`,
       });
     }
   };
