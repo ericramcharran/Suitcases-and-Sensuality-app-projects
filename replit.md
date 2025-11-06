@@ -10,6 +10,15 @@ This Replit project hosts two distinct applications: "The Executive Society" and
 
 ## Recent Fixes (November 6, 2025)
 
+**Settings Icon Navigation**: Added universal Settings icon to all Spark It! pages for easy access.
+- Added Settings icon (lucide-react) to top-right of all pages except SparkitSettings.tsx itself
+- Consistent styling: white outline (`border-white/40`), glow shadow, backdrop blur, subtle background (`bg-white/5`)
+- Positioned absolutely at top-right or paired with existing navigation elements
+- Navigates to /sparkit/settings when clicked
+- Includes `data-testid="button-settings"` for testing consistency
+- Updated 11 pages: SparkitReminders, SparkitTriviaCategories, SparkitTriviaShare, SparkitTriviaResults, SparkitVideoSpark, SparkitTriviaContest, SparkitLogin, SparkitCoupleSignup, SparkitJoinCouple, SparkitPremium, SparkitPricing
+- Improves app discoverability and UX by providing consistent access to settings from anywhere
+
 **Avatar Gallery Performance Optimization**: Improved avatar selection loading speed in Settings.
 - Renamed "Choose an Icon" to "Avatars" for clarity
 - Added lazy loading (`loading="lazy"`) to all 82 avatar images
