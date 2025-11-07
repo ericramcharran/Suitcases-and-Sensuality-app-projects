@@ -1,5 +1,5 @@
 import { sql } from "drizzle-orm";
-import { pgTable, text, varchar, boolean, integer, timestamp, jsonb } from "drizzle-orm/pg-core";
+import { pgTable, text, varchar, boolean, integer, timestamp, jsonb, index, uniqueIndex } from "drizzle-orm/pg-core";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
 
@@ -65,7 +65,12 @@ export const users = pgTable("users", {
   bio: text("bio"),
   createdAt: timestamp("created_at").defaultNow(),
   lastActive: timestamp("last_active").defaultNow(),
-});
+}, (table) => ({
+  phoneIdx: index("users_phone_idx").on(table.phone),
+  stripeCustomerIdx: index("users_stripe_customer_idx").on(table.stripeCustomerId),
+  stripeSubscriptionIdx: index("users_stripe_subscription_idx").on(table.stripeSubscriptionId),
+  profileNameIdx: index("users_profile_name_idx").on(table.profileName),
+}));
 
 export const matches = pgTable("matches", {
   id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
@@ -74,7 +79,11 @@ export const matches = pgTable("matches", {
   action: text("action").notNull(), // 'like' or 'pass'
   mutualMatch: boolean("mutual_match").default(false),
   createdAt: timestamp("created_at").defaultNow(),
-});
+}, (table) => ({
+  userTargetIdx: index("matches_user_target_idx").on(table.userId, table.targetUserId),
+  targetUserIdx: index("matches_target_user_idx").on(table.targetUserId, table.userId),
+  userCreatedIdx: index("matches_user_created_idx").on(table.userId, table.createdAt),
+}));
 
 export const personalityAnswers = pgTable("personality_answers", {
   id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
@@ -101,7 +110,11 @@ export const messages = pgTable("messages", {
   content: text("content").notNull(),
   read: boolean("read").default(false),
   createdAt: timestamp("created_at").defaultNow(),
-});
+}, (table) => ({
+  matchCreatedIdx: index("messages_match_created_idx").on(table.matchId, table.createdAt),
+  senderIdx: index("messages_sender_idx").on(table.senderId),
+  receiverIdx: index("messages_receiver_idx").on(table.receiverId),
+}));
 
 export const pushSubscriptions = pgTable("push_subscriptions", {
   id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
@@ -110,7 +123,9 @@ export const pushSubscriptions = pgTable("push_subscriptions", {
   p256dh: text("p256dh").notNull(),
   auth: text("auth").notNull(),
   createdAt: timestamp("created_at").defaultNow(),
-});
+}, (table) => ({
+  userIdIdx: index("push_subscriptions_user_id_idx").on(table.userId),
+}));
 
 export const bdsmTestResults = pgTable("bdsm_test_results", {
   id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
