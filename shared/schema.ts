@@ -304,7 +304,7 @@ export const sparkitReminderPreferences = pgTable("sparkit_reminder_preferences"
   coupleId: varchar("couple_id").notNull().unique().references(() => sparkitCouples.id),
   enabled: boolean("enabled").default(true), // Whether reminders are enabled
   reminderTime: text("reminder_time").default('09:00'), // Time to send daily reminder (HH:MM format)
-  notificationMethod: text("notification_method").default('all'), // 'sms', 'email', 'push', 'all' - defaults to all enabled
+  notificationMethod: text("notification_method").default('push'), // 'sms', 'email', 'push', 'all' - defaults to push only
   lastSentAt: timestamp("last_sent_at"), // Track when last reminder was sent
   createdAt: timestamp("created_at").defaultNow(),
   updatedAt: timestamp("updated_at").defaultNow(),

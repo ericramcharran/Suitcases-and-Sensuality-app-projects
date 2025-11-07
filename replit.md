@@ -62,14 +62,14 @@ This Replit project hosts two distinct applications: "The Executive Society" and
 - Updated `routes.ts`: Added `no-cache` headers to couple data endpoint
 - Removed `TooltipProvider` from `App.tsx` temporarily (was causing React hook errors after cache clearing)
 
-**Push/Email Notifications Default Enabled** (November 5, 2025): Changed notification preferences to be enabled by default for ALL users (new and existing).
-- Updated `schema.ts`: Changed `notificationMethod` default from `'sms'` to `'all'` (enables push, email, and SMS)
+**Push Notifications Default for Reminders** (November 7, 2025): Changed default notification method for daily reminders to push notifications only.
+- Updated `schema.ts`: Changed `notificationMethod` default to `'push'` (push notifications only)
 - Updated `routes.ts`: 
-  - Automatically create reminder preferences at signup with all notification methods enabled
-  - GET endpoint now auto-creates preferences with `'all'` if none exist (fixes existing production accounts)
-  - PUT endpoint defaults to `'all'` when creating new preferences
-- This means when any existing production user (like sam from PREMM1) visits the reminder settings page, preferences are automatically created with push and email enabled
-- Admin endpoint available at `/admin/enable-push-notifications` to bulk-enable notifications for existing production accounts (optional, as GET endpoint now handles it automatically)
+  - GET endpoint now auto-creates preferences with `'push'` if none exist
+  - PUT endpoint defaults to `'push'` when creating new preferences
+- Updated frontend: Default state initialization changed to `'push'`
+- This means new users and existing users without preferences will default to push notifications only (cleaner, less intrusive than SMS/email)
+- Users can still manually change to other methods (SMS, Email, All) in Settings if desired
 
 ## User Preferences
 

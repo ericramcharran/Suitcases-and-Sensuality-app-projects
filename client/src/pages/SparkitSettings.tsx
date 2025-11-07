@@ -55,7 +55,7 @@ export default function SparkitSettings() {
   // Daily Reminders state
   const [reminderEnabled, setReminderEnabled] = useState(true);
   const [reminderTime, setReminderTime] = useState('09:00');
-  const [notificationMethod, setNotificationMethod] = useState<'sms' | 'email' | 'push' | 'all'>('all');
+  const [notificationMethod, setNotificationMethod] = useState<'sms' | 'email' | 'push' | 'all'>('push');
   const [pushSubscribed, setPushSubscribed] = useState(false);
   const [hasReminderChanges, setHasReminderChanges] = useState(false);
 
