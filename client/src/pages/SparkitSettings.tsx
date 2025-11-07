@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
 import { queryClient, apiRequest } from "@/lib/queryClient";
-import { ArrowLeft, Save, User, Sparkles, Crown, Upload, Check, LogOut, MapPin, Bell, BellOff, Clock, Mail, MessageSquare, Smartphone } from "lucide-react";
+import { Save, User, Sparkles, Crown, Upload, Check, LogOut, MapPin, Bell, BellOff, Clock, Mail, MessageSquare, Smartphone, Settings as SettingsIcon } from "lucide-react";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -18,6 +18,7 @@ import { Separator } from "@/components/ui/separator";
 import { AVATAR_ICONS, getIconAvatarUrl, isIconAvatar, getIconIdFromUrl, type AvatarIcon } from "@/data/avatarIcons";
 import { AvatarUploader } from "@/components/AvatarUploader";
 import { AvatarDisplay } from "@/components/AvatarDisplay";
+import { SparkitCardHeader } from "@/components/SparkitCardHeader";
 import { NotificationManager } from "@/lib/notifications";
 import { notificationManager } from "@/lib/notifications";
 import type { SparkitCouple } from "@shared/schema";
@@ -757,20 +758,10 @@ export default function SparkitSettings() {
     <div className="nexus-app min-h-screen bg-gradient-to-br from-nexus-purple/20 to-nexus-red/20">
       <div className="max-w-2xl mx-auto p-4 py-8">
         {/* Header */}
-        <div className="mb-8">
-          <Button
-            variant="outline"
-            onClick={() => setLocation("/spark")}
-            data-testid="button-back"
-            className="mb-4 border-2 border-white/40 shadow-[0_0_15px_rgba(255,255,255,0.3)] hover:shadow-[0_0_20px_rgba(255,255,255,0.4)] backdrop-blur-sm bg-white/5"
-          >
-            <ArrowLeft className="w-4 h-4 mr-1" />
-            Back
-          </Button>
-          <h1 className="text-3xl font-bold bg-gradient-to-r from-nexus-purple to-nexus-red bg-clip-text text-transparent">
-            Settings
-          </h1>
-        </div>
+        <SparkitCardHeader
+          title="Settings"
+          subtitle="Manage your couple's preferences and account settings"
+        />
 
         {/* Partner Names Card */}
         <Card className="p-6 mb-6">
