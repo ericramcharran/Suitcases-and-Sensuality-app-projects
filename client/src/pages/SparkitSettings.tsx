@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
 import { queryClient, apiRequest } from "@/lib/queryClient";
-import { Save, User, Sparkles, Crown, Upload, Check, LogOut, MapPin, Bell, BellOff, Clock, Mail, MessageSquare, Smartphone, Settings as SettingsIcon } from "lucide-react";
+import { Save, User, Sparkles, Crown, Upload, Check, LogOut, MapPin, Bell, BellOff, Clock, Mail, MessageSquare, Smartphone, Settings as SettingsIcon, Heart } from "lucide-react";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -96,7 +96,7 @@ export default function SparkitSettings() {
       setPartner2Phone(couple.partner2Phone || "");
       setCity(couple.city || "");
       setState(couple.state || "");
-      setIsLongDistance(couple.isLongDistance || false);
+      setIsLongDistance(couple.isLongDistance ?? false);
     }
   }, [couple]);
 
@@ -620,9 +620,9 @@ export default function SparkitSettings() {
 
   if (!coupleId) {
     return (
-      <div className="nexus-app min-h-screen flex items-center justify-center p-4 bg-gradient-to-br from-nexus-purple/20 to-nexus-red/20">
+      <div className="nexus-app min-h-screen flex items-center justify-center p-4 bg-gradient-to-br from-purple-600/20 to-red-500/20">
         <Card className="p-8 text-center">
-          <Sparkles className="w-12 h-12 mx-auto mb-4 text-nexus-purple" />
+          <Sparkles className="w-12 h-12 mx-auto mb-4 text-purple-600" />
           <h2 className="text-xl font-bold mb-2">No Couple Found</h2>
           <p className="text-gray-600 dark:text-gray-400 mb-4">
             Please create or join a couple first.
@@ -639,7 +639,7 @@ export default function SparkitSettings() {
     return (
       <div className="nexus-app min-h-screen flex items-center justify-center">
         <div className="text-center">
-          <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-nexus-purple"></div>
+          <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600"></div>
           <p className="mt-4 text-gray-600 dark:text-gray-400">Loading settings...</p>
         </div>
       </div>
@@ -758,7 +758,7 @@ export default function SparkitSettings() {
   };
 
   return (
-    <div className="nexus-app min-h-screen bg-gradient-to-br from-nexus-purple/20 to-nexus-red/20">
+    <div className="nexus-app min-h-screen bg-gradient-to-br from-purple-600/20 to-red-500/20">
       <div className="max-w-2xl mx-auto p-4 py-8">
         {/* Header */}
         <SparkitCardHeader
@@ -766,10 +766,197 @@ export default function SparkitSettings() {
           subtitle="Manage your couple's preferences and account settings"
         />
 
+        {/* Avatar Selection Card */}
+        <Card className="p-6 mb-6 bg-gradient-to-br from-purple-500/5 to-red-500/5 border-2 border-purple-500/20">
+          <div className="flex items-center justify-between mb-6">
+            <div className="flex items-center gap-3">
+              <div className="p-2 rounded-lg bg-gradient-to-r from-purple-600 to-red-500">
+                <Sparkles className="w-5 h-5 text-white" />
+              </div>
+              <h2 className="text-xl font-semibold bg-gradient-to-r from-purple-600 to-red-500 bg-clip-text text-transparent">Couple Avatars</h2>
+            </div>
+            {(couple.subscriptionPlan === "free" || couple.subscriptionPlan === "trial") && (
+              <Badge variant="secondary" className="bg-gradient-to-r from-purple-600 to-red-500 text-white">
+                <Crown className="w-3 h-3 mr-1" />
+                Premium
+              </Badge>
+            )}
+          </div>
+
+          {/* Current Couple Avatar Preview - Side by Side */}
+          <div className="flex items-center justify-center gap-6 mb-8 p-6 bg-white dark:bg-gray-900 rounded-lg">
+            <div className="text-center">
+              <AvatarDisplay 
+                avatarUrl={getCurrentAvatar("partner1")} 
+                size="xl" 
+                data-testid="avatar-preview-partner1-main"
+              />
+              <p className="text-sm font-medium mt-2 text-purple-600 dark:text-purple-400">{partner1Name || "Partner 1"}</p>
+            </div>
+            <div className="flex items-center justify-center">
+              <div className="p-3 rounded-full bg-gradient-to-r from-purple-600 to-red-500">
+                <Heart className="w-6 h-6 text-white fill-white" />
+              </div>
+            </div>
+            <div className="text-center">
+              <AvatarDisplay 
+                avatarUrl={getCurrentAvatar("partner2")} 
+                size="xl" 
+                data-testid="avatar-preview-partner2-main"
+              />
+              <p className="text-sm font-medium mt-2 text-red-500 dark:text-red-400">{partner2Name || "Partner 2"}</p>
+            </div>
+          </div>
+
+          {/* Partner Selector Tabs */}
+          <Tabs value={selectedPartner} onValueChange={(value) => setSelectedPartner(value as "partner1" | "partner2")} className="w-full">
+            <TabsList className="grid w-full grid-cols-2 mb-6 bg-gradient-to-r from-purple-500/10 to-red-500/10">
+              <TabsTrigger value="partner1" data-testid="tab-partner1-avatar" className="data-[state=active]:bg-purple-600 data-[state=active]:text-white">
+                {partner1Name || "Partner 1"}
+              </TabsTrigger>
+              <TabsTrigger value="partner2" data-testid="tab-partner2-avatar" className="data-[state=active]:bg-red-500 data-[state=active]:text-white">
+                {partner2Name || "Partner 2"}
+              </TabsTrigger>
+            </TabsList>
+
+            {/* Partner 1 Avatar */}
+            <TabsContent value="partner1" className="space-y-6">
+              {/* Icon Gallery */}
+              <div className="space-y-3">
+                <Label className="text-sm font-medium">Choose an Avatar</Label>
+                <ScrollArea className="h-80 rounded-md border p-4">
+                  <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-4">
+                    {AVATAR_ICONS.map((icon) => {
+                      const isSelected = getCurrentAvatar("partner1") === getIconAvatarUrl(icon.id);
+                      
+                      return (
+                        <button
+                          key={icon.id}
+                          onClick={() => handleSelectIconAvatar(icon.id)}
+                          disabled={updateAvatarMutation.isPending}
+                          className={`
+                            relative p-4 rounded-md border-2 transition-all hover-elevate active-elevate-2
+                            ${isSelected ? "border-purple-600 bg-purple-600/10 shadow-lg shadow-purple-600/20" : "border-gray-200 dark:border-gray-700"}
+                            disabled:opacity-50 disabled:cursor-not-allowed
+                          `}
+                          data-testid={`icon-avatar-${icon.id}`}
+                          aria-label={icon.label}
+                        >
+                          {icon.imagePath ? (
+                            <img 
+                              src={icon.imagePath} 
+                              alt={icon.label} 
+                              loading="lazy"
+                              className="w-16 h-16 sm:w-20 sm:h-20 mx-auto object-contain rounded-md"
+                            />
+                          ) : icon.icon && (
+                            <icon.icon className="w-8 h-8 sm:w-10 sm:h-10 mx-auto" />
+                          )}
+                          {isSelected && (
+                            <div className="absolute -top-1 -right-1 bg-purple-600 rounded-full p-0.5 shadow-md">
+                              <Check className="w-3 h-3 text-white" />
+                            </div>
+                          )}
+                        </button>
+                      );
+                    })}
+                  </div>
+                </ScrollArea>
+              </div>
+
+              {/* Custom Upload */}
+              <div className="space-y-3">
+                <Label className="text-sm font-medium">Or Upload Custom Avatar</Label>
+                <p className="text-xs text-gray-500 dark:text-gray-400">
+                  Upload a square image (JPG, PNG, GIF, or WebP) under 5MB. Most phone photos work great!
+                </p>
+                <AvatarUploader
+                  onGetUploadParameters={handleGetUploadParameters}
+                  onComplete={handleUploadComplete}
+                  maxFileSize={5242880}
+                  buttonClassName="w-full bg-gradient-to-r from-purple-600 to-red-500 hover:opacity-90 transition-opacity"
+                  disabled={(couple.subscriptionPlan !== 'monthly' && couple.subscriptionPlan !== 'yearly') || updateAvatarMutation.isPending}
+                />
+                {(couple.subscriptionPlan === "free" || couple.subscriptionPlan === "trial") && (
+                  <p className="text-xs text-gray-500 dark:text-gray-400">
+                    Custom avatars require Premium subscription
+                  </p>
+                )}
+              </div>
+            </TabsContent>
+
+            {/* Partner 2 Avatar */}
+            <TabsContent value="partner2" className="space-y-6">
+              {/* Icon Gallery */}
+              <div className="space-y-3">
+                <Label className="text-sm font-medium">Choose an Avatar</Label>
+                <ScrollArea className="h-80 rounded-md border p-4">
+                  <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-4">
+                    {AVATAR_ICONS.map((icon) => {
+                      const isSelected = getCurrentAvatar("partner2") === getIconAvatarUrl(icon.id);
+                      
+                      return (
+                        <button
+                          key={icon.id}
+                          onClick={() => handleSelectIconAvatar(icon.id)}
+                          disabled={updateAvatarMutation.isPending}
+                          className={`
+                            relative p-4 rounded-md border-2 transition-all hover-elevate active-elevate-2
+                            ${isSelected ? "border-red-500 bg-red-500/10 shadow-lg shadow-red-500/20" : "border-gray-200 dark:border-gray-700"}
+                            disabled:opacity-50 disabled:cursor-not-allowed
+                          `}
+                          data-testid={`icon-avatar-${icon.id}`}
+                          aria-label={icon.label}
+                        >
+                          {icon.imagePath ? (
+                            <img 
+                              src={icon.imagePath} 
+                              alt={icon.label} 
+                              loading="lazy"
+                              className="w-16 h-16 sm:w-20 sm:h-20 mx-auto object-contain rounded-md"
+                            />
+                          ) : icon.icon && (
+                            <icon.icon className="w-8 h-8 sm:w-10 sm:h-10 mx-auto" />
+                          )}
+                          {isSelected && (
+                            <div className="absolute -top-1 -right-1 bg-red-500 rounded-full p-0.5 shadow-md">
+                              <Check className="w-3 h-3 text-white" />
+                            </div>
+                          )}
+                        </button>
+                      );
+                    })}
+                  </div>
+                </ScrollArea>
+              </div>
+
+              {/* Custom Upload */}
+              <div className="space-y-3">
+                <Label className="text-sm font-medium">Or Upload Custom Avatar</Label>
+                <p className="text-xs text-gray-500 dark:text-gray-400">
+                  Upload a square image (JPG, PNG, GIF, or WebP) under 5MB. Most phone photos work great!
+                </p>
+                <AvatarUploader
+                  onGetUploadParameters={handleGetUploadParameters}
+                  onComplete={handleUploadComplete}
+                  maxFileSize={5242880}
+                  buttonClassName="w-full bg-gradient-to-r from-purple-600 to-red-500 hover:opacity-90 transition-opacity"
+                  disabled={(couple.subscriptionPlan !== 'monthly' && couple.subscriptionPlan !== 'yearly') || updateAvatarMutation.isPending}
+                />
+                {(couple.subscriptionPlan === "free" || couple.subscriptionPlan === "trial") && (
+                  <p className="text-xs text-gray-500 dark:text-gray-400">
+                    Custom avatars require Premium subscription
+                  </p>
+                )}
+              </div>
+            </TabsContent>
+          </Tabs>
+        </Card>
+
         {/* Partner Names Card */}
         <Card className="p-6 mb-6">
           <div className="flex items-center gap-3 mb-6">
-            <User className="w-5 h-5 text-nexus-purple" />
+            <User className="w-5 h-5 text-purple-600" />
             <h2 className="text-xl font-semibold">Partner Names</h2>
           </div>
 
@@ -819,7 +1006,7 @@ export default function SparkitSettings() {
             <Button
               onClick={handleSaveNames}
               disabled={updateNamesMutation.isPending}
-              className="w-full bg-gradient-to-r from-nexus-purple to-nexus-red hover:opacity-90 transition-opacity"
+              className="w-full bg-gradient-to-r from-purple-600 to-red-500 hover:opacity-90 transition-opacity"
               data-testid="button-save-names"
             >
               {updateNamesMutation.isPending ? (
@@ -840,7 +1027,7 @@ export default function SparkitSettings() {
         {/* Phone Numbers Card for SMS */}
         <Card className="p-6 mb-6">
           <div className="flex items-center gap-3 mb-6">
-            <Sparkles className="w-5 h-5 text-nexus-purple" />
+            <Sparkles className="w-5 h-5 text-purple-600" />
             <h2 className="text-xl font-semibold">Phone Numbers</h2>
           </div>
 
@@ -889,7 +1076,7 @@ export default function SparkitSettings() {
             <Button
               onClick={handleSavePhones}
               disabled={updatePhonesMutation.isPending}
-              className="w-full bg-gradient-to-r from-nexus-purple to-nexus-red hover:opacity-90 transition-opacity"
+              className="w-full bg-gradient-to-r from-purple-600 to-red-500 hover:opacity-90 transition-opacity"
               data-testid="button-save-phones"
             >
               {updatePhonesMutation.isPending ? (
@@ -910,7 +1097,7 @@ export default function SparkitSettings() {
         {/* Push Notifications Card */}
         <Card className="p-6 mb-6">
           <div className="flex items-center gap-3 mb-6">
-            <Bell className="w-5 h-5 text-nexus-purple" />
+            <Bell className="w-5 h-5 text-purple-600" />
             <h2 className="text-xl font-semibold">Push Notifications</h2>
           </div>
 
@@ -942,7 +1129,7 @@ export default function SparkitSettings() {
                 <Button
                   onClick={notificationsEnabled ? handleDisableNotifications : handleEnableNotifications}
                   variant={notificationsEnabled ? "outline" : "default"}
-                  className={notificationsEnabled ? "" : "bg-gradient-to-r from-nexus-purple to-nexus-red hover:opacity-90 transition-opacity"}
+                  className={notificationsEnabled ? "" : "bg-gradient-to-r from-purple-600 to-red-500 hover:opacity-90 transition-opacity"}
                   data-testid={notificationsEnabled ? "button-disable-notifications" : "button-enable-notifications"}
                 >
                   {notificationsEnabled ? "Disable" : "Enable"}
@@ -955,7 +1142,7 @@ export default function SparkitSettings() {
         {/* Daily Reminders Card */}
         <Card className="p-6 mb-6">
           <div className="flex items-center gap-3 mb-6">
-            <Clock className="w-5 h-5 text-nexus-purple" />
+            <Clock className="w-5 h-5 text-purple-600" />
             <h2 className="text-xl font-semibold">Daily Reminders</h2>
           </div>
 
@@ -1066,7 +1253,7 @@ export default function SparkitSettings() {
                   data-testid="button-save-reminders"
                   onClick={handleSaveReminders}
                   disabled={!hasReminderChanges || saveReminderMutation.isPending}
-                  className="w-full bg-gradient-to-r from-nexus-purple to-nexus-red hover:opacity-90 transition-opacity"
+                  className="w-full bg-gradient-to-r from-purple-600 to-red-500 hover:opacity-90 transition-opacity"
                 >
                   {saveReminderMutation.isPending ? "Saving..." : "Save Reminder Preferences"}
                 </Button>
@@ -1077,7 +1264,7 @@ export default function SparkitSettings() {
                     <Separator />
                     <div className="space-y-4 bg-gradient-to-br from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 p-4 rounded-lg">
                       <div className="flex items-center gap-2 mb-3">
-                        <Sparkles className="h-5 w-5 text-nexus-purple" />
+                        <Sparkles className="h-5 w-5 text-purple-600" />
                         <h3 className="font-semibold">Today's Preview</h3>
                       </div>
                       
@@ -1112,7 +1299,7 @@ export default function SparkitSettings() {
         {/* Location Card for AI Activities */}
         <Card className="p-6 mb-6">
           <div className="flex items-center gap-3 mb-6">
-            <MapPin className="w-5 h-5 text-nexus-purple" />
+            <MapPin className="w-5 h-5 text-purple-600" />
             <h2 className="text-xl font-semibold">Location</h2>
           </div>
 
@@ -1172,7 +1359,7 @@ export default function SparkitSettings() {
             <Button
               onClick={handleSaveLocation}
               disabled={updateLocationMutation.isPending}
-              className="w-full bg-gradient-to-r from-nexus-purple to-nexus-red hover:opacity-90 transition-opacity"
+              className="w-full bg-gradient-to-r from-purple-600 to-red-500 hover:opacity-90 transition-opacity"
               data-testid="button-save-location"
             >
               {updateLocationMutation.isPending ? (
@@ -1220,7 +1407,7 @@ export default function SparkitSettings() {
             {/* Sparks Remaining */}
             <div>
               <p className="text-sm text-gray-600 dark:text-gray-400">Sparks Remaining</p>
-              <p className="text-lg font-semibold text-nexus-purple">
+              <p className="text-lg font-semibold text-purple-600">
                 {couple.subscriptionPlan === 'monthly' || couple.subscriptionPlan === 'yearly'
                   ? '∞ Unlimited'
                   : `${couple.sparksRemaining || 0} sparks`}
@@ -1253,192 +1440,6 @@ export default function SparkitSettings() {
               </div>
             )}
           </div>
-        </Card>
-
-        {/* Avatar Selection Card */}
-        <Card className="p-6 mb-6">
-          <div className="flex items-center justify-between mb-6">
-            <div className="flex items-center gap-3">
-              <Sparkles className="w-5 h-5 text-nexus-purple" />
-              <h2 className="text-xl font-semibold">Avatars</h2>
-            </div>
-            {(couple.subscriptionPlan === "free" || couple.subscriptionPlan === "trial") && (
-              <Badge variant="secondary" className="bg-gradient-to-r from-nexus-purple to-nexus-red text-white">
-                <Crown className="w-3 h-3 mr-1" />
-                Premium
-              </Badge>
-            )}
-          </div>
-
-          {/* Partner Selector Tabs */}
-          <Tabs value={selectedPartner} onValueChange={(value) => setSelectedPartner(value as "partner1" | "partner2")} className="w-full">
-            <TabsList className="grid w-full grid-cols-2 mb-6">
-              <TabsTrigger value="partner1" data-testid="tab-partner1-avatar">
-                {partner1Name || "Partner 1"}
-              </TabsTrigger>
-              <TabsTrigger value="partner2" data-testid="tab-partner2-avatar">
-                {partner2Name || "Partner 2"}
-              </TabsTrigger>
-            </TabsList>
-
-            {/* Partner 1 Avatar */}
-            <TabsContent value="partner1" className="space-y-6">
-              {/* Current Avatar Preview */}
-              <div className="flex flex-col items-center gap-4">
-                <Label className="text-sm font-medium">Current Avatar</Label>
-                <AvatarDisplay 
-                  avatarUrl={getCurrentAvatar("partner1")} 
-                  size="xl" 
-                  data-testid="avatar-preview-partner1"
-                />
-                <p className="text-xs text-gray-500 dark:text-gray-400 text-center">
-                  {getCurrentAvatar("partner1") ? "Your selected avatar" : "No avatar selected"}
-                </p>
-              </div>
-
-              {/* Icon Gallery */}
-              <div className="space-y-3">
-                <Label className="text-sm font-medium">Avatars</Label>
-                <ScrollArea className="h-80 rounded-md border p-4">
-                  <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-4">
-                    {AVATAR_ICONS.map((icon) => {
-                      const isSelected = getCurrentAvatar("partner1") === getIconAvatarUrl(icon.id);
-                      
-                      return (
-                        <button
-                          key={icon.id}
-                          onClick={() => handleSelectIconAvatar(icon.id)}
-                          disabled={updateAvatarMutation.isPending}
-                          className={`
-                            relative p-4 rounded-md border-2 transition-all hover-elevate active-elevate-2
-                            ${isSelected ? "border-nexus-purple bg-nexus-purple/10" : "border-gray-200 dark:border-gray-700"}
-                            disabled:opacity-50 disabled:cursor-not-allowed
-                          `}
-                          data-testid={`icon-avatar-${icon.id}`}
-                          aria-label={icon.label}
-                        >
-                          {icon.imagePath ? (
-                            <img 
-                              src={icon.imagePath} 
-                              alt={icon.label} 
-                              loading="lazy"
-                              className="w-16 h-16 sm:w-20 sm:h-20 mx-auto object-contain rounded-md"
-                            />
-                          ) : icon.icon && (
-                            <icon.icon className="w-8 h-8 sm:w-10 sm:h-10 mx-auto" />
-                          )}
-                          {isSelected && (
-                            <div className="absolute -top-1 -right-1 bg-nexus-purple rounded-full p-0.5">
-                              <Check className="w-3 h-3 text-white" />
-                            </div>
-                          )}
-                        </button>
-                      );
-                    })}
-                  </div>
-                </ScrollArea>
-              </div>
-
-              {/* Custom Upload */}
-              <div className="space-y-3">
-                <Label className="text-sm font-medium">Or Upload Custom Avatar</Label>
-                <p className="text-xs text-gray-500 dark:text-gray-400">
-                  Upload a square image (JPG, PNG, GIF, or WebP) under 5MB. Most phone photos work great!
-                </p>
-                <AvatarUploader
-                  onGetUploadParameters={handleGetUploadParameters}
-                  onComplete={handleUploadComplete}
-                  maxFileSize={5242880}
-                  buttonClassName="w-full bg-gradient-to-r from-nexus-purple to-nexus-red hover:opacity-90 transition-opacity"
-                  disabled={(couple.subscriptionPlan !== 'monthly' && couple.subscriptionPlan !== 'yearly') || updateAvatarMutation.isPending}
-                />
-                {(couple.subscriptionPlan === "free" || couple.subscriptionPlan === "trial") && (
-                  <p className="text-xs text-gray-500 dark:text-gray-400">
-                    Custom avatars require Premium subscription
-                  </p>
-                )}
-              </div>
-            </TabsContent>
-
-            {/* Partner 2 Avatar */}
-            <TabsContent value="partner2" className="space-y-6">
-              {/* Current Avatar Preview */}
-              <div className="flex flex-col items-center gap-4">
-                <Label className="text-sm font-medium">Current Avatar</Label>
-                <AvatarDisplay 
-                  avatarUrl={getCurrentAvatar("partner2")} 
-                  size="xl" 
-                  data-testid="avatar-preview-partner2"
-                />
-                <p className="text-xs text-gray-500 dark:text-gray-400 text-center">
-                  {getCurrentAvatar("partner2") ? "Your selected avatar" : "No avatar selected"}
-                </p>
-              </div>
-
-              {/* Icon Gallery */}
-              <div className="space-y-3">
-                <Label className="text-sm font-medium">Avatars</Label>
-                <ScrollArea className="h-80 rounded-md border p-4">
-                  <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-4">
-                    {AVATAR_ICONS.map((icon) => {
-                      const isSelected = getCurrentAvatar("partner2") === getIconAvatarUrl(icon.id);
-                      
-                      return (
-                        <button
-                          key={icon.id}
-                          onClick={() => handleSelectIconAvatar(icon.id)}
-                          disabled={updateAvatarMutation.isPending}
-                          className={`
-                            relative p-4 rounded-md border-2 transition-all hover-elevate active-elevate-2
-                            ${isSelected ? "border-nexus-purple bg-nexus-purple/10" : "border-gray-200 dark:border-gray-700"}
-                            disabled:opacity-50 disabled:cursor-not-allowed
-                          `}
-                          data-testid={`icon-avatar-${icon.id}`}
-                          aria-label={icon.label}
-                        >
-                          {icon.imagePath ? (
-                            <img 
-                              src={icon.imagePath} 
-                              alt={icon.label} 
-                              loading="lazy"
-                              className="w-16 h-16 sm:w-20 sm:h-20 mx-auto object-contain rounded-md"
-                            />
-                          ) : icon.icon && (
-                            <icon.icon className="w-8 h-8 sm:w-10 sm:h-10 mx-auto" />
-                          )}
-                          {isSelected && (
-                            <div className="absolute -top-1 -right-1 bg-nexus-purple rounded-full p-0.5">
-                              <Check className="w-3 h-3 text-white" />
-                            </div>
-                          )}
-                        </button>
-                      );
-                    })}
-                  </div>
-                </ScrollArea>
-              </div>
-
-              {/* Custom Upload */}
-              <div className="space-y-3">
-                <Label className="text-sm font-medium">Or Upload Custom Avatar</Label>
-                <p className="text-xs text-gray-500 dark:text-gray-400">
-                  Upload a square image (JPG, PNG, GIF, or WebP) under 5MB. Most phone photos work great!
-                </p>
-                <AvatarUploader
-                  onGetUploadParameters={handleGetUploadParameters}
-                  onComplete={handleUploadComplete}
-                  maxFileSize={5242880}
-                  buttonClassName="w-full bg-gradient-to-r from-nexus-purple to-nexus-red hover:opacity-90 transition-opacity"
-                  disabled={(couple.subscriptionPlan !== 'monthly' && couple.subscriptionPlan !== 'yearly') || updateAvatarMutation.isPending}
-                />
-                {(couple.subscriptionPlan === "free" || couple.subscriptionPlan === "trial") && (
-                  <p className="text-xs text-gray-500 dark:text-gray-400">
-                    Custom avatars require Premium subscription
-                  </p>
-                )}
-              </div>
-            </TabsContent>
-          </Tabs>
         </Card>
 
         {/* Couple Info Card */}
