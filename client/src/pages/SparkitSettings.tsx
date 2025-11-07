@@ -7,16 +7,36 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
 import { queryClient, apiRequest } from "@/lib/queryClient";
-import { ArrowLeft, Save, User, Sparkles, Crown, Upload, Check, LogOut, MapPin, Bell, BellOff } from "lucide-react";
+import { ArrowLeft, Save, User, Sparkles, Crown, Upload, Check, LogOut, MapPin, Bell, BellOff, Clock, Mail, MessageSquare, Smartphone } from "lucide-react";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { Switch } from "@/components/ui/switch";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Separator } from "@/components/ui/separator";
 import { AVATAR_ICONS, getIconAvatarUrl, isIconAvatar, getIconIdFromUrl, type AvatarIcon } from "@/data/avatarIcons";
 import { AvatarUploader } from "@/components/AvatarUploader";
 import { AvatarDisplay } from "@/components/AvatarDisplay";
 import { NotificationManager } from "@/lib/notifications";
+import { notificationManager } from "@/lib/notifications";
 import type { SparkitCouple } from "@shared/schema";
+
+interface ReminderPreferences {
+  id: string;
+  coupleId: string;
+  enabled: boolean;
+  reminderTime: string;
+  notificationMethod: 'sms' | 'email' | 'push' | 'all';
+  createdAt: string;
+  updatedAt: string;
+}
+
+interface DailyContentPreview {
+  question: string | null;
+  activity: string | null;
+  conversationStarter: string | null;
+}
 
 export default function SparkitSettings() {
   const [, setLocation] = useLocation();
@@ -31,6 +51,13 @@ export default function SparkitSettings() {
   const [selectedPartner, setSelectedPartner] = useState<"partner1" | "partner2">("partner1");
   const [notificationsEnabled, setNotificationsEnabled] = useState(false);
   const [checkingNotifications, setCheckingNotifications] = useState(true);
+  
+  // Daily Reminders state
+  const [reminderEnabled, setReminderEnabled] = useState(true);
+  const [reminderTime, setReminderTime] = useState('09:00');
+  const [notificationMethod, setNotificationMethod] = useState<'sms' | 'email' | 'push' | 'all'>('all');
+  const [pushSubscribed, setPushSubscribed] = useState(false);
+  const [hasReminderChanges, setHasReminderChanges] = useState(false);
 
   // Check authentication via session
   const { data: authData } = useQuery<{ coupleId: string; partnerRole: string } | null>({
@@ -46,6 +73,18 @@ export default function SparkitSettings() {
     enabled: !!coupleId,
   });
 
+  // Fetch reminder preferences
+  const { data: reminderPreferences } = useQuery<ReminderPreferences>({
+    queryKey: ['/api/sparkit/reminders/preferences'],
+    enabled: !!coupleId,
+  });
+
+  // Fetch daily content preview
+  const { data: dailyPreview } = useQuery<DailyContentPreview>({
+    queryKey: ['/api/sparkit/reminders/preview'],
+    enabled: !!coupleId,
+  });
+
   // Initialize form values when couple data loads
   useEffect(() => {
     if (couple) {
@@ -57,6 +96,35 @@ export default function SparkitSettings() {
       setState(couple.state || "");
     }
   }, [couple]);
+
+  // Initialize reminder preferences when they load
+  useEffect(() => {
+    if (reminderPreferences) {
+      setReminderEnabled(reminderPreferences.enabled);
+      setReminderTime(reminderPreferences.reminderTime);
+      setNotificationMethod(reminderPreferences.notificationMethod);
+      setHasReminderChanges(false);
+    }
+  }, [reminderPreferences]);
+
+  // Check push subscription status for reminders
+  useEffect(() => {
+    const checkPushStatus = async () => {
+      if (!reminderPreferences || !authData) return;
+      
+      const isSubscribed = await notificationManager.isSubscribed();
+      setPushSubscribed(isSubscribed);
+      
+      // Auto-request push permission if user wants push/all but isn't subscribed
+      if ((reminderPreferences.notificationMethod === 'push' || reminderPreferences.notificationMethod === 'all') && !isSubscribed) {
+        if ('Notification' in window && Notification.permission === 'default') {
+          await requestPushPermission(reminderPreferences.coupleId, authData.partnerRole);
+        }
+      }
+    };
+    
+    checkPushStatus();
+  }, [reminderPreferences, authData]);
 
   const updateNamesMutation = useMutation({
     mutationFn: async () => {
@@ -229,6 +297,113 @@ export default function SparkitSettings() {
       });
     },
   });
+
+  // Save reminder preferences mutation
+  const saveReminderMutation = useMutation({
+    mutationFn: async (data: { enabled: boolean; reminderTime: string; notificationMethod: string }) => {
+      return await apiRequest('PUT', '/api/sparkit/reminders/preferences', data);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['/api/sparkit/reminders/preferences'] });
+      setHasReminderChanges(false);
+      toast({
+        title: "Reminders saved",
+        description: "Your daily reminder preferences have been updated."
+      });
+    },
+    onError: () => {
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: "Failed to save reminder preferences. Please try again."
+      });
+    }
+  });
+
+  // Helper function to request push permission for reminders
+  const requestPushPermission = async (coupleId: string, partnerRole: string): Promise<boolean> => {
+    const userId = `sparkit-${coupleId}-${partnerRole}`;
+    
+    const currentPermission = Notification.permission;
+    if (currentPermission === 'denied') {
+      toast({
+        variant: "destructive",
+        title: "Permission denied",
+        description: "You've blocked notifications. Please enable them in your browser settings."
+      });
+      return false;
+    }
+
+    try {
+      await notificationManager.initialize(userId);
+      const success = await notificationManager.subscribeToPush(userId);
+      
+      if (success) {
+        setPushSubscribed(true);
+        return true;
+      } else {
+        toast({
+          variant: "destructive",
+          title: "Permission required",
+          description: "Please allow notifications to use push reminders."
+        });
+        return false;
+      }
+    } catch (error) {
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: "Failed to enable push notifications. Please try again."
+      });
+      return false;
+    }
+  };
+
+  // Handle reminder preference changes
+  const handleReminderChange = () => {
+    setHasReminderChanges(true);
+  };
+
+  // Save reminder preferences
+  const handleSaveReminders = async () => {
+    // If user selected push or all, ensure they have push permission
+    if ((notificationMethod === 'push' || notificationMethod === 'all') && !pushSubscribed) {
+      const coupleId = reminderPreferences?.coupleId;
+      const partnerRole = authData?.partnerRole;
+      
+      if (!coupleId || !partnerRole) {
+        toast({
+          variant: "destructive",
+          title: "Error",
+          description: "Authentication error. Please refresh the page."
+        });
+        return;
+      }
+
+      const granted = await requestPushPermission(coupleId, partnerRole);
+      if (!granted) {
+        return; // Don't save if permission was denied
+      }
+    }
+
+    // Save preferences
+    saveReminderMutation.mutate({
+      enabled: reminderEnabled,
+      reminderTime,
+      notificationMethod
+    });
+  };
+
+  // Get icon for notification method
+  const getNotificationIcon = (method: string) => {
+    switch (method) {
+      case 'sms': return <MessageSquare className="h-4 w-4" />;
+      case 'email': return <Mail className="h-4 w-4" />;
+      case 'push': return <Smartphone className="h-4 w-4" />;
+      case 'all': return <Bell className="h-4 w-4" />;
+      default: return <Bell className="h-4 w-4" />;
+    }
+  };
 
   // Check notification permission and subscription status on mount
   useEffect(() => {
@@ -768,6 +943,163 @@ export default function SparkitSettings() {
                 </Button>
               )}
             </div>
+          </div>
+        </Card>
+
+        {/* Daily Reminders Card */}
+        <Card className="p-6 mb-6">
+          <div className="flex items-center gap-3 mb-6">
+            <Clock className="w-5 h-5 text-nexus-purple" />
+            <h2 className="text-xl font-semibold">Daily Reminders</h2>
+          </div>
+
+          <div className="space-y-6">
+            <p className="text-sm text-gray-600 dark:text-gray-400">
+              Stay connected with daily questions, activities, and conversation starters delivered right to you
+            </p>
+
+            {/* Enable/Disable */}
+            <div className="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
+              <div className="space-y-1">
+                <Label htmlFor="reminderEnabled" className="text-base font-medium">Enable Daily Reminders</Label>
+                <p className="text-xs text-gray-500 dark:text-gray-400">
+                  Receive daily content to keep your relationship fresh
+                </p>
+              </div>
+              <Switch
+                id="reminderEnabled"
+                data-testid="switch-reminders-enabled"
+                checked={reminderEnabled}
+                onCheckedChange={(checked) => {
+                  setReminderEnabled(checked);
+                  handleReminderChange();
+                }}
+              />
+            </div>
+
+            {reminderEnabled && (
+              <>
+                <Separator />
+
+                {/* Reminder Time */}
+                <div className="space-y-2">
+                  <Label htmlFor="reminderTime" className="flex items-center gap-2">
+                    <Clock className="h-4 w-4" />
+                    Reminder Time
+                  </Label>
+                  <Input
+                    id="reminderTime"
+                    data-testid="input-reminder-time"
+                    type="time"
+                    value={reminderTime}
+                    onChange={(e) => {
+                      setReminderTime(e.target.value);
+                      handleReminderChange();
+                    }}
+                    className="max-w-xs"
+                  />
+                  <p className="text-xs text-gray-500 dark:text-gray-400">
+                    Choose what time you'd like to receive your daily reminder
+                  </p>
+                </div>
+
+                <Separator />
+
+                {/* Notification Method */}
+                <div className="space-y-2">
+                  <Label htmlFor="notificationMethod" className="flex items-center gap-2">
+                    {getNotificationIcon(notificationMethod)}
+                    Notification Method
+                  </Label>
+                  <Select
+                    value={notificationMethod}
+                    onValueChange={(value: 'sms' | 'email' | 'push' | 'all') => {
+                      setNotificationMethod(value);
+                      handleReminderChange();
+                    }}
+                  >
+                    <SelectTrigger id="notificationMethod" data-testid="select-notification-method" className="max-w-xs">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="push" data-testid="option-push">
+                        <div className="flex items-center gap-2">
+                          <Smartphone className="h-4 w-4" />
+                          <span>Push Notification</span>
+                        </div>
+                      </SelectItem>
+                      <SelectItem value="sms" data-testid="option-sms">
+                        <div className="flex items-center gap-2">
+                          <MessageSquare className="h-4 w-4" />
+                          <span>SMS Text Message</span>
+                        </div>
+                      </SelectItem>
+                      <SelectItem value="email" data-testid="option-email">
+                        <div className="flex items-center gap-2">
+                          <Mail className="h-4 w-4" />
+                          <span>Email</span>
+                        </div>
+                      </SelectItem>
+                      <SelectItem value="all" data-testid="option-all">
+                        <div className="flex items-center gap-2">
+                          <Bell className="h-4 w-4" />
+                          <span>All Methods (Push + SMS + Email)</span>
+                        </div>
+                      </SelectItem>
+                    </SelectContent>
+                  </Select>
+                  <p className="text-xs text-gray-500 dark:text-gray-400">
+                    How would you like to receive your daily reminders?
+                  </p>
+                </div>
+
+                <Separator />
+
+                {/* Save Button */}
+                <Button
+                  data-testid="button-save-reminders"
+                  onClick={handleSaveReminders}
+                  disabled={!hasReminderChanges || saveReminderMutation.isPending}
+                  className="w-full bg-gradient-to-r from-nexus-purple to-nexus-red hover:opacity-90 transition-opacity"
+                >
+                  {saveReminderMutation.isPending ? "Saving..." : "Save Reminder Preferences"}
+                </Button>
+
+                {/* Today's Preview */}
+                {dailyPreview && (
+                  <>
+                    <Separator />
+                    <div className="space-y-4 bg-gradient-to-br from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 p-4 rounded-lg">
+                      <div className="flex items-center gap-2 mb-3">
+                        <Sparkles className="h-5 w-5 text-nexus-purple" />
+                        <h3 className="font-semibold">Today's Preview</h3>
+                      </div>
+                      
+                      {dailyPreview.question && (
+                        <div className="space-y-1">
+                          <p className="text-xs font-medium text-gray-600 dark:text-gray-400">Daily Question</p>
+                          <p className="text-sm" data-testid="text-preview-question">{dailyPreview.question}</p>
+                        </div>
+                      )}
+                      
+                      {dailyPreview.activity && (
+                        <div className="space-y-1">
+                          <p className="text-xs font-medium text-gray-600 dark:text-gray-400">Activity Idea</p>
+                          <p className="text-sm" data-testid="text-preview-activity">{dailyPreview.activity}</p>
+                        </div>
+                      )}
+                      
+                      {dailyPreview.conversationStarter && (
+                        <div className="space-y-1">
+                          <p className="text-xs font-medium text-gray-600 dark:text-gray-400">Conversation Starter</p>
+                          <p className="text-sm" data-testid="text-preview-conversation">{dailyPreview.conversationStarter}</p>
+                        </div>
+                      )}
+                    </div>
+                  </>
+                )}
+              </>
+            )}
           </div>
         </Card>
 

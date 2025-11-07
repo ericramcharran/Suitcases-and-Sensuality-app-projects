@@ -1,4 +1,4 @@
-import { Route, Switch, useLocation } from "wouter";
+import { Route, Switch, useLocation, Redirect } from "wouter";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { queryClient } from "./lib/queryClient";
 import { Toaster } from "@/components/ui/toaster";
@@ -26,7 +26,6 @@ import SparkitTriviaContest from "@/pages/SparkitTriviaContest";
 import SparkitTriviaResults from "@/pages/SparkitTriviaResults";
 import SparkitVideoSpark from "@/pages/SparkitVideoSpark";
 import SparkitSettings from "@/pages/SparkitSettings";
-import SparkitReminders from "@/pages/SparkitReminders";
 import AdminAnnounce from "@/pages/AdminAnnounce";
 import Home from "@/pages/Home";
 import About from "@/pages/About";
@@ -174,7 +173,7 @@ function App() {
                 <PageTransition><SparkitSettings /></PageTransition>
               </Route>
               <Route path="/sparkit/reminders">
-                <PageTransition><SparkitReminders /></PageTransition>
+                <Redirect to="/sparkit/settings" />
               </Route>
               <Route path="/sparkit/premium">
                 <PageTransition><SparkitPremium /></PageTransition>
