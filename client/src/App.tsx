@@ -26,6 +26,8 @@ import SparkitTriviaContest from "@/pages/SparkitTriviaContest";
 import SparkitTriviaResults from "@/pages/SparkitTriviaResults";
 import SparkitVideoSpark from "@/pages/SparkitVideoSpark";
 import SparkitSettings from "@/pages/SparkitSettings";
+import SparkitPrivacyPolicy from "@/pages/SparkitPrivacyPolicy";
+import SparkitTermsOfService from "@/pages/SparkitTermsOfService";
 import AdminAnnounce from "@/pages/AdminAnnounce";
 import Home from "@/pages/Home";
 import About from "@/pages/About";
@@ -177,6 +179,12 @@ function App() {
               </Route>
               <Route path="/sparkit/premium">
                 <PageTransition><SparkitPremium /></PageTransition>
+              </Route>
+              <Route path="/sparkit/privacy">
+                <PageTransition><SparkitPrivacyPolicy /></PageTransition>
+              </Route>
+              <Route path="/sparkit/terms">
+                <PageTransition><SparkitTermsOfService /></PageTransition>
               </Route>
               <Route path="/sparkit/admin/announce">
                 <PageTransition><AdminAnnounce /></PageTransition>
