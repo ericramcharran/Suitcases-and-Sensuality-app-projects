@@ -145,7 +145,9 @@ export const verificationCodes = pgTable("verification_codes", {
   verified: boolean("verified").default(false),
   expiresAt: timestamp("expires_at").notNull(), // Codes expire after 10 minutes
   createdAt: timestamp("created_at").defaultNow(),
-});
+}, (table) => ({
+  verificationLookupIdx: index("verification_lookup_idx").on(table.emailOrPhone, table.type, table.verified),
+}));
 
 // Spark It! Tables
 export const sparkitCouples = pgTable("sparkit_couples", {
@@ -179,7 +181,10 @@ export const sparkitCouples = pgTable("sparkit_couples", {
   currentActivityData: jsonb("current_activity_data"), // Current activity for both partners to see (generated on backend)
   recentActivityIds: jsonb("recent_activity_ids").$type<number[]>().default(sql`'[]'`), // Track last 15 activity IDs to prevent duplicates
   createdAt: timestamp("created_at").defaultNow(),
-});
+}, (table) => ({
+  statusPlanIdx: index("sparkit_couples_status_plan_idx").on(table.subscriptionStatus, table.subscriptionPlan),
+  stripeCustomerIdx: index("sparkit_couples_stripe_customer_idx").on(table.stripeCustomerId),
+}));
 
 export const sparkitActivityRatings = pgTable("sparkit_activity_ratings", {
   id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
@@ -188,7 +193,9 @@ export const sparkitActivityRatings = pgTable("sparkit_activity_ratings", {
   activityTitle: text("activity_title").notNull(),
   rating: text("rating").notNull(), // 'loved' or 'meh'
   createdAt: timestamp("created_at").defaultNow(),
-});
+}, (table) => ({
+  coupleCreatedIdx: index("activity_ratings_couple_created_idx").on(table.coupleId, table.createdAt),
+}));
 
 export const sparkitActivityResults = pgTable("sparkit_activity_results", {
   id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
@@ -197,7 +204,9 @@ export const sparkitActivityResults = pgTable("sparkit_activity_results", {
   activityTitle: text("activity_title").notNull(),
   winner: text("winner").notNull(), // 'partner1', 'partner2', or 'tie'
   createdAt: timestamp("created_at").defaultNow(),
-});
+}, (table) => ({
+  coupleCreatedIdx: index("activity_results_couple_created_idx").on(table.coupleId, table.createdAt),
+}));
 
 export const sparkitTriviaCategories = pgTable("sparkit_trivia_categories", {
   id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
@@ -235,7 +244,9 @@ export const sparkitTriviaContests = pgTable("sparkit_trivia_contests", {
   score: integer("score"), // DEPRECATED: kept for backwards compatibility
   status: text("status").default('pending'), // 'pending', 'in_progress', 'completed'
   createdAt: timestamp("created_at").defaultNow(),
-});
+}, (table) => ({
+  coupleStatusCreatedIdx: index("trivia_contests_couple_status_created_idx").on(table.coupleId, table.status, table.createdAt),
+}));
 
 export const sparkitTriviaAnswers = pgTable("sparkit_trivia_answers", {
   id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
@@ -246,7 +257,10 @@ export const sparkitTriviaAnswers = pgTable("sparkit_trivia_answers", {
   selectedAnswer: text("selected_answer").notNull(),
   isCorrect: boolean("is_correct").notNull(),
   createdAt: timestamp("created_at").defaultNow(),
-});
+}, (table) => ({
+  contestPartnerIdx: index("trivia_answers_contest_partner_idx").on(table.contestId, table.partner),
+  coupleIdx: index("trivia_answers_couple_idx").on(table.coupleId),
+}));
 
 export const sparkitVideoSessions = pgTable("sparkit_video_sessions", {
   id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
@@ -271,7 +285,10 @@ export const sparkitActivityLogs = pgTable("sparkit_activity_logs", {
   errorSeverity: text("error_severity"), // 'low', 'medium', 'high', 'critical' (only for errors)
   errorMessage: text("error_message"), // Error details if applicable
   createdAt: timestamp("created_at").defaultNow(),
-});
+}, (table) => ({
+  coupleCreatedIdx: index("activity_logs_couple_created_idx").on(table.coupleId, table.createdAt),
+  coupleCodeIdx: index("activity_logs_couple_code_idx").on(table.coupleCode),
+}));
 
 export const sparkitDailyContent = pgTable("sparkit_daily_content", {
   id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
