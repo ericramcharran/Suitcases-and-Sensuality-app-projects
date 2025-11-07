@@ -632,17 +632,31 @@ export default function SparkButton() {
             {isPremium && (
               <div style={{
                 display: 'flex',
+                flexDirection: 'column',
                 alignItems: 'center',
-                gap: '4px',
-                padding: '3px 10px',
-                background: 'linear-gradient(135deg, #FFD700 0%, #FFA500 100%)',
-                borderRadius: '15px',
-                fontSize: '0.7em',
-                fontWeight: 'bold',
-                color: '#000',
-              }} data-testid="badge-premium">
-                <Crown size={12} />
-                PREMIUM
+                gap: '4px'
+              }}>
+                <div style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '4px',
+                  padding: '3px 10px',
+                  background: 'linear-gradient(135deg, #FFD700 0%, #FFA500 100%)',
+                  borderRadius: '15px',
+                  fontSize: '0.7em',
+                  fontWeight: 'bold',
+                  color: '#000',
+                }} data-testid="badge-premium">
+                  <Crown size={12} />
+                  PREMIUM
+                </div>
+                <div data-testid="sparks-remaining" style={{ 
+                  fontSize: '0.65em',
+                  color: 'rgba(255,255,255,0.8)',
+                  whiteSpace: 'nowrap'
+                }}>
+                  Unlimited Sparks
+                </div>
               </div>
             )}
           </div>
@@ -658,31 +672,31 @@ export default function SparkButton() {
           {couple.partner1Name} {couple.partner2Name ? `& ${couple.partner2Name}` : '(waiting for partner)'}
         </p>
 
-        {/* Sparks counter */}
-        <div style={{ textAlign: 'center' }}>
-          <div data-testid="sparks-remaining" style={{ 
-            display: 'inline-flex', 
-            alignItems: 'center', 
-            gap: '8px',
-            color: sparksRemaining === 0 && !isPremium ? '#e74c3c' : 'rgba(255,255,255,0.8)',
-            fontSize: '0.9em'
-          }}>
-            <Zap size={18} color="#e74c3c" />
-            <span>
-              {isPremium 
-                ? 'Unlimited Sparks' 
-                : sparksRemaining === 0 
+        {/* Sparks counter (for non-premium users) */}
+        {!isPremium && (
+          <div style={{ textAlign: 'center' }}>
+            <div data-testid="sparks-remaining" style={{ 
+              display: 'inline-flex', 
+              alignItems: 'center', 
+              gap: '8px',
+              color: sparksRemaining === 0 ? '#e74c3c' : 'rgba(255,255,255,0.8)',
+              fontSize: '0.9em'
+            }}>
+              <Zap size={18} color="#e74c3c" />
+              <span>
+                {sparksRemaining === 0 
                   ? 'Trial limit reached' 
                   : `${sparksRemaining} sparks remaining`
-              }
-            </span>
-          </div>
-          {isOnTrial && couple.partner2JoinedAt && (
-            <div style={{ fontSize: '0.75em', color: 'rgba(255,255,255,0.5)', marginTop: '5px' }} data-testid="trial-status">
-              Trial: {trialSparksUsed}/10 sparks used • {trialDaysRemaining} days left
+                }
+              </span>
             </div>
-          )}
-        </div>
+            {isOnTrial && couple.partner2JoinedAt && (
+              <div style={{ fontSize: '0.75em', color: 'rgba(255,255,255,0.5)', marginTop: '5px' }} data-testid="trial-status">
+                Trial: {trialSparksUsed}/10 sparks used • {trialDaysRemaining} days left
+              </div>
+            )}
+          </div>
+        )}
       </div>
 
       {/* Settings Completion Banner */}
