@@ -563,8 +563,55 @@ export default function SparkButton() {
             </div>
           </div>
 
-          {/* Avatars and Premium Badge */}
+          {/* Settings and Avatars */}
           <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+            {/* Settings Icon Button */}
+            <button
+              onClick={() => setLocation("/sparkit/settings")}
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                width: '40px',
+                height: '40px',
+                borderRadius: '50%',
+                background: isPremium 
+                  ? 'linear-gradient(135deg, rgba(138, 43, 226, 0.2) 0%, rgba(231, 76, 60, 0.2) 100%)'
+                  : 'rgba(255, 255, 255, 0.1)',
+                border: isPremium
+                  ? '2px solid rgba(138, 43, 226, 0.5)'
+                  : '2px solid rgba(255, 255, 255, 0.3)',
+                color: 'white',
+                cursor: 'pointer',
+                transition: 'all 0.3s',
+                position: 'relative',
+                flexShrink: 0,
+              }}
+              data-testid="button-settings"
+              title="Settings"
+            >
+              <Settings size={20} />
+              {isPremium && (
+                <span style={{
+                  position: 'absolute',
+                  top: '-4px',
+                  right: '-4px',
+                  background: 'linear-gradient(135deg, #FFD700 0%, #FFA500 100%)',
+                  color: '#000',
+                  borderRadius: '50%',
+                  width: '18px',
+                  height: '18px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  boxShadow: '0 2px 8px rgba(255, 215, 0, 0.4)',
+                }}>
+                  <Sparkles size={11} strokeWidth={3} />
+                </span>
+              )}
+            </button>
+            
+            {/* Avatars */}
             <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
               <AvatarDisplay 
                 avatarUrl={couple.partner1AvatarUrl} 
@@ -764,50 +811,6 @@ export default function SparkButton() {
               Upgrade to Premium
             </button>
           )}
-          <button
-            onClick={() => setLocation("/sparkit/settings")}
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '10px',
-              padding: '12px 24px',
-              borderRadius: '30px',
-              background: isPremium 
-                ? 'linear-gradient(135deg, rgba(138, 43, 226, 0.2) 0%, rgba(231, 76, 60, 0.2) 100%)'
-                : 'rgba(255, 255, 255, 0.1)',
-              border: isPremium
-                ? '2px solid rgba(138, 43, 226, 0.5)'
-                : '2px solid rgba(255, 255, 255, 0.3)',
-              color: 'white',
-              cursor: 'pointer',
-              fontSize: '1em',
-              transition: 'all 0.3s',
-              position: 'relative',
-            }}
-            data-testid="button-settings"
-            title="Customize display names and avatars"
-          >
-            <Settings size={20} />
-            Settings
-            {isPremium && (
-              <span style={{
-                position: 'absolute',
-                top: '-8px',
-                right: '-8px',
-                background: 'linear-gradient(135deg, #FFD700 0%, #FFA500 100%)',
-                color: '#000',
-                borderRadius: '50%',
-                width: '24px',
-                height: '24px',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                boxShadow: '0 2px 8px rgba(255, 215, 0, 0.4)',
-              }}>
-                <Sparkles size={14} strokeWidth={3} />
-              </span>
-            )}
-          </button>
           <button
             onClick={() => setLocation("/sparkit/reminders")}
             style={{
