@@ -764,6 +764,7 @@ export default function SparkButton() {
               transition: 'all 0.3s',
             }}
             data-testid="button-trivia"
+            title="Challenge your partner to head-to-head trivia"
           >
             <Brain size={20} />
             Trivia Challenge
@@ -784,6 +785,7 @@ export default function SparkButton() {
               transition: 'all 0.3s',
             }}
             data-testid="button-scoreboard"
+            title="View your couple's stats and trivia records"
           >
             <Trophy size={20} />
             Scoreboard
@@ -806,6 +808,7 @@ export default function SparkButton() {
                 fontWeight: 'bold',
               }}
               data-testid="button-upgrade-premium"
+              title="Get unlimited sparks, custom avatars, and video calling"
             >
               <Crown size={20} />
               Upgrade to Premium
