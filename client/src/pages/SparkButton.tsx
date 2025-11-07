@@ -572,229 +572,212 @@ export default function SparkButton() {
             </div>
           </div>
 
-          {/* Settings and Avatars */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-            {/* Settings Icon Button */}
-            <button
-              onClick={() => setLocation("/sparkit/settings")}
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                width: '40px',
-                height: '40px',
-                borderRadius: '50%',
-                background: isPremium 
-                  ? 'linear-gradient(135deg, rgba(138, 43, 226, 0.2) 0%, rgba(231, 76, 60, 0.2) 100%)'
-                  : 'rgba(255, 255, 255, 0.1)',
-                border: isPremium
-                  ? '2px solid rgba(138, 43, 226, 0.5)'
-                  : '2px solid rgba(255, 255, 255, 0.3)',
-                color: 'white',
-                cursor: 'pointer',
-                transition: 'all 0.3s',
-                position: 'relative',
-                flexShrink: 0,
-              }}
-              data-testid="button-settings"
-              title="Settings"
-            >
-              <Settings size={20} />
-              {isPremium && (
-                <span style={{
-                  position: 'absolute',
-                  top: '-4px',
-                  right: '-4px',
-                  background: 'linear-gradient(135deg, #FFD700 0%, #FFA500 100%)',
-                  color: '#000',
-                  borderRadius: '50%',
-                  width: '18px',
-                  height: '18px',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  boxShadow: '0 2px 8px rgba(255, 215, 0, 0.4)',
-                }}>
-                  <Sparkles size={11} strokeWidth={3} />
-                </span>
-              )}
-            </button>
-            
-            {/* Avatars */}
-            <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-              <AvatarDisplay 
-                avatarUrl={couple.partner1AvatarUrl} 
-                size="md" 
-                data-testid="avatar-partner1"
-              />
-              {couple.partner2Name && (
-                <AvatarDisplay 
-                  avatarUrl={couple.partner2AvatarUrl} 
-                  size="md" 
-                  data-testid="avatar-partner2"
-                />
-              )}
-            </div>
-            {isPremium && (
-              <div style={{
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                gap: '4px'
-              }}>
-                <style>
-                  {`
-                    @keyframes premiumPulse {
-                      0%, 100% {
-                        transform: scale(1);
-                        box-shadow: 0 0 10px rgba(255, 215, 0, 0.4);
-                      }
-                      50% {
-                        transform: scale(1.1);
-                        box-shadow: 0 0 25px rgba(255, 215, 0, 0.8), 0 0 40px rgba(255, 165, 0, 0.6);
-                      }
-                    }
-                  `}
-                </style>
-                <div style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '4px',
-                  padding: '3px 10px',
-                  background: 'linear-gradient(135deg, #FFD700 0%, #FFA500 100%)',
-                  borderRadius: '15px',
-                  fontSize: '0.7em',
-                  fontWeight: 'bold',
-                  color: '#000',
-                  animation: showPremiumAnimation ? 'premiumPulse 1.5s ease-in-out 2' : 'none',
-                  transition: 'all 0.3s ease',
-                }} data-testid="badge-premium">
-                  <Crown size={12} />
-                  PREMIUM
-                </div>
-                <div data-testid="sparks-remaining" style={{ 
-                  fontSize: '0.65em',
-                  color: 'rgba(255,255,255,0.8)',
-                  whiteSpace: 'nowrap'
-                }}>
-                  Unlimited Sparks
-                </div>
-              </div>
-            )}
-          </div>
-        </div>
-
-        {/* Couple Avatar Hero Section */}
-        <div style={{
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          gap: '15px',
-          padding: '20px 10px 10px',
-          background: 'linear-gradient(135deg, rgba(138, 43, 226, 0.12) 0%, rgba(231, 76, 60, 0.12) 100%)',
-          borderRadius: '20px',
-          margin: '0 auto',
-          maxWidth: '500px',
-          position: 'relative',
-          overflow: 'hidden',
-        }}>
-          {/* Glow effect */}
-          <div aria-hidden="true" style={{
-            position: 'absolute',
-            top: '-50%',
-            left: '-50%',
-            width: '200%',
-            height: '200%',
-            background: 'radial-gradient(circle, rgba(138, 43, 226, 0.1) 0%, transparent 70%)',
-            pointerEvents: 'none',
-          }} />
-          
-          {/* Avatars with Heart Separator */}
+          {/* Couple Avatar Hero Section in Header */}
           <div style={{
             display: 'flex',
             alignItems: 'center',
-            gap: '20px',
+            gap: '15px',
+            padding: '10px 15px',
+            background: 'linear-gradient(135deg, rgba(138, 43, 226, 0.12) 0%, rgba(231, 76, 60, 0.12) 100%)',
+            borderRadius: '20px',
             position: 'relative',
-            zIndex: 1,
+            overflow: 'hidden',
           }}>
-            <AvatarDisplay 
-              avatarUrl={couple.partner1AvatarUrl} 
-              size="lg" 
-              data-testid="hero-avatar-partner1"
-            />
-            
-            {/* Heart Icon */}
+            {/* Glow effect */}
             <div aria-hidden="true" style={{
+              position: 'absolute',
+              top: '-50%',
+              left: '-50%',
+              width: '200%',
+              height: '200%',
+              background: 'radial-gradient(circle, rgba(138, 43, 226, 0.1) 0%, transparent 70%)',
+              pointerEvents: 'none',
+            }} />
+            
+            {/* Avatars with Heart Separator */}
+            <div style={{
               display: 'flex',
               alignItems: 'center',
-              justifyContent: 'center',
-              width: '40px',
-              height: '40px',
-              borderRadius: '50%',
-              background: 'linear-gradient(135deg, var(--nexus-purple-royal) 0%, var(--nexus-red-bright) 100%)',
-              boxShadow: '0 4px 15px rgba(138, 43, 226, 0.4)',
+              gap: '12px',
+              position: 'relative',
+              zIndex: 1,
             }}>
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="white" aria-hidden="true">
-                <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
-              </svg>
-            </div>
-            
-            {couple.partner2Name ? (
               <AvatarDisplay 
-                avatarUrl={couple.partner2AvatarUrl} 
-                size="lg" 
-                data-testid="hero-avatar-partner2"
+                avatarUrl={couple.partner1AvatarUrl} 
+                size="md" 
+                data-testid="hero-avatar-partner1"
               />
-            ) : (
-              <div style={{
-                width: '64px',
-                height: '64px',
-                borderRadius: '50%',
-                background: 'rgba(255,255,255,0.1)',
-                border: '2px dashed rgba(255,255,255,0.3)',
+              
+              {/* Heart Icon */}
+              <div aria-hidden="true" style={{
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
+                width: '30px',
+                height: '30px',
+                borderRadius: '50%',
+                background: 'linear-gradient(135deg, var(--nexus-purple-royal) 0%, var(--nexus-red-bright) 100%)',
+                boxShadow: '0 2px 10px rgba(138, 43, 226, 0.4)',
+                flexShrink: 0,
               }}>
-                <UserPlus size={28} color="rgba(255,255,255,0.4)" />
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="white" aria-hidden="true">
+                  <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                </svg>
               </div>
-            )}
-          </div>
-          
-          {/* Names with & Symbol */}
-          <p style={{ 
-            fontSize: '1.1em', 
-            fontWeight: '600',
-            textAlign: 'center',
-            margin: 0,
-            position: 'relative',
-            zIndex: 1,
-          }}>
-            <span style={{ 
-              background: 'linear-gradient(135deg, var(--nexus-purple-royal) 0%, rgba(138, 43, 226, 0.7) 100%)',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-              backgroundClip: 'text',
-            }}>
-              {couple.partner1Name}
-            </span>
-            {couple.partner2Name && (
-              <>
-                <span style={{ color: 'rgba(255,255,255,0.5)', margin: '0 8px' }}>&</span>
-                <span style={{ 
-                  background: 'linear-gradient(135deg, var(--nexus-red-bright) 0%, rgba(231, 76, 60, 0.7) 100%)',
-                  WebkitBackgroundClip: 'text',
-                  WebkitTextFillColor: 'transparent',
-                  backgroundClip: 'text',
+              
+              {couple.partner2Name ? (
+                <AvatarDisplay 
+                  avatarUrl={couple.partner2AvatarUrl} 
+                  size="md" 
+                  data-testid="hero-avatar-partner2"
+                />
+              ) : (
+                <div style={{
+                  width: '40px',
+                  height: '40px',
+                  borderRadius: '50%',
+                  background: 'rgba(255,255,255,0.1)',
+                  border: '2px dashed rgba(255,255,255,0.3)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  flexShrink: 0,
                 }}>
-                  {couple.partner2Name}
-                </span>
-              </>
-            )}
-            {!couple.partner2Name && (
-              <span style={{ color: 'rgba(255,255,255,0.4)' }}> (waiting for partner)</span>
-            )}
-          </p>
+                  <UserPlus size={20} color="rgba(255,255,255,0.4)" />
+                </div>
+              )}
+            </div>
+            
+            {/* Names with & Symbol */}
+            <div style={{ 
+              fontSize: '0.95em', 
+              fontWeight: '600',
+              position: 'relative',
+              zIndex: 1,
+              flex: 1,
+            }}>
+              <span style={{ 
+                background: 'linear-gradient(135deg, var(--nexus-purple-royal) 0%, rgba(138, 43, 226, 0.7) 100%)',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+                backgroundClip: 'text',
+              }}>
+                {couple.partner1Name}
+              </span>
+              {couple.partner2Name && (
+                <>
+                  <span style={{ color: 'rgba(255,255,255,0.5)', margin: '0 6px' }}>&</span>
+                  <span style={{ 
+                    background: 'linear-gradient(135deg, var(--nexus-red-bright) 0%, rgba(231, 76, 60, 0.7) 100%)',
+                    WebkitBackgroundClip: 'text',
+                    WebkitTextFillColor: 'transparent',
+                    backgroundClip: 'text',
+                  }}>
+                    {couple.partner2Name}
+                  </span>
+                </>
+              )}
+              {!couple.partner2Name && (
+                <span style={{ color: 'rgba(255,255,255,0.4)', fontSize: '0.85em' }}> (waiting)</span>
+              )}
+            </div>
+
+            {/* Settings & Premium Badge */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: '10px', position: 'relative', zIndex: 1 }}>
+              {/* Settings Icon Button */}
+              <button
+                onClick={() => setLocation("/sparkit/settings")}
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  width: '40px',
+                  height: '40px',
+                  borderRadius: '50%',
+                  background: isPremium 
+                    ? 'linear-gradient(135deg, rgba(138, 43, 226, 0.2) 0%, rgba(231, 76, 60, 0.2) 100%)'
+                    : 'rgba(255, 255, 255, 0.1)',
+                  border: isPremium
+                    ? '2px solid rgba(138, 43, 226, 0.5)'
+                    : '2px solid rgba(255, 255, 255, 0.3)',
+                  color: 'white',
+                  cursor: 'pointer',
+                  transition: 'all 0.3s',
+                  position: 'relative',
+                  flexShrink: 0,
+                }}
+                data-testid="button-settings"
+                title="Settings"
+              >
+                <Settings size={20} />
+                {isPremium && (
+                  <span style={{
+                    position: 'absolute',
+                    top: '-4px',
+                    right: '-4px',
+                    background: 'linear-gradient(135deg, #FFD700 0%, #FFA500 100%)',
+                    color: '#000',
+                    borderRadius: '50%',
+                    width: '18px',
+                    height: '18px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    boxShadow: '0 2px 8px rgba(255, 215, 0, 0.4)',
+                  }}>
+                    <Sparkles size={11} strokeWidth={3} />
+                  </span>
+                )}
+              </button>
+              
+              {isPremium && (
+                <div style={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  gap: '4px'
+                }}>
+                  <style>
+                    {`
+                      @keyframes premiumPulse {
+                        0%, 100% {
+                          transform: scale(1);
+                          box-shadow: 0 0 10px rgba(255, 215, 0, 0.4);
+                        }
+                        50% {
+                          transform: scale(1.1);
+                          box-shadow: 0 0 25px rgba(255, 215, 0, 0.8), 0 0 40px rgba(255, 165, 0, 0.6);
+                        }
+                      }
+                    `}
+                  </style>
+                  <div style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '4px',
+                    padding: '3px 10px',
+                    background: 'linear-gradient(135deg, #FFD700 0%, #FFA500 100%)',
+                    borderRadius: '15px',
+                    fontSize: '0.7em',
+                    fontWeight: 'bold',
+                    color: '#000',
+                    animation: showPremiumAnimation ? 'premiumPulse 1.5s ease-in-out 2' : 'none',
+                    transition: 'all 0.3s ease',
+                  }} data-testid="badge-premium">
+                    <Crown size={12} />
+                    PREMIUM
+                  </div>
+                  <div data-testid="sparks-remaining" style={{ 
+                    fontSize: '0.65em',
+                    color: 'rgba(255,255,255,0.8)',
+                    whiteSpace: 'nowrap'
+                  }}>
+                    Unlimited Sparks
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
         </div>
 
         {/* Sparks counter (for non-premium users) */}
