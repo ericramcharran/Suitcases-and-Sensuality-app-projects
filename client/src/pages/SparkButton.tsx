@@ -628,14 +628,11 @@ export default function SparkButton() {
                 data-testid="avatar-partner1"
               />
               {couple.partner2Name && (
-                <>
-                  <span style={{ color: 'rgba(255,255,255,0.4)', fontSize: '1em' }}>&</span>
-                  <AvatarDisplay 
-                    avatarUrl={couple.partner2AvatarUrl} 
-                    size="md" 
-                    data-testid="avatar-partner2"
-                  />
-                </>
+                <AvatarDisplay 
+                  avatarUrl={couple.partner2AvatarUrl} 
+                  size="md" 
+                  data-testid="avatar-partner2"
+                />
               )}
             </div>
             {isPremium && (
@@ -694,7 +691,7 @@ export default function SparkButton() {
           textAlign: 'center',
           margin: '0 0 10px 0'
         }}>
-          {couple.partner1Name} {couple.partner2Name ? `& ${couple.partner2Name}` : '(waiting for partner)'}
+          {couple.partner1Name} {couple.partner2Name ? couple.partner2Name : '(waiting for partner)'}
         </p>
 
         {/* Sparks counter (for non-premium users) */}

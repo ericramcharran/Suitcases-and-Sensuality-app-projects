@@ -1915,7 +1915,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.patch("/api/sparkit/couples/:id/location", requireSparkitAuth, verifyCoupleOwnership, async (req, res) => {
     try {
       const { id } = req.params;
-      const { city, state } = req.body;
+      const { city, state, isLongDistance } = req.body;
       
       if (!city || !state) {
         return res.status(400).json({ error: "City and state are required" });
@@ -1923,7 +1923,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
       const updates: Partial<InsertSparkitCouple> = {
         city: city.trim(),
-        state: state.trim()
+        state: state.trim(),
+        isLongDistance: typeof isLongDistance === 'boolean' ? isLongDistance : undefined
       };
 
       const updatedCouple = await storage.updateCouple(id, updates);

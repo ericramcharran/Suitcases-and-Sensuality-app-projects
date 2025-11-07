@@ -166,6 +166,7 @@ export const sparkitCouples = pgTable("sparkit_couples", {
   coupleCode: varchar("couple_code", { length: 10 }).unique().notNull(), // Unique code for couple pairing
   city: text("city"), // City for AI-powered local activity suggestions
   state: text("state"), // State/region for AI-powered local activity suggestions
+  isLongDistance: boolean("is_long_distance").default(false), // Whether partners are in different locations
   emailOrPhone: text("email_or_phone"), // Optional for notifications
   subscriptionPlan: text("subscription_plan").default('free'), // 'free', 'trial', 'monthly', 'yearly'
   subscriptionStatus: text("subscription_status").default('active'), // 'active', 'trial_expired', 'cancelled'

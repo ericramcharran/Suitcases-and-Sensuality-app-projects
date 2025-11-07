@@ -49,6 +49,7 @@ export default function SparkitSettings() {
   const [partner2Phone, setPartner2Phone] = useState("");
   const [city, setCity] = useState("");
   const [state, setState] = useState("");
+  const [isLongDistance, setIsLongDistance] = useState(false);
   const [selectedPartner, setSelectedPartner] = useState<"partner1" | "partner2">("partner1");
   const [notificationsEnabled, setNotificationsEnabled] = useState(false);
   const [checkingNotifications, setCheckingNotifications] = useState(true);
