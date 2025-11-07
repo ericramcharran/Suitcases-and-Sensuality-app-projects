@@ -576,12 +576,14 @@ export default function SparkButton() {
           <div style={{
             display: 'flex',
             alignItems: 'center',
-            gap: '15px',
-            padding: '10px 15px',
+            gap: 'clamp(8px, 2vw, 15px)',
+            padding: 'clamp(8px, 1.5vw, 10px) clamp(10px, 2vw, 15px)',
             background: 'linear-gradient(135deg, rgba(138, 43, 226, 0.12) 0%, rgba(231, 76, 60, 0.12) 100%)',
             borderRadius: '20px',
             position: 'relative',
             overflow: 'hidden',
+            flexShrink: 1,
+            minWidth: 0,
           }}>
             {/* Glow effect */}
             <div aria-hidden="true" style={{
@@ -598,9 +600,10 @@ export default function SparkButton() {
             <div style={{
               display: 'flex',
               alignItems: 'center',
-              gap: '12px',
+              gap: 'clamp(8px, 1.5vw, 12px)',
               position: 'relative',
               zIndex: 1,
+              flexShrink: 0,
             }}>
               <AvatarDisplay 
                 avatarUrl={couple.partner1AvatarUrl} 
@@ -613,14 +616,14 @@ export default function SparkButton() {
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                width: '30px',
-                height: '30px',
+                width: 'clamp(24px, 5vw, 30px)',
+                height: 'clamp(24px, 5vw, 30px)',
                 borderRadius: '50%',
                 background: 'linear-gradient(135deg, var(--nexus-purple-royal) 0%, var(--nexus-red-bright) 100%)',
                 boxShadow: '0 2px 10px rgba(138, 43, 226, 0.4)',
                 flexShrink: 0,
               }}>
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="white" aria-hidden="true">
+                <svg width="clamp(12, 3vw, 16)" height="clamp(12, 3vw, 16)" viewBox="0 0 24 24" fill="white" aria-hidden="true">
                   <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
                 </svg>
               </div>
@@ -650,11 +653,15 @@ export default function SparkButton() {
             
             {/* Names with & Symbol */}
             <div style={{ 
-              fontSize: '0.95em', 
+              fontSize: 'clamp(0.8em, 2.2vw, 0.95em)', 
               fontWeight: '600',
               position: 'relative',
               zIndex: 1,
               flex: 1,
+              minWidth: 0,
+              overflow: 'hidden',
+              textOverflow: 'ellipsis',
+              whiteSpace: 'nowrap',
             }}>
               <span style={{ 
                 background: 'linear-gradient(135deg, var(--nexus-purple-royal) 0%, rgba(138, 43, 226, 0.7) 100%)',
@@ -666,7 +673,7 @@ export default function SparkButton() {
               </span>
               {couple.partner2Name && (
                 <>
-                  <span style={{ color: 'rgba(255,255,255,0.5)', margin: '0 6px' }}>&</span>
+                  <span style={{ color: 'rgba(255,255,255,0.5)', margin: '0 clamp(4px, 1vw, 6px)' }}>&</span>
                   <span style={{ 
                     background: 'linear-gradient(135deg, var(--nexus-red-bright) 0%, rgba(231, 76, 60, 0.7) 100%)',
                     WebkitBackgroundClip: 'text',
@@ -683,7 +690,7 @@ export default function SparkButton() {
             </div>
 
             {/* Settings & Premium Badge */}
-            <div style={{ display: 'flex', alignItems: 'center', gap: '10px', position: 'relative', zIndex: 1 }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 'clamp(6px, 1.5vw, 10px)', position: 'relative', zIndex: 1, flexShrink: 0 }}>
               {/* Settings Icon Button */}
               <button
                 onClick={() => setLocation("/sparkit/settings")}
@@ -691,8 +698,8 @@ export default function SparkButton() {
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  width: '40px',
-                  height: '40px',
+                  width: 'clamp(36px, 8vw, 40px)',
+                  height: 'clamp(36px, 8vw, 40px)',
                   borderRadius: '50%',
                   background: isPremium 
                     ? 'linear-gradient(135deg, rgba(138, 43, 226, 0.2) 0%, rgba(231, 76, 60, 0.2) 100%)'
@@ -943,19 +950,20 @@ export default function SparkButton() {
       {!couple.partner2Name && (
         <section className="hero" style={{ minHeight: '80vh' }}>
           <div className="hero-content">
-            <h1 style={{ fontSize: '3em', marginBottom: '20px' }}>Waiting for Your Partner</h1>
-            <p style={{ fontSize: '1.3em', marginBottom: '50px', maxWidth: '700px', lineHeight: '1.6' }}>
+            <h1 style={{ fontSize: 'clamp(2em, 6vw, 3em)', marginBottom: '20px' }}>Waiting for Your Partner</h1>
+            <p style={{ fontSize: 'clamp(1.1em, 3vw, 1.3em)', marginBottom: '50px', maxWidth: '700px', lineHeight: '1.6', padding: '0 20px' }}>
               Share your couple code <strong style={{ color: '#e74c3c' }}>{couple.coupleCode}</strong> with your partner so they can join.
             </p>
             
             <div style={{
-              padding: '40px',
+              padding: 'clamp(20px, 5vw, 40px)',
               background: 'rgba(255,255,255,0.05)',
               borderRadius: '15px',
               border: '2px solid rgba(102, 126, 234, 0.5)',
               maxWidth: '500px',
+              margin: '0 20px',
             }}>
-              <p style={{ fontSize: '2.5em', fontWeight: 'bold', letterSpacing: '0.2em', marginBottom: '20px' }}>
+              <p style={{ fontSize: 'clamp(1.8em, 5vw, 2.5em)', fontWeight: 'bold', letterSpacing: '0.2em', marginBottom: '20px' }}>
                 {couple.coupleCode}
               </p>
               <button
@@ -976,7 +984,7 @@ export default function SparkButton() {
       {couple.partner2Name && (
         <section className="hero" style={{ minHeight: '80vh' }}>
           <div className="hero-content">
-            <h1 style={{ fontSize: '2.5em', marginBottom: '20px' }}>
+            <h1 style={{ fontSize: 'clamp(1.8em, 5vw, 2.5em)', marginBottom: '20px' }}>
               {bothPressed ? '✨ SPARK IGNITED! ✨' : partnerButtonPressed ? `Waiting for you, ${myName}!` : 'Ready to Spark It!?'}
             </h1>
             <p style={{ fontSize: '1.2em', marginBottom: '30px', maxWidth: '700px', lineHeight: '1.6' }}>
@@ -1059,8 +1067,8 @@ export default function SparkButton() {
               marginBottom: '40px',
             }}>
               {/* My Spark Button */}
-              <div style={{ textAlign: 'center', position: 'relative' }}>
-                <p style={{ marginBottom: '20px', color: 'rgba(255,255,255,0.7)', fontSize: '1.1em' }}>
+              <div style={{ textAlign: 'center', position: 'relative', width: '100%', maxWidth: '280px' }}>
+                <p style={{ marginBottom: '20px', color: 'rgba(255,255,255,0.7)', fontSize: 'clamp(0.95em, 2.5vw, 1.1em)' }}>
                   <Users size={20} style={{ display: 'inline', marginRight: '8px' }} />
                   {myName}'s Button
                 </p>
@@ -1071,8 +1079,8 @@ export default function SparkButton() {
                   data-testid="button-spark-my"
                   style={{
                     position: 'relative',
-                    width: '280px',
-                    height: '280px',
+                    width: 'clamp(220px, 60vw, 280px)',
+                    height: 'clamp(220px, 60vw, 280px)',
                     borderRadius: '50%',
                     background: bothPressed
                       ? 'linear-gradient(135deg, #FFD700 0%, #FFA500 100%)'
@@ -1091,8 +1099,8 @@ export default function SparkButton() {
                     flexDirection: 'column',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    gap: '15px',
-                    fontSize: '2em',
+                    gap: 'clamp(10px, 2vw, 15px)',
+                    fontSize: 'clamp(1.5em, 4vw, 2em)',
                     fontWeight: 'bold',
                     color: 'white',
                     textShadow: '0 2px 10px rgba(0,0,0,0.3)',
