@@ -10,6 +10,13 @@ This Replit project hosts two distinct applications: "The Executive Society" and
 
 ## Recent Fixes (November 6, 2025)
 
+**Service Worker Registration Fix** (November 6, 2025): Resolved critical issue preventing push notification service worker from registering.
+- Added `updateViaCache: 'none'` option to service worker registration in `notifications.ts` to prevent browser from caching broken versions
+- Added `await navigator.serviceWorker.ready` to ensure service worker is fully ready before proceeding
+- Updated service worker cache version from v4 to v5 to force cache refresh
+- Fixed service worker not registering due to browser caching the old broken version
+- **Critical learning**: Changes to service workers require republishing to production to take effect for users
+
 **Settings Icon Navigation**: Added universal Settings icon to all Spark It! pages for easy access.
 - Added Settings icon (lucide-react) to top-right of all pages except SparkitSettings.tsx itself
 - Consistent styling: white outline (`border-white/40`), glow shadow, backdrop blur, subtle background (`bg-white/5`)
