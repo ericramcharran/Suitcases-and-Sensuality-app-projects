@@ -12,11 +12,20 @@ export default function SparkButton() {
   const [myButtonPressed, setMyButtonPressed] = useState(false);
   const [partnerButtonPressed, setPartnerButtonPressed] = useState(false);
   const [coupleIdFromStorage, setCoupleIdFromStorage] = useState<string | null>(null);
+  const [showPremiumAnimation, setShowPremiumAnimation] = useState(true);
 
   // Get couple ID from localStorage on mount
   useEffect(() => {
     const storedCoupleId = localStorage.getItem("sparkitCoupleId");
     setCoupleIdFromStorage(storedCoupleId);
+  }, []);
+
+  // Disable premium animation after 3 seconds
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setShowPremiumAnimation(false);
+    }, 3000);
+    return () => clearTimeout(timer);
   }, []);
 
   // Check authentication via session
@@ -636,6 +645,20 @@ export default function SparkButton() {
                 alignItems: 'center',
                 gap: '4px'
               }}>
+                <style>
+                  {`
+                    @keyframes premiumPulse {
+                      0%, 100% {
+                        transform: scale(1);
+                        box-shadow: 0 0 10px rgba(255, 215, 0, 0.4);
+                      }
+                      50% {
+                        transform: scale(1.1);
+                        box-shadow: 0 0 25px rgba(255, 215, 0, 0.8), 0 0 40px rgba(255, 165, 0, 0.6);
+                      }
+                    }
+                  `}
+                </style>
                 <div style={{
                   display: 'flex',
                   alignItems: 'center',
@@ -646,6 +669,8 @@ export default function SparkButton() {
                   fontSize: '0.7em',
                   fontWeight: 'bold',
                   color: '#000',
+                  animation: showPremiumAnimation ? 'premiumPulse 1.5s ease-in-out 2' : 'none',
+                  transition: 'all 0.3s ease',
                 }} data-testid="badge-premium">
                   <Crown size={12} />
                   PREMIUM
