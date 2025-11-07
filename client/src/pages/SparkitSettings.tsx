@@ -366,8 +366,11 @@ export default function SparkitSettings() {
 
   // Save reminder preferences
   const handleSaveReminders = async () => {
-    // If user selected push or all, ensure they have push permission
-    if ((notificationMethod === 'push' || notificationMethod === 'all') && !pushSubscribed) {
+    let pushPermissionRequested = false;
+    let pushPermissionGranted = false;
+
+    // If user selected push or all, try to get push permission
+    if ((notificationMethod === 'push' || notificationMethod === 'all' || notificationMethod === 'push_email') && !pushSubscribed) {
       const coupleId = reminderPreferences?.coupleId;
       const partnerRole = authData?.partnerRole;
       
@@ -380,18 +383,24 @@ export default function SparkitSettings() {
         return;
       }
 
-      const granted = await requestPushPermission(coupleId, partnerRole);
-      if (!granted) {
-        return; // Don't save if permission was denied
-      }
+      pushPermissionRequested = true;
+      pushPermissionGranted = await requestPushPermission(coupleId, partnerRole);
     }
 
-    // Save preferences
+    // Save preferences regardless of push permission status
+    // The backend will handle push delivery based on actual subscription status
     saveReminderMutation.mutate({
       enabled: reminderEnabled,
       reminderTime,
       notificationMethod
     });
+
+    // If push was requested but denied, show additional context in the success toast
+    if (pushPermissionRequested && !pushPermissionGranted) {
+      // Note: The success toast is shown by the mutation's onSuccess callback
+      // The "Permission denied" toast from requestPushPermission will already be visible
+      // So we don't need to show another toast here
+    }
   };
 
   // Get icon for notification method
