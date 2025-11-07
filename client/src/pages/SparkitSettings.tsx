@@ -96,6 +96,7 @@ export default function SparkitSettings() {
       setPartner2Phone(couple.partner2Phone || "");
       setCity(couple.city || "");
       setState(couple.state || "");
+      setIsLongDistance(couple.isLongDistance || false);
     }
   }, [couple]);
 
@@ -194,7 +195,8 @@ export default function SparkitSettings() {
     mutationFn: async () => {
       const res = await apiRequest("PATCH", `/api/sparkit/couples/${coupleId}/location`, {
         city: city.trim(),
-        state: state.trim()
+        state: state.trim(),
+        isLongDistance
       });
       
       if (!res.ok) {
@@ -1148,6 +1150,22 @@ export default function SparkitSettings() {
                   data-testid="input-state"
                 />
               </div>
+            </div>
+
+            {/* Long Distance Toggle */}
+            <div className="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
+              <div className="space-y-1">
+                <Label htmlFor="longDistance" className="text-base font-medium">Long Distance Relationship</Label>
+                <p className="text-xs text-gray-500 dark:text-gray-400">
+                  Enable if you and your partner are in different locations
+                </p>
+              </div>
+              <Switch
+                id="longDistance"
+                data-testid="switch-long-distance"
+                checked={isLongDistance}
+                onCheckedChange={setIsLongDistance}
+              />
             </div>
 
             {/* Save Button */}
