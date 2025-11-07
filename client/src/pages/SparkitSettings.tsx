@@ -771,42 +771,45 @@ export default function SparkitSettings() {
           </div>
 
           <div className="space-y-6">
-            {/* Partner 1 Name */}
-            <div className="space-y-2">
-              <Label htmlFor="partner1Name" className="text-sm font-medium">
-                Partner 1 Name
-              </Label>
-              <Input
-                id="partner1Name"
-                type="text"
-                value={partner1Name}
-                onChange={(e) => setPartner1Name(e.target.value)}
-                placeholder="Enter Partner 1 name"
-                maxLength={50}
-                data-testid="input-partner1-name"
-              />
-              <p className="text-xs text-gray-500 dark:text-gray-400">
-                This is the name that will be displayed for Partner 1
-              </p>
-            </div>
+            {/* Partner Names - Side by Side */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {/* Partner 1 Name */}
+              <div className="space-y-2">
+                <Label htmlFor="partner1Name" className="text-sm font-medium">
+                  Partner 1 Name
+                </Label>
+                <Input
+                  id="partner1Name"
+                  type="text"
+                  value={partner1Name}
+                  onChange={(e) => setPartner1Name(e.target.value)}
+                  placeholder="Enter Partner 1 name"
+                  maxLength={50}
+                  data-testid="input-partner1-name"
+                />
+                <p className="text-xs text-gray-500 dark:text-gray-400">
+                  This is the name that will be displayed for Partner 1
+                </p>
+              </div>
 
-            {/* Partner 2 Name */}
-            <div className="space-y-2">
-              <Label htmlFor="partner2Name" className="text-sm font-medium">
-                Partner 2 Name
-              </Label>
-              <Input
-                id="partner2Name"
-                type="text"
-                value={partner2Name}
-                onChange={(e) => setPartner2Name(e.target.value)}
-                placeholder="Enter Partner 2 name"
-                maxLength={50}
-                data-testid="input-partner2-name"
-              />
-              <p className="text-xs text-gray-500 dark:text-gray-400">
-                This is the name that will be displayed for Partner 2
-              </p>
+              {/* Partner 2 Name */}
+              <div className="space-y-2">
+                <Label htmlFor="partner2Name" className="text-sm font-medium">
+                  Partner 2 Name
+                </Label>
+                <Input
+                  id="partner2Name"
+                  type="text"
+                  value={partner2Name}
+                  onChange={(e) => setPartner2Name(e.target.value)}
+                  placeholder="Enter Partner 2 name"
+                  maxLength={50}
+                  data-testid="input-partner2-name"
+                />
+                <p className="text-xs text-gray-500 dark:text-gray-400">
+                  This is the name that will be displayed for Partner 2
+                </p>
+              </div>
             </div>
 
             {/* Save Button */}
